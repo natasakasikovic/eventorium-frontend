@@ -1,0 +1,40 @@
+mat-toolbar {
+    background-color: #E3DCD1;
+    height: 80px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    border-bottom-left-radius: 15px; 
+    border-bottom-right-radius: 15px;
+    position: relative; 
+    z-index: 1; 
+}
+
+div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+button {
+    margin-right: 10px;
+}
+
+span {
+    color: white
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+}
+  
+.logo {
+    width: auto;  
+    height: 80px;
+}
+
+.standard-button {
+    background-color: #35422F !important;
+    color: #ECEAE6 !important;
+}
