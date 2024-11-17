@@ -1,10 +1,12 @@
 <div class="cards-screen">
   <mat-toolbar class="toolbar">
     <h1 class="title">Services</h1>
-
-    <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openFilter()">
-      <mat-icon>tune</mat-icon>
-    </button>
+    <div class="filters">
+      <app-search-bar></app-search-bar>
+      <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openFilter()">
+        <mat-icon>tune</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
   <div class="service-cards">
     <div class="cards">
@@ -20,3 +22,4 @@
     </mat-paginator>
   </div>
 </div>
+<app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()"></app-service-filter>

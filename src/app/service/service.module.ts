@@ -8,12 +8,16 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
 import {MaterialModule} from '../infrastructure/material/material.module';
+import { CreateServiceComponent } from './create-service/create-service.component';
+import { EditServiceComponent } from './edit-service/edit-service.component';
 
 
 
 @NgModule({
   declarations: [
-    ManageableServicesComponent
+    ManageableServicesComponent,
+    CreateServiceComponent,
+    EditServiceComponent
   ],
   imports: [
     CommonModule,
