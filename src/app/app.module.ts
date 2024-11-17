@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
+import {SharedModule} from './shared/shared.module';
+import {ServiceModule} from './service/service.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { provideHttpClient } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
+    SharedModule,
+    ServiceModule
   ],
   providers: [
     provideAnimationsAsync(),

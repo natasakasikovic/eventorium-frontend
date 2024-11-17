@@ -4,6 +4,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import {MatIcon} from '@angular/material/icon';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { HomeComponent } from './home/home.component';
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    MatIcon
   ],
   exports: [NavBarComponent]
 })
