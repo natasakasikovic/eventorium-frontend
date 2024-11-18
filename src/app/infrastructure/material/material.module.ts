@@ -10,6 +10,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -25,6 +29,13 @@ import {MatDivider} from '@angular/material/divider';
     MatCardModule,
     MatIconModule,
     MatDivider,
+    MatNativeDateModule,
+    MatDatepickerToggle,
+    MatDatepickerInput,
+    MatDatepicker,
+    MatCheckbox,
+    MatRadioButton,
+    MatRadioGroup
   ],
   exports: [
     MatToolbarModule,
@@ -38,6 +49,13 @@ import {MatDivider} from '@angular/material/divider';
     MatCardModule,
     MatIconModule,
     MatDivider,
+    MatNativeDateModule,
+    MatDatepickerToggle,
+    MatDatepickerInput,
+    MatDatepicker,
+    MatCheckbox,
+    MatRadioButton,
+    MatRadioGroup,
   ]
 })
 export class MaterialModule { }

@@ -11,6 +11,10 @@ import {MaterialModule} from '../infrastructure/material/material.module';
 import { CreateServiceComponent } from './create-service/create-service.component';
 import { EditServiceComponent } from './edit-service/edit-service.component';
 import { ServiceDetailsComponent } from './service-details/service-details.component';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -25,7 +29,8 @@ import { ServiceDetailsComponent } from './service-details/service-details.compo
     CommonModule,
     SharedModule,
     MaterialModule,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule,
   ]
 })
 export class ServiceModule { }
