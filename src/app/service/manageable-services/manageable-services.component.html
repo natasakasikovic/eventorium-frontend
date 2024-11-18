@@ -11,7 +11,7 @@
   <div class="service-cards">
     <div class="cards">
       <div *ngFor="let service of services">
-        <app-service-card [showActions]="true" [service]="service"></app-service-card>
+        <app-service-card [showActions]="true" [service]="service" (delete)="deleteService($event)"></app-service-card>
       </div>
     </div>
     <button mat-icon-button class="create-card" [routerLink]="['/create-service']">

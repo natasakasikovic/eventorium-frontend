@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Service} from '../../service/model/service.model';
 
 @Component({
@@ -9,4 +9,10 @@ import {Service} from '../../service/model/service.model';
 export class ServiceCardComponent {
   @Input() service: Service;
   @Input() showActions: boolean;
+
+  @Output() delete: EventEmitter<string> = new EventEmitter();
+
+  onDelete(): void {
+    this.delete.emit(this.service.id);
+  }
 }

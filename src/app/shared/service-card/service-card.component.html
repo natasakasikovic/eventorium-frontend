@@ -18,10 +18,10 @@
     <button mat-button class="see-more-button" [routerLink]="['/service-details', service.id]">See more</button>
     <span class="price">{{service.price}}</span>
     <div class="action-buttons" *ngIf="showActions">
-      <button mat-icon-button class="action-button">
+      <button mat-icon-button class="action-button" (click)="onDelete()">
         <mat-icon>delete</mat-icon>
       </button>
-      <button mat-icon-button class="action-button">
+      <button mat-icon-button class="action-button" [routerLink]="['/edit-service', service.id]">
         <mat-icon>edit</mat-icon>
       </button>
     </div>
