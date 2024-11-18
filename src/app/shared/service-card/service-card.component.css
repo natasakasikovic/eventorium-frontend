@@ -1,6 +1,6 @@
 .service-card {
-  min-width: 20rem;
-  min-height: 20rem;
+  max-width: 25rem;
+  max-height: 25rem;
   margin: 1rem;
 }
 

@@ -48,5 +48,6 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
 
   deleteService($event: string) {
     this.service.delete($event);
+    this.onPageChanged();
   }
 }
