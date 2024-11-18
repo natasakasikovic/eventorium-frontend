@@ -13,7 +13,8 @@
 }
 
 .service-card mat-card-header .title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  font-family: jeju, serif;
   font-weight: bold;
 }
 

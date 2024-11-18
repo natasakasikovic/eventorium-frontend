@@ -14,7 +14,6 @@ const routes: Routes = [
   { path: 'create-service', component: CreateServiceComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'},
-  { path: 'login', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({
