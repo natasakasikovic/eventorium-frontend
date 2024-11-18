@@ -10,6 +10,7 @@ import {RouterLink} from '@angular/router';
 import {MaterialModule} from '../infrastructure/material/material.module';
 import { CreateServiceComponent } from './create-service/create-service.component';
 import { EditServiceComponent } from './edit-service/edit-service.component';
+import { ServiceDetailsComponent } from './service-details/service-details.component';
 
 
 
@@ -17,7 +18,8 @@ import { EditServiceComponent } from './edit-service/edit-service.component';
   declarations: [
     ManageableServicesComponent,
     CreateServiceComponent,
-    EditServiceComponent
+    EditServiceComponent,
+    ServiceDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -17,9 +17,7 @@
     <button mat-icon-button class="create-card" [routerLink]="['/create-service']">
       <mat-icon>add_circle</mat-icon>
     </button>
-    <mat-paginator>
-      <!-- TODO -->
-    </mat-paginator>
+    <mat-paginator [pageSizeOptions]="[9]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
   </div>
 </div>
 <app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()"></app-service-filter>

@@ -1,5 +1,7 @@
 .cards-screen {
   background-color: #eceae6;
+  min-height: 100%;
+  height: auto;
 }
 
 .cards-screen .toolbar .filters {
@@ -58,3 +60,9 @@
   right: 32px;
   z-index: 1000;
 }
+
+mat-paginator {
+  display: flex;
+  justify-content: center;
+}
+

@@ -135,23 +135,35 @@ const services: Service[] = [
   providedIn: 'root'
 })
 export class ServiceService implements OnInit {
-  private services: Service[]
+  private services: Service[] = []
+
+  constructor() {
+    for(let service of services) {
+      this.services.push(service);
+    }
+  }
 
   ngOnInit(): void {
-    for(let service of services) {
-      services.push(service);
-    }
+
   }
 
   getAll(): Service[] {
     return services;
   }
 
+  totalCountServices(): number {
+    return this.services.length;
+  }
+
+  getPage(size: number, index: number): Service[] {
+    return this.services.slice(index * size, index * size + size);
+  }
+
   get(id: string): Service {
-    return services.find(service => service.id == id);
+    return this.services.find(service => service.id == id);
   }
 
   findByName(name: string): Service[] {
-    return services.filter(service => service.name.toLowerCase().includes(name.toLowerCase()));
+    return this.services.filter(service => service.name.toLowerCase().includes(name.toLowerCase()));
   }
 }
