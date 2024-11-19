@@ -1,0 +1,17 @@
+<div class="cards-screen">
+    <mat-toolbar>
+      <h1 class="title">Top five events</h1>
+    </mat-toolbar>
+    <div class="event-cards">
+      <div *ngFor="let event of events">
+        <app-event-card [event]="event"></app-event-card>
+      </div>
+    </div>
+    <div class="see-more">
+      <p>Would you like to see more content or search for a specific event?</p>
+      <button mat-icon-button>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>      
+    </div>
+  </div>
+  

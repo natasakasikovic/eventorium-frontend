@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, EventManager } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,8 @@ import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { ProductModule } from './product/product.module';
-import {ServiceModule} from './service/service.module';
+import { EventModule } from './event/event.module';
+import { ServiceModule } from './service/service.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {ServiceModule} from './service/service.module';
     LayoutModule,
     SharedModule,
     ProductModule,
+    EventModule,
     ServiceModule
   ],
   providers: [
