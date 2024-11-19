@@ -44,12 +44,17 @@
   color: #35422F;
 }
 
+.cards-screen .service-cards {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .cards-screen .service-cards .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   grid-auto-rows: 1fr;
   grid-auto-columns: 1fr;
-  gap: 143px;
+  gap: 1rem;
   padding: 16px;
 }
 

@@ -1,3 +1,5 @@
+import {Confirmation} from './confirmation.enum';
+
 export interface Service {
   id: string;
   name: string;
@@ -11,4 +13,8 @@ export interface Service {
   specialties: string;
   reservationDeadline: Date;
   cancellationDeadline: Date;
+  discount: number;
+  visible: boolean;
+  available: boolean;
+  confirmation: Confirmation
 }

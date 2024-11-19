@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 90vh;
+  background-color: #eceae6;
 }
 
 .price {
@@ -15,6 +17,7 @@
 
 .service-card {
   margin-top: 3rem;
+  max-width: 80%;
   background-color: #fdf7ef;
   padding: 15px;
 }

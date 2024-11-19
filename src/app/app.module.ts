@@ -8,6 +8,7 @@ import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
 import {ServiceModule} from './service/service.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
