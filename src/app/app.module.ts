@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
 import { AuthModule } from './auth/auth.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
-    AuthModule
+    AuthModule,
+    MatSidenavModule
   ],
   providers: [
     provideAnimationsAsync(),

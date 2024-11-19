@@ -1,0 +1,77 @@
+.mat-drawer {
+  width: 100px;
+  max-width: 400px; 
+  min-width: 200px; 
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E3DCD1; 
+  border-bottom: 1px solid #ccc; 
+}
+
+.app-logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 80px; 
+}
+
+.menu-list {
+  padding: 10px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  background-color: #ccc;
+  padding: 12px 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 4px; 
+  border: 1px solid #ddd;
+  margin-bottom: 10px; 
+}
+
+.menu-item:last-child {
+  margin-bottom: 0; 
+}
+
+.menu-item:hover {
+  background-color: #e0e0e0;
+}
+
+mat-icon {
+  margin-right: 16px; 
+  color: #35422F;
+}
+
+mat-icon:hover {
+  color: #416834;
+}
+
+mat-list-item span {
+  font-size: 16px; 
+  font-weight: 500; 
+}
+
+.mat-list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+span[matLine] {
+  font-size: 16px; 
+  font-weight: 500; 
+  line-height: 1; 
+  color: #35422F;    
+  vertical-align: middle;
+}
+
+.items_container{
+  background-color: #e0e0e0;
+  height: calc(100vh - 82px);
+}

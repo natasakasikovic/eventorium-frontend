@@ -4,17 +4,23 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { DrawerComponent } from './drawer/drawer.component';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    DrawerComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    MatListModule,
+    MatIconModule 
   ],
-  exports: [NavBarComponent]
+  exports: [NavBarComponent, DrawerComponent]
 })
 export class LayoutModule { }

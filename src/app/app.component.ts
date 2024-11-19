@@ -9,7 +9,7 @@ import { LoginComponent } from './auth/login/login.component';
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
-
+  drawer: boolean = false;
   constructor(
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,

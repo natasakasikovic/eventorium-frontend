@@ -1,0 +1,14 @@
+<div class="drawer-header">
+  <img src="/header_logo.png" alt="App Logo" class="app-logo" />
+</div>
+<div class="items_container">
+<mat-nav-list class="menu-list">
+  <mat-list-item 
+    *ngFor="let item of menuItems" 
+    (click)="onMenuItemClick(item)" 
+    class="menu-item">
+    <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+    <span matLine>{{ item.label }}</span>
+  </mat-list-item>
+</mat-nav-list>
+</div>
