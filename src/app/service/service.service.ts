@@ -353,6 +353,20 @@ export class ServiceService implements OnInit {
     return this.services.length;
   }
 
+  update(id: string, service: Service): void {
+    const oldService: Service = this.get(id);
+    oldService.visible = service.visible;
+    oldService.name = service.name;
+    oldService.price = service.price;
+    oldService.confirmation = service.confirmation;
+    oldService.available = service.available;
+    oldService.cancellationDeadline = service.cancellationDeadline;
+    oldService.specialties = service.specialties;
+    oldService.description = service.description;
+    oldService.duration = service.duration;
+    oldService.discount = service.discount;
+  }
+
   getPage(size: number, index: number): Service[] {
     return this.services.slice(index * size, index * size + size);
   }
