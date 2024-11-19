@@ -1,0 +1,16 @@
+<div class="cards-screen">
+    <mat-toolbar>
+      <h1 class="title">Top five products</h1>
+    </mat-toolbar>
+    <div class="product-cards">
+      <div *ngFor="let product of products" class="card-center">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    </div>
+    <div class="see-more">
+      <p>Would you like to see more content or search for a specific product?</p>
+      <button mat-icon-button>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>

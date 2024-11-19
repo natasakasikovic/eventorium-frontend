@@ -1,0 +1,58 @@
+.cards-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+
+.product-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-evenly;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.card-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.product-cards > div {
+  flex: 1 1 calc(20% - 0.5rem);
+  max-width: calc(20% - 0.5rem);
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+ .title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 3rem;
+  font-family: jeju;
+  color: #35422F;
+  gap: 2rem;
+}
+
+.mat-toolbar {
+  background-color: #ECEAE6;
+}
+
+.see-more p {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+  font-family: jeju, serif;
+  color: #35422F;
+  gap: 2rem;
+}
+
+.see-more {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

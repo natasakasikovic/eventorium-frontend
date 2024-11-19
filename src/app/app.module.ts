@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
-import {SharedModule} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
+import { ProductModule } from './product/product.module';
 import {ServiceModule} from './service/service.module';
-import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     AppRoutingModule,
     LayoutModule,
     SharedModule,
+    ProductModule,
     ServiceModule
   ],
   providers: [
