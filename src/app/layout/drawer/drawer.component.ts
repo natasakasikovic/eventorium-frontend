@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
 import { AuthService } from '../../auth/auth.service';
 import { UserRole } from '../../auth/model/user-role.enum';
+import { User } from '../../auth/model/user.model';
 
 @Component({
   selector: 'app-drawer',
@@ -22,7 +23,7 @@ export class DrawerComponent {
     });
   }
 
-  private getMenuItemsForUser(user: any): MenuItem[] {
+  private getMenuItemsForUser(user: User | null): MenuItem[] {
     let items: MenuItem[] = [
       { label: 'Home', icon: 'home', route: '/home' }
     ];

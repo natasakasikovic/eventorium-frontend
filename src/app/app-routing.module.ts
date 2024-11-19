@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
-  { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
