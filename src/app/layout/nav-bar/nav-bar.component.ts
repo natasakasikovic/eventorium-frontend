@@ -35,7 +35,6 @@ export class NavBarComponent {
   logout(): void {
     this.isLoggedIn = false;
     sessionStorage.removeItem('currentUser');
-    // this.router.navigate(['/home'], { replaceUrl: true }); 
     this.router.navigate([''])
     this.authService.logout();
   }
