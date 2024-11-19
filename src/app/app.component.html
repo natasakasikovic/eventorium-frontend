@@ -1,2 +1,12 @@
-<app-nav-bar></app-nav-bar>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="fullscreen-container" autosize>
+  <mat-sidenav #drawer mode="over">
+    <app-drawer [drawer]="drawer"></app-drawer>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-nav-bar [drawer]="drawer" class="fixed-header"></app-nav-bar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -8,6 +8,11 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -27,6 +32,10 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatIcon,
+    FormsModule,
+    MatDialogModule,
+    MatSidenavModule,
     MatIconModule,
     MatDivider,
     MatNativeDateModule,
@@ -47,6 +56,10 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
     MatInputModule,
     MatLabel,
     MatCardModule,
+    MatIcon,
+    FormsModule,
+    MatDialogModule,
+    MatSidenavModule,
     MatIconModule,
     MatDivider,
     MatNativeDateModule,
