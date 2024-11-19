@@ -1,0 +1,79 @@
+.service-card {
+  max-width: 25rem;
+  max-height: 25rem;
+  margin: 1rem;
+}
+
+.service-card img {
+  max-height: 11rem;
+}
+.service-card mat-card-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-card mat-card-header .title {
+  font-size: 1.2rem;
+  font-family: jeju, serif;
+  font-weight: bold;
+}
+
+.service-card mat-card-header .rating {
+  display: flex;
+  align-items: center;
+}
+
+.service-card mat-card-header .rating mat-icon {
+  color: #fdd835;
+  margin-right: 4px;
+}
+
+.service-card mat-card-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-card .mat-card-header .rating span {
+  font-size: 1.2rem;
+}
+
+.service-card .mat-card-content {
+  font-size: 0.9rem;
+}
+
+.service-card .mat-card-content p {
+  margin: 4px 0;
+}
+
+.service-card mat-card-actions {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-card mat-card-actions .see-more-button {
+  text-transform: none;
+  background-color: #35422f;
+  color: #F5F5F5;
+}
+
+.service-card mat-card-actions .price {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.service-card .action-button {
+  background-color: #d3d3d3;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin: 0 3px;
+}
+
+.service-card .action-button mat-icon {
+  font-size: 28px;
+  color: black;
+}
+
+.service-card .action-button:hover {
+  background-color: #b0b0b0;
+}

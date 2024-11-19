@@ -8,7 +8,12 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDivider} from '@angular/material/divider';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -22,7 +27,15 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatDivider,
+    MatNativeDateModule,
+    MatDatepickerToggle,
+    MatDatepickerInput,
+    MatDatepicker,
+    MatCheckbox,
+    MatRadioButton,
+    MatRadioGroup
   ],
   exports: [
     MatToolbarModule,
@@ -34,7 +47,15 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatLabel,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatDivider,
+    MatNativeDateModule,
+    MatDatepickerToggle,
+    MatDatepickerInput,
+    MatDatepicker,
+    MatCheckbox,
+    MatRadioButton,
+    MatRadioGroup,
   ]
 })
 export class MaterialModule { }

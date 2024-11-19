@@ -8,6 +8,7 @@ import { LayoutModule } from './layout/layout.module';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { ProductModule } from './product/product.module';
+import {ServiceModule} from './service/service.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProductModule } from './product/product.module';
     AppRoutingModule,
     LayoutModule,
     SharedModule,
-    ProductModule
+    ProductModule,
+    ServiceModule
   ],
   providers: [
     provideAnimationsAsync(),
