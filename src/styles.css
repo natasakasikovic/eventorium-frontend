@@ -11,7 +11,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     align-items: center;
   }
   
-
   .custom-dialog-container {
     border-radius: 10px;
     animation: fadeIn 0.3s ease-in-out;
@@ -31,4 +30,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .standard-button {
     background-color: #35422F !important;
     color: #ECEAE6 !important;
+}
+
+@font-face {
+  font-family: 'jeju';
+  src: url("../public/jejumyeongjo.ttf") format("ttf");;
 }

@@ -1,0 +1,25 @@
+.service-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+mat-form-field {
+  width: 500px;
+}
+
+.button-save {
+  display: flex;
+  justify-content: center;
+}
+
+.button-save > button {
+  background-color: #35422F;
+  color: #ECEAE6;
+}
+
+.screen {
+  background-color: #ECEAE6;
+}

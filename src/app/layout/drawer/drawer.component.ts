@@ -37,7 +37,7 @@ export class DrawerComponent {
 
       if (user.role === UserRole.SPP) {
         // NOTE: If you add an option for a provider, add it here
-        items.push({ label: 'Services', icon: 'information', route: '/services' }); // not sure about route!
+        items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
       }
       
       if (user.role == UserRole.EO) {
