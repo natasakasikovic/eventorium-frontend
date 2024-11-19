@@ -6,6 +6,7 @@ import {ServiceCardComponent} from './service-card/service-card.component';
 import {SearchBarComponent} from './search-bar/search-bar.component';
 import {ServiceFilterComponent} from './service-filter/service-filter.component';
 import {RouterLink} from '@angular/router';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -25,7 +26,8 @@ import {RouterLink} from '@angular/router';
   imports: [
     CommonModule,
     MaterialModule,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule
   ],
 })
 export class SharedModule { }

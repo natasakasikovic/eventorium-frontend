@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {Service} from '../model/service.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ServiceCardComponent} from '../../shared/service-card/service-card.component';
+import {ServiceFilter} from '../model/filter-service-options.model';
 
 @Component({
   selector: 'app-manageable-services',
@@ -17,7 +18,8 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private service: ServiceService,
+    private serviceService: ServiceService,
+    private changeDetector: ChangeDetectorRef
   ) {
   }
 
@@ -31,7 +33,7 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.services = this.service.getPage(this.paginator.pageSize, this.paginator.pageIndex);
+      this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
     }, 0);
   }
 
@@ -39,15 +41,21 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
   }
 
   getTotalServiceCount(): number {
-    return this.service.totalCountServices();
+    return this.serviceService.totalCountServices();
   }
 
   onPageChanged(): void {
-    this.services = this.service.getPage(this.paginator.pageSize, this.paginator.pageIndex);
+    this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
   }
 
   deleteService($event: string) {
-    this.service.delete($event);
+    this.serviceService.delete($event);
     this.onPageChanged();
+  }
+
+  onApplyFilter(filter: ServiceFilter): void {
+    this.services = this.serviceService.filterServices(filter);
+    this.closeFilter();
+    this.changeDetector.detectChanges();
   }
 }

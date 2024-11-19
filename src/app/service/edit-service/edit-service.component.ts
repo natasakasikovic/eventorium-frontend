@@ -13,7 +13,7 @@ import {Confirmation} from '../model/confirmation.enum';
 export class EditServiceComponent implements OnInit {
   @Input() service: Service
 
-  createServiceForm: FormGroup;
+  editServiceForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,7 +28,7 @@ export class EditServiceComponent implements OnInit {
       const id: string = param['id'];
       this.service = this.serviceService.get(id);
     });
-    this.createServiceForm = new FormGroup({
+    this.editServiceForm = new FormGroup({
       name: new FormControl(this.service.name),
       price: new FormControl(this.service.price),
       discount: new FormControl(this.service.discount),
@@ -47,22 +47,22 @@ export class EditServiceComponent implements OnInit {
 
   update(): void {
     this.serviceService.update(this.service.id, {
-      available: this.createServiceForm.value.available,
-      cancellationDeadline: this.createServiceForm.value.cancellationDeadline,
+      available: this.editServiceForm.value.available,
+      cancellationDeadline: this.editServiceForm.value.cancellationDeadline,
       categoryName: this.service.categoryName,
-      confirmation: this.createServiceForm.value.confirmation,
-      description: this.createServiceForm.value.description,
-      discount: this.createServiceForm.value.discount,
-      duration: this.createServiceForm.value.duration,
+      confirmation: this.editServiceForm.value.confirmation,
+      description: this.editServiceForm.value.description,
+      discount: this.editServiceForm.value.discount,
+      duration: this.editServiceForm.value.duration,
       eventType: this.service.eventType,
       id: this.service.id,
-      name: this.createServiceForm.value.name,
-      price: this.createServiceForm.value.price,
+      name: this.editServiceForm.value.name,
+      price: this.editServiceForm.value.price,
       provider: this.service.provider,
       rating: this.service.rating,
-      reservationDeadline: this.createServiceForm.value.reservationDeadline,
-      specialties: this.createServiceForm.value.specialties,
-      visible: this.createServiceForm.value.visible
+      reservationDeadline: this.editServiceForm.value.reservationDeadline,
+      specialties: this.editServiceForm.value.specialties,
+      visible: this.editServiceForm.value.visible
     });
     this.router.navigate(['manageable-services']).then();
   }

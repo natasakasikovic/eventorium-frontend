@@ -20,4 +20,4 @@
     <mat-paginator [pageSizeOptions]="[9]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
   </div>
 </div>
-<app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()"></app-service-filter>
+<app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()" (applyFilter)="onApplyFilter($event)"></app-service-filter>

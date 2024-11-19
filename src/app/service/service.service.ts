@@ -1,6 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Service} from './model/service.model';
 import {Confirmation} from './model/confirmation.enum';
+import {ServiceFilter} from './model/filter-service-options.model';
 
 export const services: Service[] = [
   {
@@ -381,5 +382,18 @@ export class ServiceService implements OnInit {
 
   delete(id: string) {
     this.services = this.services.filter(service => service.id !== id);
+  }
+
+  filterServices(serviceFilter: ServiceFilter): Service[] {
+    return services.filter(service => {
+      if (serviceFilter.category && service.categoryName !== serviceFilter.category) return false;
+      if (serviceFilter.eventType && service.eventType !== serviceFilter.eventType) return false;
+      if (serviceFilter.available !== null && serviceFilter.available !== undefined
+        && (service.available == false && serviceFilter.available == true)) return false;
+      if (serviceFilter.minPrice !== null && serviceFilter.minPrice !== undefined
+        && service.price < serviceFilter.minPrice) return false;
+      return !(serviceFilter.maxPrice !== null && serviceFilter.maxPrice !== undefined
+        && service.price > serviceFilter.maxPrice);
+    });
   }
 }
