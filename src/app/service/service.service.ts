@@ -376,10 +376,6 @@ export class ServiceService implements OnInit {
     return this.services.find(service => service.id == id);
   }
 
-  findByName(name: string): Service[] {
-    return this.services.filter(service => service.name.toLowerCase().includes(name.toLowerCase()));
-  }
-
   delete(id: string) {
     this.services = this.services.filter(service => service.id !== id);
   }
