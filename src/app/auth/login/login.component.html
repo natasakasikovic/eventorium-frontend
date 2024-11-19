@@ -1,0 +1,27 @@
+<div class="popup-container">
+  <div class="popup-header">
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <img src="/logo.png"/>
+  <form class="popup-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="user.email" name="email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="user.password" type="password" name="password" />
+    </mat-form-field>
+
+    <div *ngIf="loginMessage" class="error-message-container">
+      <mat-error>{{ loginMessage }}</mat-error>
+    </div>
+    
+    <button mat-raised-button color="primary" class="standard-button" (click)="login()">Sign In</button>
+  </form>
+  <div class="popup-footer">
+    <p>Don’t have an account? <a href="#" routerLink="/signup">Sign up</a></p>
+  </div>
+</div>

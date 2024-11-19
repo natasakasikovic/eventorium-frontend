@@ -1,7 +1,14 @@
 <mat-toolbar>
-  <span [routerLink]="['home']" class="logo-container"><img src="/header_logo.png" alt="Eventorium logo" class="logo"></span>
-  <div>
-    <button [routerLink]="['signup']" style="float: right" mat-raised-button class="standard-button">Sign up</button>
-    <button [routerLink]="['login']" style="float: right" mat-raised-button class="standard-button">Log in</button>
+  <span [routerLink]="['/home']" class="logo-container">
+    <img src="/header_logo.png" alt="Eventorium logo" class="logo">
+  </span>
+
+  <div *ngIf="!isLoggedIn; else loggedInTemplate">
+    <button [routerLink]="['./signup']" style="float: right" mat-raised-button class="standard-button">Sign up</button>
+    <button (click)="openLoginDialog()" style="float: right" mat-raised-button class="standard-button">Log in</button>
   </div>
+
+  <ng-template #loggedInTemplate>
+    <button (click)="logout()" style="margin-left: auto" mat-raised-button class="standard-button">Log out</button>
+  </ng-template>  
 </mat-toolbar>

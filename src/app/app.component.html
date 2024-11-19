@@ -1,2 +1,7 @@
-<app-nav-bar></app-nav-bar>
+<app-nav-bar 
+  [isLoggedIn]="isLoggedIn" 
+  (login)="openLoginDialog()" 
+  (logout)="logout()">
+</app-nav-bar>
+
 <router-outlet></router-outlet>

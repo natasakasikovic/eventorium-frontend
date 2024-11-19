@@ -1,2 +1,34 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .cdk-overlay-pane {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .custom-dialog-container {
+    border-radius: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+.standard-button {
+    background-color: #35422F !important;
+    color: #ECEAE6 !important;
+}
