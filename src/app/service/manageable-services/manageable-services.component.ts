@@ -58,4 +58,9 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
     this.closeFilter();
     this.changeDetector.detectChanges();
   }
+
+  onSearch(keyword: string): void {
+    this.services = this.serviceService.searchServices(keyword);
+    this.changeDetector.detectChanges();
+  }
 }

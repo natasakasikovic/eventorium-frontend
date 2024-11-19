@@ -396,4 +396,8 @@ export class ServiceService implements OnInit {
         && service.price > serviceFilter.maxPrice);
     });
   }
+
+  searchServices(keyword: string): Service[] {
+    return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
+  }
 }
