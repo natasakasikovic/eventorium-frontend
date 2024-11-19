@@ -24,10 +24,10 @@ export class LoginComponent {
   
     if (typeof loginResponse === 'string') {
       this.loginMessage = loginResponse;
-      this.loginStatusChanged.emit(false); 
+      this.loginStatusChanged.emit(false);
     } else {
       sessionStorage.setItem('currentUser', JSON.stringify(loginResponse)); 
-      this.loginStatusChanged.emit(true); 
+      this.loginStatusChanged.emit(true);
       this.dialogRef.close();
     }
   }

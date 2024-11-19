@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { User } from '../auth/model/user.model';
 import { UserRole } from '../../app/auth/model/user-role.enum';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
 
   private users: User[] = [
     {
@@ -56,7 +59,15 @@ export class AuthService {
     if (user.password !== password) {
       return 'The password you entered is incorrect. Please try again.'; 
     }
-
+    this.userSubject.next(user);
     return user;
+  }
+
+  logout(): void {
+    this.userSubject.next(null);
+  }
+
+  getCurrentUser(): User | null {
+    return this.userSubject.value;
   }
 }
