@@ -2,7 +2,7 @@
   <mat-card class="service-card">
     <mat-card-header>
       <div class="header-left">
-        <mat-card-title> {{ service.name }}</mat-card-title>
+        <mat-card-title> {{ service.name }} </mat-card-title>
         <mat-card-subtitle>{{ service.categoryName }}</mat-card-subtitle>
       </div>
       <div class="header-right">
@@ -42,7 +42,9 @@
       </div>
     </mat-card-actions>
     <div class="button-reserve" >
-      <button mat-raised-button color="">Reserve</button>
+      <button mat-raised-button
+              [style.opacity]="service.available ? 1 : 0.2"
+              [disabled]="!service.available" >Reserve</button>
     </div>
   </mat-card>
 </div>

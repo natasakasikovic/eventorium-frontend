@@ -1,6 +1,9 @@
-<mat-card class="service-card">
+<mat-card class="service-card"
+  [style.opacity]="service.available ? 1 : 0.2"
+>
   <img src="photo_placeholder.png" alt="Service Image" />
   <mat-card-header>
+    <div *ngIf="!service.visible"><strong>HIDDEN</strong></div>
     <mat-card-title class="title">{{service.name}}</mat-card-title>
     <div class="rating">
       <mat-icon>star</mat-icon>
