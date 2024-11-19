@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { ProductModule } from '../product/product.module';
 import { EventModule } from '../event/event.module';
 
-
 @NgModule({
   declarations: [
     NavBarComponent,

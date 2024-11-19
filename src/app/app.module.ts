@@ -9,6 +9,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { ProductModule } from './product/product.module';
 import { EventModule } from './event/event.module';
+import { ServiceModule } from './service/service.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { EventModule } from './event/event.module';
     LayoutModule,
     SharedModule,
     ProductModule,
-    EventModule
+    EventModule,
+    ServiceModule
   ],
   providers: [
     provideAnimationsAsync(),
