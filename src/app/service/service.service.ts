@@ -19,7 +19,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '2',
@@ -37,7 +38,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '3',
@@ -54,8 +56,9 @@ export const services: Service[] = [
     cancellationDeadline: new Date('2024-12-16T18:00:00'),
     discount: 0,
     visible: true,
-    available: true,
-    confirmation: Confirmation.MANUAL
+    available: false,
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '4',
@@ -73,7 +76,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '5',
@@ -91,7 +95,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '6',
@@ -109,7 +114,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '7',
@@ -127,7 +133,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '8',
@@ -145,7 +152,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,    
+    image: 'wedding.jpg'
   },
   {
     id: '9',
@@ -163,7 +171,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '10',
@@ -181,7 +190,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '11',
@@ -199,7 +209,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,    
+    image: 'wedding.jpg'
   },
   {
     id: '12',
@@ -217,7 +228,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '13',
@@ -235,7 +247,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,    
+    image: 'wedding.jpg'
   },
   {
     id: '14',
@@ -253,7 +266,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '15',
@@ -271,7 +285,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '16',
@@ -289,7 +304,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '17',
@@ -307,7 +323,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '18',
@@ -325,7 +342,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   }
 ];
 
@@ -347,6 +365,10 @@ export class ServiceService implements OnInit {
 
   getAll(): Service[] {
     return services;
+  }
+
+  getTopServices(): Service[] {
+    return services.slice(0, 5);
   }
 
   totalCountServices(): number {

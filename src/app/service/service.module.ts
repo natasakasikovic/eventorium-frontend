@@ -15,6 +15,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
+import { TopFiveServicesComponent } from './top-five-services/top-five-services.component';
 
 
 
@@ -23,7 +24,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     ManageableServicesComponent,
     CreateServiceComponent,
     EditServiceComponent,
-    ServiceDetailsComponent
+    ServiceDetailsComponent,
+    TopFiveServicesComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     MaterialModule,
     RouterLink,
     ReactiveFormsModule,
+  ],
+  exports: [
+    TopFiveServicesComponent
   ]
 })
 export class ServiceModule { }

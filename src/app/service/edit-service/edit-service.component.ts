@@ -62,7 +62,8 @@ export class EditServiceComponent implements OnInit {
       rating: this.service.rating,
       reservationDeadline: this.createServiceForm.value.reservationDeadline,
       specialties: this.createServiceForm.value.specialties,
-      visible: this.createServiceForm.value.visible
+      visible: this.createServiceForm.value.visible,
+      image: this.createServiceForm.value.image
     });
     this.router.navigate(['manageable-services']).then();
   }

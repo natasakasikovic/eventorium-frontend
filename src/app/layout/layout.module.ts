@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductModule } from '../product/product.module';
 import { EventModule } from '../event/event.module';
+import { ServiceModule } from '../service/service.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { EventModule } from '../event/event.module';
     MatListModule,
     MatIconModule,
     ProductModule,
-    EventModule
+    EventModule,
+    ServiceModule
   ],
   exports: [NavBarComponent, DrawerComponent]
 })

@@ -1,0 +1,17 @@
+<div class="cards-screen">
+    <mat-toolbar>
+      <h1 class="title">Top five services</h1>
+    </mat-toolbar>
+    <div class="service-cards">
+      <div *ngFor="let service of services">
+        <app-service-card [service]="service"></app-service-card>
+      </div>
+    </div>
+    <div class="see-more">
+      <p>Would you like to see more content or search for a specific service?</p>
+      <button mat-icon-button>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>      
+    </div>
+  </div>
+  
