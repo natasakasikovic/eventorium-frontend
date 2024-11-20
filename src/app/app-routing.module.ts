@@ -8,6 +8,7 @@ import {ServiceDetailsComponent} from './service/service-details/service-details
 import {EditServiceComponent} from './service/edit-service/edit-service.component';
 import {CreateServiceComponent} from './service/create-service/create-service.component';
 import { UserRegisterComponent } from './auth/user-register/user-register.component';
+import { CompanyRegisterComponent } from './company/company-register/company-register.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
+  { path: 'company-register', component: CompanyRegisterComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
