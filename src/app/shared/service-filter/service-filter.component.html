@@ -4,36 +4,38 @@
       <mat-icon>clear</mat-icon>
     </button>
     <h2>Filter services</h2>
-    <form>
+    <form [formGroup]="filterServiceForm">
       <div class="form-group">
-        <label for="category">Category</label>
-        <select id="category">
+        <label>Category</label>
+        <select formControlName="category" name="category">
           <option value="">Select...</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="eventType">Type of event</label>
-        <select id="eventType">
+        <label>Type of event</label>
+        <select formControlName="eventType" name="eventType">
           <option value="">Select...</option>
+          <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="availability">Available</label>
-        <input type="checkbox" id="availability" />
+        <label for="availability">Only available</label>
+        <input type="checkbox" id="availability" formControlName="available" name="available"/>
       </div>
 
       <div class="form-group">
         <label>Price</label>
         <div class="price-range">
-          <input type="number" placeholder="Min" />
+          <input type="number" placeholder="Min" formControlName="minPrice" name="minPrice"/>
           <span> - </span>
-          <input type="number" placeholder="Max" />
+          <input type="number" placeholder="Max" formControlName="maxPrice" name="maxPrice"/>
         </div>
       </div>
 
-      <button type="button" class="apply-button">Apply Filters</button>
+      <button type="button" class="apply-button" (click)="onApply()">Apply Filters</button>
     </form>
   </div>
 </div>
