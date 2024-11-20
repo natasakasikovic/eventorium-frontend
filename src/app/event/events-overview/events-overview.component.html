@@ -1,0 +1,21 @@
+<div class="cards-screen">
+    <mat-toolbar class="toolbar">
+      <h1 class="title">Events</h1>
+      <div class="filters">
+        <app-search-bar (searcher)="onSearch($event)"></app-search-bar>
+        <button mat-icon-button class="filter-button">
+          <mat-icon>tune</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="event-cards">
+      <div class="cards">
+        <div *ngFor="let event of events">
+          <app-event-card [event]="event" ></app-event-card>
+        </div>
+      </div>
+      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalEventCount()" (page)="onPageChanged()"></mat-paginator>
+    </div>
+  </div>
+  <!-- <app-event-filter *ngIf="showFilter"></app-event-filter> -->
+  <!-- TODO: implement event filter pop up -->

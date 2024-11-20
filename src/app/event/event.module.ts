@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { TopFiveEventsComponent } from './top-five-events/top-five-events.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../infrastructure/material/material.module';
+import { EventsOverviewComponent } from './events-overview/events-overview.component';
 
 
 
 @NgModule({
   declarations: [
-    TopFiveEventsComponent
+    TopFiveEventsComponent,
+    EventsOverviewComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { MaterialModule } from '../infrastructure/material/material.module';
     MaterialModule
   ],
   exports: [
-    TopFiveEventsComponent
+    TopFiveEventsComponent,
+    EventsOverviewComponent
   ]
 })
 export class EventModule { }
