@@ -1,9 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Confirmation} from '../model/confirmation.enum';
 import {Router} from '@angular/router';
 
+export function dateNotInPast(control: AbstractControl) {
+  const selectedDate = new Date(control.value);
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  if (selectedDate < currentDate) {
+    return { 'dateInPast': true };
+  }
+  return null;
+}
 @Component({
   selector: 'app-create-service',
   templateUrl: './create-service.component.html',
@@ -36,8 +46,8 @@ export class CreateServiceComponent implements OnInit {
     category: new FormControl(),
     visible: new FormControl(),
     available: new FormControl(),
-    reservationDeadline: new FormControl('', Validators.required),
-    cancellationDeadline: new FormControl('', Validators.required),
+    reservationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
+    cancellationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
   });
