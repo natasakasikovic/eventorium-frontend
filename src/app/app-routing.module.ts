@@ -10,6 +10,7 @@ import { EventsOverviewComponent } from './event/events-overview/events-overview
 import { UserRegisterComponent } from './auth/user-register/user-register.component';
 import { CompanyRegisterComponent } from './company/company-register/company-register.component';
 import { ProductsOverviewComponent } from './product/products-overview/products-overview.component';
+import { ServicesOverviewComponent } from './service/services-overview/services-overview.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'signup', component: UserRegisterComponent},
   { path: 'events-overview', component: EventsOverviewComponent},
   { path: 'products-overview', component: ProductsOverviewComponent},
+  { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },

@@ -13,6 +13,7 @@ import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {MatOption, MatSelect} from '@angular/material/select';
+import { ServicesOverviewComponent } from './services-overview/services-overview.component';
 
 
 
@@ -22,7 +23,8 @@ import {MatOption, MatSelect} from '@angular/material/select';
     CreateServiceComponent,
     EditServiceComponent,
     ServiceDetailsComponent,
-    TopFiveServicesComponent
+    TopFiveServicesComponent,
+    ServicesOverviewComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import {MatOption, MatSelect} from '@angular/material/select';
     ReactiveFormsModule,
   ],
   exports: [
-    TopFiveServicesComponent
+    TopFiveServicesComponent,
+    ServicesOverviewComponent
   ]
 })
 export class ServiceModule { }
