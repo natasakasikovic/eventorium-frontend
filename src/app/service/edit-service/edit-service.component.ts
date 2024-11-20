@@ -60,10 +60,10 @@ export class EditServiceComponent implements OnInit {
       price: this.editServiceForm.value.price,
       provider: this.service.provider,
       rating: this.service.rating,
-      reservationDeadline: this.createServiceForm.value.reservationDeadline,
-      specialties: this.createServiceForm.value.specialties,
-      visible: this.createServiceForm.value.visible,
-      image: this.createServiceForm.value.image
+      reservationDeadline: this.editServiceForm.value.reservationDeadline,
+      specialties: this.editServiceForm.value.specialties,
+      visible: this.editServiceForm.value.visible,
+      image: this.editServiceForm.value.image
     });
     this.router.navigate(['manageable-services']).then();
   }
