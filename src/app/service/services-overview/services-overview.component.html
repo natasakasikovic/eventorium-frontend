@@ -1,0 +1,20 @@
+<div class="cards-screen">
+    <mat-toolbar class="toolbar">
+      <h1 class="title">Services</h1>
+      <div class="filters">
+        <app-search-bar (searcher)="onSearch($event)"></app-search-bar>
+        <button mat-icon-button class="filter-button" (click)="openFilter()">
+            <mat-icon>tune</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="service-cards">
+      <div class="cards">
+        <div *ngFor="let service of services">
+          <app-service-card [service]="service" ></app-service-card>
+        </div>
+      </div>
+      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
+    </div>
+  </div>
+  <app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()" (applyFilter)="onApplyFilter($event)"></app-service-filter>

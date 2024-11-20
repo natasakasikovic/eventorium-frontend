@@ -1,0 +1,102 @@
+.service-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background-color: #eceae6;
+}
+
+.price {
+  display: flex;
+  justify-content: right;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.service-card {
+  margin-top: 3rem;
+  max-width: 80%;
+  background-color: #fdf7ef;
+  padding: 15px;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-content {
+  margin-left: 0.5rem;
+}
+
+mat-card-title {
+  font-size: 28px;
+  font-family: jeju, serif;
+  color: #35422F;
+}
+
+mat-card-subtitle {
+  font-size: 14px;
+  font-family: jeju, serif;
+  color: #7a7a7a;
+  margin-top: 4px;
+}
+
+mat-card-header {
+  display: flex;
+  padding: 16px 24px;
+}
+
+
+.gallery {
+  display: flex;
+  gap: 10px;
+}
+
+.gallery-item {
+  width: 200px;
+  height: 200px;
+  background-color: #e0e0e0;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.details {
+  font-size: 16px;
+  text-align: left;
+}
+
+.info {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.info mat-icon {
+  margin-right: 2rem;
+}
+
+.button-reserve {
+  display: flex;
+  justify-content: center;
+}
+
+.button-reserve > button {
+  background-color: #35422F;
+  color: #ECEAE6;
+}

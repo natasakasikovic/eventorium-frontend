@@ -1,0 +1,73 @@
+.cards-screen {
+  background-color: #eceae6;
+  min-height: 100%;
+  height: auto;
+}
+
+.cards-screen .toolbar .filters {
+  display: flex;
+  align-items: center;
+  margin-right: 5rem;
+}
+
+
+.cards-screen .toolbar .filters .filter-button {
+  margin-left: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.cards-screen .toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #eceae6;
+}
+
+.cards-screen .toolbar .space {
+  flex: 1;
+}
+
+.cards-screen .toolbar .title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 2.5rem;
+  font-family: jeju, serif;
+  color: #35422F;
+}
+
+.cards-screen .service-cards {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.cards-screen .service-cards .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-auto-rows: 1fr;
+  grid-auto-columns: 1fr;
+  gap: 1rem;
+  padding: 16px;
+}
+
+.cards-screen .create-card mat-icon {
+  position: fixed;
+  transform: scale(3);
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+}
+
+mat-paginator {
+  display: flex;
+  justify-content: center;
+}
+

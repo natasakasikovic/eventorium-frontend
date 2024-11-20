@@ -1,0 +1,41 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <h2>Filter services</h2>
+    <form [formGroup]="filterServiceForm">
+      <div class="form-group">
+        <label>Category</label>
+        <select formControlName="category" name="category">
+          <option value="">Select...</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Type of event</label>
+        <select formControlName="eventType" name="eventType">
+          <option value="">Select...</option>
+          <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="availability">Only available</label>
+        <input type="checkbox" id="availability" formControlName="available" name="available"/>
+      </div>
+
+      <div class="form-group">
+        <label>Price</label>
+        <div class="price-range">
+          <input type="number" placeholder="Min" formControlName="minPrice" name="minPrice"/>
+          <span> - </span>
+          <input type="number" placeholder="Max" formControlName="maxPrice" name="maxPrice"/>
+        </div>
+      </div>
+
+      <button type="button" class="apply-button" (click)="onApply()">Apply Filters</button>
+    </form>
+  </div>
+</div>
