@@ -18,6 +18,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from "@angular/material/slider";
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
+import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from "@angular/material/expansion";
+import {MatOption, MatSelect} from '@angular/material/select';
 
 
 
@@ -38,6 +40,11 @@ import {MatListOption, MatSelectionList} from '@angular/material/list';
     MatGridTile,
     MatListOption,
     MatSelectionList,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatSelect,
+    MatOption,
   ]
 })
 export class ServiceModule { }

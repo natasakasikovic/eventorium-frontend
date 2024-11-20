@@ -94,13 +94,12 @@
         </div>
         <h4>Event types</h4>
         <div style="margin-right: 2rem">
-          <mat-selection-list #categoryList formControlName="categories" >
-              <mat-list-option *ngFor="let category of categories" [value] = category>{{ category }}</mat-list-option>
+          <mat-selection-list formControlName="eventTypes" [multiple]="true">
+            <mat-list-option *ngFor="let type of eventTypes" [value]="type">
+              {{ type }}
+            </mat-list-option>
           </mat-selection-list>
         </div>
-        <p>
-          Categories selected: {{categoryList.selectedOptions.selected.length}}
-        </p>
       </div>
     </div>
   </form>

@@ -33,7 +33,6 @@ export class EditServiceComponent implements OnInit {
       discount: new FormControl(this.service.discount),
       description: new FormControl(this.service.description),
       specialties: new FormControl(this.service.specialties),
-      checkboxes: new FormArray([]),
       confirmation: new FormControl(this.service.confirmation ),
       visible: new FormControl(this.service.visible),
       available: new FormControl(this.service.available),
