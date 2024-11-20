@@ -15,6 +15,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
+import { TopFiveServicesComponent } from './top-five-services/top-five-services.component';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from "@angular/material/slider";
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
@@ -28,7 +29,8 @@ import {MatOption, MatSelect} from '@angular/material/select';
     ManageableServicesComponent,
     CreateServiceComponent,
     EditServiceComponent,
-    ServiceDetailsComponent
+    ServiceDetailsComponent,
+    TopFiveServicesComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +47,9 @@ import {MatOption, MatSelect} from '@angular/material/select';
     MatExpansionPanelTitle,
     MatSelect,
     MatOption,
+  ],
+  exports: [
+    TopFiveServicesComponent
   ]
 })
 export class ServiceModule { }

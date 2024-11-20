@@ -21,7 +21,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '2',
@@ -40,7 +41,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '3',
@@ -58,8 +60,9 @@ export const services: Service[] = [
     cancellationDeadline: new Date('2024-12-16T18:00:00'),
     discount: 0,
     visible: true,
-    available: true,
-    confirmation: Confirmation.MANUAL
+    available: false,
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '4',
@@ -78,7 +81,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '5',
@@ -97,7 +101,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '6',
@@ -116,7 +121,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '7',
@@ -135,7 +141,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '8',
@@ -154,7 +161,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '9',
@@ -173,7 +181,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '10',
@@ -192,7 +201,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
   },
   {
     id: '11',
@@ -211,7 +221,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '12',
@@ -230,7 +241,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '13',
@@ -249,11 +261,52 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
   },
   {
     id: '14',
     name: 'Massage Therapy',
+    categoryName: 'Entertainment',
+    price: 35,
+    rating: 4.3,
+    eventTypes: ['Social'],
+    provider: 'Comedy Club',
+    minDuration: 1,
+    maxDuration: 5,
+    description: 'Laugh out loud at a stand-up comedy show with top comedians.',
+    specialties: 'Comedy, Stand-Up, Entertainment',
+    reservationDeadline: new Date('2024-11-25T19:00:00'),
+    cancellationDeadline: new Date('2024-11-26T19:00:00'),
+    discount: 0,
+    visible: true,
+    available: true,
+    confirmation: Confirmation.MANUAL,
+    image: 'wedding.jpg'
+  },
+  {
+    id: '15',
+    name: 'Horseback Riding',
+    categoryName: 'Adventure',
+    price: 90,
+    rating: 4.6,
+    eventTypes: ['Individual'],
+    provider: 'Equestrian Center',
+    minDuration: 10,
+    maxDuration: 23,
+    description: 'Enjoy a scenic horseback ride through beautiful trails.',
+    specialties: 'Adventure, Horseback Riding, Outdoors',
+    reservationDeadline: new Date('2024-12-08T11:00:00'),
+    cancellationDeadline: new Date('2024-12-09T11:00:00'),
+    discount: 0,
+    visible: true,
+    available: true,
+    confirmation: Confirmation.AUTOMATIC,
+    image: 'wedding.jpg'
+  },
+  {
+    id: '16',
+    name: 'Spa Day',
     categoryName: 'Wellness',
     price: 90,
     rating: 4.6,
@@ -268,7 +321,8 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL
+    confirmation: Confirmation.MANUAL,
+    image: 'weeding.jpg'
   }
 ];
 
@@ -290,6 +344,10 @@ export class ServiceService implements OnInit {
 
   getAll(): Service[] {
     return services;
+  }
+
+  getTopServices(): Service[] {
+    return services.slice(0, 5);
   }
 
   totalCountServices(): number {

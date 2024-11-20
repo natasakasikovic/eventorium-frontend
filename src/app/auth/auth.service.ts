@@ -59,6 +59,11 @@ export class AuthService {
     if (user.password !== password) {
       return 'The password you entered is incorrect. Please try again.'; 
     }
+
+    if (user.activated === false) {
+      return 'The account has not been activated yet. Check your email inbox.'
+    }
+    
     this.userSubject.next(user);
     return user;
   }
@@ -69,5 +74,9 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     return this.userSubject.value;
+  }
+
+  add(user: User): void {
+    this.users.push(user)
   }
 }

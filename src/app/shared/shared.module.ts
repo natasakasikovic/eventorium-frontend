@@ -17,7 +17,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     ServiceCardComponent,
     SearchBarComponent,
     ServiceFilterComponent
-  ],  
+    ],  
   imports: [
     CommonModule,
     MaterialModule,

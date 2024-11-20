@@ -19,6 +19,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import { MatSelectModule } from "@angular/material/select";
+import { ReactiveFormsModule } from '@angular/forms';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
 
 @NgModule({
@@ -49,6 +51,9 @@ import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/
     MatSlider,
     MatSliderThumb,
     MatSliderRangeThumb,
+    MatRadioGroup,
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatToolbarModule,
@@ -76,6 +81,8 @@ import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/
     MatSlider,
     MatSliderThumb,
     MatSliderRangeThumb,
+    MatSelectModule,
+    ReactiveFormsModule
   ]
 })
 export class MaterialModule { }

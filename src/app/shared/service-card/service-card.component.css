@@ -1,11 +1,11 @@
 .service-card {
-  max-width: 25rem;
+  max-width: 18rem;
   max-height: 25rem;
   margin: 1rem;
 }
 
 .service-card img {
-  max-height: 11rem;
+  max-height: 14rem;
 }
 .service-card mat-card-header {
   justify-content: space-between;
@@ -16,6 +16,7 @@
   font-size: 1.2rem;
   font-family: jeju, serif;
   font-weight: bold;
+  color:#35422f
 }
 
 .service-card mat-card-header .rating {
@@ -54,11 +55,6 @@
   text-transform: none;
   background-color: #35422f;
   color: #F5F5F5;
-}
-
-.service-card mat-card-actions .price {
-  font-size: 1.2rem;
-  font-weight: bold;
 }
 
 .service-card .action-button {
