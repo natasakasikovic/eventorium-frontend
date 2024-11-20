@@ -16,6 +16,8 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from "@angular/material/slider";
+import {MatGridList, MatGridTile} from '@angular/material/grid-list';
+import {MatListOption, MatSelectionList} from '@angular/material/list';
 
 
 
@@ -32,9 +34,10 @@ import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from "@angular/material/
     MaterialModule,
     RouterLink,
     ReactiveFormsModule,
-    MatSlider,
-    MatSliderThumb,
-    MatSliderRangeThumb,
+    MatGridList,
+    MatGridTile,
+    MatListOption,
+    MatSelectionList,
   ]
 })
 export class ServiceModule { }

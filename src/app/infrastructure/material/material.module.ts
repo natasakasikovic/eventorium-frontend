@@ -19,6 +19,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
 
 @NgModule({
   declarations: [],
@@ -44,7 +45,10 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
     MatDatepicker,
     MatCheckbox,
     MatRadioButton,
-    MatRadioGroup
+    MatRadioGroup,
+    MatSlider,
+    MatSliderThumb,
+    MatSliderRangeThumb,
   ],
   exports: [
     MatToolbarModule,
@@ -69,6 +73,9 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
     MatCheckbox,
     MatRadioButton,
     MatRadioGroup,
+    MatSlider,
+    MatSliderThumb,
+    MatSliderRangeThumb,
   ]
 })
 export class MaterialModule { }

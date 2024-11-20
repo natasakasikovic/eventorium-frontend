@@ -39,8 +39,8 @@ export class EditServiceComponent implements OnInit {
       available: new FormControl(this.service.available),
       reservationDeadline: new FormControl(this.service.reservationDeadline),
       cancellationDeadline: new FormControl(this.service.cancellationDeadline),
-      minDuration: new FormControl(this.service.duration),
-      maxDuration: new FormControl(''),
+      minDuration: new FormControl(this.service.minDuration),
+      maxDuration: new FormControl(this.service.maxDuration),
     });
   }
 
@@ -52,7 +52,8 @@ export class EditServiceComponent implements OnInit {
       confirmation: this.editServiceForm.value.confirmation,
       description: this.editServiceForm.value.description,
       discount: this.editServiceForm.value.discount,
-      duration: this.editServiceForm.value.duration,
+      minDuration: this.editServiceForm.value.minDuration,
+      maxDuration: this.editServiceForm.value.maxDuration,
       eventType: this.service.eventType,
       id: this.service.id,
       name: this.editServiceForm.value.name,

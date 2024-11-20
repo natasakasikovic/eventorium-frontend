@@ -8,7 +8,8 @@ export interface Service {
   rating: number;
   eventType: string;
   provider: string;
-  duration: number;
+  minDuration: number;
+  maxDuration: number;
   description: string;
   specialties: string;
   reservationDeadline: Date;
