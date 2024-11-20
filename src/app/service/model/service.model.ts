@@ -17,4 +17,5 @@ export interface Service {
   visible: boolean;
   available: boolean;
   confirmation: Confirmation
+  image: string;
 }

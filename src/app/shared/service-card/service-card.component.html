@@ -1,7 +1,6 @@
-<mat-card class="service-card"
-  [style.opacity]="service.available ? 1 : 0.2"
->
-  <img src="photo_placeholder.png" alt="Service Image" />
+<mat-card class="service-card" [style.opacity]="service.available ? 1 : 0.4">
+<img [src]="service.image" alt="Service image"/>
+
   <mat-card-header>
     <div *ngIf="!service.visible"><strong>HIDDEN</strong></div>
     <mat-card-title class="title">{{service.name}}</mat-card-title>
@@ -12,14 +11,11 @@
   </mat-card-header>
 
   <mat-card-content>
-    <p><strong>Category:</strong> {{service.categoryName}}</p>
-    <p><strong>Event type:</strong> {{service.eventType}}</p>
-    <p><strong>Provider:</strong> {{service.provider}}</p>
+    <p>Price: {{service.price}}</p>
   </mat-card-content>
 
   <mat-card-actions>
     <button mat-button class="see-more-button" [routerLink]="['/service-details', service.id]">See more</button>
-    <p class="price">&euro; {{ service.price }}</p>
     <div class="action-buttons" *ngIf="showActions">
       <button mat-icon-button class="action-button" (click)="onDelete()">
         <mat-icon>delete</mat-icon>
@@ -29,4 +25,5 @@
       </button>
     </div>
   </mat-card-actions>
+
 </mat-card>
