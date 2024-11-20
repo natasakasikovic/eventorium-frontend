@@ -36,7 +36,7 @@ mat-form-field {
 }
 
 .popup-footer {
-  margin-top: 15px;
+  margin-top: 25px;
   text-align: center;
   font-size: 14px;
   color: #7d7d7d;
@@ -69,4 +69,17 @@ mat-form-field {
   color: #71232b;
   font-size: 14px;
   text-align: center;
+}
+
+.small-button {
+  font-size: 12px;
+  padding: 6px 12px;
+  height: auto;  
+  min-width: 120px; 
+  border-radius: 20px; 
+  color: #35422F;
+}
+
+.small-button.mat-raised-button {
+  box-shadow: none; 
 }

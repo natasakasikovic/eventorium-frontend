@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { User } from '../model/user.model';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent {
 
   @Output() loginStatusChanged = new EventEmitter<boolean>();
 
-  constructor(private dialogRef: MatDialogRef<LoginComponent>, private authService: AuthService) {}
+  constructor(private dialogRef: MatDialogRef<LoginComponent>, private authService: AuthService, private router: Router) {}
 
   login(): void {
     const loginResponse = this.authService.login(this.user.email, this.user.password);
@@ -30,6 +31,11 @@ export class LoginComponent {
       this.loginStatusChanged.emit(true);
       this.dialogRef.close();
     }
+  }
+
+  navigateToSignup() {
+    this.dialogRef.close();
+    this.router.navigate(['/signup']);
   }
 
   closeDialog(): void {
