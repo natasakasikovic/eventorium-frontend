@@ -8,6 +8,7 @@ import {EditServiceComponent} from './service/edit-service/edit-service.componen
 import {CreateServiceComponent} from './service/create-service/create-service.component';
 import { EventsOverviewComponent } from './event/events-overview/events-overview.component';
 import { UserRegisterComponent } from './auth/user-register/user-register.component';
+import { CompanyRegisterComponent } from './company/company-register/company-register.component';
 import { ProductsOverviewComponent } from './product/products-overview/products-overview.component';
 
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
+  { path: 'company-register', component: CompanyRegisterComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];

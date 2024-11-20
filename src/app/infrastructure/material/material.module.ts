@@ -21,6 +21,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
@@ -54,6 +55,7 @@ import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/
     MatSliderRangeThumb,
     MatSelectModule,
     ReactiveFormsModule,
+    MatGridListModule,
     MatGridList,
     MatGridTile,
     MatListOption,
@@ -90,6 +92,7 @@ import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/
     MatSliderRangeThumb,
     MatSelectModule,
     ReactiveFormsModule,
+    MatGridListModule,
     MatGridList,
     MatGridTile,
     MatListOption,

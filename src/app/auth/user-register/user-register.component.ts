@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './user-register.component.css'
 })
 export class UserRegisterComponent {
+  user: User | null;
   registrationForm: FormGroup;
   userRoles = [UserRole.EO, UserRole.SPP];
   selectedFile: File | null = null;
@@ -32,9 +33,9 @@ export class UserRegisterComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      const user: User = this.registrationForm.value;
-      user.activated = false;
-      this.authService.add(user);
+      this.user = this.registrationForm.value;
+      this.user.activated = false;
+      this.authService.add(this.user);
       this.showActivationDialog();
     }
   }
@@ -56,13 +57,18 @@ export class UserRegisterComponent {
   }
 
   showActivationDialog(): void {
+    if (this.user.role == UserRole.SPP) {
+      this.router.navigate(['/company-register']);
+      return;
+    }
+
     // NOTE: This will be changed to avoid using 'alert' in the future.
     alert(`Account Activation Required
         Thank you for signing up!
         
         To complete your registration, please follow these steps:
         
-        1. Check your email: We’ve sent an activation link to the email address you provided.
+        1. Check your email: We've sent an activation link to the email address you provided.
         2. Activate your account: Click the link within 24 hours to confirm your email and activate your account.
         
         Important: Your activation link will expire after 24 hours. If you do not activate your account within this time, you will need to repeat the registration process.
