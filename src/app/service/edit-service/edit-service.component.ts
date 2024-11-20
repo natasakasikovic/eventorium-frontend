@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../service.service';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Confirmation} from '../model/confirmation.enum';
 
 @Component({
@@ -12,6 +12,7 @@ import {Confirmation} from '../model/confirmation.enum';
 })
 export class EditServiceComponent implements OnInit {
   @Input() service: Service
+  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
   editServiceForm: FormGroup;
 
   constructor(
@@ -40,6 +41,7 @@ export class EditServiceComponent implements OnInit {
       cancellationDeadline: new FormControl(this.service.cancellationDeadline),
       minDuration: new FormControl(this.service.minDuration),
       maxDuration: new FormControl(this.service.maxDuration),
+      eventTypes: new FormControl(this.service.eventTypes)
     });
   }
 
@@ -53,7 +55,7 @@ export class EditServiceComponent implements OnInit {
       discount: this.editServiceForm.value.discount,
       minDuration: this.editServiceForm.value.minDuration,
       maxDuration: this.editServiceForm.value.maxDuration,
-      eventType: this.service.eventType,
+      eventTypes: this.service.eventTypes,
       id: this.service.id,
       name: this.editServiceForm.value.name,
       price: this.editServiceForm.value.price,

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Confirmation} from '../model/confirmation.enum';
-import {MatSelectionListChange} from '@angular/material/list';
 import {Router} from '@angular/router';
 
 @Component({
@@ -46,7 +45,7 @@ export class CreateServiceComponent implements OnInit {
         confirmation: this.createServiceForm.value.confirmation,
         description: this.createServiceForm.value.description,
         discount: this.createServiceForm.value.discount,
-        eventType: this.createServiceForm.value.eventTypes,
+        eventTypes: this.createServiceForm.value.eventTypes,
         id: Math.random().toString(),
         maxDuration: this.createServiceForm.value.maxDuration,
         minDuration: this.createServiceForm.value.minDuration,
@@ -58,7 +57,7 @@ export class CreateServiceComponent implements OnInit {
         specialties: this.createServiceForm.value.specialties,
         visible: this.createServiceForm.value.visible
       });
-      this.router.navigate(["manageable-service"]).then();
+      this.router.navigate(["manageable-services"]).then();
     }
   }
 

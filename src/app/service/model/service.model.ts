@@ -6,7 +6,7 @@ export interface Service {
   categoryName: string;
   price: number;
   rating: number;
-  eventType: string;
+  eventTypes: string[];
   provider: string;
   minDuration: number;
   maxDuration: number;

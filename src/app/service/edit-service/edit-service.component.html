@@ -54,6 +54,13 @@
       <span>Min Duration: {{ editServiceForm.get('minDuration')?.value }} hours</span> |
       <span>Max Duration: {{ editServiceForm.get('maxDuration')?.value }} hours</span>
     </div>
+    <div style="margin-right: 2rem">
+      <mat-selection-list formControlName="eventTypes" [multiple]="true">
+        <mat-list-option *ngFor="let type of eventTypes" [value]="type">
+          {{ type }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
   </form>
   <div class="button-save" (click)="onUpdate()">
     <button mat-raised-button>Save</button>
