@@ -1,6 +1,6 @@
 .service-card {
-  max-width: 18rem;
-  max-height: 25rem;
+  max-width: 15rem;
+  max-height: 18rem;
   margin: 1rem;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .service-card mat-card-header .title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: jeju, serif;
   font-weight: bold;
   color:#35422f
