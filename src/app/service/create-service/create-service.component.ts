@@ -10,6 +10,19 @@ import {Router} from '@angular/router';
   styleUrls: ['./create-service.component.css']
 })
 export class CreateServiceComponent implements OnInit {
+  categories: string[] =
+    [
+      "Wellness",
+      "Lifestyle",
+      "Entertainment",
+      "Arts",
+      "Creative",
+      "Fitness",
+      "Travel",
+      "Music",
+      "Adventure",
+      "Education"
+    ]
   eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
   createServiceForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -19,6 +32,8 @@ export class CreateServiceComponent implements OnInit {
     specialties: new FormControl('', Validators.required),
     eventTypes: new FormControl('', Validators.minLength(1)),
     confirmation: new FormControl('', Validators.required),
+    suggestedCategory: new FormControl(),
+    category: new FormControl(),
     visible: new FormControl(),
     available: new FormControl(),
     reservationDeadline: new FormControl('', Validators.required),
@@ -41,7 +56,7 @@ export class CreateServiceComponent implements OnInit {
       this.serviceService.create({
         available: this.createServiceForm.value.available,
         cancellationDeadline: this.createServiceForm.value.cancellationDeadline,
-        categoryName: this.createServiceForm.value.categoryName,
+        categoryName: this.createServiceForm.value.category,
         confirmation: this.createServiceForm.value.confirmation,
         description: this.createServiceForm.value.description,
         discount: this.createServiceForm.value.discount,

@@ -14,6 +14,16 @@
       <mat-label>Discount</mat-label>
       <input matInput type="number" name="discount" formControlName="discount"/>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Suggest category</mat-label>
+      <input matInput name="suggestedCategory" formControlName="suggestedCategory"/>
+    </mat-form-field>
     <mat-form-field class="textarea">
       <mat-label>Description</mat-label>
       <textarea matInput type="text" name="description" formControlName="description"></textarea>
