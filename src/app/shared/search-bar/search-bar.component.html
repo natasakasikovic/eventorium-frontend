@@ -1,5 +1,5 @@
 <div class="search-bar">
-  <form [formGroup]="searchForm">
+  <form [formGroup]="searchForm" (keydown.enter) = "onClick()">
     <input type="text" placeholder="Search" aria-label="Search" formControlName="keyword" >
   </form>
   <button mat-icon-button (click)="onClick()">

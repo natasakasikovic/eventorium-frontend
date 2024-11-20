@@ -20,6 +20,11 @@ mat-form-field {
   color: #ECEAE6;
 }
 
+.duration-slider {
+  background-color: #D9D9D9;
+  border-radius: 20px;
+  width: 20rem;
+}
 .screen {
   background-color: #ECEAE6;
 }

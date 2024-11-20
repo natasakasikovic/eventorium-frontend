@@ -372,6 +372,10 @@ export class ServiceService implements OnInit {
     return this.services.slice(index * size, index * size + size);
   }
 
+  create(service: Service): void {
+    this.services.push(service);
+  }
+
   get(id: string): Service {
     return this.services.find(service => service.id == id);
   }
@@ -396,4 +400,5 @@ export class ServiceService implements OnInit {
   searchServices(keyword: string): Service[] {
     return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
   }
+
 }

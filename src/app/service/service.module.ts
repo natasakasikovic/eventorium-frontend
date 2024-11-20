@@ -15,6 +15,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/m
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from "@angular/material/slider";
 
 
 
@@ -31,6 +32,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     MaterialModule,
     RouterLink,
     ReactiveFormsModule,
+    MatSlider,
+    MatSliderThumb,
+    MatSliderRangeThumb,
   ]
 })
 export class ServiceModule { }

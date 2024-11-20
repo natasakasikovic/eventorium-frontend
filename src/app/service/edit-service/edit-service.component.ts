@@ -12,7 +12,6 @@ import {Confirmation} from '../model/confirmation.enum';
 })
 export class EditServiceComponent implements OnInit {
   @Input() service: Service
-
   editServiceForm: FormGroup;
 
   constructor(
@@ -45,7 +44,7 @@ export class EditServiceComponent implements OnInit {
     });
   }
 
-  update(): void {
+  onUpdate(): void {
     this.serviceService.update(this.service.id, {
       available: this.editServiceForm.value.available,
       cancellationDeadline: this.editServiceForm.value.cancellationDeadline,

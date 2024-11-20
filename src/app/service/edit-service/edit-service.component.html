@@ -1,5 +1,4 @@
 <div class="screen">
-
   <form class="service-details" [formGroup]="editServiceForm">
     <h4>General</h4>
     <mat-form-field>
@@ -47,16 +46,16 @@
       <mat-datepicker #cancellationDeadlinePicker></mat-datepicker>
     </mat-form-field>
     <h4>Duration</h4>
-    <mat-form-field>
-      <mat-label>Minimum duration</mat-label>
-      <input matInput type="number" name="minDuration" formControlName="minDuration"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Maximum duration</mat-label>
-      <input matInput type="number" name="maxDuration" formControlName="maxDuration"/>
-    </mat-form-field>
+    <mat-slider min="1" max="24" step="1" thumbLabel class="duration-slider">
+      <input matSliderStartThumb value="6" name="minDuration" formControlName="minDuration">
+      <input matSliderEndThumb value="12" name="maxDuration" formControlName="maxDuration">
+    </mat-slider>
+    <div >
+      <span>Min Duration: {{ editServiceForm.get('minDuration')?.value }} hours</span> |
+      <span>Max Duration: {{ editServiceForm.get('maxDuration')?.value }} hours</span>
+    </div>
   </form>
-  <div class="button-save" (click)="update()">
+  <div class="button-save" (click)="onUpdate()">
     <button mat-raised-button>Save</button>
   </div>
 </div>
