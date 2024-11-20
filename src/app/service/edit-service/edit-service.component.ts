@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../service.service';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Confirmation} from '../model/confirmation.enum';
 
 @Component({
@@ -12,7 +12,7 @@ import {Confirmation} from '../model/confirmation.enum';
 })
 export class EditServiceComponent implements OnInit {
   @Input() service: Service
-
+  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
   editServiceForm: FormGroup;
 
   constructor(
@@ -34,18 +34,18 @@ export class EditServiceComponent implements OnInit {
       discount: new FormControl(this.service.discount),
       description: new FormControl(this.service.description),
       specialties: new FormControl(this.service.specialties),
-      checkboxes: new FormArray([]),
       confirmation: new FormControl(this.service.confirmation ),
       visible: new FormControl(this.service.visible),
       available: new FormControl(this.service.available),
       reservationDeadline: new FormControl(this.service.reservationDeadline),
       cancellationDeadline: new FormControl(this.service.cancellationDeadline),
-      minDuration: new FormControl(this.service.duration),
-      maxDuration: new FormControl(''),
+      minDuration: new FormControl(this.service.minDuration),
+      maxDuration: new FormControl(this.service.maxDuration),
+      eventTypes: new FormControl(this.service.eventTypes)
     });
   }
 
-  update(): void {
+  onUpdate(): void {
     this.serviceService.update(this.service.id, {
       available: this.editServiceForm.value.available,
       cancellationDeadline: this.editServiceForm.value.cancellationDeadline,
@@ -53,8 +53,9 @@ export class EditServiceComponent implements OnInit {
       confirmation: this.editServiceForm.value.confirmation,
       description: this.editServiceForm.value.description,
       discount: this.editServiceForm.value.discount,
-      duration: this.editServiceForm.value.duration,
-      eventType: this.service.eventType,
+      minDuration: this.editServiceForm.value.minDuration,
+      maxDuration: this.editServiceForm.value.maxDuration,
+      eventTypes: this.service.eventTypes,
       id: this.service.id,
       name: this.editServiceForm.value.name,
       price: this.editServiceForm.value.price,

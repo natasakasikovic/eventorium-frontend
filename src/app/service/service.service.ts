@@ -10,9 +10,10 @@ export const services: Service[] = [
     categoryName: 'Wellness',
     price: 30,
     rating: 4.7,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Wellness Center',
-    duration: 60,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'A relaxing yoga class to improve flexibility and reduce stress.',
     specialties: 'Yoga, Flexibility, Mindfulness',
     reservationDeadline: new Date('2024-12-01T10:00:00'),
@@ -29,9 +30,10 @@ export const services: Service[] = [
     categoryName: 'Lifestyle',
     price: 45,
     rating: 4.5,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Culinary Academy',
-    duration: 120,
+    minDuration: 2,
+    maxDuration: 4,
     description: 'Learn how to make gourmet dishes from top chefs.',
     specialties: 'Cooking, Baking, Gourmet',
     reservationDeadline: new Date('2024-11-20T08:00:00'),
@@ -48,9 +50,10 @@ export const services: Service[] = [
     categoryName: 'Entertainment',
     price: 20,
     rating: 4.2,
-    eventType: 'Social',
+    eventTypes: ['Social'],
     provider: 'Party Hub',
-    duration: 180,
+    minDuration: 3,
+    maxDuration: 5,
     description: 'A fun night of dancing to your favorite hits.',
     specialties: 'Dance, Social, Music',
     reservationDeadline: new Date('2024-12-15T18:00:00'),
@@ -67,9 +70,10 @@ export const services: Service[] = [
     categoryName: 'Arts',
     price: 40,
     rating: 4.8,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Art Studio',
-    duration: 90,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'Express your creativity through painting with step-by-step instructions.',
     specialties: 'Art, Painting, Creativity',
     reservationDeadline: new Date('2024-11-22T09:00:00'),
@@ -86,9 +90,10 @@ export const services: Service[] = [
     categoryName: 'Creative',
     price: 60,
     rating: 4.9,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Creative Academy',
-    duration: 120,
+    minDuration: 2,
+    maxDuration: 3,
     description: 'Master the art of photography with professional tips and techniques.',
     specialties: 'Photography, Creativity, Visual Arts',
     reservationDeadline: new Date('2024-11-30T10:00:00'),
@@ -105,9 +110,10 @@ export const services: Service[] = [
     categoryName: 'Entertainment',
     price: 50,
     rating: 4.6,
-    eventType: 'Concert',
+    eventTypes: ['Concert'],
     provider: 'Live Events',
-    duration: 150,
+    minDuration: 2,
+    maxDuration: 3,
     description: 'A live concert featuring popular bands and performers.',
     specialties: 'Music, Live Event, Concert',
     reservationDeadline: new Date('2024-12-10T15:00:00'),
@@ -124,9 +130,10 @@ export const services: Service[] = [
     categoryName: 'Fitness',
     price: 70,
     rating: 5.0,
-    eventType: 'Individual',
+    eventTypes: ['Individual'],
     provider: 'Fitness Pro',
-    duration: 60,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'One-on-one personal training to help you achieve your fitness goals.',
     specialties: 'Fitness, Health, Personal Training',
     reservationDeadline: new Date('2024-11-25T07:00:00'),
@@ -143,9 +150,10 @@ export const services: Service[] = [
     categoryName: 'Travel',
     price: 200,
     rating: 4.4,
-    eventType: 'Trip',
+    eventTypes: ['Trip'],
     provider: 'Holiday Retreats',
-    duration: 48,
+    minDuration: 2,
+    maxDuration: 3,
     description: 'A two-day getaway to relax and rejuvenate.',
     specialties: 'Travel, Weekend, Relaxation',
     reservationDeadline: new Date('2024-12-05T09:00:00'),
@@ -153,7 +161,7 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC,    
+    confirmation: Confirmation.AUTOMATIC,
     image: 'wedding.jpg'
   },
   {
@@ -162,9 +170,10 @@ export const services: Service[] = [
     categoryName: 'Music',
     price: 30,
     rating: 4.6,
-    eventType: 'Individual',
+    eventTypes: ['Individual'],
     provider: 'Music Academy',
-    duration: 45,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'Learn to play guitar with personalized lessons.',
     specialties: 'Music, Guitar, Lessons',
     reservationDeadline: new Date('2024-11-28T08:00:00'),
@@ -181,9 +190,10 @@ export const services: Service[] = [
     categoryName: 'Fitness',
     price: 50,
     rating: 4.3,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Martial Arts Academy',
-    duration: 90,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'Join our martial arts class and build strength and discipline.',
     specialties: 'Fitness, Martial Arts, Strength',
     reservationDeadline: new Date('2024-12-03T11:00:00'),
@@ -200,9 +210,10 @@ export const services: Service[] = [
     categoryName: 'Fitness',
     price: 25,
     rating: 4.8,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Fitness Center',
-    duration: 45,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'High-intensity cycling workout to get your heart racing.',
     specialties: 'Fitness, Spinning, Cardio',
     reservationDeadline: new Date('2024-12-12T07:00:00'),
@@ -210,7 +221,7 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL,    
+    confirmation: Confirmation.MANUAL,
     image: 'wedding.jpg'
   },
   {
@@ -219,9 +230,10 @@ export const services: Service[] = [
     categoryName: 'Lifestyle',
     price: 40,
     rating: 4.7,
-    eventType: 'Group',
+    eventTypes: ['Group'],
     provider: 'Vineyard Tours',
-    duration: 90,
+    minDuration: 1,
+    maxDuration: 2,
     description: 'Taste a selection of fine wines and learn about the process.',
     specialties: 'Wine, Tasting, Lifestyle',
     reservationDeadline: new Date('2024-11-29T16:00:00'),
@@ -238,9 +250,10 @@ export const services: Service[] = [
     categoryName: 'Adventure',
     price: 120,
     rating: 4.5,
-    eventType: 'Trip',
+    eventTypes: ['Trip'],
     provider: 'Adventure Tours',
-    duration: 180,
+    minDuration: 3,
+    maxDuration: 5,
     description: 'Explore the great outdoors with an exciting adventure.',
     specialties: 'Adventure, Outdoors, Hiking',
     reservationDeadline: new Date('2024-12-14T10:00:00'),
@@ -248,18 +261,19 @@ export const services: Service[] = [
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.MANUAL,    
+    confirmation: Confirmation.MANUAL,
     image: 'wedding.jpg'
   },
   {
     id: '14',
-    name: 'Stand-Up Comedy Show',
+    name: 'Massage Therapy',
     categoryName: 'Entertainment',
     price: 35,
     rating: 4.3,
-    eventType: 'Social',
+    eventTypes: ['Social'],
     provider: 'Comedy Club',
-    duration: 120,
+    minDuration: 1,
+    maxDuration: 5,
     description: 'Laugh out loud at a stand-up comedy show with top comedians.',
     specialties: 'Comedy, Stand-Up, Entertainment',
     reservationDeadline: new Date('2024-11-25T19:00:00'),
@@ -276,9 +290,10 @@ export const services: Service[] = [
     categoryName: 'Adventure',
     price: 90,
     rating: 4.6,
-    eventType: 'Individual',
+    eventTypes: ['Individual'],
     provider: 'Equestrian Center',
-    duration: 120,
+    minDuration: 10,
+    maxDuration: 23,
     description: 'Enjoy a scenic horseback ride through beautiful trails.',
     specialties: 'Adventure, Horseback Riding, Outdoors',
     reservationDeadline: new Date('2024-12-08T11:00:00'),
@@ -293,58 +308,21 @@ export const services: Service[] = [
     id: '16',
     name: 'Spa Day',
     categoryName: 'Wellness',
-    price: 150,
-    rating: 4.9,
-    eventType: 'Individual',
-    provider: 'Luxury Spa',
-    duration: 240,
-    description: 'Indulge in a full day of relaxation with spa treatments.',
-    specialties: 'Wellness, Spa, Relaxation',
-    reservationDeadline: new Date('2024-11-30T08:00:00'),
-    cancellationDeadline: new Date('2024-12-01T08:00:00'),
-    discount: 0,
-    visible: true,
-    available: true,
-    confirmation: Confirmation.AUTOMATIC,
-    image: 'wedding.jpg'
-  },
-  {
-    id: '17',
-    name: 'Language Course',
-    categoryName: 'Education',
-    price: 120,
+    price: 90,
     rating: 4.6,
-    eventType: 'Group',
-    provider: 'Language School',
-    duration: 180,
-    description: 'Learn a new language with expert teachers.',
-    specialties: 'Education, Language, Course',
-    reservationDeadline: new Date('2024-12-02T10:00:00'),
-    cancellationDeadline: new Date('2024-12-03T10:00:00'),
+    eventTypes: ['Individual'],
+    provider: 'Wellness Spa',
+    minDuration: 1,
+    maxDuration: 1,
+    description: 'Relax with a soothing massage therapy session.',
+    specialties: 'Massage, Relaxation, Wellness',
+    reservationDeadline: new Date('2024-11-25T13:00:00'),
+    cancellationDeadline: new Date('2024-11-26T13:00:00'),
     discount: 0,
     visible: true,
     available: true,
-    confirmation: Confirmation.AUTOMATIC,
-    image: 'wedding.jpg'
-  },
-  {
-    id: '18',
-    name: 'Guided City Tour',
-    categoryName: 'Travel',
-    price: 50,
-    rating: 4.7,
-    eventType: 'Trip',
-    provider: 'City Tours',
-    duration: 120,
-    description: 'Explore the sights of the city with a knowledgeable guide.',
-    specialties: 'Travel, Guided Tour, City Exploration',
-    reservationDeadline: new Date('2024-12-06T14:00:00'),
-    cancellationDeadline: new Date('2024-12-07T14:00:00'),
-    discount: 0,
-    visible: true,
-    available: true,
-    confirmation: Confirmation.AUTOMATIC,
-    image: 'wedding.jpg'
+    confirmation: Confirmation.MANUAL,
+    image: 'weeding.jpg'
   }
 ];
 
@@ -386,12 +364,17 @@ export class ServiceService implements OnInit {
     oldService.cancellationDeadline = service.cancellationDeadline;
     oldService.specialties = service.specialties;
     oldService.description = service.description;
-    oldService.duration = service.duration;
+    oldService.minDuration = service.minDuration;
+    oldService.maxDuration = service.maxDuration;
     oldService.discount = service.discount;
   }
 
   getPage(size: number, index: number): Service[] {
     return this.services.slice(index * size, index * size + size);
+  }
+
+  create(service: Service): void {
+    this.services.push(service);
   }
 
   get(id: string): Service {
@@ -405,7 +388,7 @@ export class ServiceService implements OnInit {
   filterServices(serviceFilter: ServiceFilter): Service[] {
     return services.filter(service => {
       if (serviceFilter.category && service.categoryName !== serviceFilter.category) return false;
-      if (serviceFilter.eventType && service.eventType !== serviceFilter.eventType) return false;
+      if (serviceFilter.eventType && serviceFilter.eventType in service.eventTypes) return false;
       if (serviceFilter.available !== null && serviceFilter.available !== undefined
         && (service.available == false && serviceFilter.available == true)) return false;
       if (serviceFilter.minPrice !== null && serviceFilter.minPrice !== undefined
@@ -418,4 +401,5 @@ export class ServiceService implements OnInit {
   searchServices(keyword: string): Service[] {
     return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
   }
+
 }

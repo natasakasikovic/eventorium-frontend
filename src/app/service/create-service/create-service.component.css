@@ -1,0 +1,80 @@
+.service-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+mat-form-field {
+  width: 500px;
+}
+
+.duration-slider {
+  background-color: #D9D9D9;
+  border-radius: 20px;
+  width: 20rem;
+}
+
+.button-create {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.divider {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.photos {
+  display: flex;
+  width: 50%;
+  margin: 0 5rem;
+  padding: 1rem;
+  border-radius: 20px;
+  background-color: #b9b9b9;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-grid-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.image-card {
+  display: flex;
+  margin: 1rem;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  width: 256px;
+  height: 256px;
+}
+
+.image-placeholder {
+  text-align: center;
+  color: #bdbdbd;
+}
+
+.image-placeholder mat-icon {
+  font-size: 36px;
+}
+
+.button-create > button {
+  background-color: #35422F;
+  color: #ECEAE6;
+}
+
+.screen {
+  background-color: #ECEAE6;
+}
