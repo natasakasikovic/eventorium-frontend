@@ -36,7 +36,9 @@
         <span>{{ service.provider }}</span>
       </div>
       <div class="details">
-        <p><strong>Duration:</strong> {{ service.duration }}h</p>
+        <p><strong>Duration:</strong> {{ service.minDuration }}
+          <span *ngIf="service.minDuration != service.maxDuration"> - {{ service.maxDuration }} </span>h
+        </p>
         <p><strong>Reservation deadline:</strong> {{ service.reservationDeadline | date:"longDate" }}</p>
         <p><strong>Cancellation deadline:</strong> {{ service.cancellationDeadline | date:"longDate" }}</p>
       </div>
