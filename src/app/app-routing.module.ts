@@ -7,10 +7,13 @@ import {ServiceDetailsComponent} from './service/service-details/service-details
 import {EditServiceComponent} from './service/edit-service/edit-service.component';
 import {CreateServiceComponent} from './service/create-service/create-service.component';
 import { EventsOverviewComponent } from './event/events-overview/events-overview.component';
+import { UserRegisterComponent } from './auth/user-register/user-register.component';
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: UserRegisterComponent},
   { path: 'events-overview', component: EventsOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
