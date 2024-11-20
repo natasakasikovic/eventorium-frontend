@@ -70,7 +70,8 @@ export class CreateServiceComponent implements OnInit {
         rating: 0,
         reservationDeadline: this.createServiceForm.value.reservationDeadline,
         specialties: this.createServiceForm.value.specialties,
-        visible: this.createServiceForm.value.visible
+        visible: this.createServiceForm.value.visible,
+        image: ""
       });
       this.router.navigate(["manageable-services"]).then();
     }
