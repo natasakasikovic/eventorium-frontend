@@ -21,6 +21,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import { MatSelectModule } from "@angular/material/select";
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [],
@@ -48,7 +49,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioButton,
     MatRadioGroup,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
   ],
   exports: [
     MatToolbarModule,
@@ -74,7 +76,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioButton,
     MatRadioGroup,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }
