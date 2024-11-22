@@ -11,6 +11,9 @@ import { UserRegisterComponent } from './auth/user-register/user-register.compon
 import { CompanyRegisterComponent } from './company/company-register/company-register.component';
 import { ProductsOverviewComponent } from './product/products-overview/products-overview.component';
 import { ServicesOverviewComponent } from './service/services-overview/services-overview.component';
+import {CategoriesOverviewComponent} from './category/category-overview/categories-overview.component';
+import {EditCategoryComponent} from './category/edit-category/edit-category.component';
+import {CreateCategoryComponent} from './category/create-category/create-category.component';
 
 
 const routes: Routes = [
@@ -18,6 +21,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: UserRegisterComponent},
   { path: 'events-overview', component: EventsOverviewComponent},
+  { path: 'categories-overview', component: CategoriesOverviewComponent },
+  { path: 'edit-category/:id', component: EditCategoryComponent },
+  { path: 'create-category', component: CreateCategoryComponent },
   { path: 'products-overview', component: ProductsOverviewComponent},
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },

@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { ProductModule } from './product/product.module';
 import { EventModule } from './event/event.module';
 import { ServiceModule } from './service/service.module';
+import {CategoryModule} from './category/category.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ServiceModule } from './service/service.module';
     SharedModule,
     ProductModule,
     EventModule,
-    ServiceModule
+    ServiceModule,
+    CategoryModule
   ],
   providers: [
     provideAnimationsAsync(),
