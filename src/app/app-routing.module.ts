@@ -11,7 +11,7 @@ import { UserRegisterComponent } from './auth/user-register/user-register.compon
 import { CompanyRegisterComponent } from './company/company-register/company-register.component';
 import { ProductsOverviewComponent } from './product/products-overview/products-overview.component';
 import { ServicesOverviewComponent } from './service/services-overview/services-overview.component';
-import {CategoriesOverviewComponent} from './category/category-overview/categories-overview.component';
+import {CategoriesOverviewComponent} from './category/categories-overview/categories-overview.component';
 import {EditCategoryComponent} from './category/edit-category/edit-category.component';
 import {CreateCategoryComponent} from './category/create-category/create-category.component';
 

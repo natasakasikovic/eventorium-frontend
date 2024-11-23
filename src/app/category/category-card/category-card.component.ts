@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Category} from '../model/category.model';
 
 @Component({
@@ -8,4 +8,14 @@ import {Category} from '../model/category.model';
 })
 export class CategoryCardComponent {
   @Input() category: Category
+  @Output() edit: EventEmitter<number> = new EventEmitter();
+  @Output() delete: EventEmitter<number> = new EventEmitter();
+
+  onEdit(): void {
+    this.edit.emit(this.category.id);
+  }
+
+  onDelete(): void {
+    this.delete.emit(this.category.id);
+  }
 }

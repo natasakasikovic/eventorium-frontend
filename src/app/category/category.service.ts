@@ -71,4 +71,18 @@ export class CategoryService {
   getAll(): Category[] {
     return this.categories;
   }
+
+  get(id: number): Category {
+    return this.categories.find(category => category.id === id);
+  }
+
+  update(id: number, category: Category): void {
+    const oldCategory = this.get(id);
+    oldCategory.name = category.name;
+    oldCategory.description = category.description;
+  }
+
+  delete(id: number): void {
+    this.categories = this.categories.filter(category => category.id !== id);
+  }
 }

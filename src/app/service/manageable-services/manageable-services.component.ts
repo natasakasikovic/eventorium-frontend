@@ -41,8 +41,8 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
     this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
   }
 
-  deleteService($event: string) {
-    this.serviceService.delete($event);
+  deleteService(id: number) {
+    this.serviceService.delete(id);
     this.onPageChanged();
   }
 

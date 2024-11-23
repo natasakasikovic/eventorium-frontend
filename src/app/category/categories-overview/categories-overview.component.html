@@ -10,10 +10,14 @@
   </mat-toolbar>
   <div class="category-cards">
     <div class="cards">
-      <app-category-card *ngFor="let category of categories" [category]="category"></app-category-card>
+      <app-category-card
+        *ngFor="let category of categories" [category]="category"
+        (edit)="openEdit($event)"
+        (delete)="deleteCategory($event)"></app-category-card>
     </div>
     <button mat-icon-button class="create-card" [routerLink]="['/create-category']">
       <mat-icon>add_circle</mat-icon>
     </button>
   </div>
 </div>
+<app-edit-category *ngIf="showEdit" [category]="selectedCategory" (close)="closeEdit()"></app-edit-category>

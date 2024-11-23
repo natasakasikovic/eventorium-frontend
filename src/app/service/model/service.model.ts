@@ -1,7 +1,7 @@
 import {Confirmation} from './confirmation.enum';
 
 export interface Service {
-  id: string;
+  id: number;
   name: string;
   categoryName: string;
   price: number;

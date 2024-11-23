@@ -25,7 +25,7 @@ export class EditServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
-      const id: string = param['id'];
+      const id: number = param['id'];
       this.service = this.serviceService.get(id);
     });
     this.editServiceForm = new FormGroup({
