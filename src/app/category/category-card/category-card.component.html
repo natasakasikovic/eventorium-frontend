@@ -1,1 +1,22 @@
-<p>category-card works!</p>
+<mat-card class="category-card">
+
+  <mat-card-header>
+    <mat-card-title class="title">{{category.name}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>{{ category.description }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <div class="action-buttons">
+      <button mat-icon-button class="action-button">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button class="action-button">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+
+</mat-card>

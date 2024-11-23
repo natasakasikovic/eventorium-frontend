@@ -15,8 +15,6 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
   showFilter: boolean;
   services: Service[];
 
-  @Output() filterState: EventEmitter<boolean> = new EventEmitter();
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 

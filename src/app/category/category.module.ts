@@ -6,6 +6,7 @@ import { CategoriesOverviewComponent } from './category-overview/categories-over
 import { CreateCategoryComponent } from './create-category/create-category.component';
 import { EditCategoryComponent } from './edit-category/edit-category.component';
 import { CategoryCardComponent } from './category-card/category-card.component';
+import {RouterLink} from "@angular/router";
 
 
 
@@ -16,10 +17,11 @@ import { CategoryCardComponent } from './category-card/category-card.component';
     EditCategoryComponent,
     CategoryCardComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        SharedModule,
+        RouterLink
+    ]
 })
 export class CategoryModule { }

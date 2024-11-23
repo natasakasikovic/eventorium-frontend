@@ -1,0 +1,29 @@
+.category-card {
+  max-width: 15rem;
+  height: 14rem;
+  margin: 1rem;
+}
+
+.category-card mat-card-actions {
+  display: flex;
+  margin-top: auto;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.category-card .action-button mat-icon {
+  font-size: 25px;
+  color: black;
+}
+
+.category-card .action-button {
+  background-color: #d3d3d3;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: auto 3px;
+}
+
+.category-card .action-button:hover {
+  background-color: #b0b0b0;
+}

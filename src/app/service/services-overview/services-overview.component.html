@@ -10,9 +10,7 @@
     </mat-toolbar>
     <div class="service-cards">
       <div class="cards">
-        <div *ngFor="let service of services">
-          <app-service-card [service]="service" ></app-service-card>
-        </div>
+          <app-service-card *ngFor="let service of services" [service]="service" ></app-service-card>
       </div>
       <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
     </div>
