@@ -5,7 +5,7 @@ import {ServiceFilter} from './model/filter-service-options.model';
 
 export const services: Service[] = [
   {
-    id: '1',
+    id: 1,
     name: 'Yoga Class',
     categoryName: 'Wellness',
     price: 30,
@@ -25,7 +25,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '2',
+    id: 2,
     name: 'Cooking Workshop',
     categoryName: 'Lifestyle',
     price: 45,
@@ -45,7 +45,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '3',
+    id: 3,
     name: 'Dance Party',
     categoryName: 'Entertainment',
     price: 20,
@@ -65,7 +65,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '4',
+    id: 4,
     name: 'Painting Class',
     categoryName: 'Arts',
     price: 40,
@@ -85,7 +85,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '5',
+    id: 5,
     name: 'Photography Class',
     categoryName: 'Creative',
     price: 60,
@@ -105,7 +105,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '6',
+    id: 6,
     name: 'Music Concert',
     categoryName: 'Entertainment',
     price: 50,
@@ -125,7 +125,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '7',
+    id: 7,
     name: 'Personal Training',
     categoryName: 'Fitness',
     price: 70,
@@ -145,7 +145,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '8',
+    id: 8,
     name: 'Weekend Getaway',
     categoryName: 'Travel',
     price: 200,
@@ -165,7 +165,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '9',
+    id: 9,
     name: 'Guitar Lessons',
     categoryName: 'Music',
     price: 30,
@@ -185,7 +185,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '10',
+    id: 10,
     name: 'Martial Arts Training',
     categoryName: 'Fitness',
     price: 50,
@@ -205,7 +205,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '11',
+    id: 11,
     name: 'Spinning Class',
     categoryName: 'Fitness',
     price: 25,
@@ -225,7 +225,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '12',
+    id: 12,
     name: 'Wine Tasting',
     categoryName: 'Lifestyle',
     price: 40,
@@ -245,7 +245,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '13',
+    id: 13,
     name: 'Outdoor Adventure',
     categoryName: 'Adventure',
     price: 120,
@@ -265,7 +265,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '14',
+    id: 14,
     name: 'Massage Therapy',
     categoryName: 'Entertainment',
     price: 35,
@@ -285,7 +285,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '15',
+    id: 15,
     name: 'Horseback Riding',
     categoryName: 'Adventure',
     price: 90,
@@ -305,7 +305,7 @@ export const services: Service[] = [
     image: 'wedding.jpg'
   },
   {
-    id: '16',
+    id: 16,
     name: 'Spa Day',
     categoryName: 'Wellness',
     price: 90,
@@ -323,9 +323,9 @@ export const services: Service[] = [
     available: true,
     confirmation: Confirmation.MANUAL,
     image: 'wedding.jpg'
-  }, 
+  },
   {
-    id: '17',
+    id: 17,
     name: 'Comedy Night',
     categoryName: 'Entertainment',
     price: 25,
@@ -345,7 +345,7 @@ export const services: Service[] = [
     image: 'balloons.jpg'
   },
   {
-    id: '18',
+    id: 18,
     name: 'Rock Climbing',
     categoryName: 'Adventure',
     price: 75,
@@ -365,7 +365,7 @@ export const services: Service[] = [
     image: 'balloons.jpg'
   },
   {
-    id: '19',
+    id: 19,
     name: 'Cooking Class',
     categoryName: 'Lifestyle',
     price: 40,
@@ -385,7 +385,7 @@ export const services: Service[] = [
     image: 'balloons.jpg'
   },
   {
-    id: '20',
+    id: 20,
     name: 'Pottery Workshop',
     categoryName: 'Arts',
     price: 50,
@@ -405,7 +405,7 @@ export const services: Service[] = [
     image: 'balloons.jpg'
   },
   {
-    id: '21',
+    id: 21,
     name: 'Wine and Paint Night',
     categoryName: 'Lifestyle',
     price: 35,
@@ -425,7 +425,7 @@ export const services: Service[] = [
     image: 'balloons.jpg'
   },
   {
-    id: '22',
+    id: 22,
     name: 'Cycling Tour',
     categoryName: 'Adventure',
     price: 100,
@@ -474,7 +474,7 @@ export class ServiceService implements OnInit {
     return this.services.length;
   }
 
-  update(id: string, service: Service): void {
+  update(id: number, service: Service): void {
     const oldService: Service = this.get(id);
     oldService.visible = service.visible;
     oldService.name = service.name;
@@ -497,11 +497,11 @@ export class ServiceService implements OnInit {
     this.services.push(service);
   }
 
-  get(id: string): Service {
-    return this.services.find(service => service.id == id);
+  get(id: number): Service {
+    return this.services.find(service => service.id === id);
   }
 
-  delete(id: string) {
+  delete(id: number): void {
     this.services = this.services.filter(service => service.id !== id);
   }
 

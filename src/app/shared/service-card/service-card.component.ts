@@ -10,7 +10,7 @@ export class ServiceCardComponent {
   @Input() service: Service;
   @Input() showActions: boolean;
 
-  @Output() delete: EventEmitter<string> = new EventEmitter();
+  @Output() delete: EventEmitter<number> = new EventEmitter();
 
   onDelete(): void {
     this.delete.emit(this.service.id);

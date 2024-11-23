@@ -20,33 +20,9 @@ h2 {
 
 .form-group {
   margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #3d4a30;
-}
-
-select,
-input[type="number"] {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.2);
-  margin-left: 0.5rem;
-}
-
-.price-range {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
 .apply-button {
   width: 100%;
@@ -63,3 +39,4 @@ input[type="checkbox"] {
 .apply-button:hover {
   background: #2c3a20;
 }
+

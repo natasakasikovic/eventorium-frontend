@@ -1,0 +1,23 @@
+<div class="cards-screen">
+  <mat-toolbar class="toolbar">
+    <h1 class="title">Categories</h1>
+    <div class="filters">
+      <app-search-bar></app-search-bar>
+      <button mat-icon-button class="filter-button" aria-label="Filter">
+        <mat-icon>tune</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="category-cards">
+    <div class="cards">
+      <app-category-card
+        *ngFor="let category of categories" [category]="category"
+        (edit)="openEdit($event)"
+        (delete)="deleteCategory($event)"></app-category-card>
+    </div>
+    <button mat-icon-button class="create-card" [routerLink]="['/create-category']">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+  </div>
+</div>
+<app-edit-category *ngIf="showEdit" [category]="selectedCategory" (close)="closeEdit()"></app-edit-category>

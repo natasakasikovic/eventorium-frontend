@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {Service} from '../model/service.model';
 import {MatPaginator} from '@angular/material/paginator';
@@ -17,18 +17,11 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+
   constructor(
     private serviceService: ServiceService,
     private changeDetector: ChangeDetectorRef
   ) {
-  }
-
-  closeFilter(): void {
-    this.showFilter = false;
-  }
-
-  openFilter(): void {
-    this.showFilter = true;
   }
 
   ngAfterViewInit(): void {
@@ -48,8 +41,8 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
     this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
   }
 
-  deleteService($event: string) {
-    this.serviceService.delete($event);
+  deleteService(id: number) {
+    this.serviceService.delete(id);
     this.onPageChanged();
   }
 
@@ -62,5 +55,13 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
   onSearch(keyword: string): void {
     this.services = this.serviceService.searchServices(keyword);
     this.changeDetector.detectChanges();
+  }
+
+  openFilter(): void {
+    this.showFilter = true;
+  }
+
+  closeFilter(): void {
+    this.showFilter = false;
   }
 }

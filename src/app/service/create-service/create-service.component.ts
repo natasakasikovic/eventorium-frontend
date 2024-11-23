@@ -71,7 +71,7 @@ export class CreateServiceComponent implements OnInit {
         description: this.createServiceForm.value.description,
         discount: this.createServiceForm.value.discount,
         eventTypes: this.createServiceForm.value.eventTypes,
-        id: Math.random().toString(),
+        id: Math.random(),
         maxDuration: this.createServiceForm.value.maxDuration,
         minDuration: this.createServiceForm.value.minDuration,
         name: this.createServiceForm.value.name,
