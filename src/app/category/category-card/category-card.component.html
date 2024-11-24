@@ -8,13 +8,26 @@
     <p>{{ category.description }}</p>
   </mat-card-content>
 
-  <mat-card-actions>
+  <mat-card-actions *ngIf="!proposalCard">
     <div class="action-buttons">
       <button mat-icon-button class="action-button" (click)="onDelete()">
         <mat-icon>delete</mat-icon>
       </button>
       <button mat-icon-button class="action-button" (click)="onEdit()">
         <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="proposalCard">
+    <div class="action-buttons">
+      <button mat-icon-button class="action-button">
+        <mat-icon>check_circle</mat-icon>
+      </button>
+      <button mat-icon-button class="action-button">
+        <mat-icon>update</mat-icon>
+      </button>
+      <button mat-icon-button class="action-button">
+        <mat-icon>cancel</mat-icon>
       </button>
     </div>
   </mat-card-actions>

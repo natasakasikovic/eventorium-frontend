@@ -7,6 +7,8 @@ import { CreateCategoryComponent } from './create-category/create-category.compo
 import { EditCategoryComponent } from './edit-category/edit-category.component';
 import { CategoryCardComponent } from './category-card/category-card.component';
 import {RouterLink} from "@angular/router";
+import { CategoryProposalsComponent } from './category-proposals/category-proposals.component';
+import { UpdateCategoryProposalComponent } from './update-category-proposal/update-category-proposal.component';
 
 
 
@@ -15,7 +17,9 @@ import {RouterLink} from "@angular/router";
     CategoriesOverviewComponent,
     CreateCategoryComponent,
     EditCategoryComponent,
-    CategoryCardComponent
+    CategoryCardComponent,
+    CategoryProposalsComponent,
+    UpdateCategoryProposalComponent
   ],
     imports: [
         CommonModule,
