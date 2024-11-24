@@ -22,7 +22,6 @@ export class EditCategoryComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    console.log(this.category);
     this.editCategoryForm.get('name').setValue(this.category.name);
     this.editCategoryForm.get('description').setValue(this.category.description);
   }

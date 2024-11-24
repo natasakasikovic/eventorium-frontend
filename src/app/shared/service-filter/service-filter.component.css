@@ -47,19 +47,3 @@ input[type="checkbox"] {
   align-items: center;
   gap: 0.5rem;
 }
-
-.apply-button {
-  width: 100%;
-  padding: 0.75rem;
-  background: #3d4a30;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
-}
-
-.apply-button:hover {
-  background: #2c3a20;
-}

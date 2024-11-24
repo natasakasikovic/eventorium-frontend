@@ -85,4 +85,8 @@ export class CategoryService {
   delete(id: number): void {
     this.categories = this.categories.filter(category => category.id !== id);
   }
+
+  getAllProposals(): Category[] {
+    return this.categories;
+  }
 }
