@@ -18,7 +18,7 @@ export class CategoriesOverviewComponent implements OnInit {
   ) {
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.categories = this.categoryService.getAll();
   }
 

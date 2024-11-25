@@ -14,6 +14,7 @@ import { ServicesOverviewComponent } from './service/services-overview/services-
 import {CategoriesOverviewComponent} from './category/categories-overview/categories-overview.component';
 import {EditCategoryComponent} from './category/edit-category/edit-category.component';
 import {CreateCategoryComponent} from './category/create-category/create-category.component';
+import {CategoryProposalsComponent} from './category/category-proposals/category-proposals.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'signup', component: UserRegisterComponent},
   { path: 'events-overview', component: EventsOverviewComponent},
   { path: 'categories-overview', component: CategoriesOverviewComponent },
+  { path: 'category-proposals', component: CategoryProposalsComponent },
   { path: 'edit-category/:id', component: EditCategoryComponent },
   { path: 'create-category', component: CreateCategoryComponent },
   { path: 'products-overview', component: ProductsOverviewComponent},

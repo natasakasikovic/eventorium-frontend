@@ -50,3 +50,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   z-index: 1000;
   pointer-events: all;
 }
+
+.apply-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #3d4a30;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.apply-button:hover {
+  background: #2c3a20;
+}
+
+.modal-container {
+  background: #f5f5f0;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Arial", sans-serif;
+}
