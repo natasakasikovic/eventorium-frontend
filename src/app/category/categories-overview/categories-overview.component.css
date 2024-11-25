@@ -56,6 +56,14 @@
   width: 100%;
 }
 
+.create-card mat-icon {
+  position: fixed;
+  transform: scale(2);
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+}
+
 .cards-screen .category-cards .cards {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

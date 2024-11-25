@@ -1,1 +1,16 @@
-<p>create-category works!</p>
+<div class="screen mat-elevation-z2">
+  <h2>Create category</h2>
+  <form [formGroup]="createCategoryForm" class="category-details">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" name="name" formControlName="name"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput name="description" formControlName="description"></textarea>
+    </mat-form-field>
+    <button mat-fab color="primary" class="submit-button" (click)="onCreate()" [disabled]="createCategoryForm.invalid">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </form>
+</div>

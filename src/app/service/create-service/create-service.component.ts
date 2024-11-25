@@ -19,7 +19,7 @@ export function dateNotInPast(control: AbstractControl) {
   templateUrl: './create-service.component.html',
   styleUrls: ['./create-service.component.css']
 })
-export class CreateServiceComponent implements OnInit {
+export class CreateServiceComponent {
   categories: string[] =
     [
       "Wellness",
@@ -56,10 +56,6 @@ export class CreateServiceComponent implements OnInit {
     private serviceService: ServiceService,
     private router: Router
   ) {}
-
-  ngOnInit(): void {
-
-  }
 
   onCreate(): void {
     if(this.createServiceForm.valid) {
