@@ -5,11 +5,11 @@
     </button>
     <h2>Edit category</h2>
     <form [formGroup]="editCategoryForm">
-      <mat-form-field class="form-group">
+      <mat-form-field class="form-group" appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput type="text" name="name" formControlName="name"/>
       </mat-form-field>
-      <mat-form-field class="form-group">
+      <mat-form-field appearance="outline" class="form-group">
         <mat-label>Description</mat-label>
         <textarea matInput type="text" name="description" formControlName="description"></textarea>
       </mat-form-field>

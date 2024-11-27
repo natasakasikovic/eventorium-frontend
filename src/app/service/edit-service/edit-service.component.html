@@ -1,24 +1,24 @@
 <div class="screen">
   <form class="service-details" [formGroup]="editServiceForm">
     <h4>General</h4>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput type="text" name="name" formControlName="name"/>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Price</mat-label>
       <mat-icon matSuffix>euro</mat-icon>
       <input matInput type="number" name="price" formControlName="price"/>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Discount</mat-label>
       <input matInput type="number" name="discount" formControlName="discount"/>
     </mat-form-field>
-    <mat-form-field class="textarea">
+    <mat-form-field class="textarea" appearance="outline">
       <mat-label>Description</mat-label>
       <textarea matInput type="text" name="description" formControlName="description"></textarea>
     </mat-form-field>
-    <mat-form-field class="textarea">
+    <mat-form-field class="textarea" appearance="outline">
       <mat-label>Specialties</mat-label>
       <textarea matInput type="text" name="specialties" formControlName="specialties"></textarea>
     </mat-form-field>
@@ -33,13 +33,13 @@
       <mat-radio-button [value]="Confirmation.AUTOMATIC">Automatic</mat-radio-button>
     </mat-radio-group>
     <h4>Deadlines</h4>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Reservation date</mat-label>
       <input matInput [matDatepicker]="reservationDeadlinePicker" formControlName="reservationDeadline" name="reservationDeadline">
       <mat-datepicker-toggle matIconSuffix [for]="reservationDeadlinePicker"></mat-datepicker-toggle>
       <mat-datepicker #reservationDeadlinePicker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Cancellation date</mat-label>
       <input matInput [matDatepicker]="cancellationDeadlinePicker" formControlName="cancellationDeadline" name="cancellationDeadline">
       <mat-datepicker-toggle matIconSuffix [for]="cancellationDeadlinePicker"></mat-datepicker-toggle>
