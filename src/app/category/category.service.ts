@@ -22,20 +22,19 @@ export class CategoryService {
     return this.httpClient.get<Category[]>("http://localhost:8080/api/v1/categories/all");
   }
 
-  get(id: number): Category {
-    return null;
-    // return this.categories.find(category => category.id === id);
+  get(id: number): Observable<Category> {
+    return this.httpClient.get<Category>(`http://localhost:8080/api/v1/categories/${id}`);
   }
 
   update(id: number, category: CategoryRequestDto): Observable<Category> {
     return this.httpClient.put<Category>(`http://localhost:8080/api/v1/categories/${id}`, category);
   }
 
-  delete(id: number): void {
-    // this.categories = this.categories.filter(category => category.id !== id);
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`http://localhost:8080/api/v1/categories/${id}`);
   }
 
-  getAllProposals(): Category[] {
-   return null; // return this.categories;
+  getAllProposals(): Observable<Category[]> {
+    return this.httpClient.get<Category[]>("http://localhost:8080/api/v1/categories/pending/all");
   }
 }

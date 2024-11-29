@@ -36,8 +36,14 @@ export class EditCategoryComponent implements AfterViewInit {
       this.categoryService.update(this.category.id, {
         name: this.editCategoryForm.value.name,
         description: this.editCategoryForm.value.description,
+      }).subscribe({
+        next: () => {
+          this.onClose();
+        },
+        error: (e: Error) => {
+          console.log(e);
+        }
       });
-      this.onClose();
     }
   }
 }
