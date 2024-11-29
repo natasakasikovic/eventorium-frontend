@@ -19,7 +19,15 @@ export class CategoriesOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categories = this.categoryService.getAll();
+    this.getAll();
+  }
+
+  getAll(): void {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories = categories;
+     }
+    });
   }
 
   deleteCategory(id: number): void {
