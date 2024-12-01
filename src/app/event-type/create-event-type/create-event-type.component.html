@@ -1,0 +1,44 @@
+<div class="screen">
+  <div>
+    <h2>Enter information about new event type</h2>
+    <div class="container">
+      <div class="left-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" id="eventName"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput id="eventDescription"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="right-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Proposed categories of services and products</mat-label>
+          <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory">
+            <mat-option *ngFor="let category of availableCategories" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="selected-categories">
+          <ul>
+            <li *ngFor="let category of selectedCategories; let i = index" class="category-item">
+              {{ category }}
+              <button (click)="removeCategory(i)" class="remove-button">
+                <mat-icon>close</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <button mat-raised-button color="primary" class="standard-button" (click)="saveEvent()">Save</button>
+    </div>
+  </div>
+</div>
