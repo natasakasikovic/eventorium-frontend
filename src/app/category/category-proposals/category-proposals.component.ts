@@ -19,7 +19,15 @@ export class CategoryProposalsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryProposals = this.categoryService.getAllProposals();
+    this.getAll();
+  }
+
+  getAll(): void {
+    this.categoryService.getAllProposals().subscribe({
+      next: (categories: Category[]) => {
+        this.categoryProposals = categories;
+      }
+    });
   }
 
   acceptCategory(id: number): void {
@@ -31,7 +39,11 @@ export class CategoryProposalsComponent implements OnInit {
   }
 
   openUpdateCategory(id: number): void {
-    this.selectedCategory = this.categoryService.get(id);
-    this.showUpdate = true;
+    this.categoryService.get(id).subscribe({
+      next: (category: Category) => {
+        this.selectedCategory = category;
+        this.showUpdate = true;
+      }
+    });
   }
 }

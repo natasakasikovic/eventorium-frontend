@@ -13,27 +13,47 @@ export class CategoriesOverviewComponent implements OnInit {
   selectedCategory: Category;
 
   constructor(
-    private categoryService: CategoryService,
-    private changeDetector: ChangeDetectorRef
+    private categoryService: CategoryService
   ) {
   }
 
   ngOnInit(): void {
-    this.categories = this.categoryService.getAll();
+    this.getAll();
+  }
+
+  getAll(): void {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories = categories;
+     }
+    });
   }
 
   deleteCategory(id: number): void {
-    this.categoryService.delete(id);
-    this.categories = this.categories.filter(category => category.id !== id);
-    this.changeDetector.detectChanges();
+    this.categoryService.delete(id).subscribe({
+      next: () => {
+        this.getAll();
+      },
+      error: (e: Error) => {
+        console.log(e);
+      }
+    });
   }
 
   openEdit(id: number): void {
-    this.selectedCategory = this.categoryService.get(id);
-    this.showEdit = true;
+    this.categoryService.get(id).subscribe({
+      next: (category: Category) => {
+        this.selectedCategory = category;
+        this.showEdit = true;
+      },
+      error: (_) => {
+        console.log("Category not found!");
+      }
+    });
   }
 
   closeEdit(): void {
     this.showEdit = false;
+    this.getAll();
   }
 }

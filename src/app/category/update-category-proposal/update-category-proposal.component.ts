@@ -31,7 +31,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.categories = this.categoryService.getAll();
+    // this.categories = this.categoryService.getAll();
   }
 
   onClose(): void {
