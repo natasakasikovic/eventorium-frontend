@@ -1,8 +1,6 @@
 import {Status} from './status.enum';
 
-export interface Category {
-  id: number;
+export interface CategoryRequestDto {
   name: string;
   description: string;
-  status: Status;
 }

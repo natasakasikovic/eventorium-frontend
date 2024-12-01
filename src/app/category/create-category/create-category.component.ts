@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
 import {Router} from '@angular/router';
+import {Category} from '../model/category.model';
+import {Status} from '../model/status.enum';
 
 @Component({
   selector: 'app-create-category',
@@ -21,8 +23,18 @@ export class CreateCategoryComponent {
 
 
   onCreate(): void {
-    // TODO...
-    this.router.navigate(['categories-overview']).then();
+    this.categoryService.create({
+      name: this.createCategoryForm.value.name,
+      description: this.createCategoryForm.value.description,
+    }).subscribe({
+      next: (category: Category) => {
+        console.log(category)
+        void this.router.navigate(['categories-overview']);
+      },
+      error: (e: Error) => {
+        console.log(e);
+      }
+    });
   }
 
 }
