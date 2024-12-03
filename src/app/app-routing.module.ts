@@ -15,6 +15,7 @@ import {CategoriesOverviewComponent} from './category/categories-overview/catego
 import {EditCategoryComponent} from './category/edit-category/edit-category.component';
 import {CreateCategoryComponent} from './category/create-category/create-category.component';
 import {CategoryProposalsComponent} from './category/category-proposals/category-proposals.component';
+import { CreateEventTypeComponent } from './event-type/create-event-type/create-event-type.component'
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'company-register', component: CompanyRegisterComponent},
+  { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];

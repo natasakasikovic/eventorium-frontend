@@ -12,6 +12,7 @@ import { ProductModule } from './product/product.module';
 import { EventModule } from './event/event.module';
 import { ServiceModule } from './service/service.module';
 import {CategoryModule} from './category/category.module';
+import { EventTypeModule } from './event-type/event-type.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {CategoryModule} from './category/category.module';
     ProductModule,
     EventModule,
     ServiceModule,
-    CategoryModule
+    CategoryModule,
+    EventTypeModule
   ],
   providers: [
     provideAnimationsAsync(),
