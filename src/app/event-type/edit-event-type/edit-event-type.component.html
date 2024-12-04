@@ -1,6 +1,6 @@
 <div class="screen">
     <div>
-      <h2>{{ eventType.name }}</h2>
+      <h2>{{ eventType?.name }}</h2>
       <div class="container" >
         <div class="left-section" [formGroup]="editEventTypeForm">
           <mat-form-field appearance="outline" class="full-width">
@@ -10,9 +10,9 @@
               Description is required
             </mat-error>
           </mat-form-field>
-          
+
         </div>
-  
+
         <div class="right-section">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Proposed categories of services and products</mat-label>
@@ -22,29 +22,28 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-  
+
           <div class="selected-categories">
             <ul>
               <li *ngFor="let category of selectedCategories; let i = index" class="category-item">
-                {{ category.name }}
+                {{ category?.name }}
                 <button (click)="removeCategory(i)" class="remove-button">
                   <mat-icon>close</mat-icon>
                 </button>
               </li>
             </ul>
           </div>
-          <div *ngIf="selectedCategories.length === 0" class="error-message">
+          <div *ngIf="selectedCategories?.length === 0" class="error-message">
             At least one category must be selected
-          </div>        
+          </div>
         </div>
       </div>
-  
+
       <div class="submit-section">
-        <button mat-raised-button color="primary" class="standard-button" (click)="saveEventType()" 
+        <button mat-raised-button color="primary" class="standard-button" (click)="saveEventType()"
           [disabled]="editEventTypeForm.invalid || selectedCategories.length === 0">
           Save
         </button>
       </div>
     </div>
   </div>
-  
