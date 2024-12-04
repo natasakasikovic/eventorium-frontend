@@ -15,4 +15,12 @@ export class EventTypeService {
   create(eventType: EventTypeRequestDto): Observable<EventType> {
     return this.httpClient.post<EventType>(`${environment.apiHost}/event-types`, eventType);
   }
+  
+  get(id: number): Observable<EventType> {
+    return this.httpClient.get<EventType>(`${environment.apiHost}/event-types/${id}`);
+  }
+
+  update(id: number, eventType: EventTypeRequestDto) : Observable<EventType> {
+    return this.httpClient.put<EventType>(`${environment.apiHost}/event-types/${id}`, eventType)
+  }
 }
