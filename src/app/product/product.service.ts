@@ -1,5 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Product } from './model/product.model';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../env/environment';
 
 const products: Product[] = [
   { id: 1, name: "Helium Balloons", price: 9.99, image: "balloons.jpg" },
@@ -32,14 +35,14 @@ const products: Product[] = [
 export class ProductService {
   private products: Product[] = []
 
-  constructor() {
-    for(let product of products) {
+  constructor(private httpClient: HttpClient) {
+    for(let product of products) {   // TODO: delete this and products starting from line 7 to 30
       this.products.push(product);
     }
   }
 
-  getTopProducts(): Product[] {
-    return this.products.slice(0, 5);
+  getTopProducts(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(environment.apiHost + "/products/top-five-products")
   }
 
   totalCountProducts(): number {
