@@ -13,14 +13,18 @@ export class TopFiveProductsComponent implements OnInit {
   
   products: Product[];
 
-  constructor(private productService: ProductService,  private router: Router) {}
+  constructor(private service: ProductService,  private router: Router) {}
 
   ngOnInit(): void {
     this.loadTopProducts();
   }
 
   loadTopProducts(): void {
-    this.products = this.productService.getTopProducts();
+    this.service.getTopProducts().subscribe({
+      next: (topProducts : Product[]) => {
+        this.products = topProducts;
+      }
+    })
   }
 
   navigateToProductsOverview() {
