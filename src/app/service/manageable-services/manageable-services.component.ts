@@ -11,7 +11,7 @@ import {ServiceFilter} from '../model/filter-service-options.model';
   templateUrl: './manageable-services.component.html',
   styleUrl: './manageable-services.component.css'
 })
-export class ManageableServicesComponent implements OnInit, AfterViewInit {
+export class ManageableServicesComponent implements OnInit {
   showFilter: boolean;
   services: Service[];
 
@@ -24,21 +24,16 @@ export class ManageableServicesComponent implements OnInit, AfterViewInit {
   ) {
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
-    }, 0);
-  }
-
   ngOnInit(): void {
   }
 
-  getTotalServiceCount(): number {
-    return this.serviceService.totalCountServices();
+  getTotalServiceCount(): number { // NOTE: I commented this since I deleted this method, it is redudant when you connect to backend
+    // return this.serviceService.totalCountServices();
+    return 0;
   }
 
   onPageChanged(): void {
-    this.services = this.serviceService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
+    this.services = [];
   }
 
   deleteService(id: number) {
