@@ -17,8 +17,8 @@ export class ProductService {
     let params = new HttpParams(); 
     if (pageProperties){
       params = params
-      .set('page', pageProperties.page)
-      .set('size', pageProperties.size)
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
     }
     return this.httpClient.get<PagedResponse<Product>>(environment.apiHost + "/products", { params: params });
   }

@@ -13,7 +13,7 @@ import { PagedResponse } from '../../shared/model/paged-response.model';
 export class ProductsOverviewComponent implements OnInit {
 
   pageProperties = {
-    page: 0,
+    pageIndex: 0,
     pageSize: 15,
     totalCount: 0
   }
@@ -40,7 +40,7 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   onPageChanged(pageEvent : PageEvent): void {
-    this.pageProperties.page = pageEvent.pageIndex;
+    this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
     this.getPagedProducts();
   }
