@@ -14,8 +14,10 @@
           <app-event-card [event]="event" ></app-event-card>
         </div>
       </div>
-      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalEventCount()" (page)="onPageChanged()"></mat-paginator>
-    </div>
+      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex" 
+      [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
+      </mat-paginator>
+      </div>
   </div>
   <!-- <app-event-filter *ngIf="showFilter"></app-event-filter> -->
   <!-- TODO: implement event filter pop up -->
