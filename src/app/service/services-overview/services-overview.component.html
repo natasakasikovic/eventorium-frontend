@@ -12,7 +12,9 @@
       <div class="cards">
           <app-service-card *ngFor="let service of services" [service]="service" ></app-service-card>
       </div>
-      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
+      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex" 
+      [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
+      </mat-paginator>
     </div>
   </div>
   <app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()" (applyFilter)="onApplyFilter($event)"></app-service-filter>
