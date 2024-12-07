@@ -48,7 +48,6 @@ export class ServiceService {
   }
 
   create(service: CreateServiceRequestDto): Observable<Service> {
-    console.log("Kreiram...");
     return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 
@@ -75,6 +74,20 @@ export class ServiceService {
 
   searchServices(keyword: string): Service[] {
     return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
+  }
+
+  uploadFiles(serviceId: number, files: File[]): Observable<string> {
+    const formData: FormData = new FormData();
+
+    files.forEach(file => {
+      formData.append('images', file, file.name);
+    });
+
+    return this.httpClient.post<string>(
+      `${environment.apiHost}/services/${serviceId}/images`,
+      formData,
+      { responseType: 'text' as 'json' }
+    );
   }
 
 }

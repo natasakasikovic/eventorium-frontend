@@ -9,6 +9,8 @@ import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
 import {CategoryRequestDto} from '../../category/model/category-request-dto.model';
 import {CreateServiceRequestDto} from '../model/create-service-dto.model';
+import {catchError, switchMap} from 'rxjs';
+import {Service} from '../model/service.model';
 
 export function dateNotInPast(control: AbstractControl) {
   const selectedDate = new Date(control.value);
@@ -46,6 +48,9 @@ export class CreateServiceComponent implements OnInit {
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
   });
+
+  images: File[] = []
+  imagePreviews: string[] = []
 
   constructor(
     private serviceService: ServiceService,
@@ -94,14 +99,34 @@ export class CreateServiceComponent implements OnInit {
         specialties: formValue.specialties,
         type: formValue.reservationType
       }
-      this.serviceService.create(newService).subscribe({
-        next: (_) => {
+      this.serviceService.create(newService).pipe(
+        switchMap((service: Service) => {
+          console.log(service);
+          const serviceId = service.id;
+          return this.serviceService.uploadFiles(serviceId, this.images);
+        })
+      ).subscribe({
+        next: (str: string) => {
+          console.log(str);
           void this.router.navigate(["manageable-services"]);
         },
-        error: (_) => {
-          console.error("Could not create category");
+        error: (error: Error) => {
+          console.error(`Could not create category: ${error.message}`);
         }
       });
+    }
+  }
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const images = Array.from(input.files);
+      const validImages = images.filter(image => image.type.startsWith('image/'));
+      if (validImages.length > 0) {
+        this.images = validImages;
+        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
+      }
     }
   }
 

@@ -39,39 +39,23 @@
     <div class="divider">
       <div class="photos">
         <h4>Photos</h4>
-        <mat-grid-list cols="*" rowHeight="100px" gutterSize="2rem">
-          <mat-grid-tile>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-          </mat-grid-tile>
-        </mat-grid-list>
-
-        <button mat-raised-button class="standard-button">
+        <div class="image-grid">
+          <div *ngFor="let image of imagePreviews" class="image-item">
+            <img [src]="image" alt="Image" class="image-thumbnail" />
+          </div>
+        </div>
+        <button mat-raised-button class="standard-button" (click)="fileInput.click()">
           <mat-icon>upload</mat-icon>
           Upload photos
         </button>
+        <input
+          #fileInput
+          type="file"
+          multiple
+          accept="image/*"
+          (change)="onFilesSelected($event)"
+          style="display: none"
+        />
       </div>
       <div>
         <h4>Visibility and availability</h4>
