@@ -25,11 +25,11 @@ export class ServiceService {
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/services", { params: params });
   }
 
-  // TODO: connect to backend methods below
-
-  getTopServices(): Service[] {
-    return this.services.slice(0, 5);
+  getTopServices(): Observable<Service[]> {
+    return this.httpClient.get<Service[]>(environment.apiHost + "/services/top-five-services");
   }
+
+  // TODO: connect to backend methods below
 
   update(id: number, service: Service): void {
     const oldService: Service = this.get(id);
