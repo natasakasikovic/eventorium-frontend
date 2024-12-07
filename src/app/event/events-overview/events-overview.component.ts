@@ -1,14 +1,21 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { EventService } from '../event.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Event } from '../model/event.model';
+import { PagedResponse } from '../../shared/model/paged-response.model';
 
 @Component({
   selector: 'app-events-overview',
   templateUrl: './events-overview.component.html',
   styleUrl: './events-overview.component.css'
 })
-export class EventsOverviewComponent implements OnInit, AfterViewInit {
+export class EventsOverviewComponent implements OnInit {
+
+  pageProperties = {
+    pageIndex: 0,
+    pageSize: 15,
+    totalCount: 0
+  }
 
   showFilter: boolean; // TODO: implement event filter pop up
   events: Event[];
@@ -17,10 +24,29 @@ export class EventsOverviewComponent implements OnInit, AfterViewInit {
 
 
   constructor(
-    private eventService: EventService,
+    private service: EventService,
     private changeDetector: ChangeDetectorRef ) { }
 
-  ngOnInit(): void { }
+ 
+  ngOnInit(): void {
+    this.getPagedEvents();
+  }
+  
+  private getPagedEvents() {
+    this.service.getAll(this.pageProperties)
+    .subscribe({
+      next: (response: PagedResponse<Event>) => {
+        this.events = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      } 
+    })  
+  }
+
+  onPageChanged(pageEvent : PageEvent): void {
+    this.pageProperties.pageIndex = pageEvent.pageIndex;
+    this.pageProperties.pageSize = pageEvent.pageSize;
+    this.getPagedEvents();
+  }
 
   closeFilter(): void {
     this.showFilter = false;
@@ -30,21 +56,8 @@ export class EventsOverviewComponent implements OnInit, AfterViewInit {
     this.showFilter = true;
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.events = this.eventService.getPage(this.paginator.pageSize, this.paginator.pageIndex); }, 0);
-  }
-
-  getTotalEventCount(): number {
-    return this.eventService.totalCountEvents();
-  }
-
-  onPageChanged(): void {
-    this.events = this.eventService.getPage(this.paginator.pageSize, this.paginator.pageIndex);
-  }
-
   onSearch(keyword: string): void {
-    this.events = this.eventService.searchEvents(keyword);
+    this.events = this.service.searchEvents(keyword);
     this.changeDetector.detectChanges();
   }
 }
