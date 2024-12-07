@@ -17,12 +17,16 @@
     <mat-form-field appearance="outline">
       <mat-label>Category</mat-label>
       <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>Suggest category</mat-label>
-      <input matInput name="suggestedCategory" formControlName="suggestedCategory"/>
+      <mat-label>Suggest category name</mat-label>
+      <input matInput name="suggestedCategoryName" formControlName="suggestedCategoryName"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Suggest category description</mat-label>
+      <textarea matInput name="suggestedCategoryDescription" formControlName="suggestedCategoryDescription"></textarea>
     </mat-form-field>
     <mat-form-field class="textarea" appearance="outline">
       <mat-label>Description</mat-label>
@@ -76,9 +80,9 @@
           <mat-checkbox name="available" formControlName="available">Available</mat-checkbox>
         </section>
         <h4>Confirmation</h4>
-        <mat-radio-group aria-label="Confirmation" formControlName="confirmation">
-          <mat-radio-button [value]="Confirmation.MANUAL">Manual</mat-radio-button>
-          <mat-radio-button [value]="Confirmation.AUTOMATIC">Automatic</mat-radio-button>
+        <mat-radio-group aria-label="Confirmation" formControlName="reservationType">
+          <mat-radio-button [value]="ReservationType.MANUAL">Manual</mat-radio-button>
+          <mat-radio-button [value]="ReservationType.AUTOMATIC">Automatic</mat-radio-button>
         </mat-radio-group>
         <h4>Deadlines</h4>
         <mat-form-field appearance="outline">
@@ -106,14 +110,14 @@
         <div style="margin-right: 2rem">
           <mat-selection-list formControlName="eventTypes" [multiple]="true" >
             <mat-list-option *ngFor="let type of eventTypes" [value]="type">
-              {{ type }}
+              {{ type.name }}
             </mat-list-option>
           </mat-selection-list>
         </div>
       </div>
     </div>
   </form>
-  <div class="button-create" (click)="onCreate()">
-    <button mat-raised-button>Create</button>
+  <div class="button-create">
+    <button mat-raised-button (click)="onCreate()" [disabled]="this.createServiceForm.invalid">Create</button>
   </div>
 </div>

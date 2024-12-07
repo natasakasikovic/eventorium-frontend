@@ -5,18 +5,19 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
+import {CreateServiceRequestDto} from './model/create-service-dto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceService {
-  
+
   private services: Service[] = []
 
   constructor(private httpClient: HttpClient) { }
 
   getAll(pageProperties? : any): Observable<PagedResponse<Service>> {
-    let params = new HttpParams(); 
+    let params = new HttpParams();
     if (pageProperties){
       params = params
       .set('page', pageProperties.pageIndex)
@@ -46,8 +47,9 @@ export class ServiceService {
     oldService.discount = service.discount;
   }
 
-  create(service: Service): void {
-    this.services.push(service);
+  create(service: CreateServiceRequestDto): Observable<Service> {
+    console.log("Kreiram...");
+    return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 
   get(id: number): Service {

@@ -12,10 +12,14 @@ export class EventTypeService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getAll(): Observable<EventType[]> {
+    return this.httpClient.get<EventType[]>(`${environment.apiHost}/event-types/all`);
+  }
+
   create(eventType: EventTypeRequestDto): Observable<EventType> {
     return this.httpClient.post<EventType>(`${environment.apiHost}/event-types`, eventType);
   }
-  
+
   get(id: number): Observable<EventType> {
     return this.httpClient.get<EventType>(`${environment.apiHost}/event-types/${id}`);
   }

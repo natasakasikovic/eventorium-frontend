@@ -1,4 +1,4 @@
-import {Confirmation} from './confirmation.enum';
+import {ReservationType} from './reservation-type.enum';
 
 export interface Service {
   id: number;
@@ -17,6 +17,6 @@ export interface Service {
   discount: number;
   visible: boolean;
   available: boolean;
-  confirmation: Confirmation
+  confirmation: ReservationType
   image: string;
 }
