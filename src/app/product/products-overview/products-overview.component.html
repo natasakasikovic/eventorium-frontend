@@ -14,7 +14,9 @@
           <app-product-card [product]="product" ></app-product-card>
         </div>
       </div>
-      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalProductCount()" (page)="onPageChanged()"></mat-paginator>
+      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex" 
+      [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
+      </mat-paginator>
     </div>
   </div>
   <!-- <app-product-filter *ngIf="showFilter"></app-product-filter> -->
