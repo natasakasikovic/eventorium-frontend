@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
 import { AuthService } from '../../auth/auth.service';
 import { UserRole } from '../../auth/model/user-role.enum';
-import { User } from '../../auth/model/user.model';
 
 @Component({
   selector: 'app-drawer',
@@ -19,16 +18,16 @@ export class DrawerComponent {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
-      this.menuItems = this.getMenuItemsForUser(user);
+       this.menuItems = this.getMenuItemsForUser(user);
     });
   }
 
-  private getMenuItemsForUser(user: User | null): MenuItem[] {
+  private getMenuItemsForUser(userRole: UserRole|null): MenuItem[] {
     let items: MenuItem[] = [
       { label: 'Home', icon: 'home', route: '/home' }
     ];
 
-    if (user) {
+    if (userRole) {
       // NOTE: If you add an option for authenticated user, add it here
       items.push(
         { label: 'Profile', icon: 'person', route: '/profile' },
@@ -36,12 +35,12 @@ export class DrawerComponent {
         { label: 'Favourites', icon: 'favorite', route: '/favourites' }
       );
 
-      if (user.role === UserRole.SPP) {
+      if (userRole === UserRole.PROVIDER) {
         // NOTE: If you add an option for a provider, add it here
         items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
       }
       
-      if (user.role == UserRole.EO) {
+      if (userRole === UserRole.EVENT_ORGANIZER) {
         // NOTE: If you add an option for an event organizer, add it here
         // for example:
         // items.push({ label: 'Events', icon: 'event', route: '/events' });
