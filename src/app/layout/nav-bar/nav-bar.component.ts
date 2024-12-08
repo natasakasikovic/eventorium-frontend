@@ -4,6 +4,7 @@ import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { UserRole } from '../../auth/model/user-role.enum';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,8 +14,16 @@ import { AuthService } from '../../auth/auth.service';
 export class NavBarComponent {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false; 
+  role: UserRole = null;
+  
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
+  }
 
-  constructor(private dialog: MatDialog, private router: Router, private authService: AuthService) {}
+  ngOnInit(): void {
+    this.authService.userState.subscribe((result) => {
+      this.role = result;
+    })
+  }
 
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
@@ -25,15 +34,14 @@ export class NavBarComponent {
     });
 
     dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      this.isLoggedIn = status;
       if (status) {
         dialogRef.close();
       }
     });
   }
 
-  logout(): void {
-    this.isLoggedIn = false;
+  logOut(): void {
     this.authService.logout();
+    this.router.navigate(['home']);
   }
 }
