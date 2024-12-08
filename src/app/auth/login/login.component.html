@@ -5,21 +5,17 @@
     </button>
   </div>
   <img src="/logo.png"/>
-  <form class="popup-form">
+  <form class="popup-form" [formGroup]='loginForm' (ngSubmit)="login()">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="user.email" name="email" />
+      <input matInput name="email" formControlName="email" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="user.password" type="password" name="password" />
+      <input matInput type="password" name="password" formControlName="password" />
     </mat-form-field>
-
-    <div *ngIf="loginMessage" class="error-message-container">
-      <mat-error>{{ loginMessage }}</mat-error>
-    </div>
     
-    <button mat-raised-button color="primary" class="standard-button" (click)="login()">Sign In</button>
+    <button mat-raised-button color="primary" class="standard-button">Sign In</button>
   </form>
   <div class="popup-footer">
     <div>Don't have an account? <button mat-raised-button color="primary" class="small-button" (click)="navigateToSignup()">Sign up</button></div>

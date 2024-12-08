@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -34,8 +34,6 @@ export class NavBarComponent {
 
   logout(): void {
     this.isLoggedIn = false;
-    sessionStorage.removeItem('currentUser');
-    this.router.navigate([''])
     this.authService.logout();
   }
 }
