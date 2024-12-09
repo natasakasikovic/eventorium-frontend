@@ -1,7 +1,7 @@
 export enum UserRole {
-    AU = 'Authenticated user',
-    UU = 'Unauthenticated user',
-    Admin = 'Admin',
-    SPP = 'Service and Product Provider',
-    EO = 'Event Organizer',
+    AUTHENTICATED_USER = 'Authenticated user',
+    UNAUTHENTICATED_USER = 'Unauthenticated user',
+    ADMIN = 'Admin',
+    PROVIDER = 'Service and Product Provider',
+    EVENT_ORGANIZER = 'Event Organizer',
 }
