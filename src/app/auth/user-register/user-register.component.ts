@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class UserRegisterComponent {
   user: User | null;
   registrationForm: FormGroup;
-  userRoles = [UserRole.EO, UserRole.SPP];
+  userRoles = [UserRole.EVENT_ORGANIZER, UserRole.PROVIDER];
   selectedFile: File | null = null;
   imageUrl: string | undefined = undefined;
 
@@ -35,7 +35,7 @@ export class UserRegisterComponent {
     if (this.registrationForm.valid) {
       this.user = this.registrationForm.value;
       this.user.activated = false;
-      this.authService.add(this.user);
+      // this.authService.add(this.user);
       this.showActivationDialog();
     }
   }
@@ -57,7 +57,7 @@ export class UserRegisterComponent {
   }
 
   showActivationDialog(): void {
-    if (this.user.role == UserRole.SPP) {
+    if (this.user.role == UserRole.PROVIDER) {
       this.router.navigate(['/company-register']);
       return;
     }

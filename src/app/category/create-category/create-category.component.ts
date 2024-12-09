@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
 import {Router} from '@angular/router';
 import {Category} from '../model/category.model';
-import {Status} from '../model/status.enum';
 
 @Component({
   selector: 'app-create-category',

@@ -2,7 +2,6 @@ import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/co
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
-import {Status} from '../model/status.enum';
 
 @Component({
   selector: 'app-edit-category',

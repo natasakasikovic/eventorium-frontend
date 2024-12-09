@@ -1,8 +1,5 @@
-import {Status} from './status.enum';
-
 export interface Category {
   id: number;
   name: string;
   description: string;
-  status: Status;
 }
