@@ -4,13 +4,15 @@ import { TopFiveEventsComponent } from './top-five-events/top-five-events.compon
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../infrastructure/material/material.module';
 import { EventsOverviewComponent } from './events-overview/events-overview.component';
+import { EventInvitationsComponent } from './event-invitations/event-invitations.component';
 
 
 
 @NgModule({
   declarations: [
     TopFiveEventsComponent,
-    EventsOverviewComponent
+    EventsOverviewComponent,    
+    EventInvitationsComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { EventsOverviewComponent } from './events-overview/events-overview.compo
   ],
   exports: [
     TopFiveEventsComponent,
-    EventsOverviewComponent
+    EventsOverviewComponent,
+    EventInvitationsComponent
   ]
 })
 export class EventModule { }
