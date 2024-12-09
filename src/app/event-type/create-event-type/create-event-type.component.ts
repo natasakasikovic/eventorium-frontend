@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Category } from '../../category/model/category.model';
 import { CategoryService } from '../../category/category.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-event-type.component.html',
   styleUrls: ['./create-event-type.component.css']
 })
-export class CreateEventTypeComponent {
+export class CreateEventTypeComponent implements OnInit {
   selectedCategories: Category[] = [];
   currentlySelectedCategory: Category | null = null;
   availableCategories: Category[];
@@ -22,12 +22,15 @@ export class CreateEventTypeComponent {
     description: new FormControl('', Validators.required)
   });
 
-  constructor(private eventTypeService: EventTypeService, private categoryService: CategoryService, private router: Router) {
+  constructor(
+    private eventTypeService: EventTypeService,
+    private categoryService: CategoryService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
     this.getAll();
-    console.log(this.availableCategories)
   }
 
   getAll(): void {
@@ -44,10 +47,10 @@ export class CreateEventTypeComponent {
       this.selectedCategories.push(category);
     }
   }
-  
+
   removeCategory(index: number) {
     this.selectedCategories.splice(index, 1);
-    this.currentlySelectedCategory = null; 
+    this.currentlySelectedCategory = null;
     console.log(this.selectedCategories);
   }
 
@@ -56,7 +59,7 @@ export class CreateEventTypeComponent {
       console.error('Form is invalid or no categories selected');
       return;
     }
-  
+
     this.eventTypeService.create({
       name: this.createEventTypeForm.value.name,
       description: this.createEventTypeForm.value.description,
@@ -71,6 +74,6 @@ export class CreateEventTypeComponent {
       }
     });
   }
-  
+
 }
 

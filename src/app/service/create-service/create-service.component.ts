@@ -1,8 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Confirmation} from '../model/confirmation.enum';
+import {ReservationType} from '../model/reservation-type.enum';
 import {Router} from '@angular/router';
+import {EventTypeService} from '../../event-type/event-type.service';
+import {CategoryService} from '../../category/category.service';
+import {Category} from '../../category/model/category.model';
+import {EventType} from '../../event-type/model/event-type.model';
+import {CategoryRequestDto} from '../../category/model/category-request-dto.model';
+import {CreateServiceRequestDto} from '../model/create-service-dto.model';
+import {catchError, switchMap} from 'rxjs';
+import {Service} from '../model/service.model';
 
 export function dateNotInPast(control: AbstractControl) {
   const selectedDate = new Date(control.value);
@@ -19,21 +27,9 @@ export function dateNotInPast(control: AbstractControl) {
   templateUrl: './create-service.component.html',
   styleUrls: ['./create-service.component.css']
 })
-export class CreateServiceComponent {
-  categories: string[] =
-    [
-      "Wellness",
-      "Lifestyle",
-      "Entertainment",
-      "Arts",
-      "Creative",
-      "Fitness",
-      "Travel",
-      "Music",
-      "Adventure",
-      "Education"
-    ]
-  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
+export class CreateServiceComponent implements OnInit {
+  categories: Category[] = []
+  eventTypes: EventType[] = [];
   createServiceForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
@@ -41,9 +37,10 @@ export class CreateServiceComponent {
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
     eventTypes: new FormControl('', Validators.minLength(1)),
-    confirmation: new FormControl('', Validators.required),
-    suggestedCategory: new FormControl(),
-    category: new FormControl(),
+    reservationType: new FormControl('', Validators.required),
+    suggestedCategoryName: new FormControl(),
+    suggestedCategoryDescription: new FormControl(),
+    category: new FormControl(''),
     visible: new FormControl(),
     available: new FormControl(),
     reservationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
@@ -52,36 +49,86 @@ export class CreateServiceComponent {
     maxDuration: new FormControl(12),
   });
 
+  images: File[] = []
+  imagePreviews: string[] = []
+
   constructor(
     private serviceService: ServiceService,
+    private eventTypeService: EventTypeService,
+    private categoryService: CategoryService,
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories.push(...categories);
+      },
+      error: (_) => {
+        console.log("Error loading categories");
+      }
+    });
+
+    this.eventTypeService.getAll().subscribe({
+      next: (eventTypes: EventType[]) => {
+        this.eventTypes.push(...eventTypes);
+      },
+      error: (_) => {
+        console.error("Error loading event types");
+      }
+    });
+
+  }
+
   onCreate(): void {
     if(this.createServiceForm.valid) {
-      this.serviceService.create({
-        available: this.createServiceForm.value.available,
-        cancellationDeadline: this.createServiceForm.value.cancellationDeadline,
-        categoryName: this.createServiceForm.value.category,
-        confirmation: this.createServiceForm.value.confirmation,
-        description: this.createServiceForm.value.description,
-        discount: this.createServiceForm.value.discount,
-        eventTypes: this.createServiceForm.value.eventTypes,
-        id: Math.random(),
-        maxDuration: this.createServiceForm.value.maxDuration,
-        minDuration: this.createServiceForm.value.minDuration,
-        name: this.createServiceForm.value.name,
-        price: this.createServiceForm.value.price,
-        provider: "Test",
-        rating: 0,
-        reservationDeadline: this.createServiceForm.value.reservationDeadline,
-        specialties: this.createServiceForm.value.specialties,
-        visible: this.createServiceForm.value.visible,
-        image: ""
+      const formValue = this.createServiceForm.value;
+      const newService: CreateServiceRequestDto = {
+        cancellationDeadline: formValue.cancellationDeadline,
+        category: formValue.category === ''
+          ? { id: null, name: formValue.suggestedCategoryName, description: formValue.suggestedCategoryDescription }
+          : formValue.category,
+        description: formValue.description,
+        discount: formValue.discount,
+        eventTypes: formValue.eventTypes,
+        maxDuration: formValue.maxDuration,
+        minDuration: formValue.minDuration,
+        name: formValue.name,
+        price: formValue.price,
+        reservationDeadline: formValue.reservationDeadline,
+        specialties: formValue.specialties,
+        type: formValue.reservationType
+      }
+      this.serviceService.create(newService).pipe(
+        switchMap((service: Service) => {
+          console.log(service);
+          const serviceId = service.id;
+          return this.serviceService.uploadFiles(serviceId, this.images);
+        })
+      ).subscribe({
+        next: (str: string) => {
+          console.log(str);
+          void this.router.navigate(["manageable-services"]);
+        },
+        error: (error: Error) => {
+          console.error(`Could not create category: ${error.message}`);
+        }
       });
-      this.router.navigate(["manageable-services"]).then();
     }
   }
 
-  protected readonly Confirmation = Confirmation;
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const images = Array.from(input.files);
+      const validImages = images.filter(image => image.type.startsWith('image/'));
+      if (validImages.length > 0) {
+        this.images = validImages;
+        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
+      }
+    }
+  }
+
+  protected readonly ReservationType = ReservationType;
 }
