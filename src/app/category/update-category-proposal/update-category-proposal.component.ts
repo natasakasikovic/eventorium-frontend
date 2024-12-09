@@ -2,6 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@an
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
+import {CategoryRequestDto} from '../model/category-request-dto.model';
 
 @Component({
   selector: 'app-update-category-proposal',
@@ -31,7 +32,11 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.categories = this.categoryService.getAll();
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories = [...categories];
+      }
+    })
   }
 
   onClose(): void {
@@ -39,7 +44,28 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
   }
 
   onSave(): void {
-    console.log(this.updateProposalForm.value);
+
+    if(this.updateProposalForm.value.category === '') {
+      let category: CategoryRequestDto = {
+        name: this.updateProposalForm.value.name,
+        description: this.updateProposalForm.value.description
+      }
+      this.categoryService.updateCategoryProposal(this.category.id, category).subscribe({
+        next: (category: Category) => {
+          console.log(`Successfully updated category ${category.name}!`);
+        }
+      });
+    } else {
+      this.categoryService.changeCategoryProposal(this.category.id, this.updateProposalForm.value.category).subscribe({
+        next: (category: Category) => {
+          console.log(`Successfully updated category ${category.name}!`);
+        },
+        error: (error: Error) => {
+          console.error(`Failed to update category ${error.message}`);
+        }
+      })
+    }
+
     this.onClose();
   }
 }

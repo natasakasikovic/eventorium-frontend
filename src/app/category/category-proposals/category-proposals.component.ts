@@ -34,7 +34,7 @@ export class CategoryProposalsComponent implements OnInit {
   acceptCategory(id: number): void {
     this.categoryService.updateCategoryStatus(id, Status.ACCEPTED).subscribe({
       next: ((category: Category) => {
-        console.log(`Successfully updated ${category}!`);
+        console.log(`Successfully updated ${category.name}!`);
       }),
       error: (err: Error) => {
         console.error(err);
