@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Category} from '../model/category.model';
 import {CategoryService} from '../category.service';
+import {Status} from '../model/status-enum-ts';
 
 @Component({
   selector: 'app-category-proposals',
@@ -31,11 +32,18 @@ export class CategoryProposalsComponent implements OnInit {
   }
 
   acceptCategory(id: number): void {
-
+    this.categoryService.updateCategoryStatus(id, Status.ACCEPTED).subscribe({
+      next: ((category: Category) => {
+        console.log(`Successfully updated ${category}!`);
+      }),
+      error: (err: Error) => {
+        console.error(err);
+      }
+    });
   }
 
   declineCategory(id: number): void {
-
+    this.categoryService.updateCategoryStatus(id, Status.DECLINED);
   }
 
   openUpdateCategory(id: number): void {

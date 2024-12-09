@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CategoryRequestDto} from './model/category-request-dto.model';
 import {environment} from '../../env/environment';
+import {Status} from './model/status-enum-ts';
 
 @Injectable({
   providedIn: 'root'
@@ -38,4 +39,9 @@ export class CategoryService {
   getAllProposals(): Observable<Category[]> {
     return this.httpClient.get<Category[]>(`${environment.apiHost}/categories/pending/all`);
   }
+
+  updateCategoryStatus(id: number, status: Status): Observable<Category> {
+    return this.httpClient.patch<Category>(`${environment.apiHost}/categories/pending/${id}`, { status:status });
+  }
+
 }
