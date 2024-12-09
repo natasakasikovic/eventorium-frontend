@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Login } from '../model/login.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from '../model/auth-response.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { AuthResponse } from '../model/auth-response.model';
 export class LoginComponent {
 
   @Output() loginStatusChanged = new EventEmitter<boolean>();
+  serverError: string | null = null;
 
   constructor(private dialogRef: MatDialogRef<LoginComponent>, private authService: AuthService, private router: Router) {}
 
@@ -28,18 +30,27 @@ export class LoginComponent {
       const login: Login = {
         email: this.loginForm.value.email || "",
         password: this.loginForm.value.password || ""
-      }
+      };
+  
       this.authService.login(login).subscribe({
         next: (response: AuthResponse) => {
           localStorage.setItem('user', response.jwt);
-          this.authService.setUser()
+          this.authService.setUser();
           this.loginStatusChanged.emit(true);
           this.dialogRef.close();
-          this.router.navigate(['home'])
+          this.router.navigate(['home']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 403) {
+            this.serverError = 'Invalid credentials. Please try again.';
+          } else {
+            this.serverError = 'An error occurred. Please try again later.';
+          }
         }
-      })
+      });
     }
   }
+  
 
   navigateToSignup() {
     this.dialogRef.close();
