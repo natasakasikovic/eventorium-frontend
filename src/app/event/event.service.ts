@@ -13,7 +13,7 @@ import { CreateEventRequestDto } from './model/create-event-request-dto.model';
 export class EventService {
 
   private events: Event[] = []
-  private event: CreateEventRequestDto = null
+  private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
 
@@ -39,8 +39,8 @@ export class EventService {
     this.event = {...event, ...this.event}
   }
 
-  saveEvent(): void {
-    // not implemented
+  createEvent(): Observable<Event> {
+    return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
   }
 }
 
