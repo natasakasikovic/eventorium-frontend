@@ -9,7 +9,7 @@ import {Status} from '../model/status-enum-ts';
   styleUrl: './category-proposals.component.css'
 })
 export class CategoryProposalsComponent implements OnInit {
-  categoryProposals: Category[];
+  categoryProposals: Category[] = [];
   selectedCategory: Category;
   showUpdate: boolean;
 
@@ -21,7 +21,7 @@ export class CategoryProposalsComponent implements OnInit {
   ngOnInit(): void {
     this.categoryService.getAllProposals().subscribe({
       next: (categories: Category[]) => {
-        this.categoryProposals = categories;
+        this.categoryProposals.push(...categories);
       }
     });
   }
