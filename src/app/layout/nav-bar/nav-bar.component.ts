@@ -44,4 +44,12 @@ export class NavBarComponent {
     this.authService.logout();
     this.router.navigate(['home']);
   }
+
+  get isOrganizer(): boolean {
+    return this.role === UserRole.EVENT_ORGANIZER;
+  }
+
+  createEvent(): void {
+    this.router.navigate(['create-event'])
+  }
 }

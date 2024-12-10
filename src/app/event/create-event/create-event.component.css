@@ -1,0 +1,52 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f6f1;
+    font-family: 'jeju';
+  }
+  
+  form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #3e3e3e;
+    font-family: 'jeju';
+  }
+  
+  .mat-form-field {
+    margin-bottom: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .half-width {
+    width: calc(50% - 8px);
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  #submit{
+    color: #35422F;
+    border: 0.1em solid #35422F;
+    border-radius: 50%;
+    height: 5em;
+    width: 5em;
+    cursor: pointer;
+    margin-left: 10em;
+  }

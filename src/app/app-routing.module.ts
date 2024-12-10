@@ -18,7 +18,7 @@ import {CategoryProposalsComponent} from './category/category-proposals/category
 import { CreateEventTypeComponent } from './event-type/create-event-type/create-event-type.component'
 import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-type.component';
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
-
+import { CreateEventComponent } from './event/create-event/create-event.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'event-invitations', component: EventInvitationsComponent}, // TODO: moraces id dodati
   { path: 'company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
+  { path: 'create-event', component: CreateEventComponent},
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'},
