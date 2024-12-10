@@ -1,12 +1,12 @@
 <mat-card class="event-card">
-    <img [src]="event.image" alt="Event image"/>
+    <img [src]="" alt="Event image"/>
   
     <mat-card-header>
       <mat-card-title class="title">{{ event.name }}</mat-card-title>
     </mat-card-header>
   
     <mat-card-content>
-      <p class="location">Location: {{ event.location }}</p>
+      <p class="location">Location: {{ event.city.name }}</p>
     </mat-card-content>
   
     <mat-card-actions>

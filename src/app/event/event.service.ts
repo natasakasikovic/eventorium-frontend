@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
+import { CreateEventRequestDto } from './model/create-event-request-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { PagedResponse } from '../shared/model/paged-response.model';
 export class EventService {
 
   private events: Event[] = []
+  private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,8 +27,6 @@ export class EventService {
     return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events", { params: params });
   }
 
-  // TODO: connect methods below to backend
-
   getTopEvents(): Event[] {
     return this.events.slice(0, 5);
   }
@@ -35,5 +35,12 @@ export class EventService {
     return this.events.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
   }
 
+  updateEvent(event: Partial<CreateEventRequestDto>): void {
+    this.event = {...event, ...this.event}
+  }
+
+  createEvent(): Observable<Event> {
+    return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
+  }
 }
 

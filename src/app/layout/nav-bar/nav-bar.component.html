@@ -8,6 +8,7 @@
   </span>
   <div>
     <button *ngIf="role == null" (click)="openLoginDialog()" style="float: right" mat-raised-button class="standard-button">Login</button>
+    <button *ngIf="isOrganizer" (click)="createEvent()" style="float: right" mat-raised-button class="standard-button">Create event</button>
     <button *ngIf="role != null" (click)="logOut()" style="float: right" mat-raised-button class="standard-button">LogOut</button>
   </div>
 </mat-toolbar>
