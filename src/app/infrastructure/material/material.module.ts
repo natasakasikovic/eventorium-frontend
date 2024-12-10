@@ -27,6 +27,7 @@ import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [],
@@ -66,7 +67,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatExpansionPanelTitle,
     MatSelect,
     MatOption,
-    MatChipsModule
+    MatChipsModule,
+    ScrollingModule
   ],
   exports: [
     MatToolbarModule,
@@ -104,7 +106,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatExpansionPanelTitle,
     MatSelect,
     MatOption,
-    MatChipsModule
+    MatChipsModule,
+    ScrollingModule
   ]
 })
 export class MaterialModule { }

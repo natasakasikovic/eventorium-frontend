@@ -1,0 +1,25 @@
+<div class="main-container">
+  <div class="email-container" [formGroup]="emailForm">
+      <p>Please enter the email addresses of the special people you would like to invite to your event</p>
+      <ol>
+        <li *ngFor="let email of submittedEmails; let i = index">
+          {{ email }}
+          <button (click)="removeEmail(i)" id="remove-button">
+          <mat-icon>delete</mat-icon>
+          </button>
+        </li>
+      </ol>
+      <div id="add-email">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" id="email" formControlName="email"/>
+        </mat-form-field>
+        <button class="add-button" (click)="addEmail()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+  </div>
+  <button (click)="submitEmails()" id="submit-emails">
+    <mat-icon>arrow_forward</mat-icon>
+    </button>
+</div>
