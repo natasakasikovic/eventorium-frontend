@@ -15,15 +15,10 @@ export class CategoryProposalsComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private changeDetector: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
-    this.getAll();
-  }
-
-  getAll(): void {
     this.categoryService.getAllProposals().subscribe({
       next: (categories: Category[]) => {
         this.categoryProposals = categories;
@@ -31,19 +26,15 @@ export class CategoryProposalsComponent implements OnInit {
     });
   }
 
-  acceptCategory(id: number): void {
-    this.categoryService.updateCategoryStatus(id, Status.ACCEPTED).subscribe({
+  updateCategoryStatus(id: number, status: Status): void {
+    this.categoryService.updateCategoryStatus(id, status).subscribe({
       next: ((category: Category) => {
-        console.log(`Successfully updated ${category.name}!`);
+        this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== category.id);
       }),
       error: (err: Error) => {
         console.error(err);
       }
     });
-  }
-
-  declineCategory(id: number): void {
-    this.categoryService.updateCategoryStatus(id, Status.DECLINED);
   }
 
   openUpdateCategory(id: number): void {
@@ -54,4 +45,11 @@ export class CategoryProposalsComponent implements OnInit {
       }
     });
   }
+
+  onClose(): void {
+    this.showUpdate = false;
+    this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== this.selectedCategory.id);
+  }
+
+  protected readonly Status = Status;
 }

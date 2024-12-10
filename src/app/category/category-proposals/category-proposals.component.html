@@ -12,8 +12,8 @@
     <div class="cards">
       <app-category-card
         [proposalCard]="true"
-        (accept)="acceptCategory($event)"
-        (decline)="declineCategory($event)"
+        (accept)="updateCategoryStatus($event, Status.ACCEPTED)"
+        (decline)="updateCategoryStatus($event, Status.DECLINED)"
         (update)="openUpdateCategory($event)"
         *ngFor="let category of categoryProposals" [category]="category"
         ></app-category-card>
@@ -23,7 +23,7 @@
 </div>
 <app-update-category-proposal
   *ngIf="showUpdate"
-  (close)="showUpdate = false"
+  (close)="onClose()"
   [category]="selectedCategory">
 </app-update-category-proposal>
 
