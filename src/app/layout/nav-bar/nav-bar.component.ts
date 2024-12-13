@@ -14,7 +14,7 @@ import { UserRole } from '../../auth/model/user-role.enum';
 export class NavBarComponent {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false; 
-  role: UserRole = null;
+  role: String = null;
   
   constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
   }

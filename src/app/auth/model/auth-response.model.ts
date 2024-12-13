@@ -1,4 +1,3 @@
-import { UserRole } from "./user-role.enum";
 
 export interface AuthResponse {
   id: number;
@@ -8,7 +7,7 @@ export interface AuthResponse {
   phoneNumber: string;
   address: string;
   city: string;
-  role: UserRole;
+  role: String[];
   jwt: string;
   }
   

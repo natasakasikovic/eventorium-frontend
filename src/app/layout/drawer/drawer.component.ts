@@ -22,7 +22,7 @@ export class DrawerComponent {
     });
   }
 
-  private getMenuItemsForUser(userRole: UserRole|null): MenuItem[] {
+  private getMenuItemsForUser(userRole: String|null): MenuItem[] {
     let items: MenuItem[] = [
       { label: 'Home', icon: 'home', route: '/home' }
     ];
@@ -35,12 +35,12 @@ export class DrawerComponent {
         { label: 'Favourites', icon: 'favorite', route: '/favourites' }
       );
 
-      if (userRole === UserRole.PROVIDER) {
+      if (userRole === "PROVIDER") {
         // NOTE: If you add an option for a provider, add it here
         items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
       }
       
-      if (userRole === UserRole.EVENT_ORGANIZER) {
+      if (userRole === "EVENT_ORGANIZER") {
         // NOTE: If you add an option for an event organizer, add it here
         // for example:
         // items.push({ label: 'Events', icon: 'event', route: '/events' });

@@ -2,7 +2,7 @@ import { EventType } from "../../event-type/model/event-type.model";
 import { City } from "../../shared/model/city.model";
 import { Privacy } from "./privacy.enum";
 
-export interface CreateEventRequestDto{
+export interface CreateEventRequestDto {
     name: string;
     description: string;
     date: Date;
@@ -12,6 +12,5 @@ export interface CreateEventRequestDto{
     city: City;
     address: string;
     // activities: ActivityRequestDto[];
-    organizerId: number;
-    invitations: string[];   
+    // invitations: string[];   
 }

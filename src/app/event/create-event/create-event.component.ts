@@ -7,7 +7,6 @@ import { EventTypeService } from '../../event-type/event-type.service';
 import { PrivacyOptions } from '../model/privacy.enum';
 import { City } from '../../shared/model/city.model';
 import { SharedService } from '../../shared/shared.service';
-import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-create-event',
@@ -45,22 +44,19 @@ export class CreateEventComponent implements OnInit {
 
   onSubmit(): void {
     if (this.createEventForm.valid) {
+
       const newEvent: Partial<CreateEventRequestDto> = {
         name: this.createEventForm.get('name').value,
         description: this.createEventForm.get('description').value,
         maxParticipants: this.createEventForm.get('maxParticipants').value,
-        privacy: this.createEventForm.get('privacy').value,
+        privacy: this.createEventForm.get('privacy').value.toUpperCase(),
         address: this.createEventForm.get('address').value,
         city: this.createEventForm.get('city').value,
         date: this.createEventForm.get('eventDate').value,
-        // organizerId: this.authService.getUserId(), // TODO: Fix this when the token generation method is changed on the backend
-        eventType: this.createEventForm.get('eventType').value === "All" // TODO: change this, not working this way
-          ? null 
-          : this.createEventForm.get('eventType').value
+        eventType: this.createEventForm.get('eventType').value === "all" ? null : this.createEventForm.get('eventType').value
       };
-  
+
       this.eventService.updateEvent(newEvent);
-      console.log(newEvent);
     }
   }
 
