@@ -9,3 +9,12 @@
 .planned-amount mat-form-field {
   margin-top: 1.5rem;
 }
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  margin: 16px 0;
+  width: 100%;
+}

@@ -11,6 +11,13 @@
     <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
   </div>
 </form>
-<div class="service-cards" *ngFor="let service of serviceSuggestions">
-  <app-service-card [service]="service" ></app-service-card>
+<div class="cards">
+  <div *ngFor="let service of serviceSuggestions">
+    <app-service-card [service]="service" ></app-service-card>
+  </div>
+</div>
+<div class="cards">
+  <div *ngFor="let product of productSuggestion">
+    <app-product-card [product]="product" ></app-product-card>
+  </div>
 </div>

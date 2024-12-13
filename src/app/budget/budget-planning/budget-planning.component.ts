@@ -15,6 +15,7 @@ export class BudgetPlanningComponent implements OnInit {
     private eventService: EventService
   ) {
   }
+
   ngOnInit(): void {
     this.plannedCategories.push(...this.eventService.eventType?.suggestedCategories);
   }

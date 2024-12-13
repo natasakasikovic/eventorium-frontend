@@ -42,10 +42,22 @@ export class BudgetItemsComponent {
     if (!this.planning.invalid) {
       const formValue = this.planning.value;
       if (formValue.solutionType === 'product') {
-        this.totalPlanned += formValue.plannedAmount;
+        this.productService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
+            next: (products: Product[]) => {
+              this.serviceSuggestions = [];
+              this.productSuggestion = products;
+              this.updateTotalPlanned(formValue.plannedAmount);
+            },
+            error(error: Error) {
+              console.error(error.message);
+            }
+          }
+
+        )
       } else {
         this.serviceService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
           next: (services: Service[]) => {
+            this.productSuggestion = [];
             this.serviceSuggestions = services;
             this.updateTotalPlanned(formValue.plannedAmount);
           },
