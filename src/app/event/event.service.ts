@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
-import { CreateEventRequestDto } from './model/create-event-request-dto.model';
+import { CreateEventRequestDto } from './model/create-event-request.model';
 
 @Injectable({
   providedIn: 'root'
