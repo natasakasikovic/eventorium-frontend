@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../category/model/category.model';
 import {ServiceService} from '../../service/service.service';
@@ -14,6 +14,7 @@ import {ReservationType} from '../../service/model/reservation-type.enum';
 })
 export class BudgetItemsComponent {
   @Input() category: Category;
+  totalPlanned: number;
 
   planning: FormGroup = new FormGroup({
     plannedAmount: new FormControl('', Validators.required),
@@ -22,21 +23,31 @@ export class BudgetItemsComponent {
   serviceSuggestions: Service[] = [];
   productSuggestion: Product[] = []
 
+  previousPlanned: number = 0.0;
+
+  @Output() totalPriceChanged = new EventEmitter<number>();
+
   constructor(
     private serviceService: ServiceService,
     private productService: ProductService
   ) {
   }
 
+  updateTotalPlanned(currentPrice: number): void {
+    this.totalPriceChanged.emit(currentPrice - this.previousPlanned);
+    this.previousPlanned = currentPrice;
+  }
+
   searchItems(): void {
     if (!this.planning.invalid) {
       const formValue = this.planning.value;
       if (formValue.solutionType === 'product') {
-
+        this.totalPlanned += formValue.plannedAmount;
       } else {
         this.serviceService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
           next: (services: Service[]) => {
             this.serviceSuggestions = services;
+            this.updateTotalPlanned(formValue.plannedAmount);
           },
           error(error: Error) {
             console.error(error.message);

@@ -1,0 +1,31 @@
+.planner {
+  background-color: #ECEAE6;
+}
+
+.category-tabs {
+  background-color: #f8f6f1;
+}
+
+.main-tabs {
+  background-color: #E3DCD1;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.budget {
+  height: 86vh;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  background-color: #E3DCD1;
+  border-radius: 1.5rem;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+}
+
+.total p {
+  padding: 0 1rem;
+}

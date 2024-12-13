@@ -9,6 +9,7 @@ import {EventService} from '../../event/event.service';
 })
 export class BudgetPlanningComponent implements OnInit {
   plannedCategories: Category[] = []
+  totalPlanned: number = 0.0;
 
   constructor(
     private eventService: EventService
@@ -18,4 +19,7 @@ export class BudgetPlanningComponent implements OnInit {
     this.plannedCategories.push(...this.eventService.eventType?.suggestedCategories);
   }
 
+  updatePlannedPrice(difference: number) {
+    this.totalPlanned += difference;
+  }
 }
