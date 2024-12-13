@@ -23,10 +23,18 @@ export class EventInvitationsComponent {
   addInvitation() {
     if (this.emailForm.valid) {
       const email = this.emailForm.get('email')?.value;
-      const invitation: Invitation = { email }; 
-      this.invitations.push(invitation); 
-      this.emailForm.reset();
-    } 
+      
+      if (this.emailAlreadyExists(email)) {
+        this.emailForm.get('email')?.setErrors({ emailExists: true });
+      } else {
+        this.invitations.push({ email });
+        this.emailForm.reset();
+      }
+    }
+  }
+
+  private emailAlreadyExists(email: string): boolean {
+    return this.invitations.some(invitation => invitation.email === email);
   }
 
   removeInvitation(index: number) {
