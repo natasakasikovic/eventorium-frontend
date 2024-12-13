@@ -1,0 +1,16 @@
+<form [formGroup]="planning" class="planned-amount">
+  <mat-radio-group formControlName="solutionType">
+    <mat-radio-button value="product">Product</mat-radio-button>
+    <mat-radio-button value="service">Service</mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field appearance="outline">
+    <mat-label>Planned amount</mat-label>
+    <input matInput type="number"  name="plannedAmount" formControlName="plannedAmount"/>
+  </mat-form-field>
+  <div class="button-create">
+    <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
+  </div>
+</form>
+<div class="service-cards" *ngFor="let service of serviceSuggestions">
+  <app-service-card [service]="service" ></app-service-card>
+</div>

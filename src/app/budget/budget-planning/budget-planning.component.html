@@ -1,0 +1,5 @@
+<mat-tab-group>
+  <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
+    <app-budget-items [category]="category"/>
+  </mat-tab>
+</mat-tab-group>

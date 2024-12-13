@@ -90,4 +90,10 @@ export class ServiceService {
     );
   }
 
+  getBudgetSuggestions(id: number, price: number): Observable<Service[]> {
+    return this.httpClient.get<Service[]>(
+      `${environment.apiHost}/services/suggestions`,
+      { params: new HttpParams().set('categoryId', id).set('price', price) }
+    );
+  }
 }

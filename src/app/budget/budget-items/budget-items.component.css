@@ -1,0 +1,11 @@
+.planned-amount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem;
+}
+
+.planned-amount mat-form-field {
+  margin-top: 1.5rem;
+}

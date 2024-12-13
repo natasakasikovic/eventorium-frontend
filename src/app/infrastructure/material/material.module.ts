@@ -28,6 +28,7 @@ import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -68,7 +69,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSelect,
     MatOption,
     MatChipsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatTabGroup,
+    MatTab
   ],
   exports: [
     MatToolbarModule,
@@ -107,7 +110,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSelect,
     MatOption,
     MatChipsModule,
-    ScrollingModule
+    ScrollingModule,
+    MatTabGroup,
+    MatTab
   ]
 })
 export class MaterialModule { }
