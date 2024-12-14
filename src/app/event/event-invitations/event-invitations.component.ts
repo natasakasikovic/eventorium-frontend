@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { EventService } from '../event.service';
+import { CreateEventRequestDto } from '../model/create-event-request.model';
+import { Invitation } from '../model/invitation-request.model';
 
 @Component({
   selector: 'app-event-invitations',
@@ -10,7 +12,7 @@ import { EventService } from '../event.service';
 export class EventInvitationsComponent {
 
   emailForm: FormGroup;
-  submittedEmails: string[] = [];
+  invitations: Invitation[] = [];
 
   constructor(private fb: FormBuilder, private service: EventService) {
     this.emailForm = this.fb.group({
@@ -18,19 +20,39 @@ export class EventInvitationsComponent {
     });
   }
 
-  addEmail() {
+  addInvitation() {
     if (this.emailForm.valid) {
       const email = this.emailForm.get('email')?.value;
-      this.submittedEmails.push(email); 
-      this.emailForm.reset();
-    } 
+      
+      if (this.emailAlreadyExists(email)) {
+        this.emailForm.get('email')?.setErrors({ emailExists: true });
+      } else {
+        this.invitations.push({ email });
+        this.emailForm.reset();
+      }
+    }
   }
 
-  removeEmail(index: number) {
-    this.submittedEmails.splice(index, 1);  }
-
-  submitEmails() {
-    // this.service.updateEvent(this.submittedEmails)
+  private emailAlreadyExists(email: string): boolean {
+    return this.invitations.some(invitation => invitation.email === email);
   }
 
+  removeInvitation(index: number) {
+    this.invitations.splice(index, 1);
+  }
+
+  sendInvitations() {
+    const eventData: Partial<CreateEventRequestDto> = {
+      invitations : this.invitations
+    }
+    this.service.updateEvent(eventData)
+    this.service.createEvent().subscribe({
+      next: (response) => {
+        console.log("Successfully created:", response);
+      },
+      error: (err) => {
+        console.error("Error while creating event:", err);
+      }
+    })
+  }
 }

@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
-  { path: 'event-invitations', component: EventInvitationsComponent}, // TODO: moraces id dodati
+  { path: 'event-invitations', component: EventInvitationsComponent},
   { path: 'company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
