@@ -37,3 +37,18 @@
 .total p {
   padding: 0 1rem;
 }
+
+#submit {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #35422F;
+  border: 0.1em solid #35422F;
+  border-radius: 50%;
+  z-index: 1000;
+  height: 5em;
+  width: 5em;
+  cursor: pointer;
+  float: right;
+}

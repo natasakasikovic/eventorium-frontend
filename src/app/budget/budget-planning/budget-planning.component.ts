@@ -49,4 +49,8 @@ export class BudgetPlanningComponent implements OnInit {
     this.otherCategories.push(this.plannedCategories.find(c => c.id === id));
     this.plannedCategories = this.plannedCategories.filter(c => c.id !== id);
   }
+
+  onSubmit(): void {
+
+  }
 }
