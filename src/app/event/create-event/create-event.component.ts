@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
-import { CreateEventRequestDto } from '../model/create-event-request-dto.model';
+import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { EventType } from '../../event-type/model/event-type.model';
 import { EventTypeService } from '../../event-type/event-type.service';
-import { PrivacyOptions } from '../model/privacy.enum';
+import { Privacy, PrivacyOptions } from '../model/privacy.enum';
 import { City } from '../../shared/model/city.model';
 import { SharedService } from '../../shared/shared.service';
 import { Router } from '@angular/router';
@@ -59,7 +59,13 @@ export class CreateEventComponent implements OnInit {
       };
 
       this.eventService.updateEvent(newEvent);
-      this.router.navigate(['event-agenda']) // TODO: change route
+
+      if (newEvent.privacy == Privacy.CLOSED.toUpperCase()) {
+        void this.router.navigate(['event-invitations'])
+      } else {
+        void this.router.navigate(['budget-planning']);
+      }
+
     }
   }
 

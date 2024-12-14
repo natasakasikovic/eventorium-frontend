@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityRequest } from '../model/activity-request.model';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { CreateEventRequestDto } from '../model/create-event-request-dto.model';
+import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { EventService } from '../event.service';
 
 @Component({

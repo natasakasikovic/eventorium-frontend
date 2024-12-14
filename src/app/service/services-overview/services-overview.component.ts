@@ -35,10 +35,15 @@ export class ServicesOverviewComponent implements OnInit {
       next: (response: PagedResponse<Service>) => {
         this.services = response.content;
         this.pageProperties.totalCount = response.totalElements;
+        response.content.forEach(s => this.service.getImage(s.id).subscribe({
+          next: (data: Blob) => {
+            s.image = URL.createObjectURL(data);
+          }
+        }))
       }
     })
   }
-  
+
   onPageChanged(pageEvent : PageEvent): void {
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;

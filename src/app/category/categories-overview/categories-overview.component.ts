@@ -8,7 +8,7 @@ import {CategoryService} from '../category.service';
   styleUrl: './categories-overview.component.css'
 })
 export class CategoriesOverviewComponent implements OnInit {
-  categories: Category[];
+  categories: Category[] = [];
   showEdit: boolean;
   selectedCategory: Category;
 

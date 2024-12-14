@@ -1,0 +1,28 @@
+.planned-amount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem;
+}
+
+.planned-amount mat-form-field {
+  margin-top: 1.5rem;
+}
+
+.item-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.item-cards .cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  padding: 16px;
+}

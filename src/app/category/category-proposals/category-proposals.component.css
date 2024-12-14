@@ -8,8 +8,7 @@
 
 .cards-screen {
   background-color: #eceae6;
-  min-height: 100vh;
-  height: auto;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,9 +50,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 16px 0;
   width: 100%;
+}
+
+.cards-screen .category-cards h3 {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .cards-screen .category-cards .cards {

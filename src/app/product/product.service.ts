@@ -14,7 +14,7 @@ export class ProductService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<Product>> { // TODO: see if this should be any
-    let params = new HttpParams(); 
+    let params = new HttpParams();
     if (pageProperties){
       params = params
       .set('page', pageProperties.pageIndex)
@@ -27,9 +27,15 @@ export class ProductService {
     return this.httpClient.get<Product[]>(environment.apiHost + "/products/top-five-products")
   }
 
-  searchProducts(keyword: string): Product[] { 
+  searchProducts(keyword: string): Product[] {
     // return this.products.filter(product => product.name.toLowerCase().includes(keyword.toLowerCase()));
     return [] as Product[]; // TODO: connect this to API
   }
-  
+
+  getBudgetSuggestions(id: number, plannedAmount: number): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(
+      `${environment.apiHost}/products/suggestions`,
+      { params: new HttpParams().set('categoryId', id).set('price', plannedAmount) }
+    );
+  }
 }

@@ -30,6 +30,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -72,7 +73,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatChipsModule,
     ScrollingModule,
     MatDatepickerModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTabGroup,
+    MatTab
   ],
   exports: [
     MatToolbarModule,
@@ -113,7 +116,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatChipsModule,
     ScrollingModule,
     MatDatepickerModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTabGroup,
+    MatTab
   ]
 })
 export class MaterialModule { }

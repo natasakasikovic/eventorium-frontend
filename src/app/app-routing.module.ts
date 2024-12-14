@@ -20,6 +20,7 @@ import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
 import { EventAgendaComponent } from './event/event-agenda/event-agenda.component';
+import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -36,10 +37,11 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
-  { path: 'event-invitations', component: EventInvitationsComponent}, // TODO: moraces id dodati
+  { path: 'event-invitations', component: EventInvitationsComponent},
   { path: 'company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
+  { path: 'budget-planning', component: BudgetPlanningComponent},
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   { path: 'event-agenda', component: EventAgendaComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },

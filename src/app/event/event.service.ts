@@ -4,7 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
-import { CreateEventRequestDto } from './model/create-event-request-dto.model';
+import {EventType} from '../event-type/model/event-type.model';
+import {CreateEventRequestDto} from './model/create-event-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class EventService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<Event>> {
-    let params = new HttpParams(); 
+    let params = new HttpParams();
     if (pageProperties){
       params = params
       .set('page', pageProperties.pageIndex)
@@ -37,6 +38,10 @@ export class EventService {
 
   updateEvent(event: Partial<CreateEventRequestDto>): void {
     this.event = {...event, ...this.event}
+  }
+
+  get eventType(): EventType {
+    return this.event.eventType;
   }
 
   createEvent(): Observable<Event> {

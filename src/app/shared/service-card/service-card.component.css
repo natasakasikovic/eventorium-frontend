@@ -5,8 +5,9 @@
 }
 
 .service-card img {
-  max-height: 14rem;
+  height: 14rem;
 }
+
 .service-card mat-card-header {
   justify-content: space-between;
   align-items: center;

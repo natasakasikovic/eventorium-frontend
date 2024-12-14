@@ -6,6 +6,7 @@ import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
 import {CreateServiceRequestDto} from './model/create-service-dto.model';
+import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -90,4 +91,23 @@ export class ServiceService {
     );
   }
 
+  getImages(id: number): Observable<ImageResponseDto[]> {
+    return this.httpClient.get<ImageResponseDto[]>(
+      `${environment.apiHost}/services/${id}/images`,
+    );
+  }
+
+  getImage(id: number): Observable<Blob> {
+    return this.httpClient.get(
+      `${environment.apiHost}/services/${id}/image`,
+      { responseType: 'blob' }
+    ) as Observable<Blob>;
+  }
+
+  getBudgetSuggestions(id: number, price: number): Observable<Service[]> {
+    return this.httpClient.get<Service[]>(
+      `${environment.apiHost}/services/suggestions`,
+      { params: new HttpParams().set('categoryId', id).set('price', price) }
+    );
+  }
 }
