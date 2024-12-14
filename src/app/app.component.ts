@@ -11,9 +11,7 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   drawer: boolean = false;
   constructor(
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -21,7 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   checkLoginStatus(): void {
-    const currentUser = sessionStorage.getItem('currentUser');
+    const currentUser = sessionStorage.getItem('user');
     this.isLoggedIn = currentUser !== null;
   }
 
@@ -35,14 +33,6 @@ export class AppComponent implements OnInit {
 
     dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
       this.isLoggedIn = status;
-    });
-  }
-
-  logout(): void {
-    sessionStorage.removeItem('currentUser');
-    this.ngZone.run(() => {
-      this.isLoggedIn = false;
-      this.cdr.detectChanges(); 
     });
   }
 }

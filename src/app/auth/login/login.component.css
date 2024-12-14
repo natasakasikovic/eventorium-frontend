@@ -59,18 +59,6 @@ mat-form-field {
   display: block;
 }
 
-.error-message-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  color: #71232b;
-  font-size: 14px;
-  text-align: center;
-}
-
 .small-button {
   font-size: 12px;
   padding: 6px 12px;
@@ -82,4 +70,19 @@ mat-form-field {
 
 .small-button.mat-raised-button {
   box-shadow: none; 
+}
+
+.error-message {
+  color: #fc6a59; 
+  background-color: #f8d7da; 
+  border: 1px solid #fc6a59; 
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  max-width: 100%; 
+  word-wrap: break-word;
 }

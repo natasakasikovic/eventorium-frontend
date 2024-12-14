@@ -1,0 +1,26 @@
+<button mat-icon-button (click)="onDelete()">
+  <mat-icon>delete</mat-icon>
+</button>
+<form [formGroup]="planning" class="planned-amount">
+  <mat-radio-group formControlName="solutionType">
+    <mat-radio-button value="product">Product</mat-radio-button>
+    <mat-radio-button value="service">Service</mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field appearance="outline">
+    <mat-label>Planned amount</mat-label>
+    <input matInput type="number"  name="plannedAmount" formControlName="plannedAmount"/>
+  </mat-form-field>
+  <div class="button-create">
+    <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
+  </div>
+</form>
+<div class="item-cards">
+  <div class="cards">
+    <app-service-card *ngFor="let service of serviceSuggestions" [service]="service" ></app-service-card>
+  </div>
+</div>
+<div class="item-cards">
+  <div class="cards">
+    <app-product-card *ngFor="let product of productSuggestion"  [product]="product" ></app-product-card>
+  </div>
+</div>

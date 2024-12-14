@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ManageableServicesComponent } from './manageable-services/manageable-services.component';
 import {SharedModule} from '../shared/shared.module';
 import {RouterLink} from '@angular/router';
@@ -32,6 +32,7 @@ import { ServicesOverviewComponent } from './services-overview/services-overview
     MaterialModule,
     RouterLink,
     ReactiveFormsModule,
+    NgOptimizedImage,
   ],
   exports: [
     TopFiveServicesComponent,

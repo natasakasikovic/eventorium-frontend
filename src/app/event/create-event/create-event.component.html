@@ -1,0 +1,78 @@
+<div class="form-container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="createEventForm">
+    <h1>Create Event</h1>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Event type</mat-label>
+      <mat-select id="eventTypeSelect" formControlName="eventType">
+        <mat-option [value]="'all'">All</mat-option>
+        <mat-option *ngFor="let eventType of eventTypes" [value]="eventType">
+          {{ eventType.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createEventForm.get('eventType').invalid">Please select an event type.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+      <mat-error *ngIf="createEventForm.get('name').hasError('required')">Name is required.</mat-error>
+      <mat-error *ngIf="createEventForm.get('name').hasError('maxlength')">Name cannot exceed 50 characters.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="4" formControlName="description"></textarea>
+      <mat-error *ngIf="createEventForm.get('description').hasError('required')">Description is required.</mat-error>
+      <mat-error *ngIf="createEventForm.get('description').hasError('maxlength')">Description cannot exceed 200 characters.</mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Max Participants</mat-label>
+        <input matInput type="number" formControlName="maxParticipants" />
+        <mat-error *ngIf="createEventForm.get('maxParticipants').hasError('required')">Required.</mat-error>
+        <mat-error *ngIf="createEventForm.get('maxParticipants').hasError('min')">Minimum is 1.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Privacy</mat-label>
+        <mat-select formControlName="privacy">
+          <mat-option *ngFor="let option of privacyOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createEventForm.get('privacy').invalid">Please select a privacy option.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Address</mat-label>
+        <input matInput type="text" formControlName="address" />
+        <mat-error *ngIf="createEventForm.get('address').hasError('required')">Address is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>City</mat-label>
+        <mat-select formControlName="city">
+          <mat-option *ngFor="let city of cities" [value]="city">
+            {{ city.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createEventForm.get('city').invalid">Please select a city.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Exact Event Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="eventDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="createEventForm.get('eventDate').invalid">Please select a valid date.</mat-error>
+    </mat-form-field>
+  </form>
+  <button (click)="onSubmit()" id="submit">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,29 @@
+.screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 85vh;
+}
+
+mat-form-field {
+  width: 500px;
+}
+
+.category-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-family: jeju, serif;
+}
+
+.submit-button {
+  margin-bottom: 2rem;
+  display: flex;
+  background-color: #E3DCD1;
+}

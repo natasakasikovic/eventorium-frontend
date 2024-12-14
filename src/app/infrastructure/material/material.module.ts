@@ -26,6 +26,9 @@ import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -64,7 +67,11 @@ import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/
     MatExpansionPanel,
     MatExpansionPanelTitle,
     MatSelect,
-    MatOption
+    MatOption,
+    MatChipsModule,
+    ScrollingModule,
+    MatTabGroup,
+    MatTab
   ],
   exports: [
     MatToolbarModule,
@@ -101,7 +108,11 @@ import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/
     MatExpansionPanel,
     MatExpansionPanelTitle,
     MatSelect,
-    MatOption
+    MatOption,
+    MatChipsModule,
+    ScrollingModule,
+    MatTabGroup,
+    MatTab
   ]
 })
 export class MaterialModule { }

@@ -1,0 +1,58 @@
+.main-container{
+  height: 84.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8em;
+}
+
+.email-container{
+  height: 70vh;
+  width: 70vh;
+  background-color: #E3DCD1;
+  border-radius: 2em;
+}
+
+.email-container p{
+  text-align: center;
+  color: #35422F;
+  font-family: 'jeju';
+  font-size: 1.5em;
+  padding-top: 1em;
+  padding-left: 0.3em;
+}
+
+.email-container ol{
+  height: 40vh;
+  border: 0.1em solid #35422F;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  padding: 0;
+  overflow-y: auto;
+}
+
+#add-email{
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.add-button {
+  background-color: #35422F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  height: 3em;
+  width: 3em;
+  cursor: pointer;
+}
+
+#send-invitations-button{
+  color: #35422F;
+  border: 0.1em solid #35422F;
+  border-radius: 50%;
+  height: 5em;
+  width: 5.5em;
+  cursor: pointer;
+}

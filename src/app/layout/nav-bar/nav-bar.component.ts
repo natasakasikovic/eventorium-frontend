@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { UserRole } from '../../auth/model/user-role.enum';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,8 +14,16 @@ import { AuthService } from '../../auth/auth.service';
 export class NavBarComponent {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false; 
+  role: String = null;
+  
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
+  }
 
-  constructor(private dialog: MatDialog, private router: Router, private authService: AuthService) {}
+  ngOnInit(): void {
+    this.authService.userState.subscribe((result) => {
+      this.role = result;
+    })
+  }
 
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
@@ -25,17 +34,22 @@ export class NavBarComponent {
     });
 
     dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      this.isLoggedIn = status;
       if (status) {
         dialogRef.close();
       }
     });
   }
 
-  logout(): void {
-    this.isLoggedIn = false;
-    sessionStorage.removeItem('currentUser');
-    this.router.navigate([''])
+  logOut(): void {
     this.authService.logout();
+    this.router.navigate(['home']);
+  }
+
+  get isOrganizer(): boolean {
+    return this.role === UserRole.EVENT_ORGANIZER;
+  }
+
+  createEvent(): void {
+    this.router.navigate(['create-event'])
   }
 }

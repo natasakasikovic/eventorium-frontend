@@ -3,7 +3,7 @@ import {Service} from '../model/service.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Confirmation} from '../model/confirmation.enum';
+import {ReservationType} from '../model/reservation-type.enum';
 
 @Component({
   selector: 'app-edit-service',
@@ -25,7 +25,7 @@ export class EditServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
-      const id: string = param['id'];
+      const id: number = +param['id'];
       this.service = this.serviceService.get(id);
     });
     this.editServiceForm = new FormGroup({
@@ -69,5 +69,5 @@ export class EditServiceComponent implements OnInit {
     this.router.navigate(['manageable-services']).then();
   }
 
-  protected readonly Confirmation = Confirmation;
+  protected readonly Confirmation = ReservationType;
 }

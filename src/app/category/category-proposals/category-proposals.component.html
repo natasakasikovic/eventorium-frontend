@@ -1,0 +1,26 @@
+<div class="cards-screen">
+  <mat-toolbar class="toolbar">
+    <h1 class="title">Category Proposals</h1>
+    <div class="filters">
+      <app-search-bar></app-search-bar>
+    </div>
+  </mat-toolbar>
+  <div class="category-cards">
+    <div class="cards" *ngIf="categoryProposals.length !== 0">
+      <app-category-card
+        [proposalCard]="true"
+        (accept)="updateCategoryStatus($event, Status.ACCEPTED)"
+        (decline)="updateCategoryStatus($event, Status.DECLINED)"
+        (update)="openUpdateCategory($event)"
+        *ngFor="let category of categoryProposals" [category]="category"
+        ></app-category-card>
+    </div>
+    <h3 *ngIf="categoryProposals.length === 0">No category proposals found!</h3>
+  </div>
+</div>
+<app-update-category-proposal
+  *ngIf="showUpdate"
+  (close)="onClose()"
+  [category]="selectedCategory">
+</app-update-category-proposal>
+
