@@ -26,6 +26,14 @@
   z-index: 1000;
 }
 
+.add-category {
+  padding: 1rem;
+  background-color: #f8f6f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .total p {
   padding: 0 1rem;
 }

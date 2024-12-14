@@ -1,3 +1,6 @@
+<button mat-icon-button (click)="onDelete()">
+  <mat-icon>delete</mat-icon>
+</button>
 <form [formGroup]="planning" class="planned-amount">
   <mat-radio-group formControlName="solutionType">
     <mat-radio-button value="product">Product</mat-radio-button>

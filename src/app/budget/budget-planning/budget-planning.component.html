@@ -3,9 +3,24 @@
     <mat-tab label="Planner" class="planner">
       <mat-tab-group class="category-tabs">
         <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
-          <app-budget-items [category]="category" (totalPriceChanged)="updatePlannedPrice($event)"/>
+          <app-budget-items [category]="category"
+                            (totalPriceChanged)="updatePlannedPrice($event)"
+                            (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
       </mat-tab-group>
+      <div class="add-category">
+        <p>Add new category:</p>
+        <form [formGroup]="addCategoryForm">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <button mat-icon-button (click)="insertCategory()">
+          <mat-icon>add-circle</mat-icon>
+        </button>
+      </div>
     </mat-tab>
     <mat-tab label="Spent">
 

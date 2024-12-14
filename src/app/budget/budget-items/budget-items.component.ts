@@ -5,7 +5,8 @@ import {ServiceService} from '../../service/service.service';
 import {ProductService} from '../../product/product.service';
 import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
-import {ReservationType} from '../../service/model/reservation-type.enum';
+import {BudgetService} from '../budget.service';
+import {EventService} from '../../event/event.service';
 
 @Component({
   selector: 'app-budget-items',
@@ -14,6 +15,9 @@ import {ReservationType} from '../../service/model/reservation-type.enum';
 })
 export class BudgetItemsComponent {
   @Input() category: Category;
+
+  @Output() deleteCategory: EventEmitter<number> = new EventEmitter();
+
   totalPlanned: number;
 
   planning: FormGroup = new FormGroup({
@@ -67,5 +71,9 @@ export class BudgetItemsComponent {
         });
       }
     }
+  }
+
+  onDelete(): void {
+    this.deleteCategory.emit(this.category.id);
   }
 }
