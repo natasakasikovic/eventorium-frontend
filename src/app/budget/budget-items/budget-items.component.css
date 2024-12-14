@@ -10,11 +10,19 @@
   margin-top: 1.5rem;
 }
 
-.cards {
+.item-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
   margin: 16px 0;
   width: 100%;
+}
+
+.item-cards .cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  padding: 16px;
 }
