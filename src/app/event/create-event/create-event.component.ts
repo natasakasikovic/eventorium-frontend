@@ -63,6 +63,10 @@ export class CreateEventComponent implements OnInit {
       if (newEvent.privacy == Privacy.CLOSED.toUpperCase()) {
         void this.router.navigate(['event-invitations'])
       } else {
+        const eventWithNoInvitations : Partial<CreateEventRequestDto> = {
+          invitations: []
+        }
+        this.eventService.updateEvent(eventWithNoInvitations);
         void this.router.navigate(['budget-planning']);
       }
 

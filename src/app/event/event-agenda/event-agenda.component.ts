@@ -1,9 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityRequest } from '../model/activity-request.model';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { EventService } from '../event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-agenda',
@@ -20,7 +21,8 @@ export class EventAgendaComponent {
 
   constructor(
     private fb: FormBuilder,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +66,7 @@ export class EventAgendaComponent {
       this.eventService.createEvent().subscribe({
         next: (response) => {
           console.log("Successfully created:", response);
+          this.router.navigate(['/events-overview']);
         },
         error: (err) => {
           console.error("Error while creating event:", err);
