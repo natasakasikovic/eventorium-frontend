@@ -19,6 +19,7 @@ import { CreateEventTypeComponent } from './event-type/create-event-type/create-
 import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-type.component';
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
+import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
+  { path: 'budget-planning', component: BudgetPlanningComponent},
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'},

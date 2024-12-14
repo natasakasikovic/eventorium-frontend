@@ -4,6 +4,7 @@ import { EventTypeRequestDto } from './model/event-type-request-dto.model';
 import { Observable } from 'rxjs';
 import { EventType } from './model/event-type.model';
 import { environment } from '../../env/environment';
+import {Category} from '../category/model/category.model';
 
 @Injectable({
   providedIn: 'root'

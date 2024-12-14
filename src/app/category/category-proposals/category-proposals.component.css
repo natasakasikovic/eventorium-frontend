@@ -50,7 +50,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 16px 0;
   width: 100%;
 }

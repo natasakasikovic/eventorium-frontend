@@ -6,7 +6,7 @@
     background-color: #f8f6f1;
     font-family: 'jeju';
   }
-  
+
   form {
     background: white;
     padding: 20px;
@@ -15,32 +15,32 @@
     max-width: 500px;
     width: 100%;
   }
-  
+
   h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #3e3e3e;
     font-family: 'jeju';
   }
-  
+
   .mat-form-field {
     margin-bottom: 16px;
   }
-  
+
   .full-width {
     width: 100%;
   }
-  
+
   .half-width {
     width: calc(50% - 8px);
   }
-  
+
   .row {
     display: flex;
     justify-content: space-between;
     gap: 16px;
   }
-  
+
   #submit{
     color: #35422F;
     border: 0.1em solid #35422F;

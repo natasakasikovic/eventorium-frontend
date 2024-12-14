@@ -10,11 +10,9 @@
     </mat-toolbar>
     <div class="product-cards">
       <div class="cards">
-        <div *ngFor="let product of products">
-          <app-product-card [product]="product" ></app-product-card>
-        </div>
+          <app-product-card *ngFor="let product of products" [product]="product" ></app-product-card>
       </div>
-      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex" 
+      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex"
       [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
       </mat-paginator>
     </div>
