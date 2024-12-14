@@ -20,7 +20,7 @@
   </div>
 </div>
 <div class="item-cards">
-  <div *ngFor="let product of productSuggestion" class="cards">
-    <app-product-card [product]="product" ></app-product-card>
+  <div class="cards">
+    <app-product-card *ngFor="let product of productSuggestion"  [product]="product" ></app-product-card>
   </div>
 </div>

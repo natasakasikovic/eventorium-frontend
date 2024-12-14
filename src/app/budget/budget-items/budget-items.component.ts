@@ -7,6 +7,7 @@ import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
 import {EventService} from '../../event/event.service';
+import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 
 @Component({
   selector: 'app-budget-items',
@@ -64,6 +65,11 @@ export class BudgetItemsComponent {
             this.productSuggestion = [];
             this.serviceSuggestions = services;
             this.updateTotalPlanned(formValue.plannedAmount);
+            services.forEach(s => this.serviceService.getImage(s.id).subscribe({
+              next: (image: Blob) => {
+                s.image = URL.createObjectURL(image);
+              }
+            }));
           },
           error(error: Error) {
             console.error(error.message);
@@ -75,5 +81,6 @@ export class BudgetItemsComponent {
 
   onDelete(): void {
     this.deleteCategory.emit(this.category.id);
+    this.updateTotalPlanned(0);
   }
 }
