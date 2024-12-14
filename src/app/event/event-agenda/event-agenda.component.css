@@ -1,0 +1,95 @@
+h2 {
+  font-family: 'jeju';
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group.form-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px; 
+}
+
+.form-column {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  min-width: 300px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  margin-top: 0;
+  padding: 20px;
+  background: #f7f6f4;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.time-inputs {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.table-container {
+  margin-top: 30px;
+  overflow-x: auto;
+}
+
+.add-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+mat-table {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+.container-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh; 
+  padding: 20px;
+}
+
+.container {
+  flex: 3;
+  max-width: 1000px;
+  width: 80%; 
+  background: #f7f6f4;
+  border-radius: 8px;
+}
+
+.finish-button {
+  white-space: normal;
+  display: block;
+  text-align: center;
+}
