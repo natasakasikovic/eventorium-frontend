@@ -62,8 +62,15 @@ export class ServiceService {
     });
   }
 
-  searchServices(keyword: string): Service[] {
-    return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
+  searchServices(keyword: string, pageProperties?: any): Observable<PagedResponse<Service>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = params
+      .set('keyword', keyword)
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
+    }
+    return this.httpClient.get<PagedResponse<Service>> (environment.apiHost + "/services/search", {params: params})
   }
 
   uploadFiles(serviceId: number, files: File[]): Observable<string> {

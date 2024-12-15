@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Service } from '../model/service.model';
   import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ServiceService } from '../service.service';
@@ -15,7 +15,7 @@ export class ServicesOverviewComponent implements OnInit {
 
   pageProperties = {
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 10,
     totalCount: 0
   }
 
@@ -24,10 +24,7 @@ export class ServicesOverviewComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(
-    private service: ServiceService,
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor( private service: ServiceService ) { }
 
   ngOnInit(): void {
     this.getPagedServices();
@@ -57,14 +54,17 @@ export class ServicesOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    this.services = this.service.searchServices(keyword);
-    this.changeDetector.detectChanges();
+    this.service.searchServices(keyword, this.pageProperties).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content
+        this.pageProperties.totalCount = response.totalPages
+      }
+    })
   }
 
   onApplyFilter(filter: ServiceFilter): void {
     this.services = this.service.filterServices(filter);
     this.closeFilter();
-    this.changeDetector.detectChanges();
   }
 
 }

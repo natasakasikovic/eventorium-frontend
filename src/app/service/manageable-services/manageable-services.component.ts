@@ -48,7 +48,7 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    this.services = this.serviceService.searchServices(keyword);
+    // this.services = this.serviceService.searchServices(keyword);
     this.changeDetector.detectChanges();
   }
 
