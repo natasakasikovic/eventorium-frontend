@@ -34,26 +34,15 @@ export class ServiceService {
   // TODO: connect to backend methods below
 
   update(id: number, service: Service): void {
-    const oldService: Service = this.get(id);
-    oldService.visible = service.visible;
-    oldService.name = service.name;
-    oldService.price = service.price;
-    oldService.confirmation = service.confirmation;
-    oldService.available = service.available;
-    oldService.cancellationDeadline = service.cancellationDeadline;
-    oldService.specialties = service.specialties;
-    oldService.description = service.description;
-    oldService.minDuration = service.minDuration;
-    oldService.maxDuration = service.maxDuration;
-    oldService.discount = service.discount;
+
   }
 
   create(service: CreateServiceRequestDto): Observable<Service> {
     return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 
-  get(id: number): Service {
-    return this.services.find(service => service.id === id);
+  get(id: number): Observable<Service> {
+    return this.httpClient.get<Service>(`${environment.apiHost}/services/${id}`);
   }
 
   delete(id: number): void {
@@ -62,7 +51,7 @@ export class ServiceService {
 
   filterServices(serviceFilter: ServiceFilter): Service[] {
     return this.services.filter(service => {
-      if (serviceFilter.category && service.categoryName !== serviceFilter.category) return false;
+      if (serviceFilter.category && service.category.name !== serviceFilter.category) return false;
       if (serviceFilter.eventType && serviceFilter.eventType in service.eventTypes) return false;
       if (serviceFilter.available !== null && serviceFilter.available !== undefined
         && (service.available == false && serviceFilter.available == true)) return false;

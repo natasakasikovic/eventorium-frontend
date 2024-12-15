@@ -1,12 +1,14 @@
 import {ReservationType} from './reservation-type.enum';
+import {Category} from '../../category/model/category.model';
+import {EventType} from '../../event-type/model/event-type.model';
 
 export interface Service {
   id: number;
   name: string;
-  categoryName: string;
+  category: Category;
   price: number;
   rating: number;
-  eventTypes: string[];
+  eventTypes: EventType[];
   provider: string;
   minDuration: number;
   maxDuration: number;
@@ -18,5 +20,5 @@ export interface Service {
   visible: boolean;
   available: boolean;
   confirmation: ReservationType
-  image: string;
+  images: string[];
 }

@@ -2,29 +2,36 @@
   <mat-card class="service-card">
     <mat-card-header>
       <div class="header-left">
-        <mat-card-title> {{ service.name }} </mat-card-title>
-        <mat-card-subtitle>{{ service.categoryName }}</mat-card-subtitle>
+        <mat-card-title> {{ service?.name }} </mat-card-title>
+        <mat-card-subtitle> <strong>Category:</strong> {{ service?.category.name }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <strong>Event types:</strong>
+          <span *ngFor="let eventType of service?.eventTypes; index as i">
+            {{ eventType.name }}
+            <span *ngIf="i < service?.eventTypes.length - 1">,</span>
+          </span>
+        </mat-card-subtitle>
       </div>
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
-        <span>{{ service.rating }}</span>
+        <span>{{ service?.rating }}</span>
         <button mat-icon-button>
           <mat-icon>favorite_border</mat-icon>
         </button>
-        <span class="price">&euro;{{ service.price }}</span>
+        <span class="price">&euro;{{ service?.price }}</span>
       </div>
     </mat-card-header>
     <mat-card-content>
       <h3>Description</h3>
       <p>
-        {{ service.description }}
+        {{ service?.description }}
       </p>
       <h3>Specialties</h3>
       <p>
-        {{ service.specialties }}
+        {{ service?.specialties }}
       </p>
       <div class="gallery">
-        <mat-card *ngFor="let image of [1, 2, 3, 4]" class="gallery-item"></mat-card>
+        <mat-card *ngFor="let image of service?.images" class="gallery-item"></mat-card>
       </div>
     </mat-card-content>
 
@@ -33,20 +40,20 @@
         <button mat-icon-button>
           <mat-icon>info</mat-icon>
         </button>
-        <span>{{ service.provider }}</span>
+        <span>{{ service?.provider }}</span>
       </div>
       <div class="details">
-        <p><strong>Duration:</strong> {{ service.minDuration }}
-          <span *ngIf="service.minDuration != service.maxDuration"> - {{ service.maxDuration }} </span>h
+        <p><strong>Duration:</strong> {{ service?.minDuration }}
+          <span *ngIf="service?.minDuration != service?.maxDuration"> - {{ service?.maxDuration }} </span>h
         </p>
-        <p><strong>Reservation deadline:</strong> {{ service.reservationDeadline | date:"longDate" }}</p>
-        <p><strong>Cancellation deadline:</strong> {{ service.cancellationDeadline | date:"longDate" }}</p>
+        <p><strong>Reservation deadline:</strong> {{ service?.reservationDeadline | date:"longDate" }}</p>
+        <p><strong>Cancellation deadline:</strong> {{ service?.cancellationDeadline | date:"longDate" }}</p>
       </div>
     </mat-card-actions>
     <div class="button-reserve" >
       <button mat-raised-button
-              [style.opacity]="service.available ? 1 : 0.2"
-              [disabled]="!service.available" >Reserve</button>
+              [style.opacity]="service?.available ? 1 : 0.2"
+              [disabled]="!service?.available" >Reserve</button>
     </div>
   </mat-card>
 </div>
