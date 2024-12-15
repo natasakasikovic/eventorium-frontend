@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Service} from '../../service/model/service.model';
 import {ServiceService} from '../../service/service.service';
 
@@ -7,7 +7,7 @@ import {ServiceService} from '../../service/service.service';
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'
 })
-export class ServiceCardComponent implements OnInit {
+export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() service: Service;
   @Input() showActions: boolean;
 
@@ -34,5 +34,9 @@ export class ServiceCardComponent implements OnInit {
 
   onDelete(): void {
     this.delete.emit(this.service.id);
+  }
+
+  ngOnDestroy(): void {
+    URL.revokeObjectURL(this.service.images[0]);
   }
 }

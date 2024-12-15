@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceService} from '../service.service';
@@ -9,7 +9,7 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
   templateUrl: './service-details.component.html',
   styleUrl: './service-details.component.css'
 })
-export class ServiceDetailsComponent implements OnInit {
+export class ServiceDetailsComponent implements OnInit, OnDestroy {
   @Input() service: Service
 
   constructor(
@@ -27,12 +27,16 @@ export class ServiceDetailsComponent implements OnInit {
           this.serviceService.getImages(service.id).subscribe({
             next: (images: ImageResponseDto[]) => {
               this.service.images = images.map(image =>
-                URL.createObjectURL(new Blob([image.data], { type: image.contentType }))
+                `data:${image.contentType};base64,${image.data}`
               );
             }
-          })
+          });
         }
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.service.images.forEach(image => URL.revokeObjectURL(image));
   }
 }

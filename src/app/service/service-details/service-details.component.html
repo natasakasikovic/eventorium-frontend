@@ -31,7 +31,9 @@
         {{ service?.specialties }}
       </p>
       <div class="gallery">
-        <mat-card *ngFor="let image of service?.images" class="gallery-item"></mat-card>
+        <div *ngFor="let image of service?.images" class="gallery-item">
+          <img [src]="image" alt="service image"/>
+        </div>
       </div>
     </mat-card-content>
 
