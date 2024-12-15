@@ -28,8 +28,8 @@ export class EventService {
     return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events", { params: params });
   }
 
-  getTopEvents(): Event[] {
-    return this.events.slice(0, 5);
+  getTopEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>(environment.apiHost + "/events/top-five-events")
   }
 
   searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<Event>> {
