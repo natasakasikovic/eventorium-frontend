@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../model/product.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -14,7 +14,7 @@ export class ProductsOverviewComponent implements OnInit {
 
   pageProperties = {
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 10,
     totalCount: 0
   }
 
@@ -23,7 +23,7 @@ export class ProductsOverviewComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor( private service: ProductService, private changeDetector: ChangeDetectorRef ) { }
+  constructor(private service: ProductService) { }
 
   ngOnInit(): void {
     this.getPagedProducts();
@@ -54,7 +54,11 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    this.products = this.service.searchProducts(keyword);
-    this.changeDetector.detectChanges();
+    this.service.searchProducts(keyword, this.pageProperties).subscribe({
+        next: (response: PagedResponse<Product>) => {
+          this.products = response.content;
+          this.pageProperties.totalCount = response.totalElements
+        }
+    })
   }
 }
