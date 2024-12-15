@@ -54,7 +54,6 @@ export class EventsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    if (!keyword) return;
     this.service.searchEvents(keyword, this.pageProperties)
       .subscribe({
         next: (response: PagedResponse<Event>) => {
