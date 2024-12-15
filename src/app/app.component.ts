@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './auth/login/login.component';
+import {NavigationService} from './infrastructure/navigation/navigation.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   drawer: boolean = false;
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private navigation: NavigationService
   ) {}
 
   ngOnInit(): void {

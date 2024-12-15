@@ -19,7 +19,9 @@ import { CreateEventTypeComponent } from './event-type/create-event-type/create-
 import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-type.component';
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
+import { EventAgendaComponent } from './event/event-agenda/event-agenda.component';
 import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
+import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -36,12 +38,37 @@ const routes: Routes = [
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
-  { path: 'event-invitations', component: EventInvitationsComponent},
+  {
+    path: 'event-invitations',
+    component: EventInvitationsComponent,
+    canActivate: [NavigationGuard],
+    data: {
+      allowedUrls: ['/create-event'],
+      fallback: "/home"
+    }
+  },
   { path: 'company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
-  { path: 'budget-planning', component: BudgetPlanningComponent},
+  {
+    path: 'budget-planning',
+    component: BudgetPlanningComponent,
+    canActivate: [NavigationGuard],
+    data: {
+      allowedUrls: ['/create-event', '/event-invitations'],
+      fallback: "/home"
+    }
+  },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
+  {
+    path: 'event-agenda',
+    component: EventAgendaComponent,
+    canActivate: [NavigationGuard],
+    data: {
+      allowedUrls: ['/budget-planning'],
+      fallback: '/home',
+    }
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'},
 ];

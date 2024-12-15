@@ -3,6 +3,7 @@ import {Category} from '../../category/model/category.model';
 import {EventService} from '../../event/event.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../../category/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-budget-planning',
@@ -20,7 +21,8 @@ export class BudgetPlanningComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router
   ) {
   }
 
@@ -51,6 +53,7 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   onSubmit(): void {
-
+    
+    this.router.navigate(['/event-agenda']);
   }
 }

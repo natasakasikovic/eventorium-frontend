@@ -3,6 +3,7 @@ import { FormControl, FormBuilder, FormGroup, Validators, FormArray } from '@ang
 import { EventService } from '../event.service';
 import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { Invitation } from '../model/invitation-request.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-invitations',
@@ -14,7 +15,7 @@ export class EventInvitationsComponent {
   emailForm: FormGroup;
   invitations: Invitation[] = [];
 
-  constructor(private fb: FormBuilder, private service: EventService) {
+  constructor(private fb: FormBuilder, private service: EventService, private router: Router) {
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -46,13 +47,6 @@ export class EventInvitationsComponent {
       invitations : this.invitations
     }
     this.service.updateEvent(eventData)
-    this.service.createEvent().subscribe({
-      next: (response) => {
-        console.log("Successfully created:", response);
-      },
-      error: (err) => {
-        console.error("Error while creating event:", err);
-      }
-    })
+    this.router.navigate(['/budget-planning'])
   }
 }
