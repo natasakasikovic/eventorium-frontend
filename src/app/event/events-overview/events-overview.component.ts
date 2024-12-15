@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventService } from '../event.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Event } from '../model/event.model';
@@ -13,7 +13,7 @@ export class EventsOverviewComponent implements OnInit {
 
   pageProperties = {
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 10,
     totalCount: 0
   }
 
@@ -23,10 +23,7 @@ export class EventsOverviewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
-  constructor(
-    private service: EventService,
-    private changeDetector: ChangeDetectorRef ) { }
-
+  constructor(private service: EventService) { }
  
   ngOnInit(): void {
     this.getPagedEvents();
@@ -57,7 +54,13 @@ export class EventsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    this.events = this.service.searchEvents(keyword);
-    this.changeDetector.detectChanges();
+    if (!keyword) return;
+    this.service.searchEvents(keyword, this.pageProperties)
+      .subscribe({
+        next: (response: PagedResponse<Event>) => {
+          this.events = response.content 
+          this.pageProperties.totalCount = response.totalElements
+        }
+      })
   }
 }
