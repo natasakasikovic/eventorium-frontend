@@ -32,8 +32,15 @@ export class EventService {
     return this.events.slice(0, 5);
   }
 
-  searchEvents(keyword: string): Event[] {
-    return this.events.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
+  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<Event>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = params
+      .set('keyword', keyword)
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize);
+    }
+    return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events/search", {params: params})
   }
 
   updateEvent(event: Partial<CreateEventRequestDto>): void {
