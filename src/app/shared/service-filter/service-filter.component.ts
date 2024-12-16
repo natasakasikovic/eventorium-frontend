@@ -1,6 +1,10 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ServiceFilter} from '../../service/model/filter-service-options.model';
 import {FormControl, FormGroup} from '@angular/forms';
+import {CategoryService} from '../../category/category.service';
+import {Category} from '../../category/model/category.model';
+import {EventType} from '../../event-type/model/event-type.model';
+import {EventTypeService} from '../../event-type/event-type.service';
 
 
 @Component({
@@ -8,24 +12,12 @@ import {FormControl, FormGroup} from '@angular/forms';
   templateUrl: './service-filter.component.html',
   styleUrl: './service-filter.component.css'
 })
-export class ServiceFilterComponent {
+export class ServiceFilterComponent implements OnInit {
   @Output() closeFilter: EventEmitter<void> = new EventEmitter();
   @Output() applyFilter: EventEmitter<ServiceFilter> = new EventEmitter();
 
-  categories: string[] =
-  [
-    "Wellness",
-    "Lifestyle",
-    "Entertainment",
-    "Arts",
-    "Creative",
-    "Fitness",
-    "Travel",
-    "Music",
-    "Adventure",
-    "Education"
-  ]
-  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
+  categories: Category[] = [];
+  eventTypes: EventType[] = [];
 
   filterServiceForm: FormGroup = new FormGroup({
     available: new FormControl(false),
@@ -35,6 +27,25 @@ export class ServiceFilterComponent {
     eventType: new FormControl(""),
   });
 
+  constructor(
+    private categoryService: CategoryService,
+    private eventTypeService: EventTypeService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.categoryService.getAll().subscribe({
+      next: (category: Category[]) => {
+        this.categories = category;
+      }
+    });
+    this.eventTypeService.getAll().subscribe({
+      next: (eventTypes: EventType[]) => {
+        this.eventTypes = eventTypes;
+      }
+    })
+  }
+
   onClose(): void {
     this.closeFilter.emit();
   }
@@ -42,8 +53,8 @@ export class ServiceFilterComponent {
   onApply(): void {
     this.applyFilter.emit({
       available: this.filterServiceForm.value.available,
-      category: this.filterServiceForm.value.category,
-      eventType: this.filterServiceForm.value.eventType,
+      category: this.filterServiceForm.value.category.name,
+      eventType: this.filterServiceForm.value.eventType.name,
       maxPrice: this.filterServiceForm.value.maxPrice,
       minPrice: this.filterServiceForm.value.minPrice
     })

@@ -1,10 +1,11 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {Service} from '../model/service.model';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ServiceCardComponent} from '../../shared/service-card/service-card.component';
 import {ServiceFilter} from '../model/filter-service-options.model';
+import {PagedResponse} from '../../shared/model/paged-response.model';
 
 @Component({
   selector: 'app-manageable-services',
@@ -17,39 +18,58 @@ export class ManageableServicesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-
   constructor(
-    private serviceService: ServiceService,
-    private changeDetector: ChangeDetectorRef
+    private service: ServiceService,
   ) {
   }
 
+  pageProperties = {
+    pageIndex: 0,
+    pageSize: 15,
+    totalCount: 0
+  }
+
   ngOnInit(): void {
+    this.getPagedServices();
   }
 
-  getTotalServiceCount(): number { // NOTE: I commented this since I deleted this method, it is redudant when you connect to backend
-    // return this.serviceService.totalCountServices();
-    return 0;
+  private getPagedServices() {
+    this.service.getAllForProvider(this.pageProperties).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      }
+    })
   }
 
-  onPageChanged(): void {
-    this.services = [];
+  onPageChanged(pageEvent: PageEvent): void {
+    this.pageProperties.pageIndex = pageEvent.pageIndex;
+    this.pageProperties.pageSize = pageEvent.pageSize;
+    this.getPagedServices();
   }
 
   deleteService(id: number) {
-    this.serviceService.delete(id);
-    this.onPageChanged();
+    this.service.delete(id);
   }
 
   onApplyFilter(filter: ServiceFilter): void {
-    this.services = this.serviceService.filterServices(filter);
+    this.service.filterProviderServices(filter).subscribe({
+      next: (services: PagedResponse<Service>) => {
+        console.log(services);
+        this.services = services.content;
+        this.pageProperties.totalCount = services.totalElements;
+      }
+    });
     this.closeFilter();
-    this.changeDetector.detectChanges();
   }
 
   onSearch(keyword: string): void {
-    this.services = this.serviceService.searchServices(keyword);
-    this.changeDetector.detectChanges();
+    this.service.searchProviderServices(keyword, this.pageProperties).subscribe({
+      next: (services: PagedResponse<Service>) => {
+        this.services = services.content;
+        this.pageProperties.totalCount = services.totalElements;
+      }
+    });
   }
 
   openFilter(): void {
