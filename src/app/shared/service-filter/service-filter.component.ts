@@ -53,8 +53,8 @@ export class ServiceFilterComponent implements OnInit {
   onApply(): void {
     this.applyFilter.emit({
       available: this.filterServiceForm.value.available,
-      category: this.filterServiceForm.value.category?.name,
-      eventType: this.filterServiceForm.value.eventType?.name,
+      category: this.filterServiceForm.value.category,
+      eventType: this.filterServiceForm.value.eventType,
       maxPrice: this.filterServiceForm.value.maxPrice,
       minPrice: this.filterServiceForm.value.minPrice
     })
