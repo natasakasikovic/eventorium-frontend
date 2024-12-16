@@ -45,6 +45,10 @@ export class NavBarComponent {
     this.router.navigate(['home']);
   }
 
+  signup(): void {
+    this.router.navigate(['signup'])
+  }
+
   get isOrganizer(): boolean {
     return this.role === UserRole.EVENT_ORGANIZER;
   }
