@@ -53,9 +53,8 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   onApplyFilter(filter: ServiceFilter): void {
-    this.service.filterProviderServices(filter).subscribe({
+    this.service.filterProviderServices(filter, this.pageProperties).subscribe({
       next: (services: PagedResponse<Service>) => {
-        console.log(services);
         this.services = services.content;
         this.pageProperties.totalCount = services.totalElements;
       }

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import {CreateServiceRequestDto} from './model/create-service-dto.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {Event} from '../event/model/event.model';
+import {COMMA} from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -104,7 +105,6 @@ export class ServiceService {
         .set('page', pageProperties.pageIndex)
         .set('size', pageProperties.pageSize);
     }
-
     return this.httpClient.get<PagedResponse<Service>>(
       `${environment.apiHost}/account/services/filter`,
       { params: params }

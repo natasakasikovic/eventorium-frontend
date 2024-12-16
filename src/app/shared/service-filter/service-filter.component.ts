@@ -16,8 +16,8 @@ export class ServiceFilterComponent implements OnInit {
   @Output() closeFilter: EventEmitter<void> = new EventEmitter();
   @Output() applyFilter: EventEmitter<ServiceFilter> = new EventEmitter();
 
-  categories: Category[] = [];
-  eventTypes: EventType[] = [];
+  categories: string[] = [];
+  eventTypes: string[] = [];
 
   filterServiceForm: FormGroup = new FormGroup({
     available: new FormControl(false),
@@ -36,12 +36,12 @@ export class ServiceFilterComponent implements OnInit {
   ngOnInit(): void {
     this.categoryService.getAll().subscribe({
       next: (category: Category[]) => {
-        this.categories = category;
+        this.categories = category.map(category => category.name);
       }
     });
     this.eventTypeService.getAll().subscribe({
       next: (eventTypes: EventType[]) => {
-        this.eventTypes = eventTypes;
+        this.eventTypes = eventTypes.map(eventType => eventType.name)
       }
     })
   }
@@ -53,8 +53,8 @@ export class ServiceFilterComponent implements OnInit {
   onApply(): void {
     this.applyFilter.emit({
       available: this.filterServiceForm.value.available,
-      category: this.filterServiceForm.value.category.name,
-      eventType: this.filterServiceForm.value.eventType.name,
+      category: this.filterServiceForm.value.category?.name,
+      eventType: this.filterServiceForm.value.eventType?.name,
       maxPrice: this.filterServiceForm.value.maxPrice,
       minPrice: this.filterServiceForm.value.minPrice
     })
