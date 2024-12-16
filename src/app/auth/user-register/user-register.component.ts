@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { User } from '../model/user.model';
-import { UserRole } from '../model/user-role.enum';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { MESSAGES } from '../../shared/constants/messages';
+import { City } from '../../shared/model/city.model';
+import { SharedService } from '../../shared/shared.service';
+import { Role } from '../model/user-role.model';
+import { AuthRequestDto } from '../model/auth-request.model';
+import { PersonRequestDto } from '../model/person.request.model';
 
 @Component({
   selector: 'app-user-register',
@@ -14,15 +18,18 @@ import { MESSAGES } from '../../shared/constants/messages';
   styleUrl: './user-register.component.css'
 })
 export class UserRegisterComponent {
-  user: User | null;
+  user: AuthRequestDto | null;
   registrationForm: FormGroup;
-  userRoles = [UserRole.EVENT_ORGANIZER, UserRole.PROVIDER];
-  selectedFile: File | null = null;
-  imageUrl: string | undefined = undefined;
+  userRoles: Role[];
+  profilePhoto: File | null = null;
+  imageUrl: string | null = null;
+  cities: City[];
+  roles: Role[];
 
   constructor(
     private fb: FormBuilder, 
     private authService: AuthService, 
+    private sharedService: SharedService,
     private router: Router, 
     private dialog: MatDialog) {
 
@@ -37,20 +44,37 @@ export class UserRegisterComponent {
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
     }, { validator: passwordMatchValidator() });
+
+    this.getCities();
+    this.getRoles();
   }
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      this.user = this.registrationForm.value;
-      this.user.activated = false;
-      // this.authService.add(this.user);
-      this.showActivationDialog();
-    }
-  }
+      const formValue = this.registrationForm.value;
 
-  uploadFile() {
-    const fileInput: HTMLElement = document.getElementById('fileInput')!;
-    fileInput.click();
+      const newPerson: PersonRequestDto = {
+        name : formValue.name,
+        lastname : formValue.lastname,
+        phoneNumber : formValue.phoneNumber,
+        address : formValue.address,
+        city : formValue.city,
+        profilePhoto: null
+      }
+
+      const newUser: AuthRequestDto = {
+        email : formValue.email,
+        password : formValue.password,
+        confirmPassword : formValue.confirmPassword,
+        role : [formValue.role],
+        personRequestDto: newPerson
+      }
+
+      this.authService.registerUser(newUser);
+      console.log(JSON.stringify(newUser));
+      this.user = newUser;
+      this.nextStep();
+    }
   }
 
   onFileSelected(event: Event) {
@@ -58,14 +82,14 @@ export class UserRegisterComponent {
     if (input?.files?.length) {
       const file = input.files[0];
       console.log('Selected file:', file.name);
-      this.selectedFile = file; 
+      this.profilePhoto = file; 
 
       this.imageUrl = URL.createObjectURL(file); 
     }
   }
 
-  showActivationDialog(): void {
-    if (this.user.role == UserRole.PROVIDER) {
+  nextStep(): void {
+    if (this.user.role[0].name.toUpperCase() === "PROVIDER") {
       this.router.navigate(['/company-register']);
       return;
     }
@@ -78,6 +102,15 @@ export class UserRegisterComponent {
     
     this.router.navigate(['/']);
   }
+
+  getCities(): void {
+    this.sharedService.getCities().subscribe(cities => this.cities = cities);
+  }
+
+  getRoles(): void {
+    this.authService.getRegistrationOptions().subscribe(roles => this.roles = roles);
+  }
+
 }  
 
 export function passwordMatchValidator(): ValidatorFn {
