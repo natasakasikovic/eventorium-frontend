@@ -4,6 +4,9 @@ import { User } from '../model/user.model';
 import { UserRole } from '../model/user-role.enum';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
 
 @Component({
   selector: 'app-user-register',
@@ -17,7 +20,12 @@ export class UserRegisterComponent {
   selectedFile: File | null = null;
   imageUrl: string | undefined = undefined;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router, 
+    private dialog: MatDialog) {
+
     this.registrationForm = this.fb.group({
       name: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -62,18 +70,11 @@ export class UserRegisterComponent {
       return;
     }
 
-    // NOTE: This will be changed to avoid using 'alert' in the future.
-    alert(`Account Activation Required
-        Thank you for signing up!
-        
-        To complete your registration, please follow these steps:
-        
-        1. Check your email: We've sent an activation link to the email address you provided.
-        2. Activate your account: Click the link within 24 hours to confirm your email and activate your account.
-        
-        Important: Your activation link will expire after 24 hours. If you do not activate your account within this time, you will need to repeat the registration process.
-        
-        Thank you for choosing Eventorium!`);
+    this.dialog.open(InfoDialogComponent, {
+      data: { 
+        title: MESSAGES.accountActivation.title, 
+        message: MESSAGES.accountActivation.message }
+    });
     
     this.router.navigate(['/']);
   }
