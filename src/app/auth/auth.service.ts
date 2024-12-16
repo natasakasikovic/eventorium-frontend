@@ -5,6 +5,7 @@ import { AuthResponse } from './model/auth-response.model';
 import { environment } from '../../env/environment';
 import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Role } from './model/user-role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,9 @@ export class AuthService {
 
   setUser(): void {
     this.user$.next(this.getRole());
+  }
+
+  getRegistrationOptions() : Observable<Role[]> {
+    return this.http.get<Role[]>(`${environment.apiHost}/roles/registration-options`)
   }
 }

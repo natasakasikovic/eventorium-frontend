@@ -4,7 +4,6 @@ import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { UserRole } from '../../auth/model/user-role.enum';
 
 @Component({
   selector: 'app-nav-bar',
@@ -48,11 +47,7 @@ export class NavBarComponent {
   signup(): void {
     this.router.navigate(['signup'])
   }
-
-  get isOrganizer(): boolean {
-    return this.role === UserRole.EVENT_ORGANIZER;
-  }
-
+  
   createEvent(): void {
     this.router.navigate(['create-event'])
   }
