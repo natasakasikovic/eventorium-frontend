@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { MESSAGES } from '../../shared/constants/messages';
-import { ERROR_MESSAGES } from '../../shared/constants/messages';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { City } from '../../shared/model/city.model';
 import { SharedService } from '../../shared/shared.service';
 import { Role } from '../model/user-role.model';
 import { AuthRequestDto } from '../model/auth-request.model';
 import { PersonRequestDto } from '../model/person.request.model';
 import { catchError, of, switchMap, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-register',
@@ -56,29 +57,34 @@ export class UserRegisterComponent {
 
       this.authService.registerUser(newUser).pipe(
         tap(() => {
-          this.dialog.open(InfoDialogComponent, {
-            data: {
-              title: MESSAGES.accountActivation.title,
-              message: MESSAGES.accountActivation.message
-            }
-          });
+          this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
           this.user = newUser;
           this.nextStep();
         }),
         switchMap(() => this.router.navigate(['/'])),
-        catchError(() => {
-          this.dialog.open(InfoDialogComponent, {
-            data: {
-              title: ERROR_MESSAGES.GENERAL_ERROR,
-              message: ERROR_MESSAGES.EMAIL_ALREADY_TAKEN
-            }
-          });
+        catchError((error: HttpErrorResponse) => {
+          if (error.status == 409) {
+            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EMAIL_ALREADY_TAKEN)
+          } else if (error.status == 400) {
+            this.showMessage("", ERROR_MESSAGES.INPUT_VALIDATION_ERROR);
+          } else {
+            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+          }
           return of();
         })
       ).subscribe(); 
     }
   }
   
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
   nextStep(): void {
     if (this.user.role[0].name.toUpperCase() === "PROVIDER") {
       this.router.navigate(['/company-register']);

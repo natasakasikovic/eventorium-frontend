@@ -18,8 +18,3 @@ export const MESSAGES = {
     }
   };
 
-export const ERROR_MESSAGES = {
-  GENERAL_ERROR: 'Oops! Something went wrong.',
-  EMAIL_ALREADY_TAKEN: 'This email is already taken. Please log in or activate your account via the email we sent you.'
-};
-  
