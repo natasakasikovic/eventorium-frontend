@@ -17,4 +17,8 @@ export const MESSAGES = {
       `
     }
   };
+
+export const ERROR_MESSAGES = {
+  GENERAL_ERROR: 'Oops! Something went wrong.'
+};
   
