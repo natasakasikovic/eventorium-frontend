@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { User } from '../model/user.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { MESSAGES } from '../../shared/constants/messages';
+import { ERROR_MESSAGES } from '../../shared/constants/messages';
 import { City } from '../../shared/model/city.model';
 import { SharedService } from '../../shared/shared.service';
 import { Role } from '../model/user-role.model';
 import { AuthRequestDto } from '../model/auth-request.model';
 import { PersonRequestDto } from '../model/person.request.model';
+import { catchError, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-user-register',
@@ -38,7 +39,7 @@ export class UserRegisterComponent {
       lastname: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -51,32 +52,40 @@ export class UserRegisterComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      const formValue = this.registrationForm.value;
+      const newUser = this.getFormValues();
 
-      const newPerson: PersonRequestDto = {
-        name : formValue.name,
-        lastname : formValue.lastname,
-        phoneNumber : formValue.phoneNumber,
-        address : formValue.address,
-        city : formValue.city,
-        profilePhoto: null
-      }
-
-      const newUser: AuthRequestDto = {
-        email : formValue.email,
-        password : formValue.password,
-        confirmPassword : formValue.confirmPassword,
-        role : [formValue.role],
-        personRequestDto: newPerson
-      }
-
-      this.authService.registerUser(newUser);
-      console.log(JSON.stringify(newUser));
-      this.user = newUser;
-      this.nextStep();
+      this.authService.registerUser(newUser).pipe(
+        tap(() => {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              title: MESSAGES.accountActivation.title,
+              message: MESSAGES.accountActivation.message
+            }
+          });
+          this.user = newUser;
+          this.nextStep();
+        }),
+        switchMap(() => this.router.navigate(['/'])),
+        catchError(() => {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              title: ERROR_MESSAGES.GENERAL_ERROR,
+              message: ERROR_MESSAGES.EMAIL_ALREADY_TAKEN
+            }
+          });
+          return of();
+        })
+      ).subscribe(); 
     }
   }
-
+  
+  nextStep(): void {
+    if (this.user.role[0].name.toUpperCase() === "PROVIDER") {
+      this.router.navigate(['/company-register']);
+      return;
+    }
+  }
+  
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
@@ -88,27 +97,35 @@ export class UserRegisterComponent {
     }
   }
 
-  nextStep(): void {
-    if (this.user.role[0].name.toUpperCase() === "PROVIDER") {
-      this.router.navigate(['/company-register']);
-      return;
-    }
-
-    this.dialog.open(InfoDialogComponent, {
-      data: { 
-        title: MESSAGES.accountActivation.title, 
-        message: MESSAGES.accountActivation.message }
-    });
-    
-    this.router.navigate(['/']);
-  }
-
   getCities(): void {
     this.sharedService.getCities().subscribe(cities => this.cities = cities);
   }
 
   getRoles(): void {
     this.authService.getRegistrationOptions().subscribe(roles => this.roles = roles);
+  }
+
+  getFormValues(): AuthRequestDto {
+    const formValue = this.registrationForm.value;
+  
+    const newPerson: PersonRequestDto = {
+      name : formValue.name,
+      lastname : formValue.lastname,
+      phoneNumber : formValue.phoneNumber,
+      address : formValue.address,
+      city : formValue.city,
+      profilePhoto: null
+    };
+
+    const newUser: AuthRequestDto = {
+      email : formValue.email,
+      password : formValue.password,
+      confirmPassword : formValue.confirmPassword,
+      role : [formValue.role],
+      person : newPerson
+    };
+
+    return newUser;
   }
 
 }  

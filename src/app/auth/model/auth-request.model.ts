@@ -6,5 +6,5 @@ export interface AuthRequestDto {
     password: string;
     confirmPassword: string;
     role: Role[];
-    personRequestDto: PersonRequestDto
+    person: PersonRequestDto
 }

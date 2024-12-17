@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthResponse } from './model/auth-response.model';
 import { environment } from '../../env/environment';
 import { Login } from './model/login.model';
@@ -58,7 +58,14 @@ export class AuthService {
     return this.http.get<Role[]>(`${environment.apiHost}/roles/registration-options`)
   }
 
-  registerUser(user: AuthRequestDto) : void {
-    this.http.post<void>(`${environment.apiHost}/auth/registration`, user)
+  registerUser(user: AuthRequestDto): Observable<void> {
+    return this.http.post<void>(`${environment.apiHost}/auth/registration`, user).pipe(
+      tap(() => {
+        console.log('Account registered successfully');
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    );
   }
 }
