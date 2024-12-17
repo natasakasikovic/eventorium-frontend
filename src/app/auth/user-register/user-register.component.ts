@@ -56,12 +56,13 @@ export class UserRegisterComponent {
       const newUser = this.getFormValues();
 
       this.authService.registerUser(newUser).pipe(
+
         tap(() => {
           this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
           this.user = newUser;
           this.nextStep();
         }),
-        switchMap(() => this.router.navigate(['/'])),
+
         catchError((error: HttpErrorResponse) => {
           if (error.status == 409) {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EMAIL_ALREADY_TAKEN)
@@ -72,7 +73,8 @@ export class UserRegisterComponent {
           }
           return of();
         })
-      ).subscribe(); 
+
+      ).subscribe( () => this.router.navigate(['/'])); 
     }
   }
   
