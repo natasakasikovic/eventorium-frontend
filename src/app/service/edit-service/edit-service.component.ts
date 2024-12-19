@@ -69,8 +69,8 @@ export class EditServiceComponent implements OnInit {
         description: formValue.description,
         discount: formValue.discount,
         eventTypesIds: formValue.eventTypes,
-        isAvailable: formValue.isAvailable,
-        isVisible: formValue.isVisible,
+        available: formValue.isAvailable,
+        visible: formValue.isVisible,
         maxDuration: formValue.maxDuration,
         minDuration: formValue.minDuration,
         name: formValue.name,
@@ -84,15 +84,13 @@ export class EditServiceComponent implements OnInit {
           void this.router.navigate(['manageable-services']);
         },
         error: (error: Error) => {
-          console.log(`Error updating service: ${error.message}`);
+          console.error(`Error updating service: ${error.message}`);
         }
-
       });
     }
   }
 
   private loadForm() {
-    console.log(typeof this.service.type);
     this.editServiceForm.patchValue({
       name: this.service.name,
       price: this.service.price,
@@ -100,8 +98,8 @@ export class EditServiceComponent implements OnInit {
       description: this.service.description,
       specialties: this.service.specialties,
       type: this.service.type,
-      isVisible: this.service.isVisible,
-      isAvailable: this.service.isAvailable,
+      isVisible: this.service.visible,
+      isAvailable: this.service.available,
       reservationDeadline: this.service.reservationDeadline,
       cancellationDeadline: this.service.cancellationDeadline,
       minDuration: this.service.minDuration,

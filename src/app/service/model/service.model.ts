@@ -17,8 +17,8 @@ export interface Service {
   reservationDeadline: Date;
   cancellationDeadline: Date;
   discount: number;
-  isVisible: boolean;
-  isAvailable: boolean;
+  visible: boolean;
+  available: boolean;
   type: ReservationType
   images: string[];
 }

@@ -36,7 +36,6 @@ export class ServiceService {
   }
 
   update(id: number, service: UpdateServiceRequestDto): Observable<Service> {
-    console.log(service);
     return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
@@ -48,8 +47,8 @@ export class ServiceService {
     return this.httpClient.get<Service>(`${environment.apiHost}/services/${id}`);
   }
 
-  delete(id: number): void {
-    this.services = this.services.filter(service => service.id !== id);
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/services/${id}`);
   }
 
   filterServices(serviceFilter: ServiceFilter): Service[] {
