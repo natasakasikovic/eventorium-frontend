@@ -2,8 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../service.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ReservationType} from '../model/reservation-type.enum';
+import {EventTypeService} from '../../event-type/event-type.service';
+import {EventType} from '../../event-type/model/event-type.model';
+import {switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-edit-service',
@@ -12,66 +15,100 @@ import {ReservationType} from '../model/reservation-type.enum';
 })
 export class EditServiceComponent implements OnInit {
   @Input() service: Service
-  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
-  editServiceForm: FormGroup;
+  eventTypes: EventType[] = [];
+  editServiceForm: FormGroup = new FormGroup({
+    name: new FormControl("", Validators.required),
+    price: new FormControl("", Validators.required),
+    discount: new FormControl("", Validators.required),
+    description: new FormControl("", Validators.required),
+    specialties: new FormControl("", Validators.required),
+    type: new FormControl(ReservationType.MANUAL, Validators.required),
+    isVisible: new FormControl("", Validators.required),
+    isAvailable: new FormControl("", Validators.required),
+    reservationDeadline: new FormControl("", Validators.required),
+    cancellationDeadline: new FormControl("", Validators.required),
+    minDuration: new FormControl("", Validators.required),
+    maxDuration: new FormControl("", Validators.required),
+    eventTypes: new FormControl("", Validators.required)
+  });
 
   constructor(
     private route: ActivatedRoute,
     private serviceService: ServiceService,
+    private eventTypeService: EventTypeService,
     private router: Router
   ) {
-
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
-      this.serviceService.get(id).subscribe({
+
+      this.eventTypeService.getAll().pipe(
+        switchMap((eventTypes: EventType[]) => {
+          this.eventTypes = eventTypes;
+          return this.serviceService.get(id);
+        })
+      ).subscribe({
         next: (service: Service) => {
           this.service = service;
-          this.editServiceForm = new FormGroup({
-            name: new FormControl(this.service.name),
-            price: new FormControl(this.service.price),
-            discount: new FormControl(this.service.discount),
-            description: new FormControl(this.service.description),
-            specialties: new FormControl(this.service.specialties),
-            confirmation: new FormControl(this.service.confirmation ),
-            visible: new FormControl(this.service.visible),
-            available: new FormControl(this.service.available),
-            reservationDeadline: new FormControl(this.service.reservationDeadline),
-            cancellationDeadline: new FormControl(this.service.cancellationDeadline),
-            minDuration: new FormControl(this.service.minDuration),
-            maxDuration: new FormControl(this.service.maxDuration),
-            eventTypes: new FormControl(this.service.eventTypes)
-          });
+          this.loadForm();
+        },
+        error: (err) => {
+          console.error('An error occurred', err);
         }
       });
     });
   }
 
   onUpdate(): void {
-    this.serviceService.update(this.service.id, {
-      available: this.editServiceForm.value.available,
-      cancellationDeadline: this.editServiceForm.value.cancellationDeadline,
-      category: this.service.category,
-      confirmation: this.editServiceForm.value.confirmation,
-      description: this.editServiceForm.value.description,
-      discount: this.editServiceForm.value.discount,
-      minDuration: this.editServiceForm.value.minDuration,
-      maxDuration: this.editServiceForm.value.maxDuration,
-      eventTypes: this.service.eventTypes,
-      id: this.service.id,
-      name: this.editServiceForm.value.name,
-      price: this.editServiceForm.value.price,
-      provider: this.service.provider,
-      rating: this.service.rating,
-      reservationDeadline: this.editServiceForm.value.reservationDeadline,
-      specialties: this.editServiceForm.value.specialties,
-      visible: this.editServiceForm.value.visible,
-      images: this.editServiceForm.value.image
-    });
-    this.router.navigate(['manageable-services']).then();
+    if(!this.editServiceForm.invalid) {
+      const formValue = this.editServiceForm.value;
+      this.serviceService.update(this.service.id, {
+        cancellationDeadline: formValue.cancellationDeadline,
+        description: formValue.description,
+        discount: formValue.discount,
+        eventTypesIds: formValue.eventTypes,
+        isAvailable: formValue.isAvailable,
+        isVisible: formValue.isVisible,
+        maxDuration: formValue.maxDuration,
+        minDuration: formValue.minDuration,
+        name: formValue.name,
+        price: formValue.price,
+        reservationDeadline: formValue.reservationDeadline,
+        specialties: formValue.specialties,
+        type: formValue.type
+      }).subscribe({
+        next: (service: Service) => {
+          console.log(`Successfully updated ${service.name}!`);
+          void this.router.navigate(['manageable-services']);
+        },
+        error: (error: Error) => {
+          console.log(`Error updating service: ${error.message}`);
+        }
+
+      });
+    }
   }
 
-  protected readonly Confirmation = ReservationType;
+  private loadForm() {
+    console.log(typeof this.service.type);
+    this.editServiceForm.patchValue({
+      name: this.service.name,
+      price: this.service.price,
+      discount: this.service.discount,
+      description: this.service.description,
+      specialties: this.service.specialties,
+      type: this.service.type,
+      isVisible: this.service.isVisible,
+      isAvailable: this.service.isAvailable,
+      reservationDeadline: this.service.reservationDeadline,
+      cancellationDeadline: this.service.cancellationDeadline,
+      minDuration: this.service.minDuration,
+      maxDuration: this.service.maxDuration,
+      eventTypes: this.service.eventTypes.map(eventType => eventType.id)
+    });
+  }
+
+  protected readonly ReservationType = ReservationType;
 }

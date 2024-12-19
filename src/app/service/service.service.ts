@@ -10,6 +10,7 @@ import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {Event} from '../event/model/event.model';
 import {COMMA} from '@angular/cdk/keycodes';
 import {PageProperties} from '../shared/model/page-properties.model';
+import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +35,9 @@ export class ServiceService {
     return this.httpClient.get<Service[]>(environment.apiHost + "/services/top-five-services");
   }
 
-  // TODO: connect to backend methods below
-
-  update(id: number, service: Service): void {
-
+  update(id: number, service: UpdateServiceRequestDto): Observable<Service> {
+    console.log(service);
+    return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
   create(service: CreateServiceRequestDto): Observable<Service> {
