@@ -24,7 +24,7 @@ export class ManageableServicesComponent implements OnInit {
 
   pageProperties: PageProperties = {
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 10,
     totalCount: 0
   }
 
