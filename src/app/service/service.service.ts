@@ -7,8 +7,6 @@ import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
 import {CreateServiceRequestDto} from './model/create-service-dto.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
-import {Event} from '../event/model/event.model';
-import {COMMA} from '@angular/cdk/keycodes';
 import {PageProperties} from '../shared/model/page-properties.model';
 
 @Injectable({
@@ -138,5 +136,17 @@ export class ServiceService {
       .set('maxPrice', filter.maxPrice != null ? filter.maxPrice.toString() : '')
       .set('page', pageProperties.pageIndex)
       .set('size', pageProperties.pageSize)
+  }
+
+  removeFromFavourites(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
+
+  addToFavourites(id: number): Observable<Service> {
+    return this.httpClient.post<Service>(`${environment.apiHost}/account/services/favourites/${id}`, {});
+  }
+
+  getIsFavourite(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
   }
 }

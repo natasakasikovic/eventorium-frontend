@@ -11,10 +11,11 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 })
 export class ServiceDetailsComponent implements OnInit, OnDestroy {
   @Input() service: Service
+  isFavorite: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
   ) {
   }
 
@@ -31,12 +32,37 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
               );
             }
           });
+          this.loadIsFavourite()
         }
       });
     });
   }
 
+  loadIsFavourite(): void {
+    this.serviceService.getIsFavourite(this.service.id).subscribe({
+      next: (isFavourite: boolean) => {
+        this.isFavorite = isFavourite;
+      }
+    })
+  }
+
   ngOnDestroy(): void {
     this.service.images.forEach(image => URL.revokeObjectURL(image));
+  }
+
+  toggleFavouriteService(): void {
+    if(this.isFavorite) {
+      this.serviceService.removeFromFavourites(this.service.id).subscribe({
+        next: () => {
+          this.isFavorite = false;
+        }
+      });
+    } else {
+      this.serviceService.addToFavourites(this.service.id).subscribe({
+        next: () => {
+          this.isFavorite = true;
+        }
+      });
+    }
   }
 }
