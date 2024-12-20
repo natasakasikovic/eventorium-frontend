@@ -62,6 +62,7 @@ export class UserRegisterComponent {
           this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
           this.user = newUser;
           this.nextStep();
+          this.router.navigate(['/']);
         }),
         catchError((error: HttpErrorResponse) => {
           if (error.status == 409) {
@@ -84,11 +85,7 @@ export class UserRegisterComponent {
           return of(null);
         })
 
-      ).subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        }
-      }); 
+      ).subscribe(); 
     }
   }
   
