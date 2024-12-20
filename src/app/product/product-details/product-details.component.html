@@ -15,8 +15,8 @@
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
         <span>{{ product?.rating }}</span>
-        <button mat-icon-button>
-          <mat-icon>favorite_border</mat-icon>
+        <button mat-icon-button (click)="toggleFavouriteProduct()">
+          <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <span class="price">&euro;{{ product?.price }}</span>
       </div>

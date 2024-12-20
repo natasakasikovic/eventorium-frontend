@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
 import {ActivatedRoute} from '@angular/router';
-import {ServiceService} from '../../service/service.service';
-import {Service} from '../../service/model/service.model';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
@@ -14,6 +12,7 @@ import {forkJoin, switchMap} from 'rxjs';
 })
 export class ProductDetailsComponent implements OnInit {
   @Input() product: Product;
+  isFavorite: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,12 +27,14 @@ export class ProductDetailsComponent implements OnInit {
         switchMap((product: Product) =>
           forkJoin([
             this.productService.get(id),
-            this.productService.getImages(product.id)
+            this.productService.getImages(product.id),
+            this.productService.getIsFavourite(product.id)
           ])
         )
       ).subscribe({
-        next: ([product, images]: [Product, ImageResponseDto[]]) => {
+        next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean]) => {
           this.product = product;
+          this.isFavorite = isFavourite;
           this.product.images = images.map(image =>
             `data:${image.contentType};base64,${image.data}`
           );
@@ -44,4 +45,21 @@ export class ProductDetailsComponent implements OnInit {
       });
     });
   }
+
+  toggleFavouriteProduct(): void {
+    if(this.isFavorite) {
+      this.productService.removeFromFavourites(this.product.id).subscribe({
+        next: () => {
+          this.isFavorite = false;
+        }
+      });
+    } else {
+      this.productService.addToFavourites(this.product.id).subscribe({
+        next: () => {
+          this.isFavorite = true;
+        }
+      });
+    }
+  }
+
 }
