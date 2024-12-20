@@ -7,6 +7,9 @@ import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
 import {CreateServiceRequestDto} from './model/create-service-dto.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
+import {Event} from '../event/model/event.model';
+import {COMMA} from '@angular/cdk/keycodes';
+import {PageProperties} from '../shared/model/page-properties.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,16 +53,7 @@ export class ServiceService {
   }
 
   filterServices(serviceFilter: ServiceFilter): Service[] {
-    return this.services.filter(service => {
-      if (serviceFilter.category && service.category.name !== serviceFilter.category) return false;
-      if (serviceFilter.eventType && serviceFilter.eventType in service.eventTypes) return false;
-      if (serviceFilter.available !== null && serviceFilter.available !== undefined
-        && (service.available == false && serviceFilter.available == true)) return false;
-      if (serviceFilter.minPrice !== null && serviceFilter.minPrice !== undefined
-        && service.price < serviceFilter.minPrice) return false;
-      return !(serviceFilter.maxPrice !== null && serviceFilter.maxPrice !== undefined
-        && service.price > serviceFilter.maxPrice);
-    });
+    return null;
   }
 
   searchServices(keyword: string): Service[] {
@@ -98,5 +92,51 @@ export class ServiceService {
       `${environment.apiHost}/services/suggestions`,
       { params: new HttpParams().set('categoryId', id).set('price', price) }
     );
+  }
+
+  filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = this.getFilterParams(filter, pageProperties)
+    }
+    return this.httpClient.get<PagedResponse<Service>>(
+      `${environment.apiHost}/account/services/filter`,
+      { params: params }
+    );
+  }
+
+  searchProviderServices(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = params
+        .set('keyword', keyword)
+        .set('page', pageProperties.pageIndex)
+        .set('size', pageProperties.pageSize);
+    }
+    return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/search", {params: params})
+  }
+
+  getAllForProvider(pageProperties?: any, filter?: ServiceFilter): Observable<PagedResponse<Service>> {
+    let params = new HttpParams();
+    if(filter) {
+      params = this.getFilterParams(filter, pageProperties);
+      return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/filter", { params: params });
+    }
+
+    params = params
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
+    return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services", { params: params });
+  }
+
+  private getFilterParams(filter?: ServiceFilter, pageProperties?: PageProperties): HttpParams {
+    return new HttpParams()
+      .set('category', filter.category || '')
+      .set('eventType', filter.eventType || '')
+      .set('availability', filter.available != null ? filter.available.toString() : '')
+      .set('minPrice', filter.minPrice != null ? filter.minPrice.toString() : '')
+      .set('maxPrice', filter.maxPrice != null ? filter.maxPrice.toString() : '')
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
   }
 }

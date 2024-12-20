@@ -5,7 +5,8 @@
 }
 
 .service-card img {
-  height: 10rem;
+  height: 9.5rem;
+  width: 15rem;
 }
 
 .service-card mat-card-header {
