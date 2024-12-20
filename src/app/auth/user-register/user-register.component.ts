@@ -13,6 +13,7 @@ import { AuthRequestDto } from '../model/auth-request.model';
 import { PersonRequestDto } from '../model/person.request.model';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthResponse } from '../model/auth-response.model';
 
 @Component({
   selector: 'app-user-register',
@@ -62,7 +63,6 @@ export class UserRegisterComponent {
           this.user = newUser;
           this.nextStep();
         }),
-
         catchError((error: HttpErrorResponse) => {
           if (error.status == 409) {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EMAIL_ALREADY_TAKEN)
@@ -71,10 +71,24 @@ export class UserRegisterComponent {
           } else {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
           }
-          return of();
+          return of(null);
+        }),
+
+        switchMap((user: AuthResponse) =>  {
+          if (this.profilePhoto) {
+              return this.authService.uploadProfilePhoto(user.id, this.profilePhoto)
+          } else return of(null)
+        }),
+        catchError(() => {
+            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
+          return of(null);
         })
 
-      ).subscribe( () => this.router.navigate(['/'])); 
+      ).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        }
+      }); 
     }
   }
   
@@ -97,10 +111,8 @@ export class UserRegisterComponent {
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
-      const file = input.files[0];
-      console.log('Selected file:', file.name);
+      const file : File = input.files[0];
       this.profilePhoto = file; 
-
       this.imageUrl = URL.createObjectURL(file); 
     }
   }

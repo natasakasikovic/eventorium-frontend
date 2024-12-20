@@ -7,6 +7,7 @@ import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Role } from './model/user-role.model';
 import { AuthRequestDto } from './model/auth-request.model';
+import { PortalInjector } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
@@ -58,8 +59,8 @@ export class AuthService {
     return this.http.get<Role[]>(`${environment.apiHost}/roles/registration-options`)
   }
 
-  registerUser(user: AuthRequestDto): Observable<void> {
-    return this.http.post<void>(`${environment.apiHost}/auth/registration`, user).pipe(
+  registerUser(user: AuthRequestDto): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${environment.apiHost}/auth/registration`, user).pipe(
       tap(() => {
         console.log('Account registered successfully');
       }),
@@ -67,5 +68,14 @@ export class AuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  uploadProfilePhoto(userId: number, photo: File): Observable<string> {
+    const formData: FormData = new FormData();
+    const fileType = '.' + photo.type.split('/')[1];
+    formData.append('profilePhoto', photo, userId.toString() + fileType)
+    return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`, 
+      formData,
+      { responseType: 'text' as 'json' });
   }
 }
