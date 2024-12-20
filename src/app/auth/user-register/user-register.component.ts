@@ -75,16 +75,17 @@ export class UserRegisterComponent {
           return of(null);
         }),
 
-        switchMap((user: AuthResponse) =>  {
-          if (this.profilePhoto) {
-              return this.authService.uploadProfilePhoto(user.id, this.profilePhoto)
-          } else return of(null)
-        }),
-        catchError(() => {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
-          return of(null);
+        switchMap((user: AuthResponse | null) => {
+          if (user && this.profilePhoto) {
+            return this.authService.uploadProfilePhoto(user.id, this.profilePhoto).pipe(
+              catchError(() => {
+                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
+                return of(null);
+              })
+            );
+          }
+          return of(null); 
         })
-
       ).subscribe(); 
     }
   }
