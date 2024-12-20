@@ -1,6 +1,5 @@
 <mat-card class="service-card" [style.opacity]="service.available ? 1 : 0.4">
-<img [src]="service.images && service.images[0]" alt="Service image"/>
-
+  <img [src]="service.images && service.images[0]" alt="Service image"/>
   <mat-card-header>
     <div *ngIf="!service.visible"><strong>HIDDEN</strong></div>
     <mat-card-title class="title">{{service.name}}</mat-card-title>

@@ -55,7 +55,15 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   deleteService(id: number) {
-    this.service.delete(id);
+    this.service.delete(id).subscribe({
+      next: () => {
+        console.log(`Successfully deleted service ${id}!`);
+        this.services = this.services.filter(service => service.id !== id);
+      },
+      error: (error: Error) => {
+        console.error(`Failed to delete service: ${error.message}`);
+      }
+    });
   }
 
   onApplyFilter(filter: ServiceFilter): void {
