@@ -3,13 +3,14 @@ import {Service} from '../model/service.model';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
+import {forkJoin, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-service-details',
   templateUrl: './service-details.component.html',
   styleUrl: './service-details.component.css'
 })
-export class ServiceDetailsComponent implements OnInit, OnDestroy {
+export class ServiceDetailsComponent implements OnInit {
   @Input() service: Service
 
   constructor(
@@ -21,22 +22,24 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
-      this.serviceService.get(id).subscribe({
-        next: (service: Service) => {
+      this.serviceService.get(id).pipe(
+        switchMap((service: Service) =>
+          forkJoin([
+            this.serviceService.get(id),
+            this.serviceService.getImages(service.id)
+          ])
+        )
+      ).subscribe({
+        next: ([service, images]: [Service, ImageResponseDto[]]) => {
           this.service = service;
-          this.serviceService.getImages(service.id).subscribe({
-            next: (images: ImageResponseDto[]) => {
-              this.service.images = images.map(image =>
-                `data:${image.contentType};base64,${image.data}`
-              );
-            }
-          });
+          this.service.images = images.map(image =>
+            `data:${image.contentType};base64,${image.data}`
+          );
+        },
+        error: (error) => {
+          console.error('Error loading service or images:', error);
         }
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.service.images.forEach(image => URL.revokeObjectURL(image));
   }
 }
