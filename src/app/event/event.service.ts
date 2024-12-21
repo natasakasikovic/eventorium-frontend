@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { CreateEventRequestDto } from './model/create-event-request.model';
+import { InvitationResponse } from './model/invitation-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,10 @@ export class EventService {
 
   createEvent(): Observable<Event> {
     return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
+  }
+
+  verifyInvitation(hash: string): Observable<InvitationResponse>{
+    return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/verification/${hash}`)
   }
 }
 

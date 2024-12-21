@@ -20,6 +20,7 @@ import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
 import { QuickRegistrationComponent } from './auth/quick-registration/quick-registration.component';
+import { QuickRegistrationGuard } from './auth/guards/quick-registration.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
-  { path: 'quick-registration/:id', component: QuickRegistrationComponent},
+  { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'event-invitations', component: EventInvitationsComponent},
