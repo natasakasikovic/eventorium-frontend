@@ -1,0 +1,17 @@
+<div class="price-list">
+  <mat-tab-group class="main-tabs">
+    <mat-tab label="Products">
+      <app-price-list-table [items]="products"></app-price-list-table>
+    </mat-tab>
+    <mat-tab label="Services">
+      <app-price-list-table [items]="services"></app-price-list-table>
+      <mat-paginator class="mat-elevation-z10"
+                     *ngIf="pageProperties"
+                     (page)="onPageChanged($event)"
+                     [pageIndex]="pageProperties.pageIndex"
+                     [length]="pageProperties.totalCount"
+                     [pageSize]="pageProperties.pageSize">
+      </mat-paginator>
+    </mat-tab>
+  </mat-tab-group>
+</div>
