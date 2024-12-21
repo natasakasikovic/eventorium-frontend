@@ -1,11 +1,11 @@
 import { Person } from "./person.model";
-import { UserRole } from "./user-role.enum";
+import { Role } from "./user-role.model";
 
 export interface User {
     id?: number;
     email: string;
     password: string;
-    role?: UserRole;
+    role?: Role;
     activated?: boolean;
     suspended?: boolean;
     activationTimestamp?: Date;

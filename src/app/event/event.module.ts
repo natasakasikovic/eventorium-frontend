@@ -6,13 +6,15 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { EventsOverviewComponent } from './events-overview/events-overview.component';
 import { EventInvitationsComponent } from './event-invitations/event-invitations.component';
 import { CreateEventComponent } from './create-event/create-event.component';
+import { EventAgendaComponent } from './event-agenda/event-agenda.component';
 
 @NgModule({
   declarations: [
     TopFiveEventsComponent,
     EventsOverviewComponent,    
     EventInvitationsComponent,
-    CreateEventComponent
+    CreateEventComponent,
+    EventAgendaComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,4 @@
 export enum ReservationType {
-  AUTOMATIC,
-  MANUAL
+  AUTOMATIC = "AUTOMATIC",
+  MANUAL = "MANUAL"
 }

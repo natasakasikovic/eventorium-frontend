@@ -3,7 +3,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
 import { AuthService } from '../../auth/auth.service';
-import { UserRole } from '../../auth/model/user-role.enum';
 
 @Component({
   selector: 'app-drawer',

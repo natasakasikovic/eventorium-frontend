@@ -24,7 +24,10 @@ export class ServicesOverviewComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor( private service: ServiceService, private changeDetector: ChangeDetectorRef ) { }
+  constructor(
+    private service: ServiceService,
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.getPagedServices();
@@ -38,7 +41,7 @@ export class ServicesOverviewComponent implements OnInit {
       }
     })
   }
-  
+
   onPageChanged(pageEvent : PageEvent): void {
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;

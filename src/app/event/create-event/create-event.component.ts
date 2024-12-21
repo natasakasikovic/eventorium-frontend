@@ -60,9 +60,15 @@ export class CreateEventComponent implements OnInit {
 
       this.eventService.updateEvent(newEvent);
 
-      if (newEvent.privacy == Privacy.CLOSED.toUpperCase()) { // TODO: Temporarily navigate to 'event-invitations', change to 'budget' when it is implemented
-        this.router.navigate(['event-invitations'])
-      }  
+      if (newEvent.privacy == Privacy.CLOSED.toUpperCase()) {
+        void this.router.navigate(['event-invitations'])
+      } else {
+        const eventWithNoInvitations : Partial<CreateEventRequestDto> = {
+          invitations: []
+        }
+        this.eventService.updateEvent(eventWithNoInvitations);
+        void this.router.navigate(['budget-planning']);
+      }
 
     }
   }

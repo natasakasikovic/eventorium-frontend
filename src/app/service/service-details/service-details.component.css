@@ -12,11 +12,13 @@
   text-align: center;
   font-size: 18px;
   font-weight: bold;
+  margin-left: 0.5rem;
   color: #000;
 }
 
 .service-card {
   margin-top: 3rem;
+  min-width: 50%;
   max-width: 80%;
   background-color: #fdf7ef;
   padding: 15px;
@@ -49,16 +51,16 @@ mat-card-header {
   padding: 16px 24px;
 }
 
-
 .gallery {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
 
-.gallery-item {
-  width: 200px;
-  height: 200px;
-  background-color: #e0e0e0;
+
+.gallery-item img {
+  width: 10rem;
+  height: 10rem;
 }
 
 .header-right {
@@ -73,7 +75,6 @@ mat-card-header {
   justify-content: space-between;
   align-items: center;
 }
-
 
 .details {
   font-size: 16px;

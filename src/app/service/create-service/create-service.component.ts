@@ -64,8 +64,8 @@ export class CreateServiceComponent implements OnInit {
       next: (categories: Category[]) => {
         this.categories.push(...categories);
       },
-      error: (_) => {
-        console.log("Error loading categories");
+      error: (err: Error) => {
+        console.log("Error loading categories ", err);
       }
     });
 
@@ -73,8 +73,8 @@ export class CreateServiceComponent implements OnInit {
       next: (eventTypes: EventType[]) => {
         this.eventTypes.push(...eventTypes);
       },
-      error: (_) => {
-        console.error("Error loading event types");
+      error: (err: Error) => {
+        console.error("Error loading event types ", err);
       }
     });
 
@@ -101,13 +101,14 @@ export class CreateServiceComponent implements OnInit {
       }
       this.serviceService.create(newService).pipe(
         switchMap((service: Service) => {
-          console.log(service);
           const serviceId = service.id;
-          return this.serviceService.uploadFiles(serviceId, this.images);
+          if(this.images.length !== 0) {
+            return this.serviceService.uploadFiles(serviceId, this.images);
+          }
+          return "Success";
         })
       ).subscribe({
         next: (str: string) => {
-          console.log(str);
           void this.router.navigate(["manageable-services"]);
         },
         error: (error: Error) => {

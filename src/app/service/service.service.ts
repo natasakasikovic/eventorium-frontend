@@ -6,6 +6,9 @@ import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
 import {CreateServiceRequestDto} from './model/create-service-dto.model';
+import {ImageResponseDto} from '../shared/model/image-response-dto.model';
+import {PageProperties} from '../shared/model/page-properties.model';
+import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,46 +33,24 @@ export class ServiceService {
     return this.httpClient.get<Service[]>(environment.apiHost + "/services/top-five-services");
   }
 
-  // TODO: connect to backend methods below
-
-  update(id: number, service: Service): void {
-    const oldService: Service = this.get(id);
-    oldService.visible = service.visible;
-    oldService.name = service.name;
-    oldService.price = service.price;
-    oldService.confirmation = service.confirmation;
-    oldService.available = service.available;
-    oldService.cancellationDeadline = service.cancellationDeadline;
-    oldService.specialties = service.specialties;
-    oldService.description = service.description;
-    oldService.minDuration = service.minDuration;
-    oldService.maxDuration = service.maxDuration;
-    oldService.discount = service.discount;
+  update(id: number, service: UpdateServiceRequestDto): Observable<Service> {
+    return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
   create(service: CreateServiceRequestDto): Observable<Service> {
     return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 
-  get(id: number): Service {
-    return this.services.find(service => service.id === id);
+  get(id: number): Observable<Service> {
+    return this.httpClient.get<Service>(`${environment.apiHost}/services/${id}`);
   }
 
-  delete(id: number): void {
-    this.services = this.services.filter(service => service.id !== id);
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/services/${id}`);
   }
 
   filterServices(serviceFilter: ServiceFilter): Service[] {
-    return this.services.filter(service => {
-      if (serviceFilter.category && service.categoryName !== serviceFilter.category) return false;
-      if (serviceFilter.eventType && serviceFilter.eventType in service.eventTypes) return false;
-      if (serviceFilter.available !== null && serviceFilter.available !== undefined
-        && (service.available == false && serviceFilter.available == true)) return false;
-      if (serviceFilter.minPrice !== null && serviceFilter.minPrice !== undefined
-        && service.price < serviceFilter.minPrice) return false;
-      return !(serviceFilter.maxPrice !== null && serviceFilter.maxPrice !== undefined
-        && service.price > serviceFilter.maxPrice);
-    });
+    return null;
   }
 
   searchServices(keyword: string): Service[] {
@@ -90,4 +71,81 @@ export class ServiceService {
     );
   }
 
+  getImages(id: number): Observable<ImageResponseDto[]> {
+    return this.httpClient.get<ImageResponseDto[]>(
+      `${environment.apiHost}/services/${id}/images`,
+    );
+  }
+
+  getImage(id: number): Observable<Blob> {
+    return this.httpClient.get(
+      `${environment.apiHost}/services/${id}/image`,
+      { responseType: 'blob' }
+    ) as Observable<Blob>;
+  }
+
+  getBudgetSuggestions(id: number, price: number): Observable<Service[]> {
+    return this.httpClient.get<Service[]>(
+      `${environment.apiHost}/services/suggestions`,
+      { params: new HttpParams().set('categoryId', id).set('price', price) }
+    );
+  }
+
+  filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = this.getFilterParams(filter, pageProperties)
+    }
+    return this.httpClient.get<PagedResponse<Service>>(
+      `${environment.apiHost}/account/services/filter`,
+      { params: params }
+    );
+  }
+
+  searchProviderServices(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = params
+        .set('keyword', keyword)
+        .set('page', pageProperties.pageIndex)
+        .set('size', pageProperties.pageSize);
+    }
+    return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/search", {params: params})
+  }
+
+  getAllForProvider(pageProperties?: any, filter?: ServiceFilter): Observable<PagedResponse<Service>> {
+    let params = new HttpParams();
+    if(filter) {
+      params = this.getFilterParams(filter, pageProperties);
+      return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/filter", { params: params });
+    }
+
+    params = params
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
+    return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services", { params: params });
+  }
+
+  private getFilterParams(filter?: ServiceFilter, pageProperties?: PageProperties): HttpParams {
+    return new HttpParams()
+      .set('category', filter.category || '')
+      .set('eventType', filter.eventType || '')
+      .set('availability', filter.available != null ? filter.available.toString() : '')
+      .set('minPrice', filter.minPrice != null ? filter.minPrice.toString() : '')
+      .set('maxPrice', filter.maxPrice != null ? filter.maxPrice.toString() : '')
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize)
+  }
+
+  removeFromFavourites(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
+
+  addToFavourites(id: number): Observable<Service> {
+    return this.httpClient.post<Service>(`${environment.apiHost}/account/services/favourites/${id}`, {});
+  }
+
+  getIsFavourite(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
 }

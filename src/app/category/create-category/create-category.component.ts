@@ -26,8 +26,7 @@ export class CreateCategoryComponent {
       name: this.createCategoryForm.value.name,
       description: this.createCategoryForm.value.description,
     }).subscribe({
-      next: (category: Category) => {
-        console.log(category)
+      next: (_) => {
         void this.router.navigate(['categories-overview']);
       },
       error: (e: Error) => {

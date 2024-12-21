@@ -6,6 +6,7 @@ import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { CreateEventRequestDto } from './model/create-event-request.model';
 import { InvitationResponse } from './model/invitation-response.model';
+import {EventType} from '../event-type/model/event-type.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class EventService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<Event>> {
-    let params = new HttpParams(); 
+    let params = new HttpParams();
     if (pageProperties){
       params = params
       .set('page', pageProperties.pageIndex)
@@ -32,12 +33,23 @@ export class EventService {
     return this.events.slice(0, 5);
   }
 
-  searchEvents(keyword: string): Event[] {
-    return this.events.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
+  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<Event>> {
+    let params = new HttpParams()
+    if (pageProperties){
+      params = params
+      .set('keyword', keyword)
+      .set('page', pageProperties.pageIndex)
+      .set('size', pageProperties.pageSize);
+    }
+    return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events/search", {params: params})
   }
 
   updateEvent(event: Partial<CreateEventRequestDto>): void {
     this.event = {...event, ...this.event}
+  }
+
+  get eventType(): EventType {
+    return this.event.eventType;
   }
 
   createEvent(): Observable<Event> {
