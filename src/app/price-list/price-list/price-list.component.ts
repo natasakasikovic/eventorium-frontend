@@ -28,7 +28,7 @@ export class PriceListComponent implements OnInit {
 
   pageProperties: PageProperties = {
     pageIndex: 0,
-    pageSize: 3,
+    pageSize: 10,
     totalCount: 0
   }
 
