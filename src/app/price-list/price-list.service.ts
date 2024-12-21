@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../env/environment';
 import {PagedResponse} from '../shared/model/paged-response.model';
 import {PageProperties} from '../shared/model/page-properties.model';
+import {UpdatePriceRequestDto} from './model/update-price-request-dto-model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class PriceListService {
       `${environment.apiHost}/price-list/products`,
       { params: params}
     );
+  }
+
+  updateService(id: number, newPrice: UpdatePriceRequestDto): Observable<PriceListItem> {
+    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/services/${id}`, newPrice)
   }
 }
