@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {forkJoin, switchMap} from 'rxjs';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-service-details',
@@ -17,24 +18,38 @@ export class ServiceDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private serviceService: ServiceService,
+    private authService: AuthService
   ) {
+  }
+
+  get loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
       this.serviceService.get(id).pipe(
-        switchMap((service: Service) =>
-          forkJoin([
-            this.serviceService.get(id),
-            this.serviceService.getImages(service.id),
-            this.serviceService.getIsFavourite(service.id)
-          ])
-        )
+        switchMap((service: Service) =>{
+          if (this.loggedIn) {
+            return forkJoin([
+              this.serviceService.get(id),
+              this.serviceService.getImages(service.id),
+              this.serviceService.getIsFavourite(service.id)
+            ]);
+          } else {
+            return forkJoin([
+              this.serviceService.get(id),
+              this.serviceService.getImages(service.id)
+            ]);
+          }
+        })
       ).subscribe({
-        next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean]) => {
+        next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean?]) => {
           this.service = service;
-          this.isFavourite = isFavourite;
+          if(this.loggedIn) {
+            this.isFavourite = isFavourite;
+          }
           this.service.images = images.map(image =>
             `data:${image.contentType};base64,${image.data}`
           );
