@@ -43,6 +43,8 @@ export class LoginComponent {
         error: (error: HttpErrorResponse) => {
           if (error.status === 401) {
             this.serverError = 'Invalid credentials. Please try again.';
+          } else if (error.status === 403) {
+            this.serverError = 'Account is not verified. Check your email.'
           } else {
             this.serverError = 'An error occurred. Please try again later.';
           }
