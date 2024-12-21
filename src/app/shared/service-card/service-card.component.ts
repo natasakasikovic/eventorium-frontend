@@ -28,7 +28,7 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
         this.service.images = [];
         this.service.images.push("/photo_placeholder.png");
       }
-    })
+    });
   }
 
 

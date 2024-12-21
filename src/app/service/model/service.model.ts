@@ -19,6 +19,6 @@ export interface Service {
   discount: number;
   visible: boolean;
   available: boolean;
-  confirmation: ReservationType
+  type: ReservationType
   images: string[];
 }

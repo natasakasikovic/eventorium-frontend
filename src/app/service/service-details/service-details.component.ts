@@ -3,15 +3,16 @@ import {Service} from '../model/service.model';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
+import {forkJoin, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-service-details',
   templateUrl: './service-details.component.html',
   styleUrl: './service-details.component.css'
 })
-export class ServiceDetailsComponent implements OnInit, OnDestroy {
+export class ServiceDetailsComponent implements OnInit {
   @Input() service: Service
-  isFavorite: boolean;
+  isFavourite: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,45 +23,40 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
-      this.serviceService.get(id).subscribe({
-        next: (service: Service) => {
+      this.serviceService.get(id).pipe(
+        switchMap((service: Service) =>
+          forkJoin([
+            this.serviceService.get(id),
+            this.serviceService.getImages(service.id),
+            this.serviceService.getIsFavourite(service.id)
+          ])
+        )
+      ).subscribe({
+        next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean]) => {
           this.service = service;
-          this.serviceService.getImages(service.id).subscribe({
-            next: (images: ImageResponseDto[]) => {
-              this.service.images = images.map(image =>
-                `data:${image.contentType};base64,${image.data}`
-              );
-            }
-          });
-          this.loadIsFavourite()
+          this.isFavourite = isFavourite;
+          this.service.images = images.map(image =>
+            `data:${image.contentType};base64,${image.data}`
+          );
+        },
+        error: (error) => {
+          console.error('Error loading service or images:', error);
         }
       });
     });
   }
 
-  loadIsFavourite(): void {
-    this.serviceService.getIsFavourite(this.service.id).subscribe({
-      next: (isFavourite: boolean) => {
-        this.isFavorite = isFavourite;
-      }
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.service.images.forEach(image => URL.revokeObjectURL(image));
-  }
-
   toggleFavouriteService(): void {
-    if(this.isFavorite) {
+    if(this.isFavourite) {
       this.serviceService.removeFromFavourites(this.service.id).subscribe({
         next: () => {
-          this.isFavorite = false;
+          this.isFavourite = false;
         }
       });
     } else {
       this.serviceService.addToFavourites(this.service.id).subscribe({
         next: () => {
-          this.isFavorite = true;
+          this.isFavourite = true;
         }
       });
     }
