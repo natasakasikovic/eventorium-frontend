@@ -14,6 +14,7 @@ import { PersonRequestDto } from '../model/person.request.model';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthResponse } from '../model/auth-response.model';
+import { toString } from '../model/user-role.model';
 
 @Component({
   selector: 'app-user-register',
@@ -100,7 +101,7 @@ export class UserRegisterComponent {
   }
 
   nextStep(): void {
-    if (this.user.role[0].name.toUpperCase() === "PROVIDER") {
+    if (this.user.roles[0].name.toUpperCase() === "PROVIDER") {
       this.router.navigate(['/company-register']);
       return;
     }
@@ -139,11 +140,15 @@ export class UserRegisterComponent {
       email : formValue.email,
       password : formValue.password,
       confirmPassword : formValue.confirmPassword,
-      role : [formValue.role],
+      roles : [formValue.role],
       person : newPerson
     };
 
     return newUser;
+  }
+
+  roleToString(role: Role): string {
+    return toString(role);
   }
 
 }  

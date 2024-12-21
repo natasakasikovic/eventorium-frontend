@@ -5,6 +5,6 @@ export interface AuthRequestDto {
     email: string;
     password: string;
     confirmPassword: string;
-    role: Role[];
+    roles: Role[];
     person: PersonRequestDto
 }
