@@ -47,7 +47,12 @@ export class UserRegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
-    }, { validator: passwordMatchValidator() });
+    }, 
+    { 
+      validators: passwordMatchValidator(),
+      updateOn: 'change'
+    }
+  );
 
     this.getCities();
     this.getRoles();
@@ -155,11 +160,16 @@ export class UserRegisterComponent {
 
 export function passwordMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
 
-    return password && confirmPassword && password !== confirmPassword
-      ? { passwordMismatch: true }
-      : null;
+    if (!password || !confirmPassword) return null; 
+    
+    const mismatch = password.value !== confirmPassword.value;
+    if (mismatch) confirmPassword.setErrors({ passwordMismatch: true });
+    else confirmPassword.setErrors(null);
+    
+    return mismatch ? { passwordMismatch: true } : null;
   };
 }
+
