@@ -9,7 +9,9 @@ import {PriceListService} from '../price-list.service';
 })
 export class PriceListTableComponent {
   @Input() items: PriceListItem[] = [];
+  @Output() updateItem: EventEmitter<PriceListItem> = new EventEmitter();
   displayedColumns: string[] = ["Name", "Price", "Discount", "Net price", "Action"];
+
 
   constructor(
     private priceListService: PriceListService
@@ -25,10 +27,6 @@ export class PriceListTableComponent {
   }
 
   onSave(element: PriceListItem): void {
-    this.priceListService.updateService(element.id, { price: element.price, discount: element.discount }).subscribe({
-      next: (item: PriceListItem) => {
-        console.log(`Updated ${item.name}`);
-      }
-    });
+    this.updateItem.emit(element);
   }
 }
