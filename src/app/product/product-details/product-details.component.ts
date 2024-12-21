@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,25 +17,39 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private authService: AuthService
   ) {
+  }
+
+  get loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
       this.productService.get(id).pipe(
-        switchMap((product: Product) =>
-          forkJoin([
-            this.productService.get(id),
-            this.productService.getImages(product.id),
-            this.productService.getIsFavourite(product.id)
-          ])
-        )
+        switchMap((product: Product) => {
+          if (this.loggedIn) {
+            return forkJoin([
+              this.productService.get(id),
+              this.productService.getImages(product.id),
+              this.productService.getIsFavourite(product.id)
+            ]);
+          } else {
+            return forkJoin([
+              this.productService.get(id),
+              this.productService.getImages(product.id),
+            ]);
+          }
+        })
       ).subscribe({
-        next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean]) => {
+        next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean?]) => {
           this.product = product;
-          this.isFavorite = isFavourite;
+          if(this.loggedIn) {
+            this.isFavorite = isFavourite;
+          }
           this.product.images = images.map(image =>
             `data:${image.contentType};base64,${image.data}`
           );
