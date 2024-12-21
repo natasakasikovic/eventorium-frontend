@@ -39,7 +39,7 @@
     </mat-form-field>
 
     <div class="form-actions">
-      <button mat-raised-button [disabled]="registrationForm.invalid">
+      <button mat-raised-button [disabled]="registrationForm.invalid" (click)="processRegistration()">
         Complete Registration
       </button>
     </div>

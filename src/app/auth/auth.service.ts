@@ -5,6 +5,7 @@ import { AuthResponse } from './model/auth-response.model';
 import { environment } from '../../env/environment';
 import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { QuickRegistrationDto } from './model/quick-registration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,9 @@ export class AuthService {
   setUser(): void {
     this.user$.next(this.getRole());
   }
+
+  quickRegister(user: QuickRegistrationDto): Observable<String> {
+    return this.http.post<String>(environment.apiHost + "/auth/quick-registration", user)
+  }
+
 }
