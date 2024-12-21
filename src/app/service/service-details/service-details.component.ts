@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {forkJoin, switchMap} from 'rxjs';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-service-details',
@@ -12,26 +13,43 @@ import {forkJoin, switchMap} from 'rxjs';
 })
 export class ServiceDetailsComponent implements OnInit {
   @Input() service: Service
+  isFavourite: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private authService: AuthService
   ) {
+  }
+
+  get loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       const id: number = +param['id'];
       this.serviceService.get(id).pipe(
-        switchMap((service: Service) =>
-          forkJoin([
-            this.serviceService.get(id),
-            this.serviceService.getImages(service.id)
-          ])
-        )
+        switchMap((service: Service) =>{
+          if (this.loggedIn) {
+            return forkJoin([
+              this.serviceService.get(id),
+              this.serviceService.getImages(service.id),
+              this.serviceService.getIsFavourite(service.id)
+            ]);
+          } else {
+            return forkJoin([
+              this.serviceService.get(id),
+              this.serviceService.getImages(service.id)
+            ]);
+          }
+        })
       ).subscribe({
-        next: ([service, images]: [Service, ImageResponseDto[]]) => {
+        next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean?]) => {
           this.service = service;
+          if(this.loggedIn) {
+            this.isFavourite = isFavourite;
+          }
           this.service.images = images.map(image =>
             `data:${image.contentType};base64,${image.data}`
           );
@@ -41,5 +59,21 @@ export class ServiceDetailsComponent implements OnInit {
         }
       });
     });
+  }
+
+  toggleFavouriteService(): void {
+    if(this.isFavourite) {
+      this.serviceService.removeFromFavourites(this.service.id).subscribe({
+        next: () => {
+          this.isFavourite = false;
+        }
+      });
+    } else {
+      this.serviceService.addToFavourites(this.service.id).subscribe({
+        next: () => {
+          this.isFavourite = true;
+        }
+      });
+    }
   }
 }
