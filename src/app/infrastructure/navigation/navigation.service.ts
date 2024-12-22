@@ -6,14 +6,12 @@ import {filter} from 'rxjs';
   providedIn: 'root'
 })
 export class NavigationService {
-  private previousUrl: string | null = null;
   private currentUrl: string | null = null;
 
   constructor(private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.previousUrl = this.currentUrl;
         this.currentUrl = event.urlAfterRedirects;
       });
   }

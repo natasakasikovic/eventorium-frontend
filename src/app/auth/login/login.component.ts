@@ -31,7 +31,6 @@ export class LoginComponent {
         email: this.loginForm.value.email || "",
         password: this.loginForm.value.password || ""
       };
-  
       this.authService.login(login).subscribe({
         next: (response: AuthResponse) => {
           localStorage.setItem('user', response.jwt);
@@ -52,7 +51,6 @@ export class LoginComponent {
       });
     }
   }
-  
 
   navigateToSignup() {
     this.dialogRef.close();
