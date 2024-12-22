@@ -16,6 +16,8 @@ import { EventTypeModule } from './event-type/event-type.module';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {Interceptor} from './auth/interceptor';
 import {BudgetModule} from './budget/budget.module';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import {BudgetModule} from './budget/budget.module';
     ServiceModule,
     CategoryModule,
     EventTypeModule,
-    BudgetModule
+    BudgetModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     provideAnimationsAsync(),

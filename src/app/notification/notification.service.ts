@@ -5,6 +5,7 @@ import {environment} from '../../env/environment';
 import {AuthService} from '../auth/auth.service';
 import {Notification} from './model/notification.model';
 import {NotificationType} from './model/notification-type.enum';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class NotificationService {
   notifications: Notification[] = [];
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private toasterService: ToastrService
   ) { }
 
   openSocket(): void {
@@ -30,7 +32,9 @@ export class NotificationService {
           if(notification) {
             this.notifications.unshift(notification);
             if(notification.type == NotificationType.ACCEPTED) {
-
+              this.toasterService.success(notification.message, "Category");
+            } else {
+              this.toasterService.error(notification.message, "Category");
             }
           }
         })
