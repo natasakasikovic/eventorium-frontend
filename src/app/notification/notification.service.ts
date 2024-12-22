@@ -42,12 +42,10 @@ export class NotificationService {
   }
 
   closeSocket(): void {
-    if (this.socketClient) {
-      this.socketClient.disconnect(() => {
-        console.log("Disconnected from WS");
-      });
+    if (this.socketClient !== null) {
+      this.socketClient.disconnect(() => console.log("WebSocket disconnected!"));
+      this.notificationSubscription.unsubscribe();
       this.socketClient = null;
     }
   }
-
 }
