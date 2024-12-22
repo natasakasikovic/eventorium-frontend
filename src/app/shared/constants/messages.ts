@@ -15,6 +15,18 @@ export const MESSAGES = {
         
         <p>Thank you for choosing Eventorium!</p>
       `
-    }
+    },
+    quickRegistrationSuccess: {
+      title: 'Quick Registration Successful',
+      message: `
+        <p>Your quick registration has been successfully completed!</p>
+        
+        <p>You can now log in by clicking the 'Log in' button in the navigation menu, using the email address where you received your invitation.</p>
+        
+        <p>After logging in, you will be able to view and manage any invitations you have received.</p>
+        
+        <p>Best regards,<br>The Eventorium Team</p>
+      `
+    }    
   };
 

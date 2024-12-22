@@ -1,18 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QuickRegistrationDto } from '../model/quick-registration.model';
 import { AuthService } from '../auth.service';
+import { QuickRegistrationPersonDto } from '../model/qucik-registration-person.model';
+import { MatDialog } from '@angular/material/dialog';
+import { catchError, switchMap, tap } from 'rxjs';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { EventService } from '../../event/event.service';
+import { InvitationResponse } from '../../event/model/invitation-response.model';
 
 @Component({
   selector: 'app-quick-registration',
   templateUrl: './quick-registration.component.html',
   styleUrl: './quick-registration.component.css'
 })
-export class QuickRegistrationComponent {
+export class QuickRegistrationComponent implements OnInit {
 
   registrationForm: FormGroup;
+  email: string;
 
-  constructor(private fb: FormBuilder, private service: AuthService) {
+  constructor(private fb: FormBuilder,
+      private service: AuthService,
+      private eventService: EventService,
+      private dialog: MatDialog,
+      private router: Router,
+      private route: ActivatedRoute,
+       ) {
     this.registrationForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -21,6 +36,20 @@ export class QuickRegistrationComponent {
     },
     { Validators : this.passwordMatchValidator })
   }
+
+  ngOnInit(): void {
+    this.route.params.pipe(
+      switchMap(param => {
+        const hash: string = param['hash'];
+        return this.eventService.getInvitation(hash);
+      })
+    ).subscribe({
+      next: (response: InvitationResponse) => {
+        this.email = response.email;
+      }
+    });
+  }
+
 
   passwordMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
     const password = group.get('password').value;
@@ -32,19 +61,44 @@ export class QuickRegistrationComponent {
     if (this.registrationForm.invalid)
       return;
 
+    const user = this.getFormValues()
+
+    this.service.quickRegister(user).pipe(
+      
+      tap(() => {
+        const message = MESSAGES.quickRegistrationSuccess;
+        this.showMessage(message.title, message.message)
+        this.router.navigate(['/'])
+      })
+      // TODO: add catchError
+    ).subscribe();
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
+  getFormValues(): QuickRegistrationDto {
+    const formValue = this.registrationForm.value;
+
+    const person : QuickRegistrationPersonDto = {
+      name: formValue.firstName,
+      lastname: formValue.lastName
+    }
+
     const user: QuickRegistrationDto = {
-      person: {
-        name: this.registrationForm.get('firstName').value,
-        lastname: this.registrationForm.get('lastName').value
-      },
-      email: "TODO@gmail.com",  // TODO: get an email when invitation is verificated
-      password: this.registrationForm.get('password').value,
-      passwordConfirmation: this.registrationForm.get('confirmPassword').value
+      email: this.email,
+      password: formValue.password,
+      passwordConfirmation: formValue.confirmPassword,
+      person: person
     };
 
-    this.service.quickRegister(user).subscribe({
-        // TODO: implement pop up with messages
-    })
+    return user;
   }
 
 }

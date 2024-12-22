@@ -56,8 +56,13 @@ export class EventService {
     return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
   }
 
-  verifyInvitation(hash: string): Observable<InvitationResponse>{
-    return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/verification/${hash}`)
+  verifyInvitation(hash: string): Observable<void> {
+    return this.httpClient.get<void>(`${environment.apiHost}/invitations/verification/${hash}`)
   }
+
+  getInvitation(hash: string): Observable<InvitationResponse>{
+    return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
+  }
+  
 }
 

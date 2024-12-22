@@ -16,17 +16,13 @@ export class QuickRegistrationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const hash = route.paramMap.get('hash')
 
-    if (!hash){
-      this.router.navigate(['/']);
-      return of(false);
-    }
-
     return this.service.verifyInvitation(hash).pipe(
       map(() => true), 
       catchError(() => {
         this.router.navigate(['/']);
         return of(false);
       })
-    )
+    );
+    
   }
 }
