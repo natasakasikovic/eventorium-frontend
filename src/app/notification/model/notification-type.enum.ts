@@ -3,4 +3,5 @@ export enum NotificationType {
   ERROR,
   ACCEPTED,
   DECLINED,
+  INFO,
 }

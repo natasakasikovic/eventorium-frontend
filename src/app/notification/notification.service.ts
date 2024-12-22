@@ -32,9 +32,11 @@ export class NotificationService {
           if(notification) {
             this.notifications.unshift(notification);
             if(notification.type == NotificationType.ACCEPTED) {
-              this.toasterService.success(notification.message, "Category");
-            } else {
-              this.toasterService.error(notification.message, "Category");
+              this.toasterService.success(notification.message, "Notification");
+            } else if (notification.type == NotificationType.DECLINED){
+              this.toasterService.error(notification.message, "Notification");
+            } else if(notification.type == NotificationType.INFO) {
+              this.toasterService.info(notification.message, "Notification");
             }
           }
         })
