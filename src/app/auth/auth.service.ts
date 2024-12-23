@@ -55,8 +55,8 @@ export class AuthService {
     this.user$.next(this.getRole());
   }
 
-  quickRegister(user: QuickRegistrationDto): Observable<String> {
-    return this.http.post<String>(environment.apiHost + "/auth/quick-registration", user)
+  quickRegister(user: QuickRegistrationDto): Observable<void> {
+    return this.http.post<void>(environment.apiHost + "/auth/quick-registration", user)
   }
 
   getRegistrationOptions() : Observable<Role[]> {
