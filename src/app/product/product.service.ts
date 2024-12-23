@@ -62,4 +62,16 @@ export class ProductService {
       { responseType: 'blob' }
     ) as Observable<Blob>;
   }
+
+  removeFromFavourites(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/account/products/favourites/${id}`);
+  }
+
+  addToFavourites(id: number): Observable<Product> {
+    return this.httpClient.post<Product>(`${environment.apiHost}/account/products/favourites/${id}`, {});
+  }
+
+  getIsFavourite(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/products/favourites/${id}`);
+  }
 }
