@@ -26,6 +26,7 @@ export class NotificationService {
     this.socketClient = Stomp.over(ws);
 
     this.socketClient.connect({'Authorization': 'Bearer ' + localStorage.getItem('user') }, () => {
+
       this.notificationSubscription = this.socketClient
         .subscribe(`/user/${this.authService.getUserId()}/notifications`, (message: Message) => {
           const notification: Notification = JSON.parse(message.body);
@@ -37,6 +38,8 @@ export class NotificationService {
               this.toasterService.error(notification.message, "Notification");
             } else if(notification.type == NotificationType.INFO) {
               this.toasterService.info(notification.message, "Notification");
+            } else {
+              this.toasterService.show(notification.message, "Notification");
             }
           }
         })
