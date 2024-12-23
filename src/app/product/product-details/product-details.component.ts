@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
@@ -18,7 +18,8 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {
   }
 
@@ -55,7 +56,8 @@ export class ProductDetailsComponent implements OnInit {
           );
         },
         error: (error) => {
-          console.error('Error loading product or images:', error);
+          // TODO: Navigate to error page
+          void this.router.navigate(['/home'])
         }
       });
     });

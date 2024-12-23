@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {forkJoin, switchMap} from 'rxjs';
@@ -15,7 +15,8 @@ export class ServiceDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private router: Router
   ) {
   }
 
@@ -37,7 +38,8 @@ export class ServiceDetailsComponent implements OnInit {
           );
         },
         error: (error) => {
-          console.error('Error loading service or images:', error);
+          // TODO: Navigate to error page
+          void this.router.navigate(['/home'])
         }
       });
     });
