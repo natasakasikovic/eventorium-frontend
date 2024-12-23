@@ -36,7 +36,7 @@ export class QuickRegistrationComponent implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     },
-    { Validators : this.passwordMatchValidator })
+    { validators : this.passwordMatchValidator })
   }
 
   ngOnInit(): void {
