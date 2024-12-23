@@ -1,3 +1,4 @@
 export interface InvitationResponse{
-    email: string
+    email: string,
+    isEmailRegistered: boolean
 }

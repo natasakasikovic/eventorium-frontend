@@ -27,6 +27,16 @@ export const MESSAGES = {
         
         <p>Best regards,<br>The Eventorium Team</p>
       `
-    }    
+    },
+    alreadyRegistered: {
+      title: 'Already Registered!',
+      message: `
+        <p>We noticed that you have already used one of your invitations and registered on Eventorium!</p>
+        
+        <p>Please log in, as you already have an account associated with this email. Any further registration attempts will be unsuccessful.</p>
+        
+        <p>Best regards,<br>The Eventorium Team</p>
+      `
+    }
   };
 

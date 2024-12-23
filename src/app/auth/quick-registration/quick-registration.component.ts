@@ -48,6 +48,8 @@ export class QuickRegistrationComponent implements OnInit {
     ).subscribe({
       next: (response: InvitationResponse) => {
         this.email = response.email;
+        if (response.isEmailRegistered)
+          this.showMessage(MESSAGES.alreadyRegistered.title, MESSAGES.alreadyRegistered.message)
       },
       error: (_) => {
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
