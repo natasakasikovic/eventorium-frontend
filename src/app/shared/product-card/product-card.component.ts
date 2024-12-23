@@ -16,7 +16,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.product);
     this.productService.getImage(this.product.id).subscribe({
       next: (blob: Blob) => {
         this.product.images = [];
