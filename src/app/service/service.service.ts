@@ -57,14 +57,14 @@ export class ServiceService {
     return this.services.filter(service => service.name.toLowerCase().includes(keyword.toLowerCase()));
   }
 
-  uploadFiles(serviceId: number, files: File[]): Observable<string> {
+  uploadFiles(serviceId: number, files: File[]): Observable<void> {
     const formData: FormData = new FormData();
 
     files.forEach(file => {
       formData.append('images', file, file.name);
     });
 
-    return this.httpClient.post<string>(
+    return this.httpClient.post<void>(
       `${environment.apiHost}/services/${serviceId}/images`,
       formData,
       { responseType: 'text' as 'json' }

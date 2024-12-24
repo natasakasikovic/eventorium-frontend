@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ServiceService} from '../../service/service.service';
 import {Service} from '../../service/model/service.model';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
@@ -17,7 +17,8 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {
   }
 
@@ -39,7 +40,12 @@ export class ProductDetailsComponent implements OnInit {
           );
         },
         error: (error) => {
-          console.error('Error loading product or images:', error);
+          void this.router.navigate(['/error'], {
+            queryParams: {
+              code: error.status,
+              message: error.error?.message || 'An unknown error occurred.'
+            }
+          });
         }
       });
     });

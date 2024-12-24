@@ -9,8 +9,9 @@ import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
 import {CategoryRequestDto} from '../../category/model/category-request-dto.model';
 import {CreateServiceRequestDto} from '../model/create-service-dto.model';
-import {catchError, switchMap} from 'rxjs';
+import {catchError, Observable, of, switchMap} from 'rxjs';
 import {Service} from '../model/service.model';
+import {ToastrService} from 'ngx-toastr';
 
 export function dateNotInPast(control: AbstractControl) {
   const selectedDate = new Date(control.value);
@@ -56,7 +57,8 @@ export class CreateServiceComponent implements OnInit {
     private serviceService: ServiceService,
     private eventTypeService: EventTypeService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private toasterService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +67,7 @@ export class CreateServiceComponent implements OnInit {
         this.categories.push(...categories);
       },
       error: (err: Error) => {
-        console.log("Error loading categories ", err);
+        this.toasterService.error("Error loading categories");
       }
     });
 
@@ -73,8 +75,8 @@ export class CreateServiceComponent implements OnInit {
       next: (eventTypes: EventType[]) => {
         this.eventTypes.push(...eventTypes);
       },
-      error: (err: Error) => {
-        console.error("Error loading event types ", err);
+      error: () => {
+        this.toasterService.error("Error loading event types");
       }
     });
 
@@ -105,14 +107,15 @@ export class CreateServiceComponent implements OnInit {
           if(this.images.length !== 0) {
             return this.serviceService.uploadFiles(serviceId, this.images);
           }
-          return "Success";
+          return of(null);
         })
       ).subscribe({
-        next: (str: string) => {
+        next: () => {
+          this.toasterService.success("Service created successfully!");
           void this.router.navigate(["manageable-services"]);
         },
         error: (error: Error) => {
-          console.error(`Could not create category: ${error.message}`);
+          this.toasterService.error("Could not create service: ", error.message);
         }
       });
     }
