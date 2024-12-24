@@ -91,8 +91,9 @@ export class EditServiceComponent implements OnInit {
           this.toasterService.success(`Successfully updated service \"${service.name}\"!`, "Success");
           void this.router.navigate(['manageable-services']);
         },
-        error: (error: Error) => {
-          this.toasterService.error(`Error updating service: ${error.message}`, "Error");
+        error: (error: HttpErrorResponse) => {
+          console.log(error)
+          this.toasterService.error(error.error.message, "Error updating service");
         }
       });
     }

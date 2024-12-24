@@ -1,5 +1,5 @@
 .service-card {
-  max-width: 15rem;
+  width: 16rem;
   height: 18rem;
   margin: 1rem;
   position: relative;
@@ -51,7 +51,7 @@
 
 .service-card img {
   height: 9.5rem;
-  width: 15rem;
+  width: 16rem;
 }
 
 .service-card mat-card-header {

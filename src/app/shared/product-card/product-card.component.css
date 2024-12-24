@@ -1,11 +1,12 @@
 .product-card {
-  width: 15rem;
+  width: 16rem;
   height: 18rem;
   margin: 1rem;
 }
 
 .product-card img {
   height: 14rem;
+  width: 16rem;
 }
 
 .pending-status {
