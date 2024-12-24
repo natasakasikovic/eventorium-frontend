@@ -1,7 +1,9 @@
 <mat-card class="product-card">
-    <div *ngIf="product.discount != 0.0" class="sale-badge">Save {{ product.discount }}%</div>
+    <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING'" class="sale-badge">Save {{ product.discount }}%</div>
     <img [src]="product.images && product.images[0]" alt="Product image"/>
-
+    <div *ngIf="product.status === 'PENDING'" class="pending-status">
+      <span class="pending-label">PENDING</span>
+    </div>
     <mat-card-header>
       <mat-card-title class="title">{{ product.name }}</mat-card-title>
       <div class="rating">

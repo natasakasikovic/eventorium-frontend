@@ -8,6 +8,22 @@
   height: 14rem;
 }
 
+.pending-status {
+  background-color: #ff9800;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.pending-label {
+  text-transform: uppercase;
+}
+
 .product-card .sale-badge {
   position: absolute;
   top: 10px;

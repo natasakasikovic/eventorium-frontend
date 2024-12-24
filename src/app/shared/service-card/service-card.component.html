@@ -1,6 +1,9 @@
 <mat-card class="service-card" [style.opacity]="service.available ? 1 : 0.4">
-  <div *ngIf="service.discount != 0.0" class="sale-badge">Save {{ service.discount }}%</div>
+  <div *ngIf="service.discount != 0.0 && service.status !== 'PENDING'" class="sale-badge">Save {{ service.discount }}%</div>
   <img [src]="service.images && service.images[0]" alt="Service image"/>
+  <div *ngIf="service.status === 'PENDING'" class="pending-status">
+    <span class="pending-label">PENDING</span>
+  </div>
   <mat-card-header>
     <div *ngIf="!service.visible"><strong>HIDDEN</strong></div>
     <mat-card-title class="title">{{service.name}}</mat-card-title>
