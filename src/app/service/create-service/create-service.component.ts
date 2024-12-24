@@ -105,9 +105,8 @@ export class CreateServiceComponent implements OnInit {
       this.serviceService.create(newService).pipe(
         switchMap((service: Service) => {
           const serviceId = service.id;
-          console.log(service);
           if(service.status === Status.ACCEPTED) {
-            this.toasterService.success("Service created successfully!", "Success");
+            this.toasterService.success(`${service.name} has been created successfully!`, "Success");
           } else {
             this.toasterService.info("The service is currently in a pending state. Please wait while we process your request.", "Info");
           }

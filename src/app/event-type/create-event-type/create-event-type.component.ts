@@ -6,6 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventTypeService } from '../event-type.service';
 import { EventType } from '../model/event-type.model';
 import { Router } from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-create-event',
@@ -25,6 +27,7 @@ export class CreateEventTypeComponent implements OnInit {
   constructor(
     private eventTypeService: EventTypeService,
     private categoryService: CategoryService,
+    private toasterService: ToastrService,
     private router: Router
   ) {
   }
@@ -67,10 +70,11 @@ export class CreateEventTypeComponent implements OnInit {
     }).subscribe({
       next: (eventType: EventType) => {
         console.log(eventType);
+        this.toasterService.success(`${eventType.name} has been created successfully!`, "Success");
         void this.router.navigate(['home']); // TODO: Update navigation to go to the event types overview page once it's implemented
       },
-      error: (e: Error) => {
-        console.log(e);
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to create event type");
       }
     });
   }
