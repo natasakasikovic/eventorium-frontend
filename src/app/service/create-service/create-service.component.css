@@ -21,6 +21,11 @@
   margin-bottom: 2rem;
 }
 
+.duration-slider {
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .section-title {
   font-size: 1.25rem;
   color: #35422f;

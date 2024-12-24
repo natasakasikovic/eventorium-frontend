@@ -1,6 +1,6 @@
 <div class="screen">
   <form class="service-details" [formGroup]="createServiceForm">
-    <h2>Create new Service</h2>
+    <h2>Create Service</h2>
     <div class="form-section">
       <h4 class="section-title">General Information</h4>
       <mat-form-field appearance="outline" class="form-field">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <h4 class="section-title">More details</h4>
+    <h4 class="section-title">Details</h4>
     <div class="form-section">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Description</mat-label>
@@ -101,8 +101,8 @@
     <div class="form-section">
       <h4 class="section-title">Duration</h4>
       <mat-slider min="1" max="24" step="1" thumbLabel class="duration-slider">
-        <input matSliderStartThumb value="6" name="minDuration" formControlName="minDuration">
-        <input matSliderEndThumb value="12" name="maxDuration" formControlName="maxDuration">
+        <input matSliderStartThumb name="minDuration" formControlName="minDuration">
+        <input matSliderEndThumb name="maxDuration" formControlName="maxDuration">
       </mat-slider>
       <div>
         <span>Min Duration: {{ createServiceForm.get('minDuration')?.value }} hours</span> |
