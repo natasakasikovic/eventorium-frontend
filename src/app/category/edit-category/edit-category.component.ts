@@ -44,7 +44,7 @@ export class EditCategoryComponent implements AfterViewInit {
           this.onClose();
         },
         error: (error: HttpErrorResponse) => {
-          this.toasterService.success(error.error.message, "Failed to update category");
+          this.toasterService.error(error.error.message, "Failed to update category");
         }
       });
     }
