@@ -4,5 +4,4 @@ export const ERROR_MESSAGES = {
     INPUT_VALIDATION_ERROR: 'Some fields are not properly filled. All fields are required.',
     SERVER_ERROR: 'Unexpected error. Please, try again later.',
     PROFILE_PHOTO_UPLOAD_ERROR: 'An error occurred while uploading the profile photo. You can update it later after activating your account.'
-  };
-    
+};

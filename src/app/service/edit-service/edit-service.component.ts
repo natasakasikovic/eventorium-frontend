@@ -7,6 +7,8 @@ import {ReservationType} from '../model/reservation-type.enum';
 import {EventTypeService} from '../../event-type/event-type.service';
 import {EventType} from '../../event-type/model/event-type.model';
 import {switchMap} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-service',
@@ -36,6 +38,7 @@ export class EditServiceComponent implements OnInit {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private eventTypeService: EventTypeService,
+    private toasterService: ToastrService,
     private router: Router
   ) {
   }
@@ -54,8 +57,13 @@ export class EditServiceComponent implements OnInit {
           this.service = service;
           this.loadForm();
         },
-        error: (err) => {
-          console.error('An error occurred', err);
+        error: (error: HttpErrorResponse) => {
+          void this.router.navigate(['/error'], {
+            queryParams: {
+              code: error.status,
+              message: error.error?.message || 'An unknown error occurred.'
+            }
+          });
         }
       });
     });
@@ -80,11 +88,11 @@ export class EditServiceComponent implements OnInit {
         type: formValue.type
       }).subscribe({
         next: (service: Service) => {
-          console.log(`Successfully updated ${service.name}!`);
+          this.toasterService.success(`Successfully updated service \"${service.name}\"!`, "Success");
           void this.router.navigate(['manageable-services']);
         },
         error: (error: Error) => {
-          console.error(`Error updating service: ${error.message}`);
+          this.toasterService.error(`Error updating service: ${error.message}`, "Error");
         }
       });
     }

@@ -7,11 +7,12 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
-import {CategoryRequestDto} from '../../category/model/category-request-dto.model';
 import {CreateServiceRequestDto} from '../model/create-service-dto.model';
-import {catchError, Observable, of, switchMap} from 'rxjs';
+import {of, switchMap} from 'rxjs';
 import {Service} from '../model/service.model';
 import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Status} from '../../category/model/status-enum-ts';
 
 export function dateNotInPast(control: AbstractControl) {
   const selectedDate = new Date(control.value);
@@ -104,6 +105,12 @@ export class CreateServiceComponent implements OnInit {
       this.serviceService.create(newService).pipe(
         switchMap((service: Service) => {
           const serviceId = service.id;
+          console.log(service);
+          if(service.status === Status.ACCEPTED) {
+            this.toasterService.success("Service created successfully!", "Success");
+          } else {
+            this.toasterService.info("The service is currently in a pending state. Please wait while we process your request.", "Info");
+          }
           if(this.images.length !== 0) {
             return this.serviceService.uploadFiles(serviceId, this.images);
           }
@@ -111,11 +118,10 @@ export class CreateServiceComponent implements OnInit {
         })
       ).subscribe({
         next: () => {
-          this.toasterService.success("Service created successfully!");
           void this.router.navigate(["manageable-services"]);
         },
-        error: (error: Error) => {
-          this.toasterService.error("Could not create service: ", error.message);
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to create service")
         }
       });
     }
