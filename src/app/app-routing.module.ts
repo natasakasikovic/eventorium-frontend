@@ -23,6 +23,7 @@ import { EventAgendaComponent } from './event/event-agenda/event-agenda.componen
 import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
 import {ProductDetailsComponent} from './product/product-details/product-details.component';
+import {ErrorComponent} from './shared/error/error.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -71,8 +72,9 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', redirectTo: '/error' },
 ];
 
 @NgModule({

@@ -1,10 +1,11 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router, RouterState} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-service-details',
@@ -18,7 +19,8 @@ export class ServiceDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private serviceService: ServiceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {
   }
 
@@ -54,8 +56,13 @@ export class ServiceDetailsComponent implements OnInit {
             `data:${image.contentType};base64,${image.data}`
           );
         },
-        error: (error) => {
-          console.error('Error loading service or images:', error);
+        error: (error: HttpErrorResponse) => {
+          void this.router.navigate(['/error'], {
+            queryParams: {
+              code: error.status,
+              message: error.error?.message || 'An unknown error occurred.'
+            }
+          });
         }
       });
     });
