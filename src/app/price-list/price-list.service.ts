@@ -41,4 +41,8 @@ export class PriceListService {
   updateService(id: number, newPrice: UpdatePriceRequestDto): Observable<PriceListItem> {
     return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/services/${id}`, newPrice)
   }
+
+  updateProduct(id: number, newPrice: UpdatePriceRequestDto): Observable<PriceListItem> {
+    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/products/${id}`, newPrice)
+  }
 }
