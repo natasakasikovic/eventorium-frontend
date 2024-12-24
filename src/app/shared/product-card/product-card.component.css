@@ -8,6 +8,18 @@
   height: 14rem;
 }
 
+.product-card .sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: yellow;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 2rem;
+  z-index: 10;
+}
+
 .product-card mat-card-header {
   justify-content: space-between;
   align-items: center;

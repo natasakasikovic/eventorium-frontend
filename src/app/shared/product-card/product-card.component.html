@@ -1,4 +1,5 @@
 <mat-card class="product-card">
+    <div *ngIf="product.discount != 0.0" class="sale-badge">Save {{ product.discount }}%</div>
     <img [src]="product.images && product.images[0]" alt="Product image"/>
 
     <mat-card-header>
@@ -10,7 +11,16 @@
     </mat-card-header>
 
     <mat-card-content>
-      <p class="price">Price: {{ product.price }}</p>
+      <p class="price">
+        Price:
+          <span *ngIf="product.discount !== 0.0">
+          <s>{{ product.price }}</s>
+            {{ product.price * (1 - product.discount / 100) }}
+          </span>
+          <span *ngIf="product.discount === 0.0">
+            {{ product.price }}
+          </span>
+      </p>
     </mat-card-content>
 
     <mat-card-actions>
