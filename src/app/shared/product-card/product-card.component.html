@@ -1,14 +1,17 @@
 <mat-card class="product-card">
-    <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING'" class="sale-badge">Save {{ product.discount }}%</div>
+    <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING' && product.visible" class="sale-badge">Save {{ product.discount }}%</div>
     <img [src]="product.images && product.images[0]" alt="Product image"/>
     <div *ngIf="product.status === 'PENDING'" class="pending-status">
       <span class="pending-label">PENDING</span>
+    </div>
+    <div *ngIf="!product.visible" class="hidden-status">
+      <span class="hidden-label">HIDDEN</span>
     </div>
     <mat-card-header>
       <mat-card-title class="title">{{ product.name }}</mat-card-title>
       <div class="rating">
         <mat-icon>star</mat-icon>
-        <span>{{product.rating}}</span>
+        <span>{{ product.rating | number:'1.2-2' }}</span>
       </div>
     </mat-card-header>
 
@@ -17,10 +20,10 @@
         Price:
           <span *ngIf="product.discount !== 0.0">
           <s>{{ product.price }}</s>
-            {{ product.price * (1 - product.discount / 100) }}
+            {{ product.price * (1 - product.discount / 100) | number:'1.2-2' }}
           </span>
           <span *ngIf="product.discount === 0.0">
-            {{ product.price }}
+            {{ product.price | number:'1.2-2' }}
           </span>
       </p>
     </mat-card-content>
