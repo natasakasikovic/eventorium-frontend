@@ -9,7 +9,11 @@
   <div>
     <button *ngIf="role == null" (click)="signup()" style="float: right" mat-raised-button class="standard-button">Signup</button>
     <button *ngIf="role == null" (click)="openLoginDialog()" style="float: right" mat-raised-button class="standard-button">Login</button>
+    <button *ngIf="role == 'PROVIDER'" (click)="createService()" style="float: right" mat-raised-button class="standard-button">Create service</button>
+    <button *ngIf="role == 'PROVIDER'" (click)="createProduct()" style="float: right" mat-raised-button class="standard-button">Create product</button>
     <button *ngIf="role == 'EVENT_ORGANIZER'" (click)="createEvent()" style="float: right" mat-raised-button class="standard-button">Create event</button>
+    <button *ngIf="role == 'ADMIN'" (click)="createCategory()" style="float: right" mat-raised-button class="standard-button">Create category</button>
+    <button *ngIf="role == 'ADMIN'" (click)="createEventType()" style="float: right" mat-raised-button class="standard-button">Create event type</button>
     <button *ngIf="role != null" (click)="logOut()" style="float: right" mat-raised-button class="standard-button">LogOut</button>
   </div>
 </mat-toolbar>
