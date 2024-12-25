@@ -6,6 +6,7 @@ import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import {CreateEventRequestDto} from './model/create-event-request.model';
 import { CreatedEvent } from './model/created-event-response.model';
+import { EventSummary } from './model/event-summary.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +15,25 @@ import { CreatedEvent } from './model/created-event-response.model';
 export class EventService {
 
   private events: Event[] = []
+  private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(pageProperties?: any) : Observable<PagedResponse<Event>> {
+  getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams();
     if (pageProperties){
       params = params
       .set('page', pageProperties.pageIndex)
       .set('size', pageProperties.pageSize)
     }
-    return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events", { params: params });
+    return this.httpClient.get<PagedResponse<EventSummary>>(environment.apiHost + "/events", { params: params });
   }
 
-  getTopEvents(): Event[] {
-    return this.events.slice(0, 5);
+  getTopEvents(): EventSummary[] {
+    return [];
   }
 
-  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<Event>> {
+  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams()
     if (pageProperties){
       params = params
@@ -39,7 +41,7 @@ export class EventService {
       .set('page', pageProperties.pageIndex)
       .set('size', pageProperties.pageSize);
     }
-    return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events/search", {params: params})
+    return this.httpClient.get<PagedResponse<EventSummary>>(environment.apiHost + "/events/search", {params: params})
   }
 
   createEvent(event: CreateEventRequestDto): Observable<CreatedEvent> {
