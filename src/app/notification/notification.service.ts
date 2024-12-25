@@ -32,14 +32,16 @@ export class NotificationService {
           const notification: Notification = JSON.parse(message.body);
           if(notification) {
             this.notifications.unshift(notification);
-            if(notification.type == NotificationType.ACCEPTED) {
-              this.toasterService.success(notification.message, "Notification");
-            } else if (notification.type == NotificationType.DECLINED){
-              this.toasterService.error(notification.message, "Notification");
-            } else if(notification.type == NotificationType.INFO) {
-              this.toasterService.info(notification.message, "Notification");
-            } else {
-              this.toasterService.show(notification.message, "Notification");
+            switch (notification.type) {
+              case NotificationType.SUCCESS:
+                this.toasterService.success(notification.message, notification.title);
+                break;
+              case NotificationType.ERROR:
+                this.toasterService.error(notification.message, notification.title);
+                break;
+              case NotificationType.INFO:
+                this.toasterService.info(notification.message, notification.title);
+                break;
             }
           }
         })
