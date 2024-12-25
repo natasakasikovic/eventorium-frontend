@@ -27,9 +27,9 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.eventService.eventType?.suggestedCategories) {
-      this.plannedCategories.push(...this.eventService.eventType?.suggestedCategories);
-    }
+    // if(this.eventService.eventType?.suggestedCategories) {
+    //   this.plannedCategories.push(...this.eventService.eventType?.suggestedCategories);
+    // }
     this.categoryService.getAll().subscribe({
       next: (categories: Category[]) => {
         this.otherCategories = categories.filter(item => this.plannedCategories.indexOf(item) < 0);
