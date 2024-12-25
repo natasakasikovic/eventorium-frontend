@@ -1,0 +1,24 @@
+.main-container {
+    font-family: 'jeju', serif;
+    min-height: 81vh;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+mat-form-field.form-control {
+    width: 20em;
+}
+
+p {
+    font-family: 'jeju', serif;
+    font-size: 1.5em;
+    text-align: center;
+    color: #35422F;
+    margin-bottom: 3em;
+}
