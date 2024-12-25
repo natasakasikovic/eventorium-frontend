@@ -16,6 +16,7 @@ import { EventTypeModule } from './event-type/event-type.module';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {Interceptor} from './auth/interceptor';
 import {BudgetModule} from './budget/budget.module';
+import {PriceListModule} from './price-list/price-list.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {BudgetModule} from './budget/budget.module';
     ServiceModule,
     CategoryModule,
     EventTypeModule,
-    BudgetModule
+    BudgetModule,
+    PriceListModule
   ],
   providers: [
     provideAnimationsAsync(),

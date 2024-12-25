@@ -1,0 +1,18 @@
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 4rem 0 4rem;
+}
+
+table {
+  text-align: center;
+  margin: 0 auto;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
