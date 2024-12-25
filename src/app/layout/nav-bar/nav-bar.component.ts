@@ -1,6 +1,4 @@
 import { Component, Input} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
@@ -15,8 +13,10 @@ export class NavBarComponent {
   @Input() isLoggedIn: boolean = false; 
   role: String = null;
   
-  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router)
+  {}
 
   ngOnInit(): void {
     this.authService.userState.subscribe((result) => {
@@ -24,19 +24,8 @@ export class NavBarComponent {
     })
   }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
-
-    dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      if (status) {
-        dialogRef.close();
-      }
-    });
+  login(): void {
+    this.router.navigate(['login'])
   }
 
   logOut(): void {

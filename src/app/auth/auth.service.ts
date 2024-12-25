@@ -7,7 +7,6 @@ import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Role } from './model/user-role.model';
 import { AuthRequestDto } from './model/auth-request.model';
-import { PortalInjector } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
