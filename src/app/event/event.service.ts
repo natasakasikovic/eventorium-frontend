@@ -4,8 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
-import {EventType} from '../event-type/model/event-type.model';
 import {CreateEventRequestDto} from './model/create-event-request.model';
+import { CreatedEvent } from './model/created-event-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ import {CreateEventRequestDto} from './model/create-event-request.model';
 export class EventService {
 
   private events: Event[] = []
-  private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
 
@@ -43,16 +42,9 @@ export class EventService {
     return this.httpClient.get<PagedResponse<Event>>(environment.apiHost + "/events/search", {params: params})
   }
 
-  updateEvent(event: Partial<CreateEventRequestDto>): void {
-    this.event = {...event, ...this.event}
+  createEvent(event: CreateEventRequestDto): Observable<CreatedEvent> {
+    return this.httpClient.post<CreatedEvent>(`${environment.apiHost}/events`, event)
   }
 
-  get eventType(): EventType {
-    return this.event.eventType;
-  }
-
-  createEvent(): Observable<Event> {
-    return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
-  }
 }
 
