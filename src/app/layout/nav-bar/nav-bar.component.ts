@@ -1,13 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../../auth/login/login.component';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import SockJS from 'sockjs-client';
-import {environment} from '../../../env/environment';
-import Stomp from 'stompjs';
 import {NotificationService} from '../../notification/notification.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-bar',
@@ -33,20 +29,8 @@ export class NavBarComponent implements OnInit {
     })
   }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
-
-    dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      if (status) {
-        dialogRef.close();
-        this.notificationService.openSocket();
-      }
-    });
+  login(): void {
+    this.router.navigate(['login'])
   }
 
   logOut(): void {

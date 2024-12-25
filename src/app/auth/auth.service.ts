@@ -5,9 +5,9 @@ import { AuthResponse } from './model/auth-response.model';
 import { environment } from '../../env/environment';
 import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { QuickRegistrationDto } from './model/quick-registration.model';
 import { Role } from './model/user-role.model';
 import { AuthRequestDto } from './model/auth-request.model';
-import { PortalInjector } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +62,10 @@ export class AuthService {
 
   setUser(): void {
     this.user$.next(this.getRole());
+  }
+
+  quickRegister(user: QuickRegistrationDto): Observable<void> {
+    return this.http.post<void>(environment.apiHost + "/auth/quick-registration", user)
   }
 
   getRegistrationOptions() : Observable<Role[]> {

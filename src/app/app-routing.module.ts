@@ -19,6 +19,8 @@ import { CreateEventTypeComponent } from './event-type/create-event-type/create-
 import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-type.component';
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
+import { QuickRegistrationComponent } from './auth/quick-registration/quick-registration.component';
+import { QuickRegistrationGuard } from './auth/guards/quick-registration.guard';
 import { EventAgendaComponent } from './event/event-agenda/event-agenda.component';
 import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
@@ -39,6 +41,7 @@ const routes: Routes = [
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
+  { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'price-list', component: PriceListComponent },
