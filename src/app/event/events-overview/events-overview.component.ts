@@ -3,6 +3,7 @@ import { EventService } from '../event.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Event } from '../model/event.model';
 import { PagedResponse } from '../../shared/model/paged-response.model';
+import { EventSummary } from '../model/event-summary.model';
 
 @Component({
   selector: 'app-events-overview',
@@ -18,7 +19,7 @@ export class EventsOverviewComponent implements OnInit {
   }
 
   showFilter: boolean; // TODO: implement event filter pop up
-  events: Event[];
+  events: EventSummary[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -32,7 +33,7 @@ export class EventsOverviewComponent implements OnInit {
   private getPagedEvents() {
     this.service.getAll(this.pageProperties)
     .subscribe({
-      next: (response: PagedResponse<Event>) => {
+      next: (response: PagedResponse<EventSummary>) => {
         this.events = response.content;
         this.pageProperties.totalCount = response.totalElements;
       } 
@@ -56,7 +57,7 @@ export class EventsOverviewComponent implements OnInit {
   onSearch(keyword: string): void {
     this.service.searchEvents(keyword, this.pageProperties)
       .subscribe({
-        next: (response: PagedResponse<Event>) => {
+        next: (response: PagedResponse<EventSummary>) => {
           this.events = response.content 
           this.pageProperties.totalCount = response.totalElements
         }

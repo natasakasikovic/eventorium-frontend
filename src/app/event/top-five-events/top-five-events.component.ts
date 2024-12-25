@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../event.service';
 import { Event } from '../model/event.model';
 import { Router } from '@angular/router';
+import { EventSummary } from '../model/event-summary.model';
 
 @Component({
   selector: 'app-top-five-events',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class TopFiveEventsComponent implements OnInit {
 
-  events: Event[];
+  events: EventSummary[];
 
   constructor(private eventService: EventService, private router: Router) {}
 
