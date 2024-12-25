@@ -22,6 +22,8 @@ import { CreateEventComponent } from './event/create-event/create-event.componen
 import { EventAgendaComponent } from './event/event-agenda/event-agenda.component';
 import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
+import {ProductDetailsComponent} from './product/product-details/product-details.component';
+import {PriceListComponent} from './price-list/price-list/price-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -33,11 +35,13 @@ const routes: Routes = [
   { path: 'edit-category/:id', component: EditCategoryComponent },
   { path: 'create-category', component: CreateCategoryComponent },
   { path: 'products-overview', component: ProductsOverviewComponent},
+  { path: 'product-details/:id', component: ProductDetailsComponent},
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
+  { path: 'price-list', component: PriceListComponent },
   {
     path: 'event-invitations',
     component: EventInvitationsComponent,

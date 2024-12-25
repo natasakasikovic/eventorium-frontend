@@ -67,7 +67,7 @@ export class BudgetItemsComponent {
             this.updateTotalPlanned(formValue.plannedAmount);
             services.forEach(s => this.serviceService.getImage(s.id).subscribe({
               next: (image: Blob) => {
-                s.image = URL.createObjectURL(image);
+                s.images[0] = URL.createObjectURL(image);
               }
             }));
           },

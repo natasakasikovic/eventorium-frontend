@@ -63,3 +63,12 @@
   background-color: #b0b0b0;
 }
 
+.product-card mat-card-header .rating {
+  display: flex;
+  align-items: center;
+}
+
+.product-card mat-card-header .rating mat-icon {
+  color: #fdd835;
+  margin-right: 4px;
+}

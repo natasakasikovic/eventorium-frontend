@@ -3,6 +3,7 @@ import { EventService } from '../event.service';
 import { Event } from '../model/event.model';
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../shared/model/paged-response.model';
+import { EventSummary } from '../model/event-summary.model';
 
 @Component({
   selector: 'app-top-five-events',
@@ -11,13 +12,13 @@ import { PagedResponse } from '../../shared/model/paged-response.model';
 })
 export class TopFiveEventsComponent implements OnInit {
 
-  events: Event[];
+  events: EventSummary[];
 
   constructor(private service: EventService, private router: Router) {}
 
   ngOnInit(): void {
     this.service.getTopEvents().subscribe({
-      next: (response: Event[]) => {
+      next: (response: EventSummary[]) => {
         this.events = response
       }
     })

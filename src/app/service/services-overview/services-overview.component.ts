@@ -24,7 +24,10 @@ export class ServicesOverviewComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor( private service: ServiceService, private changeDetector: ChangeDetectorRef ) { }
+  constructor(
+    private service: ServiceService,
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.getPagedServices();
@@ -35,11 +38,6 @@ export class ServicesOverviewComponent implements OnInit {
       next: (response: PagedResponse<Service>) => {
         this.services = response.content;
         this.pageProperties.totalCount = response.totalElements;
-        response.content.forEach(s => this.service.getImage(s.id).subscribe({
-          next: (data: Blob) => {
-            s.image = URL.createObjectURL(data);
-          }
-        }))
       }
     })
   }

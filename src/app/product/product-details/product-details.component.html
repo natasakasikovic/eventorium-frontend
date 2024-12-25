@@ -1,0 +1,54 @@
+<div class="product-details">
+  <mat-card class="product-card">
+    <mat-card-header>
+      <div class="header-left">
+        <mat-card-title> {{ product?.name }} </mat-card-title>
+        <mat-card-subtitle> <strong>Category:</strong> {{ product?.category.name }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <strong>Event types:</strong>
+          <span *ngFor="let eventType of product?.eventTypes; index as i">
+            {{ eventType.name }}
+            <span *ngIf="i < product?.eventTypes.length - 1">,</span>
+          </span>
+        </mat-card-subtitle>
+      </div>
+      <div class="header-right">
+        <mat-icon style="color: gold">star</mat-icon>
+        <span>{{ product?.rating }}</span>
+        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="loggedIn">
+          <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        <span class="price">&euro;{{ product?.price }}</span>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <h3>Description</h3>
+      <p>
+        {{ product?.description }}
+      </p>
+      <h3>Specialties</h3>
+      <p>
+        {{ product?.specialties }}
+      </p>
+      <div class="gallery">
+        <div *ngFor="let image of product?.images" class="gallery-item">
+          <img [src]="image" alt="service image"/>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="footer">
+      <div class="info">
+        <button mat-icon-button>
+          <mat-icon>info</mat-icon>
+        </button>
+        <span>{{ product?.provider }}</span>
+      </div>
+    </mat-card-actions>
+    <div class="button-reserve" >
+      <button mat-raised-button
+              [style.opacity]="product?.available ? 1 : 0.2"
+              [disabled]="!product?.available" >Purchase</button>
+    </div>
+  </mat-card>
+</div>
