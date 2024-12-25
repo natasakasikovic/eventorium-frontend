@@ -18,17 +18,4 @@ export class AppComponent implements OnInit {
     const currentUser = sessionStorage.getItem('user');
     this.isLoggedIn = currentUser !== null;
   }
-
-  // openLoginDialog(): void {
-  //   const dialogRef = this.dialog.open(LoginComponent, {
-  //     width: '450px',
-  //     height: 'auto',
-  //     disableClose: true,
-  //     panelClass: 'custom-dialog-container'
-  //   });
-
-  //   dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-  //     this.isLoggedIn = status;
-  //   });
-  // }
 }
