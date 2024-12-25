@@ -69,7 +69,7 @@ export class CreateEventComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.showMessage("", ERROR_MESSAGES.INPUT_VALIDATION_ERROR);
+            this.showMessage("", error.message);
           } else {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
           }
