@@ -14,10 +14,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginComponent {
 
-  @Output() loginStatusChanged = new EventEmitter<boolean>();
   serverError: string | null = null;
 
-  constructor(private dialogRef: MatDialogRef<LoginComponent>, private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -36,8 +35,6 @@ export class LoginComponent {
         next: (response: AuthResponse) => {
           localStorage.setItem('user', response.jwt);
           this.authService.setUser();
-          this.loginStatusChanged.emit(true);
-          this.dialogRef.close();
           this.router.navigate(['home']);
         },
         error: (error: HttpErrorResponse) => {
@@ -52,14 +49,9 @@ export class LoginComponent {
       });
     }
   }
-  
 
   navigateToSignup() {
-    this.dialogRef.close();
     this.router.navigate(['/signup']);
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
 }
