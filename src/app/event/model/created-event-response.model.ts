@@ -10,7 +10,7 @@ export interface CreatedEvent {
     date: Date;
     privacy: Privacy;
     maxParticipants: number;
-    eventType: EventType | null;
+    type: EventType | null;
     city: City;
     address: string;
     organizer: User;

@@ -13,10 +13,10 @@ export class NavigationGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const currentUrl: string = this.routeTracker.getCurrentUrl();
+    const currentUrl: string = this.router.url;
     const allowedUrls: string[] = route.data['allowedUrls'] || [];
 
-    if (allowedUrls.includes(currentUrl)) {
+    if (allowedUrls.some(allowedUrl => currentUrl.startsWith(allowedUrl))) {
       return true;
     }
 
