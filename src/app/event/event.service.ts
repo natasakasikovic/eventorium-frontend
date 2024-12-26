@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Event } from './model/event.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { CreateEventRequestDto } from './model/create-event-request.model';
@@ -15,11 +15,21 @@ import { EventSummary } from './model/event-summary.model';
 })
 
 export class EventService {
+  private eventTypeSubject = new BehaviorSubject<EventType | null>(null);
+  eventType$ = this.eventTypeSubject.asObservable();
 
   private events: Event[] = []
   private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
+
+  setEventType(eventType: EventType): void {
+    this.eventTypeSubject.next(eventType);
+  }
+
+  getEventType(): EventType | null {
+    return this.eventTypeSubject.value;
+  }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams();
@@ -57,6 +67,6 @@ export class EventService {
   getInvitation(hash: string): Observable<InvitationResponse>{
     return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
   }
-  
+
 }
 
