@@ -18,6 +18,7 @@ import {Interceptor} from './auth/interceptor';
 import {BudgetModule} from './budget/budget.module';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {PriceListModule} from './price-list/price-list.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BudgetModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    PriceListModule
   ],
   providers: [
     provideAnimationsAsync(),

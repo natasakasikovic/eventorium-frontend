@@ -38,6 +38,7 @@ export class DrawerComponent {
         // NOTE: If you add an option for a provider, add it here
         items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
         items.push({ label: 'Products', icon: 'information', route: ''}); // TODO: Change when implemented.
+        items.push({ label: 'Price List', icon: 'receipt', route: '/price-list'});
       }
 
       if (userRole === "EVENT_ORGANIZER") {

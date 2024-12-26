@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
-    private navigation: NavigationService // Need to be here so guards are created properly
   ) {}
 
   ngOnInit(): void {
