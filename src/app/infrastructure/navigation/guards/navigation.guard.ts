@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, UrlTree} from '@angular/router';
-import {NavigationService} from '../navigation.service';
 
 
 @Injectable({
@@ -8,7 +7,6 @@ import {NavigationService} from '../navigation.service';
 })
 export class NavigationGuard implements CanActivate {
   constructor(
-    private routeTracker: NavigationService,
     private router: Router
   ) {}
 
