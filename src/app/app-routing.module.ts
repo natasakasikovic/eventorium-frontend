@@ -59,7 +59,7 @@ const routes: Routes = [
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
   {
-    path: 'budget-planning',
+    path: 'budget-planning/:id',
     component: BudgetPlanningComponent,
     canActivate: [NavigationGuard],
     data: {
