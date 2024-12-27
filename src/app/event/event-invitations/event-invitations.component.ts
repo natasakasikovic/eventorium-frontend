@@ -43,10 +43,6 @@ export class EventInvitationsComponent {
   }
 
   sendInvitations() {
-    const eventData: Partial<CreateEventRequestDto> = {
-      invitations : this.invitations
-    }
-    this.service.updateEvent(eventData)
-    this.router.navigate(['/budget-planning'])
+    // TODO: implement
   }
 }

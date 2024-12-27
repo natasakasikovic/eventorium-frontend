@@ -4,10 +4,15 @@ import { EventService } from '../event.service';
 import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { EventType } from '../../event-type/model/event-type.model';
 import { EventTypeService } from '../../event-type/event-type.service';
-import { Privacy, PrivacyOptions } from '../model/privacy.enum';
+import { PrivacyOptions } from '../model/privacy.enum';
 import { City } from '../../shared/model/city.model';
 import { SharedService } from '../../shared/shared.service';
 import { Router } from '@angular/router';
+import { CreatedEvent } from '../model/created-event-response.model';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-event',
@@ -25,14 +30,15 @@ export class CreateEventComponent implements OnInit {
     private eventService: EventService,
     private eventTypeService: EventTypeService,
     private sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.createEventForm = this.fb.group({
       eventType: ['', Validators.required],
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.maxLength(200)]],
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       maxParticipants: [null, [Validators.min(1)]],
       privacy: ['', Validators.required],
       address: ['', Validators.required],
@@ -46,8 +52,7 @@ export class CreateEventComponent implements OnInit {
 
   onSubmit(): void {
     if (this.createEventForm.valid) {
-
-      const newEvent: Partial<CreateEventRequestDto> = {
+      const newEvent: CreateEventRequestDto = {
         name: this.createEventForm.get('name').value,
         description: this.createEventForm.get('description').value,
         maxParticipants: this.createEventForm.get('maxParticipants').value,
@@ -58,19 +63,30 @@ export class CreateEventComponent implements OnInit {
         eventType: this.createEventForm.get('eventType').value === "all" ? null : this.createEventForm.get('eventType').value
       };
 
-      this.eventService.updateEvent(newEvent);
-
-      if (newEvent.privacy == Privacy.CLOSED.toUpperCase()) {
-        void this.router.navigate(['event-invitations'])
-      } else {
-        const eventWithNoInvitations : Partial<CreateEventRequestDto> = {
-          invitations: []
+      this.eventService.createEvent(newEvent).subscribe({
+        next: (event: CreatedEvent) => {
+          this.eventService.setEventType(event.type);
+          void this.router.navigate(['budget-planning', event.id]);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.showMessage("", error.message);
+          } else {
+            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+          }
         }
-        this.eventService.updateEvent(eventWithNoInvitations);
-        void this.router.navigate(['budget-planning']);
-      }
+      });
 
     }
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
   }
 
   private getAllEventTypes(): void {

@@ -3,7 +3,8 @@ import {Category} from '../../category/model/category.model';
 import {EventService} from '../../event/event.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../../category/category.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {EventType} from '../../event-type/model/event-type.model';
 
 @Component({
   selector: 'app-budget-planning',
@@ -11,6 +12,9 @@ import { Router } from '@angular/router';
   styleUrl: './budget-planning.component.css'
 })
 export class BudgetPlanningComponent implements OnInit {
+  id: number | null;
+  eventType: EventType | null;
+
   plannedCategories: Category[] = []
   otherCategories: Category[];
 
@@ -22,19 +26,51 @@ export class BudgetPlanningComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    if(this.eventService.eventType?.suggestedCategories) {
-      this.plannedCategories.push(...this.eventService.eventType?.suggestedCategories);
+    this.loadParams();
+    this.loadEventType();
+  }
+
+  private loadParams(): void {
+    this.route.params.subscribe(params => {
+      this.id = params['id'] ?? null;
+    });
+  }
+
+  private loadEventType(): void {
+    this.eventType = this.eventService.getEventType();
+    if (this.eventType) {
+      this.addSuggestedCategoriesToPlanned();
+      this.fetchOtherCategories();
     }
+  }
+
+  private addSuggestedCategoriesToPlanned(): void {
+    if (Array.isArray(this.eventType.suggestedCategories)) {
+      this.plannedCategories.push(...this.eventType.suggestedCategories);
+    }
+  }
+
+  private fetchOtherCategories(): void {
     this.categoryService.getAll().subscribe({
       next: (categories: Category[]) => {
-        this.otherCategories = categories.filter(item => this.plannedCategories.indexOf(item) < 0);
+        this.filterOtherCategories(categories);
+      },
+      error: (err) => {
+        console.error('Failed to fetch categories:', err);
       }
-    })
+    });
+  }
+
+  private filterOtherCategories(categories: Category[]): void {
+    this.otherCategories = categories.filter(category =>
+      !this.plannedCategories.includes(category)
+    );
   }
 
   updatePlannedPrice(difference: number) {
@@ -53,7 +89,6 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   onSubmit(): void {
-    
-    this.router.navigate(['/event-agenda']);
+    void this.router.navigate(['/event-agenda']);
   }
 }

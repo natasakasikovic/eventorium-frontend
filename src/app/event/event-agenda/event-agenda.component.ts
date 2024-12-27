@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityRequest } from '../model/activity-request.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateEventRequestDto } from '../model/create-event-request.model';
 import { EventService } from '../event.service';
 import { Router } from '@angular/router';
 
@@ -57,22 +56,7 @@ export class EventAgendaComponent {
   }
 
   finish(): void {
-    if (this.activities.length != 0) {
-      const event: Partial<CreateEventRequestDto> = {
-        activities : this.activities
-      }
-
-      this.eventService.updateEvent(event);
-      this.eventService.createEvent().subscribe({
-        next: (response) => {
-          console.log("Successfully created:", response);
-          this.router.navigate(['/events-overview']);
-        },
-        error: (err) => {
-          console.error("Error while creating event:", err);
-        }
-      })
-    }
+    // TODO: implement
   }
 
   exportToPdf(): void {

@@ -1,7 +1,6 @@
 import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './auth/login/login.component';
-import {NavigationService} from './infrastructure/navigation/navigation.service';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import {environment} from '../env/environment';
@@ -18,8 +17,7 @@ export class AppComponent implements OnInit {
   drawer: boolean = false;
 
   constructor(
-    private notificationService: NotificationService,
-    private navigation: NavigationService // Need to be here so guards are created properly
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {

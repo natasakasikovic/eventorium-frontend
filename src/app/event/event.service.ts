@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Event } from './model/event.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { CreateEventRequestDto } from './model/create-event-request.model';
+import { CreatedEvent } from './model/created-event-response.model';
 import { InvitationResponse } from './model/invitation-response.model';
-import {EventType} from '../event-type/model/event-type.model';
+import { EventType } from '../event-type/model/event-type.model';
 import { EventSummary } from './model/event-summary.model';
 
 @Injectable({
@@ -14,10 +15,21 @@ import { EventSummary } from './model/event-summary.model';
 })
 
 export class EventService {
+  private eventTypeSubject = new BehaviorSubject<EventType | null>(null);
+  eventType$ = this.eventTypeSubject.asObservable();
 
+  private events: Event[] = []
   private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
+
+  setEventType(eventType: EventType): void {
+    this.eventTypeSubject.next(eventType);
+  }
+
+  getEventType(): EventType | null {
+    return this.eventTypeSubject.value;
+  }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams();
@@ -44,16 +56,8 @@ export class EventService {
     return this.httpClient.get<PagedResponse<EventSummary>>(environment.apiHost + "/events/search", {params: params})
   }
 
-  updateEvent(event: Partial<CreateEventRequestDto>): void {
-    this.event = {...event, ...this.event}
-  }
-
-  get eventType(): EventType {
-    return this.event.eventType;
-  }
-
-  createEvent(): Observable<Event> {
-    return this.httpClient.post<Event>(`${environment.apiHost}/events`, this.event)
+  createEvent(event: CreateEventRequestDto): Observable<CreatedEvent> {
+    return this.httpClient.post<CreatedEvent>(`${environment.apiHost}/events`, event)
   }
 
   verifyInvitation(hash: string): Observable<void> {
@@ -63,6 +67,6 @@ export class EventService {
   getInvitation(hash: string): Observable<InvitationResponse>{
     return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
   }
-  
+
 }
 
