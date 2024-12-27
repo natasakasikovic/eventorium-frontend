@@ -6,6 +6,7 @@ import {PagedResponse} from '../../shared/model/paged-response.model';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Product} from '../../product/model/product.model';
 import {MatTabGroup} from '@angular/material/tabs';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-price-list',
@@ -15,6 +16,8 @@ import {MatTabGroup} from '@angular/material/tabs';
 export class PriceListComponent implements OnInit {
   products: PriceListItem[];
   services: PriceListItem[];
+  pdfUrl: SafeResourceUrl  | null;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup | undefined;
@@ -33,7 +36,8 @@ export class PriceListComponent implements OnInit {
   }
 
   constructor(
-    private priceListService: PriceListService
+    private priceListService: PriceListService,
+    private sanitizer: DomSanitizer
   ) {
   }
 
@@ -81,6 +85,22 @@ export class PriceListComponent implements OnInit {
     this.priceListService.updateProduct(product.id, {
       discount: product.price,
       price: product.discount
+    });
+  }
+
+  downloadPdf(): void {
+    this.priceListService.downloadPdf().subscribe({
+      next: (blob: Blob) => {
+        const fileURL = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = 'price_list_report.pdf';
+        link.click();
+
+        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+
+      }
     });
   }
 }
