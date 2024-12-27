@@ -16,7 +16,6 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 export class PriceListComponent implements OnInit {
   products: PriceListItem[];
   services: PriceListItem[];
-  pdfUrl: SafeResourceUrl  | null;
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,8 +35,7 @@ export class PriceListComponent implements OnInit {
   }
 
   constructor(
-    private priceListService: PriceListService,
-    private sanitizer: DomSanitizer
+    private priceListService: PriceListService
   ) {
   }
 
@@ -97,9 +95,6 @@ export class PriceListComponent implements OnInit {
         link.href = fileURL;
         link.download = 'price_list_report.pdf';
         link.click();
-
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
-
       }
     });
   }
