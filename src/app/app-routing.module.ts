@@ -50,7 +50,7 @@ const routes: Routes = [
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard],
     data: {
-      allowedUrls: ['/create-event'],
+      allowedUrls: ['/event-agenda'],
       fallback: "/home"
     }
   },
@@ -68,7 +68,7 @@ const routes: Routes = [
   },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {
-    path: 'event-agenda',
+    path: 'event-agenda/:id',
     component: EventAgendaComponent,
     canActivate: [NavigationGuard],
     data: {
