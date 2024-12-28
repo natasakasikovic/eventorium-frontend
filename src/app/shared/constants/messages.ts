@@ -37,6 +37,9 @@ export const MESSAGES = {
         
         <p>Best regards,<br>The Eventorium Team</p>
       `
-    }
+    },
+
+    success : "Success",
+    eventCreated: "Event created successfully!"
   };
 
