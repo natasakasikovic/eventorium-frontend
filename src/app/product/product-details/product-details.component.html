@@ -15,7 +15,7 @@
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
         <span>{{ product?.rating }}</span>
-        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="loggedIn">
+        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <span class="price">&euro;{{ product?.price }}</span>
@@ -45,7 +45,7 @@
         <span>{{ product?.provider }}</span>
       </div>
     </mat-card-actions>
-    <div class="button-reserve" >
+    <div class="button-reserve" *ngIf="getRole == 'EVENT_ORGANIZER'">
       <button mat-raised-button
               [style.opacity]="product?.available ? 1 : 0.2"
               [disabled]="!product?.available" (click)="onPurchase()" >Purchase</button>

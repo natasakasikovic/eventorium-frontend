@@ -33,7 +33,7 @@ export class AuthService {
       })
   }
 
-  getRole(): String {
+  getRole(): string {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
@@ -41,7 +41,7 @@ export class AuthService {
     }
     return null;
   }
-  
+
   logout(): void {
     localStorage.removeItem('user');
     this.user$.next(null);
@@ -78,7 +78,7 @@ export class AuthService {
     const formData: FormData = new FormData();
     const fileType = '.' + photo.type.split('/')[1];
     formData.append('profilePhoto', photo, userId.toString() + fileType)
-    return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`, 
+    return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
       formData,
       { responseType: 'text' as 'json' });
   }

@@ -33,8 +33,8 @@ export class ProductDetailsComponent implements OnInit {
   ) {
   }
 
-  get loggedIn(): boolean {
-    return this.authService.isLoggedIn();
+  get getRole(): string {
+    return this.authService.getRole();
   }
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class ProductDetailsComponent implements OnInit {
       const id: number = +param['id'];
       this.productService.get(id).pipe(
         switchMap((product: Product) => {
-          if (this.loggedIn) {
+          if (this.getRole) {
             return forkJoin([
               this.productService.get(id),
               this.productService.getImages(product.id),
@@ -58,7 +58,7 @@ export class ProductDetailsComponent implements OnInit {
       ).subscribe({
         next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean?]) => {
           this.product = product;
-          if(this.loggedIn) {
+          if(this.getRole) {
             this.isFavorite = isFavourite;
           }
           this.product.images = images.map(image =>

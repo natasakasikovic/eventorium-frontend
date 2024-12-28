@@ -7,7 +7,6 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
-import {CategoryRequestDto} from '../../category/model/category-request-dto.model';
 import {CreateServiceRequestDto} from '../model/create-service-dto.model';
 import {catchError, switchMap} from 'rxjs';
 import {Service} from '../model/service.model';
