@@ -6,6 +6,7 @@
           <app-budget-items [category]="category"
                             [eventId]="id"
                             (totalPriceChanged)="updatePlannedPrice($event)"
+                            (totalSpentChanged)="updateSpentPrice($event)"
                             (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
       </mat-tab-group>
@@ -14,7 +15,7 @@
         <form [formGroup]="addCategoryForm">
           <mat-form-field appearance="outline">
             <mat-select formControlName="category">
-              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category.name }}</mat-option>
+              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category?.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
@@ -29,7 +30,7 @@
   </mat-tab-group>
   <div class="total">
     <p><strong>Total planned</strong>: {{ totalPlanned }}</p>
-    <p><strong>Total spent</strong>: todo </p>
+    <p><strong>Total spent</strong>: {{ totalSpent }} </p>
   </div>
   <button (click)="onSubmit()" id="submit">
     <mat-icon>arrow_forward</mat-icon>

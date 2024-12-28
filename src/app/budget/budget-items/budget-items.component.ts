@@ -15,10 +15,11 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class BudgetItemsComponent {
   @Input() category: Category;
-  @Output() totalPriceChanged = new EventEmitter<number>();
   @Input() eventId: number;
 
   @Output() deleteCategory: EventEmitter<[number, boolean]> = new EventEmitter();
+  @Output() totalPriceChanged = new EventEmitter<number>();
+  @Output() totalSpentChanged = new EventEmitter<number>();
 
   totalPlanned: number;
   previousPlanned: number = 0.0;
@@ -57,7 +58,6 @@ export class BudgetItemsComponent {
               console.error(error.message);
             }
           }
-
         )
       } else {
         this.serviceService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
@@ -93,6 +93,7 @@ export class BudgetItemsComponent {
       next: (product: Product) => {
         this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
         this.deleteCategory.emit([this.category.id, true]);
+        this.totalSpentChanged.emit(product.price);
         //TODO: change when UX pr is merged
         console.log("Successfully bought product!");
       },

@@ -23,6 +23,8 @@ export class BudgetPlanningComponent implements OnInit {
   otherCategories: Category[];
 
   totalPlanned: number = 0.0;
+  totalSpent: number = 0.0;
+
   addCategoryForm: FormGroup = new FormGroup({
     category: new FormControl('', Validators.required)
   });
@@ -82,6 +84,10 @@ export class BudgetPlanningComponent implements OnInit {
     this.totalPlanned += difference;
   }
 
+  updateSpentPrice(amount: number) {
+    this.totalSpent += amount;
+  }
+
   insertCategory(): void {
     if (!this.addCategoryForm.invalid && this.plannedCategories.indexOf(this.addCategoryForm.value.category) < 0) {
       this.plannedCategories.push(this.addCategoryForm.value.category);
@@ -91,10 +97,10 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   deleteCategory([id, purchased]: [number, boolean]): void {
-    this.plannedCategories = this.plannedCategories.filter(c => c.id !== id);
     if(!purchased) {
       this.otherCategories.push(this.plannedCategories.find(c => c.id === id));
     }
+    this.plannedCategories = this.plannedCategories.filter(c => c.id !== id);
   }
 
   onSubmit(): void {
