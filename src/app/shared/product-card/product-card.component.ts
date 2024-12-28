@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Product } from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
 import {BudgetService} from '../../budget/budget.service';
+import {Router} from '@angular/router';
+import {EventService} from '../../event/event.service';
 
 @Component({
   selector: 'app-product-card',
@@ -12,7 +14,6 @@ export class ProductCardComponent implements OnInit {
   @Input() product: Product;
 
   @Input() purchasable: boolean;
-
   @Output() purchase: EventEmitter<Product> = new EventEmitter();
 
   constructor(

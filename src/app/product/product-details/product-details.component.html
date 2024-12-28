@@ -48,7 +48,7 @@
     <div class="button-reserve" >
       <button mat-raised-button
               [style.opacity]="product?.available ? 1 : 0.2"
-              [disabled]="!product?.available" >Purchase</button>
+              [disabled]="!product?.available" (click)="onPurchase()" >Purchase</button>
     </div>
   </mat-card>
 </div>

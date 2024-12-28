@@ -68,5 +68,9 @@ export class EventService {
     return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
   }
 
+  getDraftedEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
+  }
+
 }
 

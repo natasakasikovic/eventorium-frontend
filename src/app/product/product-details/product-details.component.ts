@@ -5,6 +5,13 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
+import {EventService} from '../../event/event.service';
+import {BudgetService} from '../../budget/budget.service';
+import {Event} from '../../event/model/event.model';
+import {Category} from '../../category/model/category.model';
+import {MatDialog} from '@angular/material/dialog';
+import {Budget} from '../../budget/model/budget.model';
+import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 
 @Component({
   selector: 'app-product-details',
@@ -18,7 +25,10 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private eventService: EventService,
+    private budgetService: BudgetService,
     private authService: AuthService,
+    private dialog: MatDialog,
     private router: Router,
   ) {
   }
@@ -74,6 +84,43 @@ export class ProductDetailsComponent implements OnInit {
       this.productService.addToFavourites(this.product.id).subscribe({
         next: () => {
           this.isFavorite = true;
+        }
+      });
+    }
+  }
+
+  onPurchase(): void {
+    this.eventService.getDraftedEvents().subscribe({
+      next: (events: Event[]) => {
+          const dialogRef = this.dialog.open(EventSelectionComponent, {
+            width: '450px',
+            height: 'auto',
+            disableClose: true,
+            panelClass: 'custom-dialog-container',
+            data: events
+          });
+
+        dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
+          if(event != null) {
+            this.purchaseProduct(event.id, event.budget, plannedAmount);
+          }
+          dialogRef.close();
+        });
+      }
+    });
+  }
+
+  private purchaseProduct(eventId: number, budget: Budget, plannedAmount: number): void {
+    const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
+    if(!purchasedCategories.some(category => category.id === this.product.category.id)) {
+      this.budgetService.purchase(eventId, {
+        category: this.product.category,
+        itemId: this.product.id,
+        plannedAmount: plannedAmount
+      }).subscribe({
+        next: () => {
+          void this.router.navigate(['budget-planning', eventId]);
+          console.log("Successfully purchased!");
         }
       });
     }

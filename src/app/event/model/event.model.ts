@@ -2,6 +2,7 @@ import { User } from "../../auth/model/user.model";
 import { EventType } from "../../event-type/model/event-type.model";
 import { City } from "../../shared/model/city.model";
 import { Privacy } from "./privacy.enum";
+import {Budget} from '../../budget/model/budget.model';
 
 export interface Event{
     id: number;
@@ -15,5 +16,6 @@ export interface Event{
     address: string;
     // activities: Activity[];
     organizer: User;
-    invitations: string[];  
+    invitations: string[];
+    budget: Budget;
 }

@@ -55,20 +55,19 @@ export class BudgetPlanningComponent implements OnInit {
     this.budgetService.getBudget(this.id).subscribe({
       next: (budget: Budget) => {
 
-        if(budget != null) {
+        if(budget.items.length > 0) {
           this.updateSpentPrice(budget.spentAmount);
           this.updatePlannedPrice(budget.plannedAmount);
 
           const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
-          this.plannedCategories = this.plannedCategories.filter(this.purchaseFilter(purchasedCategories));
-          this.otherCategories = this.otherCategories.filter(this.purchaseFilter(purchasedCategories));
+          this.plannedCategories = this.plannedCategories.filter(category =>
+            !purchasedCategories.some(purchased => purchased.id == category.id));
+          this.otherCategories = this.otherCategories.filter(category => purchasedCategories.some(
+            purchased => purchased.id !== category.id
+          ));
         }
       }
     });
-  }
-
-  private purchaseFilter(purchasedCategories: Category[]): Predicate<Category> {
-    return category => !purchasedCategories.some(purchased => purchased.id == category.id);
   }
 
   private loadEventType(): void {
