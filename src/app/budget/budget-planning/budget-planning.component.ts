@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Predicate} from '@angular/core';
 import {Category} from '../../category/model/category.model';
 import {EventService} from '../../event/event.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -8,6 +8,7 @@ import {EventType} from '../../event-type/model/event-type.model';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
+import {Budget} from '../model/budget.model';
 
 @Component({
   selector: 'app-budget-planning',
@@ -41,12 +42,33 @@ export class BudgetPlanningComponent implements OnInit {
   ngOnInit(): void {
     this.loadParams();
     this.loadEventType();
+    this.loadBudget();
   }
 
   private loadParams(): void {
     this.route.params.subscribe(params => {
       this.id = params['id'] ?? null;
     });
+  }
+
+  private loadBudget(): void {
+    this.budgetService.getBudget(this.id).subscribe({
+      next: (budget: Budget) => {
+
+        if(budget != null) {
+          this.updateSpentPrice(budget.spentAmount);
+          this.updatePlannedPrice(budget.plannedAmount);
+
+          const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
+          this.plannedCategories = this.plannedCategories.filter(this.purchaseFilter(purchasedCategories));
+          this.otherCategories = this.otherCategories.filter(this.purchaseFilter(purchasedCategories));
+        }
+      }
+    });
+  }
+
+  private purchaseFilter(purchasedCategories: Category[]): Predicate<Category> {
+    return category => !purchasedCategories.some(purchased => purchased.id == category.id);
   }
 
   private loadEventType(): void {

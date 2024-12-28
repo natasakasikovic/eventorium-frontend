@@ -62,7 +62,7 @@ const routes: Routes = [
     component: BudgetPlanningComponent,
     canActivate: [NavigationGuard],
     data: {
-      allowedUrls: ['/create-event', '/event-invitations'],
+      allowedUrls: ['/create-event', '/product-details'],
       fallback: "/home"
     }
   },
