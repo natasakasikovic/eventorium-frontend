@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Product } from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
+import {BudgetService} from '../../budget/budget.service';
 
 @Component({
   selector: 'app-product-card',
@@ -9,6 +10,10 @@ import {ProductService} from '../../product/product.service';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
+
+  @Input() purchasable: boolean;
+
+  @Output() purchase: EventEmitter<Product> = new EventEmitter();
 
   constructor(
     private productService: ProductService
@@ -26,6 +31,10 @@ export class ProductCardComponent implements OnInit {
         this.product.images.push("/photo_placeholder.png");
       }
     });
+  }
+
+  onPurchase(): void {
+    this.purchase.emit(this.product);
   }
 
 }

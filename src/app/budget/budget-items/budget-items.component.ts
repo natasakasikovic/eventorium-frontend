@@ -6,8 +6,7 @@ import {ProductService} from '../../product/product.service';
 import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
-import {EventService} from '../../event/event.service';
-import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-items',
@@ -16,10 +15,13 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 })
 export class BudgetItemsComponent {
   @Input() category: Category;
+  @Output() totalPriceChanged = new EventEmitter<number>();
+  @Input() budgetId: number;
 
   @Output() deleteCategory: EventEmitter<number> = new EventEmitter();
 
   totalPlanned: number;
+  previousPlanned: number = 0.0;
 
   planning: FormGroup = new FormGroup({
     plannedAmount: new FormControl('', Validators.required),
@@ -28,13 +30,11 @@ export class BudgetItemsComponent {
   serviceSuggestions: Service[] = [];
   productSuggestion: Product[] = []
 
-  previousPlanned: number = 0.0;
-
-  @Output() totalPriceChanged = new EventEmitter<number>();
 
   constructor(
     private serviceService: ServiceService,
-    private productService: ProductService
+    private productService: ProductService,
+    private budgetService: BudgetService
   ) {
   }
 
@@ -83,4 +83,23 @@ export class BudgetItemsComponent {
     this.deleteCategory.emit(this.category.id);
     this.updateTotalPlanned(0);
   }
+
+  onPurchase(product: Product): void {
+    this.budgetService.purchase(this.budgetId, {
+      category: product.category,
+      itemId: product.id,
+      plannedAmount: this.planning.value.plannedAmount
+    }).subscribe({
+      next: (product: Product) => {
+        this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
+        this.deleteCategory.emit(this.category.id);
+        //TODO: change when UX pr is merged
+        console.log("Successfully bought product!");
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error.error.message);
+      }
+    });
+  }
+
 }

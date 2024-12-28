@@ -4,7 +4,6 @@ import {Category} from '../../category/model/category.model';
 
 export interface BudgetItem {
   plannedAmount: number,
-  item: Product | Service;
-  purchased: Date;
+  itemId: number;
   category: Category;
 }
