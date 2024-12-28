@@ -1,10 +1,10 @@
 <div class="budget">
-  <mat-tab-group class="main-tabs">
+  <mat-tab-group class="main-tabs" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Planner" class="planner">
       <mat-tab-group class="category-tabs">
         <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
           <app-budget-items [category]="category"
-                            [budgetId]="id"
+                            [eventId]="id"
                             (totalPriceChanged)="updatePlannedPrice($event)"
                             (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
@@ -23,8 +23,8 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab label="Spent">
-
+    <mat-tab label="Purchased & Reserved">
+      <app-purchased-and-reserved [purchasedProducts]="purchasedProducts"></app-purchased-and-reserved>
     </mat-tab>
   </mat-tab-group>
   <div class="total">

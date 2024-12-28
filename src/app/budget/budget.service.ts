@@ -17,4 +17,8 @@ export class BudgetService {
   purchase(id: number, item: BudgetItem): Observable<Product> {
     return this.httpClient.post<Product>(`${environment.apiHost}/events/${id}/budget/purchase`, item);
   }
+
+  getPurchased(id: number): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(`${environment.apiHost}/events/${id}/budget/purchased`);
+  }
 }

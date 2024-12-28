@@ -16,9 +16,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class BudgetItemsComponent {
   @Input() category: Category;
   @Output() totalPriceChanged = new EventEmitter<number>();
-  @Input() budgetId: number;
+  @Input() eventId: number;
 
-  @Output() deleteCategory: EventEmitter<number> = new EventEmitter();
+  @Output() deleteCategory: EventEmitter<[number, boolean]> = new EventEmitter();
 
   totalPlanned: number;
   previousPlanned: number = 0.0;
@@ -80,19 +80,19 @@ export class BudgetItemsComponent {
   }
 
   onDelete(): void {
-    this.deleteCategory.emit(this.category.id);
+    this.deleteCategory.emit([this.category.id, false]);
     this.updateTotalPlanned(0);
   }
 
   onPurchase(product: Product): void {
-    this.budgetService.purchase(this.budgetId, {
+    this.budgetService.purchase(this.eventId, {
       category: product.category,
       itemId: product.id,
       plannedAmount: this.planning.value.plannedAmount
     }).subscribe({
       next: (product: Product) => {
         this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
-        this.deleteCategory.emit(this.category.id);
+        this.deleteCategory.emit([this.category.id, true]);
         //TODO: change when UX pr is merged
         console.log("Successfully bought product!");
       },
