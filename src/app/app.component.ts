@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   checkLoginStatus(): void {
     const currentUser = localStorage.getItem('user');
     this.isLoggedIn = currentUser !== null;
+
     if(this.isLoggedIn) {
       this.notificationService.openSocket();
     }

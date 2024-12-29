@@ -4,7 +4,6 @@ import {PriceListService} from '../price-list.service';
 import {PageProperties} from '../../shared/model/page-properties.model';
 import {PagedResponse} from '../../shared/model/paged-response.model';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {Product} from '../../product/model/product.model';
 import {MatTabGroup} from '@angular/material/tabs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -17,6 +16,7 @@ import {ToastrService} from 'ngx-toastr';
 export class PriceListComponent implements OnInit {
   products: PriceListItem[];
   services: PriceListItem[];
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup | undefined;
@@ -97,6 +97,19 @@ export class PriceListComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(`${error.error.message}`, "Failed to update product");
+      }
+    });
+  }
+
+  downloadPdf(): void {
+    this.priceListService.downloadPdf().subscribe({
+      next: (blob: Blob) => {
+        const fileURL = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = 'price_list_report.pdf';
+        link.click();
       }
     });
   }

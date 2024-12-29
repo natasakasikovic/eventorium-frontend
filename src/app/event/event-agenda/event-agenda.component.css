@@ -93,3 +93,13 @@ mat-icon {
   display: block;
   text-align: center;
 }
+
+#submit{
+  color: #35422F;
+  border: 0.1em solid #35422F;
+  border-radius: 50%;
+  height: 5em;
+  width: 5em;
+  cursor: pointer;
+  margin-left: 10em;
+}

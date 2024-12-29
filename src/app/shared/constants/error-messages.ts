@@ -5,4 +5,5 @@ export const ERROR_MESSAGES = {
     SERVER_ERROR: 'Unexpected error. Please, try again later.',
     PROFILE_PHOTO_UPLOAD_ERROR: 'An error occurred while uploading the profile photo. You can update it later after activating your account.',
     EMAIL_TAKEN_QUICK_REGISTRATION: 'Registration on Eventorium with this email address has already been completed. Please log in to access the application.',
+    INVALID_ACTIVIY: 'One or more of the listed activities contain invalid or incomplete information. Please note that all fields are required. Locate the invalid activity and remove it by clicking the X button. You can then add a new activity with valid information.'
   };

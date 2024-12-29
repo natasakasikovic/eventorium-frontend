@@ -17,12 +17,12 @@ export class QuickRegistrationGuard implements CanActivate {
     const hash = route.paramMap.get('hash')
 
     return this.service.verifyInvitation(hash).pipe(
-      map(() => true), 
+      map(() => true),
       catchError(() => {
-        this.router.navigate(['/']);
+        void this.router.navigate(['/']);
         return of(false);
       })
     );
-    
+
   }
 }

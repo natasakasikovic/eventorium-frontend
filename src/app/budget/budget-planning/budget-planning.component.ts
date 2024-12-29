@@ -89,6 +89,6 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   onSubmit(): void {
-    void this.router.navigate(['/event-agenda']);
+    void this.router.navigate(['/event-agenda', this.id]);
   }
 }
