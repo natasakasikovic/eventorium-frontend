@@ -6,6 +6,7 @@ import { Login } from '../model/login.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from '../model/auth-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import {NotificationService} from '../../notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,11 @@ export class LoginComponent {
 
   serverError: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -30,12 +35,12 @@ export class LoginComponent {
         email: this.loginForm.value.email || "",
         password: this.loginForm.value.password || ""
       };
-  
       this.authService.login(login).subscribe({
         next: (response: AuthResponse) => {
           localStorage.setItem('user', response.jwt);
           this.authService.setUser();
-          this.router.navigate(['home']);
+          this.notificationService.openSocket();
+          void this.router.navigate(['home']);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 401) {

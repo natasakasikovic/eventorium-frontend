@@ -1,22 +1,27 @@
-import { Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import {NotificationService} from '../../notification/notification.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
-  @Input() isLoggedIn: boolean = false; 
+  @Input() isLoggedIn: boolean = false;
   role: String = null;
-  
+
   constructor(
     private authService: AuthService,
-    private router: Router)
-  {}
+    private router: Router,
+    private dialog: MatDialog,
+    private notificationService: NotificationService
+  ) {
+  }
 
   ngOnInit(): void {
     this.authService.userState.subscribe((result) => {
@@ -30,13 +35,14 @@ export class NavBarComponent {
 
   logOut(): void {
     this.authService.logout();
-    this.router.navigate(['home']);
+    this.notificationService.closeSocket();
+    void this.router.navigate(['home']);
   }
 
   signup(): void {
     this.router.navigate(['signup'])
   }
-  
+
   createEvent(): void {
     this.router.navigate(['create-event'])
   }
