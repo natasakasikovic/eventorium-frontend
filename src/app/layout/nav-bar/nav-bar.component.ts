@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import {NotificationService} from '../../notification/notification.service';
+import {WebSocketService} from '../../notification/web-socket-service';
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({
@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private webSocketService: WebSocketService
   ) {
   }
 
@@ -34,7 +34,7 @@ export class NavBarComponent implements OnInit {
   }
 
   logOut(): void {
-    this.notificationService.closeSocket();
+    this.webSocketService.closeSocket();
     this.authService.logout();
     void this.router.navigate(['home']);
   }

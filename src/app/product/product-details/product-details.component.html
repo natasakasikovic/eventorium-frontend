@@ -2,7 +2,13 @@
   <mat-card class="product-card">
     <mat-card-header>
       <div class="header-left">
-        <mat-card-title> {{ product?.name }} </mat-card-title>
+        <mat-card-title>
+          <button mat-icon-button (click)="openChatDialog()">
+            <mat-icon>chat</mat-icon>
+          </button>
+          {{ product?.name }}
+        </mat-card-title>
+
         <mat-card-subtitle> <strong>Category:</strong> {{ product?.category.name }}</mat-card-subtitle>
         <mat-card-subtitle>
           <strong>Event types:</strong>

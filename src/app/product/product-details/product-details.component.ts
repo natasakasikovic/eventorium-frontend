@@ -5,6 +5,7 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
+import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 
 @Component({
   selector: 'app-product-details',
@@ -20,6 +21,7 @@ export class ProductDetailsComponent implements OnInit {
     private productService: ProductService,
     private authService: AuthService,
     private router: Router,
+    private chatService: ChatDialogService
   ) {
   }
 
@@ -79,4 +81,7 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
+  openChatDialog(): void {
+    this.chatService.openChatDialog();
+  }
 }

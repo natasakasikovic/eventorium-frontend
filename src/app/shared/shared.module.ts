@@ -9,6 +9,7 @@ import {ServiceFilterComponent} from './service-filter/service-filter.component'
 import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
+import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
 
 
 @NgModule({
@@ -18,8 +19,9 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     ServiceCardComponent,
     SearchBarComponent,
     ServiceFilterComponent,
-    InfoDialogComponent
-    ],  
+    InfoDialogComponent,
+    ChatDialogComponent
+    ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -31,7 +33,8 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     SearchBarComponent,
     ServiceFilterComponent,
     ProductCardComponent,
-    EventCardComponent
+    EventCardComponent,
+    ChatDialogComponent
   ]
 })
 export class SharedModule { }

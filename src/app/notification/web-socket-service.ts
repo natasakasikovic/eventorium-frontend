@@ -10,7 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class WebSocketService {
 
   socketClient: Stomp.Client = null;
   private notificationSubscription: Stomp.Subscription;
@@ -34,6 +34,13 @@ export class NotificationService {
           break;
       }
     });
+  }
+
+  createChat(id: number): void {
+    this.authService.getUserId();
+    if(this.socketClient != null) {
+      this.socketClient.subscribe(`/queue/messages`)
+    }
   }
 
   private createGlobalSubscriptions(): void {
