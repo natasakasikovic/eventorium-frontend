@@ -1,5 +1,5 @@
-export interface ChatMessageResponseDto {
-  sender: string;
-  recipient: string;
+export interface ChatMessage {
+  sender: number;
+  recipient: number;
   message: string;
 }

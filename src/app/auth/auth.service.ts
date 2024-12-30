@@ -33,7 +33,7 @@ export class AuthService {
       })
   }
 
-  getRole(): String {
+  getRole(): string {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
@@ -42,7 +42,7 @@ export class AuthService {
     return null;
   }
 
-  getUserId(): String {
+  getUserId(): number {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();

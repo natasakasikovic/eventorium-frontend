@@ -1,5 +1,6 @@
 import {EventType} from '../../event-type/model/event-type.model';
 import {Category} from '../../category/model/category.model';
+import {Provider} from '../../auth/model/provider.model';
 
 export interface Product {
   id: number;
@@ -15,5 +16,5 @@ export interface Product {
   category: Category;
   images: string[];
   rating: number;
-  provider: string;
+  provider: Provider;
 }

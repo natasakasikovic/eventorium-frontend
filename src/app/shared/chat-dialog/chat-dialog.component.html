@@ -4,6 +4,13 @@
     <button class="close-btn" (click)="closeDialog()">X</button>
   </div>
   <div class="chat-body">
-    <input matInput type="text" placeholder="Type a message..." />
+    <div *ngFor="let message of messages"
+         [ngClass]="{
+          'recipient-message': message.recipient === userId,
+          'user-message': message.recipient !== userId
+         }">
+      <p>{{ message.message }}</p>
+    </div>
+    <input [(ngModel)]="newMessage" matInput type="text" placeholder="Type a message..." (keydown.enter)="sendMessage()"/>
   </div>
 </div>
