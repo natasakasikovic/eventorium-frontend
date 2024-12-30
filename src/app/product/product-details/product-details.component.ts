@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ServiceService} from '../../service/service.service';
+import {Service} from '../../service/model/service.model';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
@@ -12,6 +14,7 @@ import {Category} from '../../category/model/category.model';
 import {MatDialog} from '@angular/material/dialog';
 import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-details',
@@ -28,6 +31,7 @@ export class ProductDetailsComponent implements OnInit {
     private eventService: EventService,
     private budgetService: BudgetService,
     private authService: AuthService,
+    private toasterService: ToastrService,
     private dialog: MatDialog,
     private router: Router,
   ) {
@@ -66,8 +70,12 @@ export class ProductDetailsComponent implements OnInit {
           );
         },
         error: (error) => {
-          // TODO: Navigate to error page
-          void this.router.navigate(['/home'])
+          void this.router.navigate(['/error'], {
+            queryParams: {
+              code: error.status,
+              message: error.error?.message || 'An unknown error occurred.'
+            }
+          });
         }
       });
     });
@@ -77,12 +85,14 @@ export class ProductDetailsComponent implements OnInit {
     if(this.isFavorite) {
       this.productService.removeFromFavourites(this.product.id).subscribe({
         next: () => {
+          this.toasterService.info(`Removed ${this.product.name} from favourite products`, "Favourite products");
           this.isFavorite = false;
         }
       });
     } else {
       this.productService.addToFavourites(this.product.id).subscribe({
         next: () => {
+          this.toasterService.success(`Added ${this.product.name} to favourite products`, "Favourite products");
           this.isFavorite = true;
         }
       });

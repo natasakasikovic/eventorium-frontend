@@ -9,6 +9,8 @@ import { CreatedEvent } from './model/created-event-response.model';
 import { InvitationResponse } from './model/invitation-response.model';
 import { EventType } from '../event-type/model/event-type.model';
 import { EventSummary } from './model/event-summary.model';
+import { ActivityRequest } from './model/activity-request.model';
+import { Privacy } from './model/privacy.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,9 @@ import { EventSummary } from './model/event-summary.model';
 export class EventService {
   private eventTypeSubject = new BehaviorSubject<EventType | null>(null);
   eventType$ = this.eventTypeSubject.asObservable();
+
+  private eventPrivacySubject = new BehaviorSubject<Privacy>(Privacy.OPEN);
+  eventPrivacy$ = this.eventPrivacySubject.asObservable();
 
   private events: Event[] = []
   private event: CreateEventRequestDto
@@ -27,8 +32,16 @@ export class EventService {
     this.eventTypeSubject.next(eventType);
   }
 
+  setEventPrivacy(privacy: Privacy): void {
+    this.eventPrivacySubject.next(privacy);
+  }
+
   getEventType(): EventType | null {
     return this.eventTypeSubject.value;
+  }
+
+  getEventPrivacy(): Privacy {
+    return this.eventPrivacySubject.value;
   }
 
   getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
@@ -66,6 +79,10 @@ export class EventService {
 
   getInvitation(hash: string): Observable<InvitationResponse>{
     return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
+  }
+
+  createAgenda(activities: ActivityRequest[], id: number):  Observable<void> {
+    return this.httpClient.put<void>(`${environment.apiHost}/events/${id}/agenda`, activities);
   }
 
   getDraftedEvents(): Observable<Event[]> {

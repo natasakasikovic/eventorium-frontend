@@ -10,6 +10,8 @@ import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 import { EventSelectionComponent } from './event-selection/event-selection.component';
+import { ErrorComponent } from './error/error.component';
+import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 
 @NgModule({
@@ -20,8 +22,11 @@ import { EventSelectionComponent } from './event-selection/event-selection.compo
     SearchBarComponent,
     ServiceFilterComponent,
     InfoDialogComponent,
-    EventSelectionComponent
-    ],  
+    EventSelectionComponent,
+    InfoDialogComponent,
+    ErrorComponent,
+    DeleteConfirmationComponent
+    ],
   imports: [
     CommonModule,
     MaterialModule,

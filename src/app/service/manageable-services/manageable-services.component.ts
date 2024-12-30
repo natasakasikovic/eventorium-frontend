@@ -5,6 +5,11 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {ServiceFilter} from '../model/filter-service-options.model';
 import {PagedResponse} from '../../shared/model/paged-response.model';
 import {PageProperties} from '../../shared/model/page-properties.model';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Category} from '../../category/model/category.model';
+import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-manageable-services',
@@ -19,6 +24,8 @@ export class ManageableServicesComponent implements OnInit {
 
   constructor(
     private service: ServiceService,
+    private toasterService: ToastrService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -54,14 +61,14 @@ export class ManageableServicesComponent implements OnInit {
     }
   }
 
-  deleteService(id: number) {
-    this.service.delete(id).subscribe({
+  private deleteService(service: Service) {
+    this.service.delete(service.id).subscribe({
       next: () => {
-        console.log(`Successfully deleted service ${id}!`);
-        this.services = this.services.filter(service => service.id !== id);
+        this.toasterService.success(`${service.name} has been deleted successfully!`, "Success");
+        this.services = this.services.filter(s => s.id !== service.id);
       },
-      error: (error: Error) => {
-        console.error(`Failed to delete service: ${error.message}`);
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.success(error.error.message, "Failed to delete service");
       }
     });
   }
@@ -89,6 +96,25 @@ export class ManageableServicesComponent implements OnInit {
         this.services = services.content;
         this.pageProperties.totalCount = services.totalElements;
       }
+    });
+  }
+
+  openDeleteConfirmation(service: Service): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '450px',
+      height: 'auto',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        name: service.name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteService(service);
+      }
+      dialogRef.close();
     });
   }
 

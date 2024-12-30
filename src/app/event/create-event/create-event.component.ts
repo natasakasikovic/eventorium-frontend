@@ -66,6 +66,7 @@ export class CreateEventComponent implements OnInit {
       this.eventService.createEvent(newEvent).subscribe({
         next: (event: CreatedEvent) => {
           this.eventService.setEventType(event.type);
+          this.eventService.setEventPrivacy(event.privacy);
           void this.router.navigate(['budget-planning', event.id]);
         },
         error: (error: HttpErrorResponse) => {

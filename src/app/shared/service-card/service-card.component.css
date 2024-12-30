@@ -1,12 +1,57 @@
 .service-card {
-  max-width: 15rem;
+  width: 16rem;
   height: 18rem;
   margin: 1rem;
+  position: relative;
+}
+
+.service-card .sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: yellow;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 2rem;
+  z-index: 10;
+}
+
+.pending-status {
+  background-color: #ff9800;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.pending-label {
+  text-transform: uppercase;
+}
+
+.hidden-status {
+  background-color: #9e9e9e;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50%;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.hidden-label {
+  text-transform: uppercase;
 }
 
 .service-card img {
   height: 9.5rem;
-  width: 15rem;
+  width: 16rem;
 }
 
 .service-card mat-card-header {
