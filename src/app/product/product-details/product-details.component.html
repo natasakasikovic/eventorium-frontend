@@ -24,7 +24,7 @@
         <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="loggedIn">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
-        <span class="price">&euro;{{ product?.price }}</span>
+        <span class="price"> &euro; {{ product?.price * (1 - product?.discount / 100) | number:'1.2-2' }}</span>
       </div>
     </mat-card-header>
     <mat-card-content>

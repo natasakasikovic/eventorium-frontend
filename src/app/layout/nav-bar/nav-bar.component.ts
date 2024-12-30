@@ -40,10 +40,26 @@ export class NavBarComponent implements OnInit {
   }
 
   signup(): void {
-    this.router.navigate(['signup'])
+    void this.router.navigate(['signup']);
   }
 
   createEvent(): void {
-    this.router.navigate(['create-event'])
+    void this.router.navigate(['create-event']);
+  }
+
+  createCategory() {
+    void this.router.navigate(['create-category']);
+  }
+
+  createEventType() {
+    void this.router.navigate(['create-event-type']);
+  }
+
+  createService() {
+    void this.router.navigate(['create-service']);
+  }
+
+  createProduct() {
+    // TODO: change when implemented
   }
 }

@@ -10,6 +10,8 @@ import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
+import { ErrorComponent } from './error/error.component';
+import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 
 @NgModule({
@@ -20,7 +22,10 @@ import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
     SearchBarComponent,
     ServiceFilterComponent,
     InfoDialogComponent,
-    ChatDialogComponent
+    ChatDialogComponent,
+    InfoDialogComponent,
+    ErrorComponent,
+    DeleteConfirmationComponent
     ],
   imports: [
     CommonModule,
@@ -34,7 +39,8 @@ import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
     ServiceFilterComponent,
     ProductCardComponent,
     EventCardComponent,
-    ChatDialogComponent
+    ChatDialogComponent,
+    DeleteConfirmationComponent
   ]
 })
 export class SharedModule { }

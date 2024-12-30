@@ -1,0 +1,17 @@
+<div class="error-container">
+  <mat-card>
+    <img src="/header_logo.png" alt="Eventorium logo" class="logo">
+    <mat-icon aria-hidden="false" aria-label="Error" color="warn">error</mat-icon>
+    <mat-card-header>
+      <mat-card-title>
+        <h3> Error {{ errorCode }} </h3>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ errorMessage }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button class="standard-button" routerLink="/home">Go to Home</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

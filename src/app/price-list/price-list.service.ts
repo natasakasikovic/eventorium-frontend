@@ -39,10 +39,14 @@ export class PriceListService {
   }
 
   updateService(id: number, newPrice: UpdatePriceRequestDto): Observable<PriceListItem> {
-    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/services/${id}`, newPrice)
+    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/services/${id}`, newPrice);
   }
 
   updateProduct(id: number, newPrice: UpdatePriceRequestDto): Observable<PriceListItem> {
-    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/products/${id}`, newPrice)
+    return this.httpClient.patch<PriceListItem>(`${environment.apiHost}/price-list/products/${id}`, newPrice);
+  }
+
+  downloadPdf(): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/price-list/pdf`, { responseType: 'blob' });
   }
 }

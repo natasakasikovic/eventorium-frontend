@@ -1,6 +1,7 @@
 import {ReservationType} from './reservation-type.enum';
 import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
+import {Status} from '../../category/model/status-enum-ts';
 
 export interface Service {
   id: number;
@@ -19,6 +20,7 @@ export interface Service {
   discount: number;
   visible: boolean;
   available: boolean;
-  type: ReservationType
+  type: ReservationType;
+  status: Status;
   images: string[];
 }

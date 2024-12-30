@@ -26,6 +26,7 @@ import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
 import {ProductDetailsComponent} from './product/product-details/product-details.component';
 import {PriceListComponent} from './price-list/price-list/price-list.component';
+import {ErrorComponent} from './shared/error/error.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -50,7 +51,7 @@ const routes: Routes = [
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard],
     data: {
-      allowedUrls: ['/create-event'],
+      allowedUrls: ['/event-agenda'],
       fallback: "/home"
     }
   },
@@ -68,7 +69,7 @@ const routes: Routes = [
   },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {
-    path: 'event-agenda',
+    path: 'event-agenda/:id',
     component: EventAgendaComponent,
     canActivate: [NavigationGuard],
     data: {
@@ -76,8 +77,9 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -38,10 +38,10 @@ import {WebSocketModule} from './web-socket/web-socket.module';
     CategoryModule,
     EventTypeModule,
     BudgetModule,
-    PriceListModule,
     BrowserAnimationsModule,
     WebSocketModule,
     ToastrModule.forRoot(),
+    PriceListModule
   ],
   providers: [
     provideAnimationsAsync(),

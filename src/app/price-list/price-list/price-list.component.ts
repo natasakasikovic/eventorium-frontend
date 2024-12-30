@@ -4,8 +4,9 @@ import {PriceListService} from '../price-list.service';
 import {PageProperties} from '../../shared/model/page-properties.model';
 import {PagedResponse} from '../../shared/model/paged-response.model';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {Product} from '../../product/model/product.model';
 import {MatTabGroup} from '@angular/material/tabs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-price-list',
@@ -15,6 +16,7 @@ import {MatTabGroup} from '@angular/material/tabs';
 export class PriceListComponent implements OnInit {
   products: PriceListItem[];
   services: PriceListItem[];
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup | undefined;
@@ -33,7 +35,8 @@ export class PriceListComponent implements OnInit {
   }
 
   constructor(
-    private priceListService: PriceListService
+    private priceListService: PriceListService,
+    private toasterService: ToastrService
   ) {
   }
 
@@ -72,15 +75,42 @@ export class PriceListComponent implements OnInit {
 
   updateService(service: PriceListItem): void {
     this.priceListService.updateService(service.id, {
-      discount: service.price,
-      price: service.discount
+      discount: service.discount,
+      price: service.price
+    }).subscribe({
+      next: (item: PriceListItem) => {
+        this.toasterService.success(`${item.name} has been updated successfully!`, "Price list");
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(`${error.error.message}`, "Failed to update service");
+      }
     });
   }
 
   updateProduct(product: PriceListItem): void {
     this.priceListService.updateProduct(product.id, {
-      discount: product.price,
-      price: product.discount
+      discount: product.discount,
+      price: product.price
+    }).subscribe({
+      next: (item: PriceListItem) => {
+        this.toasterService.success(`${item.name} has been updated successfully!`, "Price list");
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(`${error.error.message}`, "Failed to update product");
+      }
+    });
+  }
+
+  downloadPdf(): void {
+    this.priceListService.downloadPdf().subscribe({
+      next: (blob: Blob) => {
+        const fileURL = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = 'price_list_report.pdf';
+        link.click();
+      }
     });
   }
 }

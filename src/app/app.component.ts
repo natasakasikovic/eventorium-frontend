@@ -1,9 +1,4 @@
 import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from './auth/login/login.component';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
-import {environment} from '../env/environment';
 import {WebSocketService} from './web-socket/web-socket-service';
 
 
@@ -17,7 +12,7 @@ export class AppComponent implements OnInit {
   drawer: boolean = false;
 
   constructor(
-    private notificationService: WebSocketService
+    private webSocketService: WebSocketService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +24,7 @@ export class AppComponent implements OnInit {
     this.isLoggedIn = currentUser !== null;
 
     if(this.isLoggedIn) {
-      this.notificationService.openSocket();
+      this.webSocketService.openSocket();
     }
   }
 }

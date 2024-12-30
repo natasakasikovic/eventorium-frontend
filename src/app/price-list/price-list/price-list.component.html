@@ -14,4 +14,10 @@
                  [length]="pageProperties.totalCount"
                  [pageSize]="pageProperties.pageSize">
   </mat-paginator>
+  <div class="download-pdf">
+    <button mat-button (click)="downloadPdf()">
+      <mat-icon>download</mat-icon>
+      <span>Download PDF</span>
+    </button>
+  </div>
 </div>
