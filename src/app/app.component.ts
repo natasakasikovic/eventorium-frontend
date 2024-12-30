@@ -4,7 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import {environment} from '../env/environment';
-import {WebSocketService} from './notification/web-socket-service';
+import {WebSocketService} from './web-socket/web-socket-service';
 
 
 @Component({

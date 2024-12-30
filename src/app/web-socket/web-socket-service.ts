@@ -6,6 +6,7 @@ import {AuthService} from '../auth/auth.service';
 import {Notification} from './model/notification.model';
 import {NotificationType} from './model/notification-type.enum';
 import {ToastrService} from 'ngx-toastr';
+import {ChatMessageRequestDto} from './model/chat-message-request-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class WebSocketService {
   socketClient: Stomp.Client = null;
   private notificationSubscription: Stomp.Subscription;
   private adminNotificationSubscription: Stomp.Subscription;
+  private chatSubscription: Stomp.Subscription;
   notifications: Notification[] = [];
 
   constructor(
@@ -39,14 +41,23 @@ export class WebSocketService {
   createChat(id: number): void {
     this.authService.getUserId();
     if(this.socketClient != null) {
-      this.socketClient.subscribe(`/queue/messages`)
+      this.socketClient.subscribe(`/queue/messages`);
     }
   }
 
+  sendMessage(message: ChatMessageRequestDto): void {
+    this.socketClient.send("/app/chat", {}, JSON.stringify(message));
+  }
+
   private createGlobalSubscriptions(): void {
+    const userId = this.authService.getUserId();
     this.notificationSubscription = this.socketClient
-      .subscribe(`/user/${this.authService.getUserId()}/notifications`, (message: Message) => {
+      .subscribe(`/user/${userId}/notifications`, (message: Message) => {
         this.handleNotification(JSON.parse(message.body));
+      });
+    this.chatSubscription = this.socketClient
+      .subscribe(`/user/${userId}/queue/messages`, (message: Message) => {
+        console.log(JSON.parse(message.body));
       });
   }
 

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import {WebSocketService} from '../../notification/web-socket-service';
+import {WebSocketService} from '../../web-socket/web-socket-service';
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({

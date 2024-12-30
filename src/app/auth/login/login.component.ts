@@ -6,7 +6,7 @@ import { Login } from '../model/login.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from '../model/auth-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import {WebSocketService} from '../../notification/web-socket-service';
+import {WebSocketService} from '../../web-socket/web-socket-service';
 
 @Component({
   selector: 'app-login',

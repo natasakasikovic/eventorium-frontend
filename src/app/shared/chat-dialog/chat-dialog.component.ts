@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Output} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
@@ -7,8 +7,9 @@ import {MatDialogRef} from '@angular/material/dialog';
   styleUrl: './chat-dialog.component.css'
 })
 export class ChatDialogComponent {
-
-  constructor(public dialogRef: MatDialogRef<ChatDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<ChatDialogComponent>
+  ) {}
 
   closeDialog(): void {
     this.dialogRef.close();
