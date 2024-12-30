@@ -99,7 +99,7 @@ export class EventAgendaComponent implements OnInit {
     this.eventService.createAgenda(this.activities, this.id).subscribe({
       next: () => {
         if (this.eventService.getEventPrivacy() === Privacy.CLOSED.toUpperCase()) {
-          this.router.navigate(['event-invitations']);
+          this.router.navigate(['event-invitations', this.id]);
         }
         else {
           this.showMessage(MESSAGES.success, MESSAGES.eventCreated);
