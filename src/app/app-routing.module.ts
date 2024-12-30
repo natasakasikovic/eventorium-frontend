@@ -26,6 +26,7 @@ import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
 import {ProductDetailsComponent} from './product/product-details/product-details.component';
 import {PriceListComponent} from './price-list/price-list/price-list.component';
+import {ErrorComponent} from './shared/error/error.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -76,8 +77,9 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

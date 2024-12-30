@@ -3,7 +3,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {NotificationService} from '../../notification/notification.service';
-import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,7 +17,6 @@ export class NavBarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog,
     private notificationService: NotificationService
   ) {
   }
@@ -40,10 +38,26 @@ export class NavBarComponent implements OnInit {
   }
 
   signup(): void {
-    this.router.navigate(['signup'])
+    void this.router.navigate(['signup']);
   }
 
   createEvent(): void {
-    this.router.navigate(['create-event'])
+    void this.router.navigate(['create-event']);
+  }
+
+  createCategory() {
+    void this.router.navigate(['create-category']);
+  }
+
+  createEventType() {
+    void this.router.navigate(['create-event-type']);
+  }
+
+  createService() {
+    void this.router.navigate(['create-service']);
+  }
+
+  createProduct() {
+    // TODO: change when implemented
   }
 }

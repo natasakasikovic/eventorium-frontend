@@ -1,10 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Service} from '../model/service.model';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterState} from '@angular/router';
 import {ServiceService} from '../service.service';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-service-details',
@@ -19,7 +21,8 @@ export class ServiceDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private authService: AuthService,
-    private router: Router
+    private toasterService: ToastrService,
+    private router: Router,
   ) {
   }
 
@@ -55,9 +58,13 @@ export class ServiceDetailsComponent implements OnInit {
             `data:${image.contentType};base64,${image.data}`
           );
         },
-        error: (error) => {
-          // TODO: Navigate to error page
-          void this.router.navigate(['/home'])
+        error: (error: HttpErrorResponse) => {
+          void this.router.navigate(['/error'], {
+            queryParams: {
+              code: error.status,
+              message: error.error?.message || 'An unknown error occurred.'
+            }
+          });
         }
       });
     });
@@ -67,12 +74,14 @@ export class ServiceDetailsComponent implements OnInit {
     if(this.isFavourite) {
       this.serviceService.removeFromFavourites(this.service.id).subscribe({
         next: () => {
+          this.toasterService.info(`Removed ${this.service.name} from favourite services`, "Favourite services");
           this.isFavourite = false;
         }
       });
     } else {
       this.serviceService.addToFavourites(this.service.id).subscribe({
         next: () => {
+          this.toasterService.success(`Added ${this.service.name} to favourite services`, "Favourite services");
           this.isFavourite = true;
         }
       });

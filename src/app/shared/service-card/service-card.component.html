@@ -1,16 +1,31 @@
 <mat-card class="service-card" [style.opacity]="service.available ? 1 : 0.4">
+  <div *ngIf="service.discount != 0.0 && service.status !== 'PENDING' && service.visible" class="sale-badge">Save {{ service.discount }}%</div>
   <img [src]="service.images && service.images[0]" alt="Service image"/>
+  <div *ngIf="service.status === 'PENDING'" class="pending-status">
+    <span class="pending-label">PENDING</span>
+  </div>
+  <div *ngIf="!service.visible" class="hidden-status">
+    <span class="hidden-label">HIDDEN</span>
+  </div>
   <mat-card-header>
-    <div *ngIf="!service.visible"><strong>HIDDEN</strong></div>
-    <mat-card-title class="title">{{service.name}}</mat-card-title>
+    <mat-card-title class="title">{{ service.name }}</mat-card-title>
     <div class="rating">
       <mat-icon>star</mat-icon>
-      <span>{{service.rating}}</span>
+      <span>{{ service.rating | number:'1.2-2' }}</span>
     </div>
   </mat-card-header>
 
   <mat-card-content>
-    <p>Price: {{service.price}}</p>
+    <p>
+      Price:
+      <span *ngIf="service.discount !== 0.0">
+        <s>{{ service.price }}</s>
+        {{ service.price * (1 - service.discount / 100) | number:'1.2-2' }}
+      </span>
+          <span *ngIf="service.discount === 0.0">
+        {{ service.price | number:'1.2-2' }}
+      </span>
+    </p>
   </mat-card-content>
 
   <mat-card-actions>

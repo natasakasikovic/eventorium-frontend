@@ -37,9 +37,9 @@ import {PriceListModule} from './price-list/price-list.module';
     CategoryModule,
     EventTypeModule,
     BudgetModule,
-    PriceListModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    PriceListModule
   ],
   providers: [
     provideAnimationsAsync(),

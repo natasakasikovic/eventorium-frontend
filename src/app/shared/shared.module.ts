@@ -9,6 +9,8 @@ import {ServiceFilterComponent} from './service-filter/service-filter.component'
 import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
+import { ErrorComponent } from './error/error.component';
+import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     ServiceCardComponent,
     SearchBarComponent,
     ServiceFilterComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    ErrorComponent,
+    DeleteConfirmationComponent
     ],  
   imports: [
     CommonModule,

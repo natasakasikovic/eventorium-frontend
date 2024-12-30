@@ -37,6 +37,7 @@ export class DrawerComponent {
       if (userRole === "PROVIDER") {
         // NOTE: If you add an option for a provider, add it here
         items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
+        items.push({ label: 'Products', icon: 'information', route: ''}); // TODO: Change when implemented.
         items.push({ label: 'Price List', icon: 'receipt', route: '/price-list'});
       }
 
@@ -44,6 +45,14 @@ export class DrawerComponent {
         // NOTE: If you add an option for an event organizer, add it here
         // for example:
         // items.push({ label: 'Events', icon: 'event', route: '/events' });
+      }
+
+      if(userRole === "ADMIN") {
+        // NOTE: If you add an option for an admin, add it here
+        // for example:
+        // items.push({ label: 'Events', icon: 'event', route: '/events' });
+        items.push({ label: 'Categories', icon: 'category', route: '/categories-overview'});
+        items.push({ label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals'});
       }
     }
 
