@@ -11,6 +11,7 @@ import { EventType } from '../event-type/model/event-type.model';
 import { EventSummary } from './model/event-summary.model';
 import { ActivityRequest } from './model/activity-request.model';
 import { Privacy } from './model/privacy.enum';
+import { Invitation } from './model/invitation-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,10 @@ export class EventService {
 
   createAgenda(activities: ActivityRequest[], id: number):  Observable<void> {
     return this.httpClient.put<void>(`${environment.apiHost}/events/${id}/agenda`, activities);
+  }
+
+  sendInvitations(invitations: Invitation[], id: number): Observable<void> {
+    return this.httpClient.post<void> (`${environment.apiHost}/invitations/${id}`, invitations)
   }
 
 }

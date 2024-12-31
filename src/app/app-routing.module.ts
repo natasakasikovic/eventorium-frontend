@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'price-list', component: PriceListComponent },
   {
-    path: 'event-invitations',
+    path: 'event-invitations/:id',
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard],
     data: {
