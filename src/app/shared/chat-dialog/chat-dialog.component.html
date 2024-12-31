@@ -5,12 +5,15 @@
   </div>
   <div class="chat-body">
     <div *ngFor="let message of messages"
+         class="message"
          [ngClass]="{
           'recipient-message': message.recipientId === userId,
           'user-message': message.recipientId !== userId
          }">
       <p>{{ message.message }}</p>
     </div>
+  </div>
+  <div class="chat-input">
     <input [(ngModel)]="newMessage" matInput type="text" placeholder="Type a message..." (keydown.enter)="sendMessage()"/>
   </div>
 </div>
