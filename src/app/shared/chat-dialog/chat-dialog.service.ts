@@ -24,6 +24,10 @@ export class ChatDialogService {
         newMessage: message
       }
     });
+
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.dialogRef = null;
+    });
   }
 
   sendMessage(message: ChatMessage): void {
@@ -33,4 +37,5 @@ export class ChatDialogService {
   isOpened(): boolean {
     return this.dialogRef != null;
   }
+
 }

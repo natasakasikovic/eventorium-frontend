@@ -94,4 +94,8 @@ export class ProductDetailsComponent implements OnInit {
   openChatDialog(recipientId?: number): void {
     this.chatService.openChatDialog(recipientId ? recipientId : this.product.provider.id);
   }
+
+  getRole(): string {
+    return this.authService.getRole();
+  }
 }

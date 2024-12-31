@@ -24,7 +24,6 @@ export class ChatDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     if(this.data.newMessage) {
       this.addMessage(this.data.newMessage);
     }
