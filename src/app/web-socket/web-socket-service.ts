@@ -41,13 +41,6 @@ export class WebSocketService {
     });
   }
 
-  createChat(id: number): void {
-    this.authService.getUserId();
-    if(this.socketClient != null) {
-      this.socketClient.subscribe(`/queue/messages`);
-    }
-  }
-
   sendMessage(message: ChatMessageRequestDto): void {
     this.socketClient.send("/app/chat", {}, JSON.stringify(message));
   }
@@ -111,6 +104,7 @@ export class WebSocketService {
 
   private closeGlobalSubscriptions(): void {
     this.notificationSubscription.unsubscribe();
+    this.chatSubscription.unsubscribe();
   }
 
   private closeAdminSubscriptions(): void {
