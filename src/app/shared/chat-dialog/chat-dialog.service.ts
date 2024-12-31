@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {ChatDialogComponent} from './chat-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ChatMessage} from "../../web-socket/model/chat-message.model";
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,13 @@ export class ChatDialogService {
   ) {}
 
 
-  openChatDialog(recipientId: number, message?: ChatMessage): void {
+  openChatDialog(recipientId: number): void {
     this.dialogRef = this.dialog.open(ChatDialogComponent, {
       width: 'auto',
       height: 'auto',
       panelClass: 'chat-dialog-panel',
       data: {
         recipientId: recipientId,
-        newMessage: message
       }
     });
 

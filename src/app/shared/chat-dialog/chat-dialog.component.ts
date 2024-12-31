@@ -6,6 +6,7 @@ import {ChatDialogService} from "./chat-dialog.service";
 import {ChatMessageRequestDto} from "../../web-socket/model/chat-message-request-dto.model";
 import {WebSocketService} from "../../web-socket/web-socket-service";
 import {User} from "../../auth/model/user.model";
+import {ChatService} from './chat.service';
 
 @Component({
   selector: 'app-chat-dialog',
@@ -19,14 +20,17 @@ export class ChatDialogComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private webSocketService: WebSocketService,
+    private chatService: ChatService,
     public dialogRef: MatDialogRef<ChatDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { recipientId: number, newMessage?: ChatMessage }
+    @Inject(MAT_DIALOG_DATA) public data: { recipientId: number }
   ) {}
 
   ngOnInit(): void {
-    if(this.data.newMessage) {
-      this.addMessage(this.data.newMessage);
-    }
+    this.chatService.getMessages(this.userId, this.data.recipientId).subscribe({
+      next: (messages: ChatMessage[]) => {
+        this.messages = messages;
+      }
+    })
   }
 
   get userId(): number {
