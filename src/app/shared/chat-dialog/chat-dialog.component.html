@@ -6,8 +6,8 @@
   <div class="chat-body">
     <div *ngFor="let message of messages"
          [ngClass]="{
-          'recipient-message': message.recipient === userId,
-          'user-message': message.recipient !== userId
+          'recipient-message': message.recipientId === userId,
+          'user-message': message.recipientId !== userId
          }">
       <p>{{ message.message }}</p>
     </div>

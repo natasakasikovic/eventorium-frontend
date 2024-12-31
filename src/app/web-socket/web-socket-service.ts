@@ -7,6 +7,8 @@ import {Notification} from './model/notification.model';
 import {NotificationType} from './model/notification-type.enum';
 import {ToastrService} from 'ngx-toastr';
 import {ChatMessageRequestDto} from './model/chat-message-request-dto.model';
+import {ChatMessage} from './model/chat-message.model';
+import {ChatDialogService} from '../shared/chat-dialog/chat-dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,8 @@ export class WebSocketService {
 
   constructor(
     private authService: AuthService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private chatDialog: ChatDialogService
   ) { }
 
   openSocket(): void {
@@ -57,7 +60,7 @@ export class WebSocketService {
       });
     this.chatSubscription = this.socketClient
       .subscribe(`/user/${userId}/queue/messages`, (message: Message) => {
-        console.log(JSON.parse(message.body));
+        this.handleChatMessage(JSON.parse(message.body));
       });
   }
 
@@ -82,6 +85,14 @@ export class WebSocketService {
           this.toasterService.info(notification.message, notification.title);
           break;
       }
+    }
+  }
+
+  private handleChatMessage(chatMessage: ChatMessage): void {
+    if(!this.chatDialog.isOpened()) {
+      this.chatDialog.openChatDialog(chatMessage.senderId, chatMessage);
+    } else {
+      this.chatDialog.sendMessage(chatMessage);
     }
   }
 

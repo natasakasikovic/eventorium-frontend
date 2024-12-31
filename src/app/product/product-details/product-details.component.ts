@@ -91,7 +91,7 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  openChatDialog(): void {
-    this.chatService.openChatDialog(this.product.provider.id);
+  openChatDialog(recipientId?: number): void {
+    this.chatService.openChatDialog(recipientId ? recipientId : this.product.provider.id);
   }
 }
