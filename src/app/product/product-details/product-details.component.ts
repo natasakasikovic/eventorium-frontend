@@ -15,6 +15,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-product-details',
@@ -130,7 +131,10 @@ export class ProductDetailsComponent implements OnInit {
       }).subscribe({
         next: () => {
           void this.router.navigate(['budget-planning', eventId]);
-          console.log("Successfully purchased!");
+          this.toasterService.success("Success", "Successfully purchased product!");
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to purchase product");
         }
       });
     }

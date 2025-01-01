@@ -3,6 +3,7 @@ import { ProductService } from '../product.service';
 import { Product } from '../model/product.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PagedResponse } from '../../shared/model/paged-response.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-products-overview',
@@ -23,7 +24,9 @@ export class ProductsOverviewComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: ProductService) { }
+  constructor(
+    private service: ProductService
+  ) { }
 
   ngOnInit(): void {
     this.getPagedProducts();
@@ -35,8 +38,8 @@ export class ProductsOverviewComponent implements OnInit {
       next: (response: PagedResponse<Product>) => {
         this.products = response.content;
         this.pageProperties.totalCount = response.totalElements;
-      } 
-    })  
+      }
+    })
   }
 
   onPageChanged(pageEvent : PageEvent): void {

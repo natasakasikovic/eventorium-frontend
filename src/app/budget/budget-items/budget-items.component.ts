@@ -7,6 +7,7 @@ import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-budget-items',
@@ -35,7 +36,8 @@ export class BudgetItemsComponent {
   constructor(
     private serviceService: ServiceService,
     private productService: ProductService,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private toasterService: ToastrService
   ) {
   }
 
@@ -94,11 +96,9 @@ export class BudgetItemsComponent {
         this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
         this.deleteCategory.emit([this.category.id, true]);
         this.totalSpentChanged.emit(product.price);
-        //TODO: change when UX pr is merged
-        console.log("Successfully bought product!");
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error.error.message);
+        this.toasterService.error("Failed to purchase product", error.error.message);
       }
     });
   }
