@@ -3,7 +3,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
 import { AuthService } from '../../auth/auth.service';
-import { UserRole } from '../../auth/model/user-role.enum';
 
 @Component({
   selector: 'app-drawer',
@@ -38,12 +37,22 @@ export class DrawerComponent {
       if (userRole === "PROVIDER") {
         // NOTE: If you add an option for a provider, add it here
         items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
+        items.push({ label: 'Products', icon: 'information', route: ''}); // TODO: Change when implemented.
+        items.push({ label: 'Price List', icon: 'receipt', route: '/price-list'});
       }
-      
+
       if (userRole === "EVENT_ORGANIZER") {
         // NOTE: If you add an option for an event organizer, add it here
         // for example:
         // items.push({ label: 'Events', icon: 'event', route: '/events' });
+      }
+
+      if(userRole === "ADMIN") {
+        // NOTE: If you add an option for an admin, add it here
+        // for example:
+        // items.push({ label: 'Events', icon: 'event', route: '/events' });
+        items.push({ label: 'Categories', icon: 'category', route: '/categories-overview'});
+        items.push({ label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals'});
       }
     }
 
@@ -51,7 +60,7 @@ export class DrawerComponent {
   }
 
   onMenuItemClick(item: MenuItem): void {
-    this.router.navigate([item.route]); 
-    this.drawer.close(); 
+    this.router.navigate([item.route]);
+    this.drawer.close();
   }
 }

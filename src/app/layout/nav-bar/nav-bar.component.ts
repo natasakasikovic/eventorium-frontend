@@ -1,22 +1,24 @@
-import { Component, Input} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../../auth/login/login.component';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { UserRole } from '../../auth/model/user-role.enum';
+import {NotificationService} from '../../notification/notification.service';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
-  @Input() isLoggedIn: boolean = false; 
+  @Input() isLoggedIn: boolean = false;
   role: String = null;
-  
-  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnInit(): void {
@@ -25,31 +27,37 @@ export class NavBarComponent {
     })
   }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
-
-    dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      if (status) {
-        dialogRef.close();
-      }
-    });
+  login(): void {
+    this.router.navigate(['login'])
   }
 
   logOut(): void {
     this.authService.logout();
-    this.router.navigate(['home']);
+    this.notificationService.closeSocket();
+    void this.router.navigate(['home']);
   }
 
-  get isOrganizer(): boolean {
-    return this.role === UserRole.EVENT_ORGANIZER;
+  signup(): void {
+    void this.router.navigate(['signup']);
   }
 
   createEvent(): void {
-    this.router.navigate(['create-event'])
+    void this.router.navigate(['create-event']);
+  }
+
+  createCategory() {
+    void this.router.navigate(['create-category']);
+  }
+
+  createEventType() {
+    void this.router.navigate(['create-event-type']);
+  }
+
+  createService() {
+    void this.router.navigate(['create-service']);
+  }
+
+  createProduct() {
+    // TODO: change when implemented
   }
 }

@@ -1,0 +1,45 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+mat-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 50%;
+  height: fit-content;
+  text-align: center;
+  background-color: #E3DCD1;
+}
+
+mat-card img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 2rem;
+}
+
+mat-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: jeju, serif;
+  color: #d32f2f;
+}
+
+mat-card mat-icon {
+  transform: scale(3);
+}
+
+p {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  font-family: jeju, serif;
+}
+
+button {
+  margin-top: 16px;
+}

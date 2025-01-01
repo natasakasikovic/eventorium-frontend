@@ -1,29 +1,88 @@
-.service-details {
+.screen {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background-color: #f4f5f7;
+  padding: 2rem;
 }
 
-mat-form-field {
-  width: 500px;
+.service-details {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-.button-save {
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  color: #35422f;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.checkbox {
   display: flex;
-  justify-content: center;
+  gap: 1rem;
 }
 
-.button-save > button {
-  background-color: #35422F;
-  color: #ECEAE6;
+.mat-checkbox-label {
+  font-weight: 500;
+}
+
+.mat-form-field .mat-label {
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .duration-slider {
-  background-color: #D9D9D9;
-  border-radius: 20px;
-  width: 20rem;
+  width: 100%;
+  margin-top: 1rem;
 }
-.screen {
-  background-color: #ECEAE6;
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-radio-button {
+  margin: 0.5rem 0;
+}
+
+.button-save {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.save-button {
+  background-color: #35422f;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #4a5b46;
+}
+
+.save-button:disabled {
+  background-color: #ccc;
+}
+
+h2 {
+  text-align: center;
 }

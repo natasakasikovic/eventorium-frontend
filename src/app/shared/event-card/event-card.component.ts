@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Event } from '../../event/model/event.model';
+import { EventSummary } from '../../event/model/event-summary.model';
 
 @Component({
   selector: 'app-event-card',
@@ -7,5 +8,5 @@ import { Event } from '../../event/model/event.model';
   styleUrl: './event-card.component.css'
 })
 export class EventCardComponent {
-  @Input() event: Event;
+  @Input() event: EventSummary;
 }

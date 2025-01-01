@@ -2,6 +2,8 @@ import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/co
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-category',
@@ -18,7 +20,8 @@ export class EditCategoryComponent implements AfterViewInit {
   });
 
   constructor(
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toasterService: ToastrService
   ) {}
 
   ngAfterViewInit(): void {
@@ -37,10 +40,11 @@ export class EditCategoryComponent implements AfterViewInit {
         description: this.editCategoryForm.value.description,
       }).subscribe({
         next: () => {
+          this.toasterService.success(`${this.category.name} has been updated successfully!`, "Success");
           this.onClose();
         },
-        error: (e: Error) => {
-          console.log(e);
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to update category");
         }
       });
     }

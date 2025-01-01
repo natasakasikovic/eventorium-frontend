@@ -1,7 +1,6 @@
 import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from './auth/login/login.component';
-import {NavigationService} from './infrastructure/navigation/navigation.service';
+import {NotificationService} from './notification/notification.service';
+
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,9 @@ import {NavigationService} from './infrastructure/navigation/navigation.service'
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   drawer: boolean = false;
+
   constructor(
-    private dialog: MatDialog,
-    private navigation: NavigationService
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -21,20 +20,11 @@ export class AppComponent implements OnInit {
   }
 
   checkLoginStatus(): void {
-    const currentUser = sessionStorage.getItem('user');
+    const currentUser = localStorage.getItem('user');
     this.isLoggedIn = currentUser !== null;
-  }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
-
-    dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      this.isLoggedIn = status;
-    });
+    if(this.isLoggedIn) {
+      this.notificationService.openSocket();
+    }
   }
 }

@@ -19,9 +19,14 @@ import { CreateEventTypeComponent } from './event-type/create-event-type/create-
 import { EditEventTypeComponent } from './event-type/edit-event-type/edit-event-type.component';
 import { EventInvitationsComponent } from './event/event-invitations/event-invitations.component';
 import { CreateEventComponent } from './event/create-event/create-event.component';
+import { QuickRegistrationComponent } from './auth/quick-registration/quick-registration.component';
+import { QuickRegistrationGuard } from './auth/guards/quick-registration.guard';
 import { EventAgendaComponent } from './event/event-agenda/event-agenda.component';
 import {BudgetPlanningComponent} from './budget/budget-planning/budget-planning.component';
 import {NavigationGuard} from './infrastructure/navigation/guards/navigation.guard';
+import {ProductDetailsComponent} from './product/product-details/product-details.component';
+import {PriceListComponent} from './price-list/price-list/price-list.component';
+import {ErrorComponent} from './shared/error/error.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -33,17 +38,20 @@ const routes: Routes = [
   { path: 'edit-category/:id', component: EditCategoryComponent },
   { path: 'create-category', component: CreateCategoryComponent },
   { path: 'products-overview', component: ProductsOverviewComponent},
+  { path: 'product-details/:id', component: ProductDetailsComponent},
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
+  { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
+  { path: 'price-list', component: PriceListComponent },
   {
-    path: 'event-invitations',
+    path: 'event-invitations/:id',
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard],
     data: {
-      allowedUrls: ['/create-event'],
+      allowedUrls: ['/event-agenda'],
       fallback: "/home"
     }
   },
@@ -51,7 +59,7 @@ const routes: Routes = [
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
   {
-    path: 'budget-planning',
+    path: 'budget-planning/:id',
     component: BudgetPlanningComponent,
     canActivate: [NavigationGuard],
     data: {
@@ -61,7 +69,7 @@ const routes: Routes = [
   },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {
-    path: 'event-agenda',
+    path: 'event-agenda/:id',
     component: EventAgendaComponent,
     canActivate: [NavigationGuard],
     data: {
@@ -69,8 +77,9 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

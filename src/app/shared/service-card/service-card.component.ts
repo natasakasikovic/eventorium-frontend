@@ -11,7 +11,7 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() service: Service;
   @Input() showActions: boolean;
 
-  @Output() delete: EventEmitter<number> = new EventEmitter();
+  @Output() delete: EventEmitter<Service> = new EventEmitter();
 
   constructor(
     private serviceService: ServiceService
@@ -28,12 +28,12 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
         this.service.images = [];
         this.service.images.push("/photo_placeholder.png");
       }
-    })
+    });
   }
 
 
   onDelete(): void {
-    this.delete.emit(this.service.id);
+    this.delete.emit(this.service);
   }
 
   ngOnDestroy(): void {

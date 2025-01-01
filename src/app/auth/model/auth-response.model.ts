@@ -9,5 +9,4 @@ export interface AuthResponse {
   city: string;
   role: String[];
   jwt: string;
-  }
-  
+}

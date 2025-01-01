@@ -15,10 +15,10 @@
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
         <span>{{ service?.rating }}</span>
-        <button mat-icon-button>
-          <mat-icon>favorite_border</mat-icon>
+        <button mat-icon-button (click)="toggleFavouriteService()" *ngIf="loggedIn">
+          <mat-icon>{{ isFavourite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
-        <span class="price">&euro;{{ service?.price }}</span>
+        <span class="price"> &euro;{{ service.price * (1 - service.discount / 100) | number:'1.2-2' }}</span>
       </div>
     </mat-card-header>
     <mat-card-content>

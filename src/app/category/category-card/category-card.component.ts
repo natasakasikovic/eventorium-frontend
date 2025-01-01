@@ -9,7 +9,7 @@ import {Category} from '../model/category.model';
 export class CategoryCardComponent {
   @Input() category: Category
   @Output() edit: EventEmitter<number> = new EventEmitter();
-  @Output() delete: EventEmitter<number> = new EventEmitter();
+  @Output() delete: EventEmitter<Category> = new EventEmitter();
   @Output() update: EventEmitter<number> = new EventEmitter();
   @Output() accept: EventEmitter<number> = new EventEmitter();
   @Output() decline: EventEmitter<number> = new EventEmitter();
@@ -32,6 +32,6 @@ export class CategoryCardComponent {
   }
 
   onDelete(): void {
-    this.delete.emit(this.category.id);
+    this.delete.emit(this.category);
   }
 }
