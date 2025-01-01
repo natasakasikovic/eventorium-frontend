@@ -66,7 +66,6 @@ export class CompanyRegisterComponent implements OnInit {
                 this.showActivationDialog(); 
               }, 
               error: (error: HttpErrorResponse) => {
-                console.log("ovo je greska pri uploadu " + JSON.stringify(error));
                 this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
                 this.showActivationDialog(); 
               }
