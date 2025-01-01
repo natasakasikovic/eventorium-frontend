@@ -66,7 +66,7 @@
   <div class="images-section scrollable-container">
     <label for="image-upload" class="image-label">Images:</label>
     <mat-grid-list cols="2" rowHeight="100px" class="image-grid">
-      <mat-grid-tile *ngFor="let image of images; let i = index">
+      <mat-grid-tile *ngFor="let image of imagePreviews; let i = index">
         <img [src]="image" alt="Uploaded Image" />
         <button mat-icon-button color="warn" class="delete-button" (click)="deleteImage(i)">
           <mat-icon>delete</mat-icon>

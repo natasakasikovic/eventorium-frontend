@@ -15,4 +15,18 @@ export class CompanyService {
   createCompany(company: CompanyRequest): Observable<CompanyResponse> {
     return this.http.post<CompanyResponse>(`${environment.apiHost}/companies`, company)
   }
+
+  uploadImages(companyId: number, images: File[]): Observable<void> {
+    const formData: FormData = new FormData();
+
+    images.forEach(image => {
+      formData.append('images', image, image.name);
+    });
+    
+    return this.http.post<void>(
+      `${environment.apiHost}/companies/${companyId}/images`,
+      formData,
+      { responseType: 'text' as 'json' }
+    );
+  }
 }

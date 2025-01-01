@@ -18,7 +18,8 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
   styleUrl: './company-register.component.css'
 })
 export class CompanyRegisterComponent implements OnInit {
-  images: string[] = []; 
+  images: File[] = []; 
+  imagePreviews: string[] = [];
   companyForm: FormGroup;
   cities: City[];
   providerId: number;
@@ -45,7 +46,6 @@ export class CompanyRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadParams();
-    console.log('Provider ID:', this.providerId);
   }
 
   private loadParams(): void {
@@ -58,11 +58,22 @@ export class CompanyRegisterComponent implements OnInit {
     if (this.companyForm.valid) {
       const newCompany: CompanyRequest = this.companyForm.value;
       newCompany.providerId = this.providerId;
-      console.log(JSON.stringify(newCompany));
       this.companyService.createCompany(newCompany).subscribe({
-        next: (response: CompanyResponse) => {       
-          this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
-          this.router.navigate(['/']);
+        next: (response: CompanyResponse) => {   
+          if (this.images.length > 0) {
+            this.companyService.uploadImages(response.id, this.images).subscribe({
+              next: () => {
+                this.showActivationDialog(); 
+              }, 
+              error: (error: HttpErrorResponse) => {
+                console.log("ovo je greska pri uploadu " + JSON.stringify(error));
+                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
+                this.showActivationDialog(); 
+              }
+            })
+          } else {
+            this.showActivationDialog();
+          }
         },
         error: (error: HttpErrorResponse) => {
           if (error.status == 400) {
@@ -84,28 +95,31 @@ export class CompanyRegisterComponent implements OnInit {
     })
   }
 
+  showActivationDialog(): void {
+    this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
+    void this.router.navigate(['/']);
+  }
+
   get formControls() {
     return this.companyForm.controls;
   }
-
+ 
   onImageUpload(event: Event): void {
-    const input = event.target as HTMLInputElement; 
-    const files = input.files; 
-  
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          const result = e.target?.result as string; 
-          this.images.push(result); 
-        };
-        reader.readAsDataURL(files[i]); 
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const images = Array.from(input.files);
+      const validImages = images.filter(image => image.type.startsWith('image/'));
+      if (validImages.length > 0) {
+        this.images = validImages;
+        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
       }
     }
   }
 
   deleteImage(index: number): void {
-    this.images.splice(index, 1); 
+    this.images.splice(index, 1);
+    this.imagePreviews.splice(index, 1); 
   }
 
   getCities(): void {
