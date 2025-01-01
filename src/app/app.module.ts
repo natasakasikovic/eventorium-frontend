@@ -12,7 +12,7 @@ import { EventModule } from './event/event.module';
 import { ServiceModule } from './service/service.module';
 import {CategoryModule} from './category/category.module';
 import { EventTypeModule } from './event-type/event-type.module';
-
+import { CompanyModule } from './company/company.module';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {Interceptor} from './auth/interceptor';
 import {BudgetModule} from './budget/budget.module';
@@ -39,7 +39,8 @@ import {PriceListModule} from './price-list/price-list.module';
     BudgetModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    PriceListModule
+    PriceListModule,
+    CompanyModule
   ],
   providers: [
     provideAnimationsAsync(),
