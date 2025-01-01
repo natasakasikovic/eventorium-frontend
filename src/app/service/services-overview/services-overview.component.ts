@@ -4,6 +4,7 @@ import { Service } from '../model/service.model';
 import { ServiceService } from '../service.service';
 import { ServiceFilter } from '../model/filter-service-options.model';
 import { PagedResponse } from '../../shared/model/paged-response.model';
+import { SearchBarComponent } from '../../shared/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-services-overview',
@@ -21,6 +22,7 @@ export class ServicesOverviewComponent implements OnInit {
 
   showFilter: boolean;
   services: Service[];
+  keyword: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -42,7 +44,12 @@ export class ServicesOverviewComponent implements OnInit {
   onPageChanged(pageEvent : PageEvent): void {
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
-    this.getPagedServices();
+
+    if (this.keyword)
+      this.onSearch(this.keyword)
+    else
+      this.getPagedServices();
+
   }
 
   closeFilter(): void {
@@ -54,10 +61,11 @@ export class ServicesOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
+    this.keyword = keyword
     this.service.searchServices(keyword, this.pageProperties).subscribe({
       next: (response: PagedResponse<Service>) => {
         this.services = response.content
-        this.pageProperties.totalCount = response.totalPages
+        this.pageProperties.totalCount = response.totalElements
       }
     })
   }
