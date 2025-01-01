@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyService } from '../company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { City } from '../../shared/model/city.model';
@@ -75,9 +75,10 @@ export class CompanyRegisterComponent implements OnInit {
           }
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status == 400) {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.message);
-          } else {
+          if (error.status === 400 && error.error) {
+            this.showMessage(ERROR_MESSAGES.VALIDATOR_ERROR, error.error.message);
+          }
+          else {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
           }
         }
