@@ -75,6 +75,8 @@ export class BudgetPlanningComponent implements OnInit {
     if (this.eventType) {
       this.addSuggestedCategoriesToPlanned();
       this.fetchOtherCategories();
+    } else {
+      this.fetchAllCategories();
     }
   }
 
@@ -138,6 +140,17 @@ export class BudgetPlanningComponent implements OnInit {
     this.budgetService.getPurchased(this.id).subscribe({
       next: (products: Product[]) => {
         this.purchasedProducts = products;
+      }
+    });
+  }
+
+  private fetchAllCategories() {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.otherCategories = categories;
+      },
+      error: (err) => {
+        console.error('Failed to fetch categories:', err);
       }
     });
   }
