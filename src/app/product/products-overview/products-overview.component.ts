@@ -20,6 +20,7 @@ export class ProductsOverviewComponent implements OnInit {
 
   showFilter: boolean; // TODO: implement product filter pop up
   products: Product[];
+  keyword: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -40,9 +41,14 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   onPageChanged(pageEvent : PageEvent): void {
+    debugger
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
-    this.getPagedProducts();
+
+    if (this.keyword)
+      this.onSearch(this.keyword)
+    else
+      this.getPagedProducts();
   }
 
   closeFilter(): void {
@@ -54,11 +60,18 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
+    this.resetPageIndex(keyword)
+    this.keyword = keyword
     this.service.searchProducts(keyword, this.pageProperties).subscribe({
         next: (response: PagedResponse<Product>) => {
           this.products = response.content;
           this.pageProperties.totalCount = response.totalElements
         }
     })
+  }
+
+  private resetPageIndex(keyword: string): void {
+    if (this.keyword != keyword && this.pageProperties.pageIndex != 0)
+      this.pageProperties.pageIndex = 0
   }
 }
