@@ -43,6 +43,9 @@ export class ChatDialogComponent implements OnInit {
   }
 
   sendMessage(): void {
+    if(this.newMessage.length === 0) {
+      return;
+    }
     this.addMessage({
       message: this.newMessage,
       recipientId: this.data.recipient.id,
