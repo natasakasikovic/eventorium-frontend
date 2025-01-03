@@ -55,7 +55,7 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
-  { path: 'company-register', component: CompanyRegisterComponent},
+  { path: ':provider-id/company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
   {

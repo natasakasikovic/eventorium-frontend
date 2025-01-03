@@ -11,7 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
@@ -20,7 +20,6 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
