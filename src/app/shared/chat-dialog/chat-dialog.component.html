@@ -15,5 +15,8 @@
   </div>
   <div class="chat-input">
     <input [(ngModel)]="newMessage" matInput type="text" placeholder="Type a message..." (keydown.enter)="sendMessage()"/>
+    <button mat-icon-button (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
   </div>
 </div>

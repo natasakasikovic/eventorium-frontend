@@ -27,6 +27,8 @@
 }
 
 .chat-input {
+  display: flex;
+  flex-direction: row;
   padding: 10px;
   background-color: #fff;
   border-top: 1px solid #ccc;
