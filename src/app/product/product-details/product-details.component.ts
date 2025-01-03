@@ -9,6 +9,7 @@ import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
+import {Provider} from '../../web-socket/model/chat-user.model';
 
 @Component({
   selector: 'app-product-details',
@@ -91,8 +92,8 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  openChatDialog(recipientId?: number): void {
-    this.chatService.openChatDialog(recipientId ? recipientId : this.product.provider.id);
+  openChatDialog(provider?: Provider): void {
+    this.chatService.openChatDialog(provider ? provider : this.product.provider);
   }
 
   getRole(): string {

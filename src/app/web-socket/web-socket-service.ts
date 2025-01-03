@@ -83,7 +83,7 @@ export class WebSocketService {
 
   private handleChatMessage(chatMessage: ChatMessage): void {
     if(!this.chatDialog.isOpened()) {
-      this.chatDialog.openChatDialog(chatMessage.senderId);
+      this.chatDialog.openChatDialog(chatMessage.sender);
     } else {
       this.chatDialog.sendMessage(chatMessage);
     }
