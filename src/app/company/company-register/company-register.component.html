@@ -64,7 +64,7 @@
   </div>
 
   <div class="images-section scrollable-container">
-    <label for="image-upload" class="image-label">Images:</label>
+    <label class="image-label">Images:</label>
     <mat-grid-list cols="2" rowHeight="100px" class="image-grid">
       <mat-grid-tile *ngFor="let image of imagePreviews; let i = index">
         <img [src]="image" alt="Uploaded Image" />

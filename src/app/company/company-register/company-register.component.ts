@@ -100,7 +100,7 @@ export class CompanyRegisterComponent implements OnInit {
     void this.router.navigate(['/']);
   }
 
-  get formControls() {
+  public get formControls() {
     return this.companyForm.controls;
   }
  
