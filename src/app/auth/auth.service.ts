@@ -55,7 +55,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('user');
     this.user$.next(null);
-    window.location.reload();
+    if (this.router.url != '/home')
+      this.router.navigate([''])
+    else window.location.reload();
   }
 
   isLoggedIn(): boolean {
@@ -80,8 +82,7 @@ export class AuthService {
 
   uploadProfilePhoto(userId: number, photo: File): Observable<string> {
     const formData: FormData = new FormData();
-    const fileType = '.' + photo.type.split('/')[1];
-    formData.append('profilePhoto', photo, userId.toString() + fileType)
+    formData.append('profilePhoto', photo)
     return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
       formData,
       { responseType: 'text' as 'json' });
