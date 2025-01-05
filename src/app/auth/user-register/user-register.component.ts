@@ -42,7 +42,7 @@ export class UserRegisterComponent {
       lastname: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^(\\+)?[0-9]{9,15}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],

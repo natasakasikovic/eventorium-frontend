@@ -40,6 +40,7 @@ export const MESSAGES = {
     },
 
     success : "Success",
-    eventCreated: "Event created successfully!"
+    eventCreated: "Event created successfully!",
+    accountUpdated: "Account updated successfully!"
   };
 

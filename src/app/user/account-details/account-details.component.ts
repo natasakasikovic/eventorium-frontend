@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../model/account-details.model';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
@@ -14,7 +15,7 @@ export class AccountDetailsComponent implements OnInit {
 
   user: AccountDetails;
 
-  constructor(private service: UserService, private dialog: MatDialog) {}
+  constructor(private service: UserService, private dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     this.service.getCurrentUser().subscribe({
@@ -34,7 +35,10 @@ export class AccountDetailsComponent implements OnInit {
       }
     })
   }
-  
+
+  edit(): void {
+    void this.router.navigate(['edit-account']);
+  }
 
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
