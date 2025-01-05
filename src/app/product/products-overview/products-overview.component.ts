@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../model/product.model';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { PagedResponse } from '../../shared/model/paged-response.model';
+import { ProductsFilterDialogComponent } from '../products-filter-dialog/products-filter-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PageProperties } from '../../shared/model/page-properties.model';
+import { ProductFilter } from '../model/product-filter.model';
 
 @Component({
   selector: 'app-products-overview',
@@ -18,13 +22,10 @@ export class ProductsOverviewComponent implements OnInit {
     totalCount: 0
   }
 
-  showFilter: boolean; // TODO: implement product filter pop up
   products: Product[];
   keyword: string;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private service: ProductService) { }
+  constructor(private dialog: MatDialog, private service: ProductService) { }
 
   ngOnInit(): void {
     this.getPagedProducts();
@@ -51,12 +52,28 @@ export class ProductsOverviewComponent implements OnInit {
       this.getPagedProducts();
   }
 
-  closeFilter(): void {
-    this.showFilter = false;
+  openDialog() {
+    let dialog = this.dialog.open(ProductsFilterDialogComponent, {
+      height: '510px',
+      width: '600px',
+    });
+
+    this.handleDialogClose(dialog);
+  }
+  
+  private handleDialogClose(dialogRef: MatDialogRef<ProductsFilterDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((filter: ProductFilter) => {
+      this.filterProducts(filter, this.pageProperties);
+    });
   }
 
-  openFilter(): void {
-    this.showFilter = true;
+  filterProducts(filter: ProductFilter, properties: PageProperties) {
+    this.service.filterProducts(filter, properties).subscribe({
+      next: (response: PagedResponse<Product>) => {
+        this.products = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      }
+    })
   }
 
   onSearch(keyword: string): void {
