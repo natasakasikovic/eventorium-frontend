@@ -7,6 +7,8 @@ import { ProductsFilterDialogComponent } from '../products-filter-dialog/product
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageProperties } from '../../shared/model/page-properties.model';
 import { ProductFilter } from '../model/product-filter.model';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-products-overview',
@@ -72,6 +74,12 @@ export class ProductsOverviewComponent implements OnInit {
       next: (response: PagedResponse<Product>) => {
         this.products = response.content;
         this.pageProperties.totalCount = response.totalElements;
+      },
+      error: (err) => {
+        if (err.status == 400)
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
+        else 
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
       }
     })
   }
@@ -90,5 +98,14 @@ export class ProductsOverviewComponent implements OnInit {
   private resetPageIndex(keyword: string): void {
     if (this.keyword != keyword && this.pageProperties.pageIndex != 0)
       this.pageProperties.pageIndex = 0
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
   }
 }
