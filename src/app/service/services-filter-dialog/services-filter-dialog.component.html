@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Filter services</h2>
+  <mat-dialog-content [formGroup]="filterForm">
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Service name</mat-label>
+      <input matInput formControlName="name"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Service description</mat-label>
+      <input matInput formControlName="description"/>
+    </mat-form-field>   
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Event type</mat-label>
+      <mat-select formControlName="eventType">
+        <mat-option [value]="'all'">All</mat-option>
+        <mat-option *ngFor="let eventType of eventTypes" [value]="eventType">
+          {{ eventType.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Category</mat-label> 
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Minimum price</mat-label>
+        <input matInput type="number" formControlName="minPrice"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Maximum price</mat-label>
+        <input matInput type="number" formControlName="maxPrice"/>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="availability" class="full-width">
+      Only available services
+    </mat-checkbox>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="applyFilters()">Apply filters</button>
+</mat-dialog-actions>

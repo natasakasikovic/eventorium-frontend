@@ -14,6 +14,7 @@ import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {MatOption, MatSelect} from '@angular/material/select';
 import { ServicesOverviewComponent } from './services-overview/services-overview.component';
+import { ServicesFilterDialogComponent } from './services-filter-dialog/services-filter-dialog.component';
 
 
 
@@ -24,7 +25,8 @@ import { ServicesOverviewComponent } from './services-overview/services-overview
     EditServiceComponent,
     ServiceDetailsComponent,
     TopFiveServicesComponent,
-    ServicesOverviewComponent
+    ServicesOverviewComponent,
+    ServicesFilterDialogComponent
   ],
   imports: [
     CommonModule,
