@@ -4,6 +4,7 @@ import { AccountDetails } from './model/account-details.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { Person } from './model/person.model';
+import { ChangePasswordRequest } from './model/change-password-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,9 @@ export class UserService {
       return this.httpClient.put<string>(`${environment.apiHost}/users/profile-photo`,
         formData,
         { responseType: 'text' as 'json' });
+    }
+
+    changePassword(request: ChangePasswordRequest) : Observable<void> {
+      return this.httpClient.post<void>(`${environment.apiHost}/users/change-password`, request);
     }
 }

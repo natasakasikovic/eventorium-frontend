@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { MESSAGES } from '../../shared/constants/messages';
 import { Router } from '@angular/router';
+import { ChangePasswordDialogComponent } from '../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-edit-account',
@@ -111,6 +112,10 @@ export class EditAccountComponent implements OnInit {
       this.profilePhoto = file;
       this.user.profilePhoto = URL.createObjectURL(file); 
     }
+  }
+
+  changePassword(): void {
+    this.dialog.open(ChangePasswordDialogComponent);
   }
 
   showMessage(title: string, message: string) : void {
