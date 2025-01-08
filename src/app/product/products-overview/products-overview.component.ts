@@ -26,6 +26,7 @@ export class ProductsOverviewComponent implements OnInit {
 
   products: Product[];
   keyword: string;
+  activeFilter: ProductFilter;
 
   constructor(private dialog: MatDialog, private service: ProductService) { }
 
@@ -50,6 +51,8 @@ export class ProductsOverviewComponent implements OnInit {
 
     if (this.keyword)
       this.onSearch(this.keyword)
+    else if (this.activeFilter)
+      this.filterProducts(this.activeFilter)
     else
       this.getPagedProducts();
   }
@@ -65,12 +68,19 @@ export class ProductsOverviewComponent implements OnInit {
   
   private handleDialogClose(dialogRef: MatDialogRef<ProductsFilterDialogComponent>): void {
     dialogRef.afterClosed().subscribe((filter: ProductFilter) => {
-      this.filterProducts(filter, this.pageProperties);
+      this.filterProducts(filter);
     });
   }
 
-  filterProducts(filter: ProductFilter, properties: PageProperties) {
-    this.service.filterProducts(filter, properties).subscribe({
+  private preprocessFilter(filter: ProductFilter){
+    this.resetPageIndex(null, filter);
+    this.activeFilter = filter;
+    this.keyword = null;
+  }
+
+  filterProducts(filter: ProductFilter) {
+    this.preprocessFilter(filter);
+    this.service.filterProducts(filter, this.pageProperties).subscribe({
       next: (response: PagedResponse<Product>) => {
         this.products = response.content;
         this.pageProperties.totalCount = response.totalElements;
@@ -85,7 +95,7 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
-    this.resetPageIndex(keyword)
+    this.resetPageIndex(keyword, null)
     this.keyword = keyword
     this.service.searchProducts(keyword, this.pageProperties).subscribe({
         next: (response: PagedResponse<Product>) => {
@@ -95,8 +105,8 @@ export class ProductsOverviewComponent implements OnInit {
     })
   }
 
-  private resetPageIndex(keyword: string): void {
-    if (this.keyword != keyword && this.pageProperties.pageIndex != 0)
+  private resetPageIndex(keyword: string | null, filter: ProductFilter | null): void {
+    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
       this.pageProperties.pageIndex = 0
   }
 
