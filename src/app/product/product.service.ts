@@ -85,12 +85,14 @@ export class ProductService {
   buildQueryParams(filter: ProductFilter, pageProperties: PageProperties): HttpParams {
     let params = new HttpParams();
     
-    Object.keys(filter).forEach(key => {
-      const value = (filter as any)[key];
-      if (value !== undefined) {
-        params = params.set(key, value);
-      }
+    Object.keys(filter).forEach((key) => {
+      const typedKey = key as keyof ProductFilter;
+      const value = filter[typedKey];
+      
+      if (value !== undefined)
+        params = params.set(typedKey, value);
     });
+
     params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
   
     return params
