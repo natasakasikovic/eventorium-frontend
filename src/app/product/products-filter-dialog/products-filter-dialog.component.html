@@ -33,7 +33,7 @@
     <mat-form-field appearance="outline" class="half-width">
       <mat-label>Minimum price</mat-label>
         <input matInput type="number" formControlName="minPrice"/>
-        <mat-error *ngIf="filterForm.get('minPrice')?.invalid && filterForm.get('minPrice')?.touched">
+        <mat-error *ngIf="filterForm.get('minPrice')?.invalid && filterForm.get('minPrice')?.value !== null && filterForm.get('minPrice')?.touched">
           The value of minimal price must be greater than or equal to zero!
         </mat-error>
     </mat-form-field>
@@ -41,7 +41,7 @@
     <mat-form-field appearance="outline" class="half-width">
       <mat-label>Maximum price</mat-label>
         <input matInput type="number" formControlName="maxPrice"/>
-        <mat-error *ngIf="filterForm.get('maxPrice')?.invalid && filterForm.get('maxPrice')?.touched">
+        <mat-error *ngIf="filterForm.get('maxPrice')?.invalid && filterForm.get('maxPrice')?.value !== null && filterForm.get('maxPrice')?.touched">
           The value of maximum price must be greater than zero!
         </mat-error>
     </mat-form-field>
