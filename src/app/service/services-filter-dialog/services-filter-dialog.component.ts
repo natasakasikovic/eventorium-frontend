@@ -35,7 +35,7 @@ export class ServicesFilterDialogComponent implements OnInit {
 
   greaterThanZero(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null
+      if (control.value == null || control.value === '') return null
       return control.value > 0 ? null : { greaterThanZero: true };
     };
   }

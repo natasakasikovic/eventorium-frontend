@@ -166,7 +166,7 @@ export class ServiceService {
         const typedKey = key as keyof ServiceFilter;
         const value = filter[typedKey];
   
-        if (value !== undefined)
+        if (value !== undefined && value != null && value != "")
           params = params.set(typedKey, value);
       });
     }
