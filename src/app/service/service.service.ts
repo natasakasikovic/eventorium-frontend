@@ -162,11 +162,12 @@ export class ServiceService {
     let params = new HttpParams();
 
     if (filter) {
-      Object.keys(filter).forEach(key => {
-        const value = (filter as any)[key];
-        if (value) {
-          params = params.set(key, value);
-        }
+      Object.keys(filter).forEach((key) => {
+        const typedKey = key as keyof ServiceFilter;
+        const value = filter[typedKey];
+  
+        if (value !== undefined)
+          params = params.set(typedKey, value);
       });
     }
   
