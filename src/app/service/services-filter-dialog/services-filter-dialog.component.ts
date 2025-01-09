@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventTypeService } from '../../event-type/event-type.service';
 import { CategoryService } from '../../category/category.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { EventType } from '../../event-type/model/event-type.model';
 import { Category } from '../../category/model/category.model';
 import { ServiceFilter } from '../model/service-filter.model';
@@ -28,10 +28,16 @@ export class ServicesFilterDialogComponent implements OnInit {
         description: [''],
         eventType: [''],
         category: [''],
-        minPrice: [''],
-        maxPrice: [''],
+        minPrice: ['', [Validators.min(0)]], 
+        maxPrice: ['', [this.greaterThanZero()]],
         availability: ['']
   }) }
+
+  greaterThanZero(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value > 0 ? null : { greaterThanZero: true };
+    };
+  }
 
   ngOnInit(): void {
     this.getAllEventTypes();
@@ -51,8 +57,10 @@ export class ServicesFilterDialogComponent implements OnInit {
   }
 
   applyFilters() {
-    const filter = this.getFormValues()
-    this.dialogRef.close(filter)
+    if (this.filterForm.valid){
+      const filter = this.getFormValues()
+      this.dialogRef.close(filter)
+    }
   }
 
   getFormValues() : ServiceFilter {
