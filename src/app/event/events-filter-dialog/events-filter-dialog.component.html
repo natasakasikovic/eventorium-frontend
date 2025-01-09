@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Filter events</h2>
+  <mat-dialog-content [formGroup]="filterForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Event name</mat-label>
+        <input matInput formControlName="name"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Event type</mat-label>
+      <mat-select formControlName="eventType">
+        <mat-option [value]="'all'"></mat-option>
+        <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.name">
+          {{ eventType.name }}
+        </mat-option>
+      </mat-select> 
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Event description</mat-label>
+        <input matInput formControlName="description"/>
+    </mat-form-field>    
+    
+        
+    <mat-form-field appearance="outline">
+      <mat-label>Max Participants</mat-label>
+        <input matInput type="number" formControlName="maxParticipants"/>
+        <mat-error *ngIf="filterForm.get('maxParticipants')?.invalid && filterForm.get('maxParticipants')?.value !== null && filterForm.get('maxParticipants')?.touched">
+          The value of maximum participants must be greater than or equal to zero!
+        </mat-error>
+    </mat-form-field>
+        
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>City</mat-label>
+        <mat-select formControlName="city">
+          <mat-option *ngFor="let city of cities" [value]="city.name">
+              {{ city.name }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+        
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>From date</mat-label>
+        <input matInput [matDatepicker]="fromDatePicker" formControlName="from"/>
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+        <mat-error *ngIf="filterForm.get('from')?.invalid && filterForm.get('from')?.value !== null && filterForm.get('from')?.touched">
+        Date must not be in the past!
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>To date</mat-label>
+        <input matInput [matDatepicker]="toDatePicker" formControlName="to"/>
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+        <mat-error *ngIf="filterForm.get('to')?.invalid && filterForm.get('to')?.value !== null && filterForm.get('to')?.touched">
+          Date must not be in the past!
+        </mat-error>
+    </mat-form-field>
+    
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="applyFilters()">Apply filters</button>
+</mat-dialog-actions>
