@@ -5,6 +5,7 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { TopFiveProductsComponent } from './top-five-products/top-five-products.component';
 import { ProductsOverviewComponent } from './products-overview/products-overview.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProductsFilterDialogComponent } from './products-filter-dialog/products-filter-dialog.component';
 
 
 
@@ -12,7 +13,8 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
   declarations: [
     TopFiveProductsComponent,
     ProductsOverviewComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ProductsFilterDialogComponent
   ],
   imports: [
     CommonModule,
