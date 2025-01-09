@@ -35,6 +35,6 @@ export class UserService {
     }
 
     changePassword(request: ChangePasswordRequest) : Observable<void> {
-      return this.httpClient.post<void>(`${environment.apiHost}/users/change-password`, request);
+      return this.httpClient.post<void>(`${environment.apiHost}/users/password`, request);
     }
 }
