@@ -17,7 +17,7 @@ export class UserService {
     }
 
     getProfilePhoto(id: number): Observable<Blob> {
-      return this.httpClient.get(`${environment.apiHost}/users/${id}/profilePhoto`,
+      return this.httpClient.get(`${environment.apiHost}/users/${id}/profile-photo`,
         { responseType: 'blob' }
       ) as Observable<Blob>;
     }
