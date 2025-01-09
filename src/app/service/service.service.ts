@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Service} from './model/service.model';
-import {ServiceFilter} from './model/filter-service-options.model';
+import {ServiceFilter} from './model/service-filter.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
@@ -49,11 +49,12 @@ export class ServiceService {
     return this.httpClient.delete<void>(`${environment.apiHost}/services/${id}`);
   }
 
-  filterServices(serviceFilter: ServiceFilter): Service[] {
-    return null;
+  filterServices(filter: ServiceFilter, pageProperties: PageProperties) : Observable<PagedResponse<Service>> {
+    const params = this.buildQueryParams(filter, pageProperties)
+    return this.httpClient.get<PagedResponse<Service>>(`${environment.apiHost}/services/filter`, { params })
   }
 
-  searchServices(keyword: string, pageProperties?: any): Observable<PagedResponse<Service>> {
+  searchServices(keyword: string, pageProperties: PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams()
     if (pageProperties){
       params = params
@@ -98,6 +99,7 @@ export class ServiceService {
     );
   }
 
+  // TODO: The method below should be refactored to use the buildQueryParams method instead of getFilterParams when the manageable services are refactored
   filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams()
     if (pageProperties){
@@ -136,8 +138,8 @@ export class ServiceService {
   private getFilterParams(filter?: ServiceFilter, pageProperties?: PageProperties): HttpParams {
     return new HttpParams()
       .set('category', filter.category || '')
-      .set('eventType', filter.eventType || '')
-      .set('availability', filter.available != null ? filter.available.toString() : '')
+      .set('eventType', filter.type || '')
+      .set('availability', filter.availability != null ? filter.availability.toString() : '')
       .set('minPrice', filter.minPrice != null ? filter.minPrice.toString() : '')
       .set('maxPrice', filter.maxPrice != null ? filter.maxPrice.toString() : '')
       .set('page', pageProperties.pageIndex)
@@ -154,5 +156,24 @@ export class ServiceService {
 
   getIsFavourite(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
+
+  buildQueryParams(filter: ServiceFilter, pageProperties: PageProperties): HttpParams {
+    let params = new HttpParams();
+
+    if (filter) {
+      Object.keys(filter).forEach((key) => {
+        const typedKey = key as keyof ServiceFilter;
+        const value = filter[typedKey];
+  
+        if (value !== undefined && value != null && value != "")
+          params = params.set(typedKey, value);
+      });
+    }
+  
+    if (pageProperties) 
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    return params
   }
 }

@@ -5,7 +5,6 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { EventCardComponent } from './event-card/event-card.component';
 import {ServiceCardComponent} from './service-card/service-card.component';
 import {SearchBarComponent} from './search-bar/search-bar.component';
-import {ServiceFilterComponent} from './service-filter/service-filter.component';
 import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
@@ -19,7 +18,6 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
     EventCardComponent,
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent,
     InfoDialogComponent,
     ErrorComponent,
     DeleteConfirmationComponent
@@ -33,7 +31,6 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
   exports: [
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent,
     ProductCardComponent,
     EventCardComponent
   ]
