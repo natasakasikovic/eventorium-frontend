@@ -43,7 +43,6 @@ export class ChangePasswordDialogComponent {
 
   save() : void {
     const request : ChangePasswordRequest = this.changePasswordForm.value;
-    console.log(JSON.stringify(request));
     this.service.changePassword(request).subscribe({
       next: () => { 
         this.showMessage(MESSAGES.success, MESSAGES.passwordChanged);
