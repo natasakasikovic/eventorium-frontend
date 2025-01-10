@@ -40,6 +40,8 @@ export const MESSAGES = {
     },
 
     success : "Success",
-    eventCreated: "Event created successfully!"
+    eventCreated: "Event created successfully!",
+    accountUpdated: "Account updated successfully!",
+    passwordChanged: "Your password has been successfully changed. For security reasons, please log in again to ensure your account is protected."
   };
 

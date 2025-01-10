@@ -4,7 +4,7 @@ import { Role } from "./user-role.model";
 export interface AuthRequestDto {
     email: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirmation: string;
     roles: Role[];
     person: PersonRequestDto
 }

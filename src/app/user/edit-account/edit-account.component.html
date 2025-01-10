@@ -1,0 +1,64 @@
+<div class="screen">
+    <mat-card class="profile-card">
+      <div class="profile-info">
+          <div class="profile-details">
+            <h2 *ngIf="user"> <strong> {{user.email}} </strong> </h2>
+          </div>
+        <div class="profile-picture" *ngIf="user">
+            <img *ngIf="user.profilePhoto" [src]="user.profilePhoto" alt="Profile Picture" />
+            <mat-icon *ngIf="!user.profilePhoto" class="placeholder-icon">person</mat-icon>
+        </div>
+        <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
+            <mat-icon>add_a_photo</mat-icon>
+            Upload new photo
+          </button>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none" />
+            <input type="file" hidden (change)="onFileSelected($event)" #fileInput id="fileInput" />
+      </div>
+        <div class="more-options">
+            <button mat-raised-button class="edit-password-button standard-button" (click)="changePassword()"><mat-icon>password</mat-icon>Edit Password</button>
+            <button mat-raised-button class="edit-password-button standard-button"><mat-icon>person_off</mat-icon>Deactivate account</button>
+        </div>
+    </mat-card>
+  
+    <mat-card class="form-card">
+      <form [formGroup]="updateForm">
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Lastname</mat-label>
+          <input matInput formControlName="lastname" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" />
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>City</mat-label>
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city">
+              {{ city.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Phone number</mat-label>
+          <input matInput formControlName="phoneNumber" type="tel" />
+        </mat-form-field>
+      </form>
+      
+      <button mat-raised-button class="standard-button" (click)="onSubmit()">Save</button>
+    </mat-card>
+  </div>
+  

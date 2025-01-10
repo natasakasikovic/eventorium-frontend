@@ -75,7 +75,7 @@
   
         <mat-form-field appearance="outline" class="form-control">
           <mat-label>Confirm password</mat-label>
-          <input matInput formControlName="confirmPassword" type="password" />
+          <input matInput formControlName="passwordConfirmation" type="password" />
           <mat-error *ngIf="registrationForm.hasError('passwordMismatch')">Passwords do not match</mat-error>
         </mat-form-field>
   

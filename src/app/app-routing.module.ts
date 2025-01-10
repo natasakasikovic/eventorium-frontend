@@ -27,6 +27,8 @@ import {NavigationGuard} from './infrastructure/navigation/guards/navigation.gua
 import {ProductDetailsComponent} from './product/product-details/product-details.component';
 import {PriceListComponent} from './price-list/price-list/price-list.component';
 import {ErrorComponent} from './shared/error/error.component';
+import { AccountDetailsComponent } from './user/account-details/account-details.component';
+import { EditAccountComponent } from './user/edit-account/edit-account.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -77,6 +79,8 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'account-details', component: AccountDetailsComponent },
+  { path: 'edit-account', component: EditAccountComponent}, 
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },

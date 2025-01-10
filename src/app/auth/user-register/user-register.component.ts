@@ -14,6 +14,7 @@ import { PersonRequestDto } from '../model/person.request.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthResponse } from '../model/auth-response.model';
 import { toString } from '../model/user-role.model';
+import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
 
 @Component({
   selector: 'app-user-register',
@@ -42,10 +43,10 @@ export class UserRegisterComponent {
       lastname: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^(\\+)?[0-9]{9,15}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
     }, 
     { 
@@ -141,7 +142,7 @@ export class UserRegisterComponent {
     const newUser: AuthRequestDto = {
       email : formValue.email,
       password : formValue.password,
-      confirmPassword : formValue.confirmPassword,
+      passwordConfirmation : formValue.passwordConfirmation,
       roles : [formValue.role],
       person : newPerson
     };
@@ -154,19 +155,3 @@ export class UserRegisterComponent {
   }
 
 }  
-
-export function passwordMatchValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-
-    if (!password || !confirmPassword) return null; 
-    
-    const mismatch = password.value !== confirmPassword.value;
-    if (mismatch) confirmPassword.setErrors({ passwordMismatch: true });
-    else confirmPassword.setErrors(null);
-    
-    return mismatch ? { passwordMismatch: true } : null;
-  };
-}
-
