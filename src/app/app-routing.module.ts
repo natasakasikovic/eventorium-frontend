@@ -29,6 +29,7 @@ import {PriceListComponent} from './price-list/price-list/price-list.component';
 import {ErrorComponent} from './shared/error/error.component';
 import { AccountDetailsComponent } from './user/account-details/account-details.component';
 import { EditAccountComponent } from './user/edit-account/edit-account.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -80,7 +81,8 @@ const routes: Routes = [
     }
   },
   { path: 'account-details', component: AccountDetailsComponent },
-  { path: 'edit-account', component: EditAccountComponent}, 
+  { path: 'edit-account', component: EditAccountComponent }, 
+  { path: 'user-profile/:id', component: UserProfileComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
