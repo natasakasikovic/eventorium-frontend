@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Service} from './model/service.model';
 import {ServiceFilter} from './model/service-filter.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -15,11 +15,9 @@ import {UpdateServiceRequestDto} from './model/update-service-request-dto.model'
 })
 export class ServiceService {
 
-  private services: Service[] = []
-
   constructor(private httpClient: HttpClient) { }
 
-  getAll(pageProperties? : any): Observable<PagedResponse<Service>> {
+  getAll(pageProperties? : PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams();
     if (pageProperties){
       params = params
@@ -99,12 +97,8 @@ export class ServiceService {
     );
   }
 
-  // TODO: The method below should be refactored to use the buildQueryParams method instead of getFilterParams when the manageable services are refactored
   filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
-    let params = new HttpParams()
-    if (pageProperties){
-      params = this.getFilterParams(filter, pageProperties)
-    }
+    const params = this.buildQueryParams(filter, pageProperties)
     return this.httpClient.get<PagedResponse<Service>>(
       `${environment.apiHost}/account/services/filter`,
       { params: params }
@@ -117,33 +111,14 @@ export class ServiceService {
       params = params
         .set('keyword', keyword)
         .set('page', pageProperties.pageIndex)
-        .set('size', pageProperties.pageSize);
+        .set('size', pageProperties.pageSize)
     }
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/search", {params: params})
   }
 
-  getAllForProvider(pageProperties?: any, filter?: ServiceFilter): Observable<PagedResponse<Service>> {
-    let params = new HttpParams();
-    if(filter) {
-      params = this.getFilterParams(filter, pageProperties);
-      return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services/filter", { params: params });
-    }
-
-    params = params
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
+  getAllForProvider(pageProperties?: PageProperties, filter?: ServiceFilter): Observable<PagedResponse<Service>> {
+    let params = this.buildQueryParams(filter, pageProperties);
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services", { params: params });
-  }
-
-  private getFilterParams(filter?: ServiceFilter, pageProperties?: PageProperties): HttpParams {
-    return new HttpParams()
-      .set('category', filter.category || '')
-      .set('eventType', filter.type || '')
-      .set('availability', filter.availability != null ? filter.availability.toString() : '')
-      .set('minPrice', filter.minPrice != null ? filter.minPrice.toString() : '')
-      .set('maxPrice', filter.maxPrice != null ? filter.maxPrice.toString() : '')
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
   }
 
   removeFromFavourites(id: number): Observable<void> {
@@ -158,20 +133,20 @@ export class ServiceService {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
   }
 
-  buildQueryParams(filter: ServiceFilter, pageProperties: PageProperties): HttpParams {
+  private buildQueryParams(filter: ServiceFilter, pageProperties: PageProperties): HttpParams {
     let params = new HttpParams();
 
     if (filter) {
       Object.keys(filter).forEach((key) => {
         const typedKey = key as keyof ServiceFilter;
         const value = filter[typedKey];
-  
+
         if (value !== undefined && value != null && value != "")
           params = params.set(typedKey, value);
       });
     }
-  
-    if (pageProperties) 
+
+    if (pageProperties)
       params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
 
     return params

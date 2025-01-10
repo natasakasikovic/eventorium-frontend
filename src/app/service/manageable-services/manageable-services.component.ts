@@ -1,15 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {Service} from '../model/service.model';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {ServiceFilter} from '../model/filter-service-options.model';
+import {PageEvent} from '@angular/material/paginator';
 import {PagedResponse} from '../../shared/model/paged-response.model';
 import {PageProperties} from '../../shared/model/page-properties.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Category} from '../../category/model/category.model';
 import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ServicesFilterDialogComponent} from '../services-filter-dialog/services-filter-dialog.component';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
+import {ServiceFilter} from '../model/service-filter.model';
 
 @Component({
   selector: 'app-manageable-services',
@@ -17,10 +19,7 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrl: './manageable-services.component.css'
 })
 export class ManageableServicesComponent implements OnInit {
-  showFilter: boolean;
   services: Service[];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private service: ServiceService,
@@ -36,65 +35,65 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   activeFilter?: ServiceFilter = null;
-  searchKeyword: string = "";
+  keyword: string = "";
 
   ngOnInit(): void {
     this.getPagedServices();
   }
 
-  private getPagedServices() {
-    this.service.getAllForProvider(this.pageProperties, this.activeFilter).subscribe({
-      next: (response: PagedResponse<Service>) => {
-        this.services = response.content;
-        this.pageProperties.totalCount = response.totalElements;
-      }
-    })
-  }
-
-  onPageChanged(pageEvent: PageEvent): void {
+  onPageChanged(pageEvent : PageEvent): void {
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
-    if(this.searchKeyword !== "") {
-      this.onSearch(this.searchKeyword);
-    } else {
+
+    if (this.keyword)
+      this.onSearch(this.keyword)
+    else if (this.activeFilter)
+      this.filterServices(this.activeFilter)
+    else
       this.getPagedServices();
-    }
   }
 
-  private deleteService(service: Service) {
-    this.service.delete(service.id).subscribe({
-      next: () => {
-        this.toasterService.success(`${service.name} has been deleted successfully!`, "Success");
-        this.services = this.services.filter(s => s.id !== service.id);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toasterService.success(error.error.message, "Failed to delete service");
+  openDialog() {
+    let dialog = this.dialog.open(ServicesFilterDialogComponent, {
+      height: '510px',
+      width: '600px',
+    });
+
+    this.handleDialogClose(dialog);
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
       }
     });
   }
 
-  onApplyFilter(filter: ServiceFilter): void {
-    this.activeFilter = filter;
-    this.pageProperties.pageIndex = 0;
-    this.searchKeyword = "";
+  filterServices(filter: ServiceFilter) {
+    this.preprocessFilter(filter);
     this.service.filterProviderServices(filter, this.pageProperties).subscribe({
       next: (response: PagedResponse<Service>) => {
         this.services = response.content;
         this.pageProperties.totalCount = response.totalElements;
-        if(this.pageProperties.pageIndex >= response.totalPages) {
-          this.pageProperties.pageIndex = 1;
-        }
+      },
+      error: (err) => {
+        if (err.status == 400)
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
+        else
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
       }
-    });
-    this.closeFilter();
+    })
   }
 
   onSearch(keyword: string): void {
-    this.searchKeyword = keyword;
+    this.resetPageIndex(keyword, null);
+    this.keyword = keyword;
     this.service.searchProviderServices(keyword, this.pageProperties).subscribe({
-      next: (services: PagedResponse<Service>) => {
-        this.services = services.content;
-        this.pageProperties.totalCount = services.totalElements;
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
       }
     });
   }
@@ -118,11 +117,41 @@ export class ManageableServicesComponent implements OnInit {
     });
   }
 
-  openFilter(): void {
-    this.showFilter = true;
+  private getPagedServices() {
+    this.service.getAllForProvider(this.pageProperties, this.activeFilter).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      }
+    })
   }
 
-  closeFilter(): void {
-    this.showFilter = false;
+  private preprocessFilter(filter: ServiceFilter){
+    this.resetPageIndex(null, filter);
+    this.activeFilter = filter;
+    this.keyword = null;
+  }
+
+  private resetPageIndex(keyword: string | null, filter: ServiceFilter | null): void {
+    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
+      this.pageProperties.pageIndex = 0;
+  }
+
+  private handleDialogClose(dialogRef: MatDialogRef<ServicesFilterDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((filter: ServiceFilter) => {
+      this.filterServices(filter);
+    });
+  }
+
+  private deleteService(service: Service) {
+    this.service.delete(service.id).subscribe({
+      next: () => {
+        this.toasterService.success(`${service.name} has been deleted successfully!`, "Success");
+        this.services = this.services.filter(s => s.id !== service.id);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.success(error.error.message, "Failed to delete service");
+      }
+    });
   }
 }
