@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { Person } from './model/person.model';
 import { ChangePasswordRequest } from './model/change-password-request.model';
+import { UserReport } from './model/user-report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +42,8 @@ export class UserService {
     changePassword(request: ChangePasswordRequest) : Observable<void> {
       return this.httpClient.post<void>(`${environment.apiHost}/users/password`, request);
     }
+
+    reportUser(report: UserReport, id: number) : Observable<void> {
+      return this.httpClient.post<void>(`${environment.apiHost}/user-reports/${id}`, report)
+  }
 }
