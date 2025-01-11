@@ -1,0 +1,24 @@
+.event-type-card {
+  width: 300px;
+  font-family: 'jeju';
+  padding: 5px;
+}
+
+mat-card-header {
+  display: block;
+  text-align: center;
+  background-color: #E3DCD1;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+mat-card-title {
+  font-family: 'jeju';
+  font-weight: bold;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px; 
+}

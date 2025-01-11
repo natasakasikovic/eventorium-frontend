@@ -30,6 +30,7 @@ import {ErrorComponent} from './shared/error/error.component';
 import { AccountDetailsComponent } from './user/account-details/account-details.component';
 import { EditAccountComponent } from './user/edit-account/edit-account.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { EventTypesOverviewComponent } from './event-type/event-types-overview/event-types-overview.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -70,6 +71,7 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
+  { path: 'event-types', component: EventTypesOverviewComponent },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {
     path: 'event-agenda/:id',

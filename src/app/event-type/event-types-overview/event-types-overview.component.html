@@ -1,0 +1,11 @@
+<h1>Event types</h1>
+<div class="event-types-container">
+    <app-event-type-card 
+      *ngFor="let eventType of eventTypes"
+      [eventType]="eventType"
+      (edit)="onEdit(eventType.id)"
+      (delete)="onDelete(eventType.id)">
+    </app-event-type-card>
+    <mat-icon *ngIf="eventTypes.length === 0">folder_open</mat-icon>
+    <h5 *ngIf="eventTypes.length === 0">Oops! No event types here.</h5>
+</div>
