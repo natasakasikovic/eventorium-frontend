@@ -20,6 +20,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PriceListModule} from './price-list/price-list.module';
 import { UserModule } from './user/user.module';
+import {WebSocketModule} from './web-socket/web-socket.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { UserModule } from './user/user.module';
     EventTypeModule,
     BudgetModule,
     BrowserAnimationsModule,
+    WebSocketModule,
     ToastrModule.forRoot(),
     PriceListModule,
     CompanyModule,
