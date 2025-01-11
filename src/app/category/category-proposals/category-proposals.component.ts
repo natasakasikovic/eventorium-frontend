@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Category} from '../model/category.model';
 import {CategoryService} from '../category.service';
 import {Status} from '../model/status-enum-ts';
+import {UpdateCategoryProposalComponent} from '../update-category-proposal/update-category-proposal.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-category-proposals',
@@ -10,11 +12,10 @@ import {Status} from '../model/status-enum-ts';
 })
 export class CategoryProposalsComponent implements OnInit {
   categoryProposals: Category[] = [];
-  selectedCategory: Category;
-  showUpdate: boolean;
 
   constructor(
     private categoryService: CategoryService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -37,19 +38,23 @@ export class CategoryProposalsComponent implements OnInit {
     });
   }
 
-  openUpdateCategory(id: number): void {
-    this.categoryService.get(id).subscribe({
-      next: (category: Category) => {
-        this.selectedCategory = category;
-        this.showUpdate = true;
+  protected readonly Status = Status;
+
+  openUpdateCategory(category: Category) {
+    console.log(category);
+    const dialogRef = this.dialog.open(UpdateCategoryProposalComponent, {
+      width: '450px',
+      height: 'auto',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        category: category
       }
     });
-  }
 
-  onClose(): void {
-    this.showUpdate = false;
-    this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== this.selectedCategory.id);
+    dialogRef.afterClosed().subscribe((id: number) => {
+      this.categoryProposals = this.categoryProposals.filter(category => category.id !== id);
+      dialogRef.close();
+    });
   }
-
-  protected readonly Status = Status;
 }

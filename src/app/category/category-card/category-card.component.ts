@@ -10,7 +10,7 @@ export class CategoryCardComponent {
   @Input() category: Category
   @Output() edit: EventEmitter<Category> = new EventEmitter();
   @Output() delete: EventEmitter<Category> = new EventEmitter();
-  @Output() update: EventEmitter<number> = new EventEmitter();
+  @Output() update: EventEmitter<Category> = new EventEmitter();
   @Output() accept: EventEmitter<number> = new EventEmitter();
   @Output() decline: EventEmitter<number> = new EventEmitter();
   @Input() proposalCard: boolean;
@@ -20,7 +20,7 @@ export class CategoryCardComponent {
   }
 
   onUpdate(): void {
-    this.update.emit(this.category.id);
+    this.update.emit(this.category);
   }
 
   onAccept(): void {
