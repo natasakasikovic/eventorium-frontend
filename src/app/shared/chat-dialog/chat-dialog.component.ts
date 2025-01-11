@@ -43,7 +43,7 @@ export class ChatDialogComponent implements OnInit {
   }
 
   sendMessage(): void {
-    if(this.newMessage.length === 0) {
+    if(this.newMessage.trim().length === 0) {
       return;
     }
     this.addMessage({
