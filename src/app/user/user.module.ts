@@ -5,6 +5,7 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { EditAccountComponent } from './edit-account/edit-account.component';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ReportUserDialogComponent } from './report-user-dialog/report-user-dialog.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     AccountDetailsComponent,
     EditAccountComponent,
     ChangePasswordDialogComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ReportUserDialogComponent
   ],
   imports: [
     CommonModule, MaterialModule
