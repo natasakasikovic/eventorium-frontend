@@ -8,19 +8,19 @@ import {Category} from '../model/category.model';
 })
 export class CategoryCardComponent {
   @Input() category: Category
-  @Output() edit: EventEmitter<number> = new EventEmitter();
+  @Output() edit: EventEmitter<Category> = new EventEmitter();
   @Output() delete: EventEmitter<Category> = new EventEmitter();
-  @Output() update: EventEmitter<number> = new EventEmitter();
+  @Output() update: EventEmitter<Category> = new EventEmitter();
   @Output() accept: EventEmitter<number> = new EventEmitter();
   @Output() decline: EventEmitter<number> = new EventEmitter();
   @Input() proposalCard: boolean;
 
   onEdit(): void {
-    this.edit.emit(this.category.id);
+    this.edit.emit(this.category);
   }
 
   onUpdate(): void {
-    this.update.emit(this.category.id);
+    this.update.emit(this.category);
   }
 
   onAccept(): void {
