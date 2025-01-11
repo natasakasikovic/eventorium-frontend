@@ -41,7 +41,6 @@ export class CategoryProposalsComponent implements OnInit {
   protected readonly Status = Status;
 
   openUpdateCategory(category: Category) {
-    console.log(category);
     const dialogRef = this.dialog.open(UpdateCategoryProposalComponent, {
       width: '450px',
       height: 'auto',
