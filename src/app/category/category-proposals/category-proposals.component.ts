@@ -4,6 +4,8 @@ import {CategoryService} from '../category.service';
 import {Status} from '../model/status-enum-ts';
 import {UpdateCategoryProposalComponent} from '../update-category-proposal/update-category-proposal.component';
 import {MatDialog} from '@angular/material/dialog';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-proposals',
@@ -15,6 +17,7 @@ export class CategoryProposalsComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
+    private toasterService: ToastrService,
     private dialog: MatDialog,
   ) {
   }
@@ -32,13 +35,11 @@ export class CategoryProposalsComponent implements OnInit {
       next: ((category: Category) => {
         this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== category.id);
       }),
-      error: (err: Error) => {
-        console.error(err);
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to update category status");
       }
     });
   }
-
-  protected readonly Status = Status;
 
   openUpdateCategory(category: Category) {
     const dialogRef = this.dialog.open(UpdateCategoryProposalComponent, {
@@ -56,4 +57,7 @@ export class CategoryProposalsComponent implements OnInit {
       dialogRef.close();
     });
   }
+
+  protected readonly Status = Status;
+
 }
