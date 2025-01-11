@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, EventManager } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -12,13 +12,14 @@ import { EventModule } from './event/event.module';
 import { ServiceModule } from './service/service.module';
 import {CategoryModule} from './category/category.module';
 import { EventTypeModule } from './event-type/event-type.module';
-
+import { CompanyModule } from './company/company.module';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {Interceptor} from './auth/interceptor';
 import {BudgetModule} from './budget/budget.module';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PriceListModule} from './price-list/price-list.module';
+import { UserModule } from './user/user.module';
 import {WebSocketModule} from './web-socket/web-socket.module';
 
 @NgModule({
@@ -41,7 +42,9 @@ import {WebSocketModule} from './web-socket/web-socket.module';
     BrowserAnimationsModule,
     WebSocketModule,
     ToastrModule.forRoot(),
-    PriceListModule
+    PriceListModule,
+    CompanyModule,
+    UserModule
   ],
   providers: [
     provideAnimationsAsync(),

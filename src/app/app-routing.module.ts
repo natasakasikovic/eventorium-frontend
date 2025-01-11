@@ -27,6 +27,9 @@ import {NavigationGuard} from './infrastructure/navigation/guards/navigation.gua
 import {ProductDetailsComponent} from './product/product-details/product-details.component';
 import {PriceListComponent} from './price-list/price-list/price-list.component';
 import {ErrorComponent} from './shared/error/error.component';
+import { AccountDetailsComponent } from './user/account-details/account-details.component';
+import { EditAccountComponent } from './user/edit-account/edit-account.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -47,7 +50,7 @@ const routes: Routes = [
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'price-list', component: PriceListComponent },
   {
-    path: 'event-invitations',
+    path: 'event-invitations/:id',
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard],
     data: {
@@ -55,7 +58,7 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
-  { path: 'company-register', component: CompanyRegisterComponent},
+  { path: ':provider-id/company-register', component: CompanyRegisterComponent},
   { path: 'create-event-type', component: CreateEventTypeComponent},
   { path: 'create-event', component: CreateEventComponent},
   {
@@ -77,6 +80,9 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
+  { path: 'account-details', component: AccountDetailsComponent },
+  { path: 'edit-account', component: EditAccountComponent }, 
+  { path: 'user-profile/:id', component: UserProfileComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
