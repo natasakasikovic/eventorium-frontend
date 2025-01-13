@@ -1,35 +1,36 @@
 <div class="main-container">
+  <p>Manage reports</p>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="timestamp">
-      <th mat-header-cell *matHeaderCellDef> <i>Reported at</i> </th>
+      <th mat-header-cell *matHeaderCellDef> Reported at </th>
       <td mat-cell *matCellDef="let element"> {{ element.timestamp | date: 'short' }} </td>
     </ng-container>
   
     <ng-container matColumnDef="offender">
-      <th mat-header-cell *matHeaderCellDef> <i>Offender</i> </th>
+      <th mat-header-cell *matHeaderCellDef> Offender </th>
       <td mat-cell *matCellDef="let element"> {{ element.offender }} </td>
     </ng-container>
 
     <ng-container matColumnDef="reason">
-      <th mat-header-cell *matHeaderCellDef> <i>Reason</i> </th>
+      <th mat-header-cell *matHeaderCellDef> Reason </th>
       <td mat-cell *matCellDef="let element"> {{ element.reason }} </td>
     </ng-container>
   
     <ng-container matColumnDef="reporter">
-      <th mat-header-cell *matHeaderCellDef> <i>Reporter</i> </th>
+      <th mat-header-cell *matHeaderCellDef> Reporter </th>
       <td mat-cell *matCellDef="let element"> {{ element.reporter }} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> <i>Suspend/Do not suspend user</i> </th>
+      <th mat-header-cell *matHeaderCellDef> Suspend/Do not suspend user </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button (click)="openDialog(element)">Suspend user</button>
-        <button mat-button (click)="declineReport(element)">Do not suspend</button>
+        <button mat-button (click)="openDialog(element)"><mat-icon>check</mat-icon></button>
+        <button mat-button (click)="declineReport(element)"><mat-icon color="warn">close</mat-icon></button>
       </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSize]="[9]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSize]="[8]" showFirstLastButtons></mat-paginator>
 </div>
