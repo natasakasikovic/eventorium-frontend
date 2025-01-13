@@ -11,8 +11,6 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
 import { ErrorComponent } from './error/error.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
-
 
 @NgModule({
   declarations: [
@@ -25,7 +23,6 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
     InfoDialogComponent,
     ErrorComponent,
     ConfirmationDialogComponent,
-    DeleteConfirmationComponent
     ],
   imports: [
     CommonModule,
@@ -39,7 +36,6 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
     ProductCardComponent,
     EventCardComponent,
     ChatDialogComponent,
-    DeleteConfirmationComponent
   ]
 })
 export class SharedModule { }

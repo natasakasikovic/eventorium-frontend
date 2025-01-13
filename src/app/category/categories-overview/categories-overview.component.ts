@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Category} from '../model/category.model';
 import {CategoryService} from '../category.service';
-import {LoginComponent} from '../../auth/login/login.component';
-import {MatDialog} from '@angular/material/dialog';
-import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
 
 @Component({
   selector: 'app-category-overview',
@@ -49,21 +49,17 @@ export class CategoriesOverviewComponent implements OnInit {
   }
 
   openDeleteConfirmation(category: Category): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        name: category.name
-      }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: MESSAGES.deleteConfirmation + category.name }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
+    this.handleDialogClose(dialogRef, category)
+  }
+
+  private handleDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>, category: Category): void {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result)
         this.deleteCategory(category);
-      }
-      dialogRef.close();
     });
   }
 
