@@ -6,6 +6,7 @@ import { EditAccountComponent } from './edit-account/edit-account.component';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ReportUserDialogComponent } from './report-user-dialog/report-user-dialog.component';
+import { ManageReportsComponent } from './manage-reports/manage-reports.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ReportUserDialogComponent } from './report-user-dialog/report-user-dial
     EditAccountComponent,
     ChangePasswordDialogComponent,
     UserProfileComponent,
-    ReportUserDialogComponent
+    ReportUserDialogComponent,
+    ManageReportsComponent
   ],
   imports: [
     CommonModule, MaterialModule
