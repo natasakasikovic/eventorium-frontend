@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../env/environment';
 import { CompanyRequest } from './model/company-request.model';
 import { CompanyResponse } from './model/company-response.model';
+import { ProviderCompany } from './model/provider-company.model';
+import { ImageResponseDto } from '../shared/model/image-response-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class CompanyService {
   constructor(private http: HttpClient) { }
 
   createCompany(company: CompanyRequest): Observable<CompanyResponse> {
-    return this.http.post<CompanyResponse>(`${environment.apiHost}/companies`, company)
+    return this.http.post<CompanyResponse>(`${environment.apiHost}/companies`, company);
   }
 
   uploadImages(companyId: number, images: File[]): Observable<void> {
@@ -28,5 +30,13 @@ export class CompanyService {
       formData,
       { responseType: 'text' as 'json' }
     );
+  }
+
+  getCompany(): Observable<ProviderCompany> {
+    return this.http.get<ProviderCompany>(`${environment.apiHost}/companies/my-company`);
+  }
+
+  getImages(id: number) : Observable<ImageResponseDto[]> {
+    return this.http.get<ImageResponseDto[]>(`${environment.apiHost}/companies/${id}/images`);
   }
 }
