@@ -32,6 +32,7 @@ import { EditAccountComponent } from './user/edit-account/edit-account.component
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { EventTypesOverviewComponent } from './event-type/event-types-overview/event-types-overview.component';
 import { ProviderCompanyComponent } from './company/provider-company/provider-company.component';
+import { EditCompanyComponent } from './company/edit-company/edit-company.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -87,6 +88,7 @@ const routes: Routes = [
   { path: 'edit-account', component: EditAccountComponent }, 
   { path: 'user-profile/:id', component: UserProfileComponent },
   { path: 'provider-company', component: ProviderCompanyComponent }, 
+  { path: 'edit-company', component: EditCompanyComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },

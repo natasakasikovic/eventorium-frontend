@@ -39,4 +39,8 @@ export class CompanyService {
   getImages(id: number) : Observable<ImageResponseDto[]> {
     return this.http.get<ImageResponseDto[]>(`${environment.apiHost}/companies/${id}/images`);
   }
+
+  updateCompany(company: ProviderCompany): Observable<CompanyResponse> {
+    return this.http.put<CompanyResponse>(`${environment.apiHost}/companies`, company);
+  }
 }

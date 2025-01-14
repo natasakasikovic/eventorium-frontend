@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { switchMap } from 'rxjs';
 import { ImageResponseDto } from '../../shared/model/image-response-dto.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-provider-company',
@@ -18,7 +19,8 @@ export class ProviderCompanyComponent implements OnInit {
 
   constructor(
     private service: CompanyService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,6 @@ export class ProviderCompanyComponent implements OnInit {
   }
 
   edit(): void {
-    
+    this.router.navigate(['edit-company'])
   }
 }
