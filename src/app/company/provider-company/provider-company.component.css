@@ -8,6 +8,7 @@
     border-radius: 8px;
     font-family: 'jeju';
   }
+
   .header {
     display: flex;
     align-items: center;
@@ -25,7 +26,6 @@
     margin-left: auto;
   }
   
-
   .info {
     display: flex;
     flex-direction: column;
@@ -36,7 +36,12 @@
   .description {
     font-size: 20px;
     color: #555;
-    width: 50%;
+    width: 60%;
+  }
+
+  .details {
+    display: flex;
+    gap: 10px;
   }
   
   .details mat-card {
@@ -63,7 +68,6 @@
     justify-content: center;
     gap: 10px; 
   }
-  
   
   .images {
     margin-top: 20px;

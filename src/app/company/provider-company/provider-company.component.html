@@ -11,6 +11,18 @@
       </div>
       <div class="details">
         <mat-card>
+          <mat-card-content>
+            <p>
+              <mat-icon class="icon">lock_open</mat-icon>
+              {{ company.openingHours }}
+            </p>
+            <p>
+              <mat-icon class="icon">lock</mat-icon>
+              {{ company.closingHours }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
           <mat-card-content class="card-content">
             <div class="left-column">
               <p>
