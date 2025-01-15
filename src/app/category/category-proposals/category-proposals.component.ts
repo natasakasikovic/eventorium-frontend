@@ -2,6 +2,10 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Category} from '../model/category.model';
 import {CategoryService} from '../category.service';
 import {Status} from '../model/status-enum-ts';
+import {UpdateCategoryProposalComponent} from '../update-category-proposal/update-category-proposal.component';
+import {MatDialog} from '@angular/material/dialog';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-proposals',
@@ -10,11 +14,11 @@ import {Status} from '../model/status-enum-ts';
 })
 export class CategoryProposalsComponent implements OnInit {
   categoryProposals: Category[] = [];
-  selectedCategory: Category;
-  showUpdate: boolean;
 
   constructor(
     private categoryService: CategoryService,
+    private toasterService: ToastrService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -31,25 +35,29 @@ export class CategoryProposalsComponent implements OnInit {
       next: ((category: Category) => {
         this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== category.id);
       }),
-      error: (err: Error) => {
-        console.error(err);
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to update category status");
       }
     });
   }
 
-  openUpdateCategory(id: number): void {
-    this.categoryService.get(id).subscribe({
-      next: (category: Category) => {
-        this.selectedCategory = category;
-        this.showUpdate = true;
+  openUpdateCategory(category: Category) {
+    const dialogRef = this.dialog.open(UpdateCategoryProposalComponent, {
+      width: '450px',
+      height: 'auto',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        category: category
       }
     });
-  }
 
-  onClose(): void {
-    this.showUpdate = false;
-    this.categoryProposals = this.categoryProposals.filter(proposal => proposal.id !== this.selectedCategory.id);
+    dialogRef.afterClosed().subscribe((id: number) => {
+      this.categoryProposals = this.categoryProposals.filter(category => category.id !== id);
+      dialogRef.close();
+    });
   }
 
   protected readonly Status = Status;
+
 }

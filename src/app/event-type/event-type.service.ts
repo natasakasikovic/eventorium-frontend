@@ -4,7 +4,6 @@ import { EventTypeRequestDto } from './model/event-type-request-dto.model';
 import { Observable } from 'rxjs';
 import { EventType } from './model/event-type.model';
 import { environment } from '../../env/environment';
-import {Category} from '../category/model/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +26,9 @@ export class EventTypeService {
 
   update(id: number, eventType: EventTypeRequestDto) : Observable<EventType> {
     return this.httpClient.put<EventType>(`${environment.apiHost}/event-types/${id}`, eventType)
+  }
+
+  delete(id: number) : Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/event-types/${id}`);
   }
 }

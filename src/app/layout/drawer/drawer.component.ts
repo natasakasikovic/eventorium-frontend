@@ -43,9 +43,12 @@ export class DrawerComponent {
       }
 
       if(userRole === "ADMIN") {
-        items.push({ label: 'Categories', icon: 'category', route: '/categories-overview'});
-        items.push({ label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals'});
-        items.push({ label: 'Report management', icon:'gavel', route:'/report-management' });
+        items.push(
+         { label: 'Categories', icon: 'category', route: '/categories-overview'},
+         { label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals'},
+         { label: 'Event types', icon: 'drag_indicator', route: '/event-types'},
+         { label: 'Report management', icon:'gavel', route:'/report-management' }
+        )
       }
     }
 

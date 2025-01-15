@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { MESSAGES } from '../../shared/constants/messages';
+import {EditCategoryComponent} from '../edit-category/edit-category.component';
 
 @Component({
   selector: 'app-category-overview',
@@ -14,13 +15,12 @@ import { MESSAGES } from '../../shared/constants/messages';
 })
 export class CategoriesOverviewComponent implements OnInit {
   categories: Category[] = [];
-  showEdit: boolean;
-  selectedCategory: Category;
 
   constructor(
     private categoryService: CategoryService,
     private toasterService: ToastrService,
     private dialog: MatDialog,
+    private editDialog: MatDialog,
   ) {
   }
 
@@ -63,23 +63,22 @@ export class CategoriesOverviewComponent implements OnInit {
     });
   }
 
-  openEdit(id: number): void {
-    this.categoryService.get(id).subscribe({
-      next: (category: Category) => {
-        this.selectedCategory = category;
-        this.showEdit = true;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toasterService.error(
-          error.error.message || 'An unexpected error occurred while opening the category editor.',
-          "Edit Category Failed"
-        );
+  openEdit(category: Category): void {
+    const dialogRef = this.editDialog.open(EditCategoryComponent, {
+      width: '450px',
+      height: 'auto',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: {
+        category: category
       }
+    });
+
+    dialogRef.afterClosed().subscribe((category: Category) => {
+      const index = this.categories.findIndex(existingCategory => existingCategory.id === category.id);
+      this.categories[index] = category;
+      dialogRef.close();
     });
   }
 
-  closeEdit(): void {
-    this.showEdit = false;
-    this.getAll();
-  }
 }
