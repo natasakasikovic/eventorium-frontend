@@ -112,7 +112,7 @@ export class CompanyRegisterComponent implements OnInit {
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
         this.images = validImages;
-        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
+        this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
   }

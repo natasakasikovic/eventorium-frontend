@@ -54,9 +54,15 @@
     <div class="images-section scrollable-container">
       <label class="image-label">Images:</label>
       <mat-grid-list cols="2" rowHeight="100px" class="image-grid">
-        <mat-grid-tile *ngFor="let image of company.images; let i = index">
+        <mat-grid-tile *ngFor="let image of existingImagesPreview; let i = index">
           <img [src]="image" alt="Uploaded Image" />
-          <button mat-icon-button color="warn" class="delete-button" (click)="deleteImage(i)">
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeExistingImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile *ngFor="let image of newImagesPreview; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeNewImage(i)">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-grid-tile>

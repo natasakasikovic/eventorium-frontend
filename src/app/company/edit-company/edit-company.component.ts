@@ -11,6 +11,8 @@ import { switchMap } from 'rxjs';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { MESSAGES } from '../../shared/constants/messages';
+import { RemoveImageRequest } from '../../shared/model/remove-image-request.model';
+import { UpdateImagesRequest } from '../model/update-images-request.model';
 
 @Component({
   selector: 'app-edit-company',
@@ -18,12 +20,14 @@ import { MESSAGES } from '../../shared/constants/messages';
   styleUrl: './edit-company.component.css'
 })
 export class EditCompanyComponent implements OnInit {
-  images: File[] = []; 
-  imagePreviews: string[] = [];
   companyForm: FormGroup;
   cities: City[];
   company: ProviderCompany;
-
+  existingImages: number[] = [];
+  existingImagesPreview: string[] = [];
+  removedImages: RemoveImageRequest[] = [];
+  newImages: File[] = [];
+  newImagesPreview: string[] = [];
   
   constructor(private fb: FormBuilder, 
               private service: CompanyService,   
@@ -50,9 +54,10 @@ export class EditCompanyComponent implements OnInit {
           })
         ).subscribe({
         next: (images : ImageResponseDto[]) => {
-          this.company.images = images.map(image =>
+          this.existingImagesPreview = images.map(image =>
             `data:${image.contentType};base64,${image.data}`
           );
+          this.existingImages = images.map(image => image.id);
         },
         error: (_) => {
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, "");
@@ -69,15 +74,6 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
-  showMessage(title: string, message: string) : void {
-    this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: title,
-        message: message
-      }
-    })
-  }
-
   fillForm(): void {
     const selectedCity = this.cities.find(city => city.id === this.company.city.id);
     this.companyForm.patchValue({
@@ -90,6 +86,15 @@ export class EditCompanyComponent implements OnInit {
     })
   }
 
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
   onSubmit(): void {
     if (this.companyForm.valid) {
         const updatedCompany: ProviderCompany = this.companyForm.value;
@@ -97,6 +102,7 @@ export class EditCompanyComponent implements OnInit {
         this.service.updateCompany(updatedCompany).subscribe({
           next: () => {
             this.showMessage(MESSAGES.success, MESSAGES.companyUpdated);
+            this.updateImages();
           },
           error: (_) => {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, "");
@@ -112,14 +118,36 @@ export class EditCompanyComponent implements OnInit {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
-        this.images = validImages;
-        this.company.images = validImages.map(image => URL.createObjectURL(image));
+        this.newImagesPreview.push(...validImages.map(image => URL.createObjectURL(image)));
+        this.newImages = validImages;
       }
     }
   }
 
-  deleteImage(index: number): void {
-    this.images.splice(index, 1);
-    this.company.images.splice(index, 1); 
+  removeExistingImage(index: number): void {
+    this.existingImagesPreview.splice(index, 1);
+    const removed = this.existingImages.splice(index, 1);
+    const request: RemoveImageRequest = {
+      id: removed[0]
+    }
+    this.removedImages.push(request);
+  }
+
+  removeNewImage(index: number): void {
+    this.newImages.splice(index, 1);
+    this.newImagesPreview.splice(index, 1);
+  }
+
+  updateImages(): void {
+    if (this.removedImages.length == 0 && this.newImages.length == 0) return;
+    const request: UpdateImagesRequest = {
+      newImages: this.newImages,
+      removedImages: this.removedImages
+    }
+    this.service.updateImages(request).subscribe({ 
+      error: (_) => {
+        this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
+      }
+    })
   }
 }
