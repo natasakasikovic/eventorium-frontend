@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Category} from '../model/category.model';
 import {CategoryService} from '../category.service';
-import {LoginComponent} from '../../auth/login/login.component';
-import {MatDialog} from '@angular/material/dialog';
-import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
+import {EditCategoryComponent} from '../edit-category/edit-category.component';
 
 @Component({
   selector: 'app-category-overview',
@@ -14,13 +15,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class CategoriesOverviewComponent implements OnInit {
   categories: Category[] = [];
-  showEdit: boolean;
-  selectedCategory: Category;
 
   constructor(
     private categoryService: CategoryService,
     private toasterService: ToastrService,
     private dialog: MatDialog,
+    private editDialog: MatDialog,
   ) {
   }
 
@@ -49,41 +49,36 @@ export class CategoriesOverviewComponent implements OnInit {
   }
 
   openDeleteConfirmation(category: Category): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: MESSAGES.deleteConfirmation + category.name }
+    });
+
+    this.handleDialogClose(dialogRef, category)
+  }
+
+  private handleDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>, category: Category): void {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result)
+        this.deleteCategory(category);
+    });
+  }
+
+  openEdit(category: Category): void {
+    const dialogRef = this.editDialog.open(EditCategoryComponent, {
       width: '450px',
       height: 'auto',
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: {
-        name: category.name
+        category: category
       }
     });
 
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.deleteCategory(category);
-      }
+    dialogRef.afterClosed().subscribe((category: Category) => {
+      const index = this.categories.findIndex(existingCategory => existingCategory.id === category.id);
+      this.categories[index] = category;
       dialogRef.close();
     });
   }
 
-  openEdit(id: number): void {
-    this.categoryService.get(id).subscribe({
-      next: (category: Category) => {
-        this.selectedCategory = category;
-        this.showEdit = true;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toasterService.error(
-          error.error.message || 'An unexpected error occurred while opening the category editor.',
-          "Edit Category Failed"
-        );
-      }
-    });
-  }
-
-  closeEdit(): void {
-    this.showEdit = false;
-    this.getAll();
-  }
 }

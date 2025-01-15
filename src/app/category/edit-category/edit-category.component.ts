@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, Input, Output} from '@angular/core';
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-category',
@@ -11,8 +12,6 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrl: './edit-category.component.css'
 })
 export class EditCategoryComponent implements AfterViewInit {
-  @Input() category: Category
-  @Output() close: EventEmitter<void> = new EventEmitter();
 
   editCategoryForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -21,26 +20,30 @@ export class EditCategoryComponent implements AfterViewInit {
 
   constructor(
     private categoryService: CategoryService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private dialogRef: MatDialogRef<EditCategoryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { category: Category }
   ) {}
 
   ngAfterViewInit(): void {
-    this.editCategoryForm.get('name').setValue(this.category.name);
-    this.editCategoryForm.get('description').setValue(this.category.description);
+    this.editCategoryForm.get('name').setValue(this.data.category.name);
+    this.editCategoryForm.get('description').setValue(this.data.category.description);
   }
 
   onClose(): void {
-    this.close.emit();
+    this.dialogRef.close(this.data.category);
   }
 
   onSave(): void {
     if(this.editCategoryForm.valid) {
-      this.categoryService.update(this.category.id, {
+      this.data.category.name = this.editCategoryForm.value.name;
+      this.data.category.description = this.editCategoryForm.value.description;
+      this.categoryService.update(this.data.category.id, {
         name: this.editCategoryForm.value.name,
         description: this.editCategoryForm.value.description,
       }).subscribe({
         next: () => {
-          this.toasterService.success(`${this.category.name} has been updated successfully!`, "Success");
+          this.toasterService.success(`${this.data.category.name} has been updated successfully!`, "Success");
           this.onClose();
         },
         error: (error: HttpErrorResponse) => {

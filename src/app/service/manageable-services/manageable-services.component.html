@@ -3,7 +3,7 @@
     <h1 class="title">Services</h1>
     <div class="filters">
       <app-search-bar class="searcher" (searcher)="onSearch($event)"></app-search-bar>
-      <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openFilter()">
+      <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openDialog()">
         <mat-icon>tune</mat-icon>
       </button>
     </div>
@@ -20,4 +20,3 @@
                  [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
   </mat-paginator>
 </div>
-<app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()" (applyFilter)="onApplyFilter($event)"></app-service-filter>

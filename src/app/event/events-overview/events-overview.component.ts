@@ -20,9 +20,9 @@ export class EventsOverviewComponent implements OnInit {
 
   showFilter: boolean; // TODO: implement event filter pop up
   events: EventSummary[];
+  keyword: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   constructor(private service: EventService) { }
  
@@ -43,7 +43,11 @@ export class EventsOverviewComponent implements OnInit {
   onPageChanged(pageEvent : PageEvent): void {
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
-    this.getPagedEvents();
+
+    if (this.keyword)
+      this.onSearch(this.keyword)
+    else  
+      this.getPagedEvents();
   }
 
   closeFilter(): void {
@@ -55,6 +59,8 @@ export class EventsOverviewComponent implements OnInit {
   }
 
   onSearch(keyword: string): void {
+    this.resetPageIndex(keyword)
+    this.keyword = keyword
     this.service.searchEvents(keyword, this.pageProperties)
       .subscribe({
         next: (response: PagedResponse<EventSummary>) => {
@@ -63,4 +69,10 @@ export class EventsOverviewComponent implements OnInit {
         }
       })
   }
+
+  private resetPageIndex(keyword: string): void {
+    if (this.keyword != keyword && this.pageProperties.pageIndex != 0)
+      this.pageProperties.pageIndex = 0
+  }
+
 }

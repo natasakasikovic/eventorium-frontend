@@ -8,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { QuickRegistrationDto } from './model/quick-registration.model';
 import { Role } from './model/user-role.model';
 import { AuthRequestDto } from './model/auth-request.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class AuthService {
   userState = this.user$.asObservable();
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.user$.next(this.getRole())
   }
 
@@ -42,7 +43,7 @@ export class AuthService {
     return null;
   }
 
-  getUserId(): String {
+  getUserId(): number {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
@@ -54,6 +55,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('user');
     this.user$.next(null);
+    if (this.router.url != '/home')
+      this.router.navigate([''])
+    else window.location.reload();
   }
 
   isLoggedIn(): boolean {
@@ -73,20 +77,12 @@ export class AuthService {
   }
 
   registerUser(user: AuthRequestDto): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiHost}/auth/registration`, user).pipe(
-      tap(() => {
-        console.log('Account registered successfully');
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
-      })
-    );
+    return this.http.post<AuthResponse>(`${environment.apiHost}/auth/registration`, user)
   }
 
   uploadProfilePhoto(userId: number, photo: File): Observable<string> {
     const formData: FormData = new FormData();
-    const fileType = '.' + photo.type.split('/')[1];
-    formData.append('profilePhoto', photo, userId.toString() + fileType)
+    formData.append('profilePhoto', photo)
     return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
       formData,
       { responseType: 'text' as 'json' });

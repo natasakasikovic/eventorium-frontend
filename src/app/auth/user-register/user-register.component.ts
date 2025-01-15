@@ -11,10 +11,10 @@ import { SharedService } from '../../shared/shared.service';
 import { Role } from '../model/user-role.model';
 import { AuthRequestDto } from '../model/auth-request.model';
 import { PersonRequestDto } from '../model/person.request.model';
-import { catchError, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthResponse } from '../model/auth-response.model';
 import { toString } from '../model/user-role.model';
+import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
 
 @Component({
   selector: 'app-user-register',
@@ -29,6 +29,7 @@ export class UserRegisterComponent {
   imageUrl: string | null = null;
   cities: City[];
   roles: Role[];
+  userId: number;
 
   constructor(
     private fb: FormBuilder, 
@@ -42,10 +43,10 @@ export class UserRegisterComponent {
       lastname: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^(\\+)?[0-9]{9,15}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
     }, 
     { 
@@ -57,20 +58,27 @@ export class UserRegisterComponent {
     this.getCities();
     this.getRoles();
   }
-
+  
   onSubmit() {
     if (this.registrationForm.valid) {
       const newUser = this.getFormValues();
-
-      this.authService.registerUser(newUser).pipe(
-
-        tap(() => {
-          this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
-          this.user = newUser;
-          this.nextStep();
-          this.router.navigate(['/']);
-        }),
-        catchError((error: HttpErrorResponse) => {
+      this.user = newUser;
+      this.authService.registerUser(newUser).subscribe({
+        next: (response: AuthResponse) => {
+          if (response) this.userId = response.id
+          
+          if (response && this.profilePhoto) {
+            this.authService.uploadProfilePhoto(response.id, this.profilePhoto).subscribe({
+              next: () => {
+                this.nextStep();
+              },
+              error: (error: HttpErrorResponse) => {
+                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
+              }
+            })
+          } else this.nextStep();
+        },
+        error: (error: HttpErrorResponse) => {
           if (error.status == 409) {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EMAIL_ALREADY_TAKEN)
           } else if (error.status == 400) {
@@ -78,24 +86,21 @@ export class UserRegisterComponent {
           } else {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
           }
-          return of(null);
-        }),
-
-        switchMap((user: AuthResponse | null) => {
-          if (user && this.profilePhoto) {
-            return this.authService.uploadProfilePhoto(user.id, this.profilePhoto).pipe(
-              catchError(() => {
-                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
-                return of(null);
-              })
-            );
-          }
-          return of(null); 
-        })
-      ).subscribe(); 
+        }
+      })
     }
   }
   
+  
+  nextStep(): void {
+    if (this.user.roles[0].name.toUpperCase() === "PROVIDER") 
+      void this.router.navigate([`${this.userId}/company-register`]);
+    else {
+      this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
+      void this.router.navigate(['/']);
+    }
+  }
+
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
       data: {
@@ -103,13 +108,6 @@ export class UserRegisterComponent {
         message: message
       }
     })
-  }
-
-  nextStep(): void {
-    if (this.user.roles[0].name.toUpperCase() === "PROVIDER") {
-      this.router.navigate(['/company-register']);
-      return;
-    }
   }
   
   onFileSelected(event: Event) {
@@ -144,7 +142,7 @@ export class UserRegisterComponent {
     const newUser: AuthRequestDto = {
       email : formValue.email,
       password : formValue.password,
-      confirmPassword : formValue.confirmPassword,
+      passwordConfirmation : formValue.passwordConfirmation,
       roles : [formValue.role],
       person : newPerson
     };
@@ -157,19 +155,3 @@ export class UserRegisterComponent {
   }
 
 }  
-
-export function passwordMatchValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-
-    if (!password || !confirmPassword) return null; 
-    
-    const mismatch = password.value !== confirmPassword.value;
-    if (mismatch) confirmPassword.setErrors({ passwordMismatch: true });
-    else confirmPassword.setErrors(null);
-    
-    return mismatch ? { passwordMismatch: true } : null;
-  };
-}
-

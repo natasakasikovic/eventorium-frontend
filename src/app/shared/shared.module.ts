@@ -5,14 +5,13 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { EventCardComponent } from './event-card/event-card.component';
 import {ServiceCardComponent} from './service-card/service-card.component';
 import {SearchBarComponent} from './search-bar/search-bar.component';
-import {ServiceFilterComponent} from './service-filter/service-filter.component';
 import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 import { EventSelectionComponent } from './event-selection/event-selection.component';
 import { ErrorComponent } from './error/error.component';
-import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
-
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import {ChatDialogComponent} from './chat-dialog/chat-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +19,12 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
     EventCardComponent,
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent,
     InfoDialogComponent,
     EventSelectionComponent,
     InfoDialogComponent,
+    ChatDialogComponent,
     ErrorComponent,
-    DeleteConfirmationComponent
+    ConfirmationDialogComponent,
     ],
   imports: [
     CommonModule,
@@ -36,9 +35,9 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
   exports: [
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent,
     ProductCardComponent,
-    EventCardComponent
+    EventCardComponent,
+    ChatDialogComponent,
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,28 @@
+<div class="screen" *ngIf="user">
+<mat-card class="account-container">
+    <div class="header">
+      <button mat-icon-button aria-label="Edit account" (click)="edit()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <div>
+      <div class="profile-picture">
+        <img *ngIf="user.profilePhoto" [src]="user.profilePhoto" alt="Profile Picture" />
+        <mat-icon *ngIf="!user.profilePhoto" class="placeholder-icon">person</mat-icon>
+      </div>
+      <h2 class="name">{{ user.name }} {{user.lastname}}</h2>
+      <p class="role"> {{ user.role }} </p>
+    </div>
+    <div class="details">
+      <div class="left">
+        <p><mat-icon class="icons">alternate_email</mat-icon> {{ user.email }}</p>
+        <p><mat-icon class="icons">phone</mat-icon> {{ user.phoneNumber }}</p>
+      </div>
+      <div class="right">
+        <p><mat-icon class="icons">location_on</mat-icon> {{ user.address }}</p>
+        <p><mat-icon class="icons">location_city</mat-icon> {{ user.city.name }}</p>
+      </div>
+    </div>
+  </mat-card>
+</div>
+  

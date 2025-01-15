@@ -40,6 +40,11 @@ export const MESSAGES = {
     },
 
     success : "Success",
-    eventCreated: "Event created successfully!"
+    eventCreated: "Event created successfully!",
+    accountUpdated: "Account updated successfully!",
+    passwordChanged: "Your password has been successfully changed. For security reasons, please log in again to ensure your account is protected.",
+    reportSubmitted: "Your report has been successfully submitted!",
+    deleteConfirmation: "Are you sure you want to delete",
+    suspensionConfirmation:"Are you sure you want to suspend the user? By suspending the user, they will not be able to log in until the suspension expires, which will take 3 days."
   };
 

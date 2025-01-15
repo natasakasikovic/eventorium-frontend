@@ -11,7 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
@@ -20,7 +20,6 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
@@ -31,6 +30,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio'; 
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -75,7 +76,9 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatTabGroup,
-    MatTab
+    MatTab,
+    MatRadioModule,
+    MatMenuModule
   ],
   exports: [
     MatToolbarModule,
@@ -118,7 +121,9 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatTabGroup,
-    MatTab
+    MatTab,
+    MatRadioModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

@@ -16,6 +16,8 @@ import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
+import {Provider} from '../../web-socket/model/chat-user.model';
 
 @Component({
   selector: 'app-product-details',
@@ -35,11 +37,8 @@ export class ProductDetailsComponent implements OnInit {
     private toasterService: ToastrService,
     private dialog: MatDialog,
     private router: Router,
+    private chatService: ChatDialogService
   ) {
-  }
-
-  get getRole(): string {
-    return this.authService.getRole();
   }
 
   ngOnInit(): void {
@@ -140,4 +139,11 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
+  openChatDialog(provider?: Provider): void {
+    this.chatService.openChatDialog(provider ? provider : this.product.provider);
+  }
+
+  getRole(): string {
+    return this.authService.getRole();
+  }
 }
