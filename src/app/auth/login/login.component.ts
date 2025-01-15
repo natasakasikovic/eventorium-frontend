@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from '../model/auth-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import {WebSocketService} from '../../web-socket/web-socket-service';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-login',
@@ -43,13 +44,10 @@ export class LoginComponent {
           void this.router.navigate(['home']);
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.serverError = 'Invalid credentials. Please try again.';
-          } else if (error.status === 403) {
-            this.serverError = 'Account is not verified. Check your email.'
-          } else {
-            this.serverError = 'An error occurred. Please try again later.';
-          }
+          if (error.status > 500)
+            this.serverError = ERROR_MESSAGES.SERVER_ERROR;
+          else
+            this.serverError = error.error.message;
         }
       });
     }
