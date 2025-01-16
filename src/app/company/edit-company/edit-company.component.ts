@@ -38,7 +38,7 @@ export class EditCompanyComponent implements OnInit {
     this.companyForm = this.fb.group({
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{9,15}$')]],
       description: ['', Validators.required],
       openingHours: ['', Validators.required],
       closingHours: ['', Validators.required]
