@@ -44,7 +44,7 @@ export class LoginComponent {
           void this.router.navigate(['home']);
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status > 500)
+          if (error.status >= 500)
             this.serverError = ERROR_MESSAGES.SERVER_ERROR;
           else
             this.serverError = error.error.message;

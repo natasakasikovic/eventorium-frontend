@@ -79,12 +79,10 @@ export class UserRegisterComponent {
           } else this.nextStep();
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status == 409) {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EMAIL_ALREADY_TAKEN)
-          } else if (error.status == 400) {
-            this.showMessage("", ERROR_MESSAGES.INPUT_VALIDATION_ERROR);
-          } else {
+          if (error.status >= 500) {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+          } else {
+            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
           }
         }
       })
