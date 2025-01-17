@@ -1,0 +1,21 @@
+<form class="popup-container" [formGroup]="selectEventForm">
+  <h1 mat-dialog-title>Select drafted event</h1>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Event</mat-label>
+    <mat-select formControlName="event">
+      <mat-option *ngFor="let event of draftedEvents" [value]="event">{{ event.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Planned amount</mat-label>
+    <input matInput type="number" name="plannedAmount" formControlName="plannedAmount"/>
+  </mat-form-field>
+
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button (click)="onConfirm()">Confirm</button>
+  </div>
+</form>

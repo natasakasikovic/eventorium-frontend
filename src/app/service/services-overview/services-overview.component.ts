@@ -1,10 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Service } from '../model/service.model';
-  import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { ServiceService } from '../service.service';
-import { ServiceFilter } from '../model/filter-service-options.model';
+import { ServiceFilter } from '../model/service-filter.model';
 import { PagedResponse } from '../../shared/model/paged-response.model';
-import { SearchBarComponent } from '../../shared/search-bar/search-bar.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ServicesFilterDialogComponent } from '../services-filter-dialog/services-filter-dialog.component';
+import { PageProperties } from '../../shared/model/page-properties.model';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-services-overview',
@@ -20,13 +24,11 @@ export class ServicesOverviewComponent implements OnInit {
     totalCount: 0
   }
 
-  showFilter: boolean;
   services: Service[];
   keyword: string;
+  activeFilter: ServiceFilter;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor( private service: ServiceService ) { }
+  constructor( private service: ServiceService, private dialog: MatDialog ) { }
 
   ngOnInit(): void {
     this.getPagedServices();
@@ -47,20 +49,51 @@ export class ServicesOverviewComponent implements OnInit {
 
     if (this.keyword)
       this.onSearch(this.keyword)
-    else
+    else if (this.activeFilter)
+      this.filterServices(this.activeFilter)
+    else 
       this.getPagedServices();
-
   }
 
-  closeFilter(): void {
-    this.showFilter = false;
+  openDialog() {
+    let dialog = this.dialog.open(ServicesFilterDialogComponent, {
+      height: '510px',
+      width: '600px',
+    });
+
+    this.handleDialogClose(dialog);
   }
 
-  openFilter(): void {
-    this.showFilter = true;
+  private handleDialogClose(dialogRef: MatDialogRef<ServicesFilterDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((filter: ServiceFilter) => {
+      this.filterServices(filter);
+    });
+  }
+
+  private preprocessFilter(filter: ServiceFilter){
+    this.resetPageIndex(null, filter);
+    this.activeFilter = filter;
+    this.keyword = null;
+  }
+
+  filterServices(filter: ServiceFilter) {
+    this.preprocessFilter(filter);
+    this.service.filterServices(filter, this.pageProperties).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      },
+      error: (err) => {
+        if (err.status == 400)
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
+        else 
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
+      }
+    })
   }
 
   onSearch(keyword: string): void {
+    this.resetPageIndex(keyword, null)
     this.keyword = keyword
     this.service.searchServices(keyword, this.pageProperties).subscribe({
       next: (response: PagedResponse<Service>) => {
@@ -70,9 +103,18 @@ export class ServicesOverviewComponent implements OnInit {
     })
   }
 
-  onApplyFilter(filter: ServiceFilter): void {
-    this.services = this.service.filterServices(filter);
-    this.closeFilter();
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
+  private resetPageIndex(keyword: string | null, filter: ServiceFilter | null): void {
+    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
+      this.pageProperties.pageIndex = 0
   }
 
 }

@@ -2,7 +2,13 @@
   <mat-card class="product-card">
     <mat-card-header>
       <div class="header-left">
-        <mat-card-title> {{ product?.name }} </mat-card-title>
+        <mat-card-title>
+          <button *ngIf="getRole() === 'EVENT_ORGANIZER'" mat-icon-button (click)="openChatDialog()">
+            <mat-icon>chat</mat-icon>
+          </button>
+          {{ product?.name }}
+        </mat-card-title>
+
         <mat-card-subtitle> <strong>Category:</strong> {{ product?.category.name }}</mat-card-subtitle>
         <mat-card-subtitle>
           <strong>Event types:</strong>
@@ -15,7 +21,7 @@
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
         <span>{{ product?.rating }}</span>
-        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="loggedIn">
+        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <span class="price"> &euro; {{ product?.price * (1 - product?.discount / 100) | number:'1.2-2' }}</span>
@@ -42,13 +48,13 @@
         <button mat-icon-button>
           <mat-icon>info</mat-icon>
         </button>
-        <span>{{ product?.provider }}</span>
+        <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
       </div>
     </mat-card-actions>
-    <div class="button-reserve" >
+    <div class="button-reserve" *ngIf="getRole() === 'EVENT_ORGANIZER'">
       <button mat-raised-button
               [style.opacity]="product?.available ? 1 : 0.2"
-              [disabled]="!product?.available" >Purchase</button>
+              [disabled]="!product?.available" (click)="onPurchase()" >Purchase</button>
     </div>
   </mat-card>
 </div>

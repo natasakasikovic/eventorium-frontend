@@ -65,7 +65,6 @@ export class EditEventTypeComponent implements OnInit {
 
   saveEventType() {
     if (this.editEventTypeForm.invalid || this.selectedCategories.length === 0) {
-      console.error('Form is invalid or no categories selected');
       return;
     }
     
@@ -76,7 +75,7 @@ export class EditEventTypeComponent implements OnInit {
     }).subscribe(
       {
         next: () => {
-          void this.router.navigate(['home']); // TODO: Update navigation to go to the event types overview page once it's implemented
+          void this.router.navigate(['event-types']); 
         }
       }
     )

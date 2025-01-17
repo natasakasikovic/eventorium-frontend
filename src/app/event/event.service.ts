@@ -115,5 +115,8 @@ export class EventService {
 
     return params
   }
-}
 
+  getDraftedEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
+  }
+}

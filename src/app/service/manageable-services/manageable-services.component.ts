@@ -1,15 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
 import {Service} from '../model/service.model';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {ServiceFilter} from '../model/filter-service-options.model';
+import {PageEvent} from '@angular/material/paginator';
 import {PagedResponse} from '../../shared/model/paged-response.model';
 import {PageProperties} from '../../shared/model/page-properties.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Category} from '../../category/model/category.model';
-import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ServicesFilterDialogComponent} from '../services-filter-dialog/services-filter-dialog.component';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
+import {ServiceFilter} from '../model/service-filter.model';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-manageable-services',
@@ -17,10 +19,7 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrl: './manageable-services.component.css'
 })
 export class ManageableServicesComponent implements OnInit {
-  showFilter: boolean;
   services: Service[];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private service: ServiceService,
@@ -36,10 +35,83 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   activeFilter?: ServiceFilter = null;
-  searchKeyword: string = "";
+  keyword: string = "";
 
   ngOnInit(): void {
     this.getPagedServices();
+  }
+
+  onPageChanged(pageEvent : PageEvent): void {
+    this.pageProperties.pageIndex = pageEvent.pageIndex;
+    this.pageProperties.pageSize = pageEvent.pageSize;
+
+    if (this.keyword)
+      this.onSearch(this.keyword)
+    else if (this.activeFilter)
+      this.filterServices(this.activeFilter)
+    else
+      this.getPagedServices();
+  }
+
+  openDialog() {
+    let dialog = this.dialog.open(ServicesFilterDialogComponent, {
+      height: '510px',
+      width: '600px',
+    });
+
+    this.handleFilterDialogClose(dialog);
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    });
+  }
+
+  filterServices(filter: ServiceFilter) {
+    this.preprocessFilter(filter);
+    this.service.filterProviderServices(filter, this.pageProperties).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      },
+      error: (err) => {
+        if (err.status == 400)
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
+        else
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
+      }
+    })
+  }
+
+  onSearch(keyword: string): void {
+    this.resetPageIndex(keyword, null);
+    this.keyword = keyword;
+    this.service.searchProviderServices(keyword, this.pageProperties).subscribe({
+      next: (response: PagedResponse<Service>) => {
+        this.services = response.content;
+        this.pageProperties.totalCount = response.totalElements;
+      }
+    });
+  }
+
+  openDeleteConfirmation(service: Service): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { name: service.name }
+    });
+
+
+    this.handleConfirmationDialogClose(dialogRef, service)
+  }
+
+  private handleConfirmationDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>, service: Service){
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed)
+        this.deleteService(service);
+    });
   }
 
   private getPagedServices() {
@@ -51,14 +123,21 @@ export class ManageableServicesComponent implements OnInit {
     })
   }
 
-  onPageChanged(pageEvent: PageEvent): void {
-    this.pageProperties.pageIndex = pageEvent.pageIndex;
-    this.pageProperties.pageSize = pageEvent.pageSize;
-    if(this.searchKeyword !== "") {
-      this.onSearch(this.searchKeyword);
-    } else {
-      this.getPagedServices();
-    }
+  private preprocessFilter(filter: ServiceFilter){
+    this.resetPageIndex(null, filter);
+    this.activeFilter = filter;
+    this.keyword = null;
+  }
+
+  private resetPageIndex(keyword: string | null, filter: ServiceFilter | null): void {
+    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
+      this.pageProperties.pageIndex = 0;
+  }
+
+  private handleFilterDialogClose(dialogRef: MatDialogRef<ServicesFilterDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((filter: ServiceFilter) => {
+      this.filterServices(filter);
+    });
   }
 
   private deleteService(service: Service) {
@@ -71,58 +150,5 @@ export class ManageableServicesComponent implements OnInit {
         this.toasterService.success(error.error.message, "Failed to delete service");
       }
     });
-  }
-
-  onApplyFilter(filter: ServiceFilter): void {
-    this.activeFilter = filter;
-    this.pageProperties.pageIndex = 0;
-    this.searchKeyword = "";
-    this.service.filterProviderServices(filter, this.pageProperties).subscribe({
-      next: (response: PagedResponse<Service>) => {
-        this.services = response.content;
-        this.pageProperties.totalCount = response.totalElements;
-        if(this.pageProperties.pageIndex >= response.totalPages) {
-          this.pageProperties.pageIndex = 1;
-        }
-      }
-    });
-    this.closeFilter();
-  }
-
-  onSearch(keyword: string): void {
-    this.searchKeyword = keyword;
-    this.service.searchProviderServices(keyword, this.pageProperties).subscribe({
-      next: (services: PagedResponse<Service>) => {
-        this.services = services.content;
-        this.pageProperties.totalCount = services.totalElements;
-      }
-    });
-  }
-
-  openDeleteConfirmation(service: Service): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        name: service.name
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.deleteService(service);
-      }
-      dialogRef.close();
-    });
-  }
-
-  openFilter(): void {
-    this.showFilter = true;
-  }
-
-  closeFilter(): void {
-    this.showFilter = false;
   }
 }

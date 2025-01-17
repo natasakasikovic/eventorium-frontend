@@ -1,10 +1,12 @@
 <div class="budget">
-  <mat-tab-group class="main-tabs">
+  <mat-tab-group class="main-tabs" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Planner" class="planner">
       <mat-tab-group class="category-tabs">
         <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
           <app-budget-items [category]="category"
+                            [eventId]="id"
                             (totalPriceChanged)="updatePlannedPrice($event)"
+                            (totalSpentChanged)="updateSpentPrice($event)"
                             (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
       </mat-tab-group>
@@ -13,7 +15,7 @@
         <form [formGroup]="addCategoryForm">
           <mat-form-field appearance="outline">
             <mat-select formControlName="category">
-              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category.name }}</mat-option>
+              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category?.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
@@ -22,13 +24,13 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab label="Spent">
-
+    <mat-tab label="Purchased & Reserved">
+      <app-purchased-and-reserved [purchasedProducts]="purchasedProducts"></app-purchased-and-reserved>
     </mat-tab>
   </mat-tab-group>
   <div class="total">
     <p><strong>Total planned</strong>: {{ totalPlanned }}</p>
-    <p><strong>Total spent</strong>: todo </p>
+    <p><strong>Total spent</strong>: {{ totalSpent }} </p>
   </div>
   <button (click)="onSubmit()" id="submit">
     <mat-icon>arrow_forward</mat-icon>

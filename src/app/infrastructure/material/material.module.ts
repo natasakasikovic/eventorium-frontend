@@ -30,6 +30,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio'; 
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -74,7 +76,9 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatTabGroup,
-    MatTab
+    MatTab,
+    MatRadioModule,
+    MatMenuModule
   ],
   exports: [
     MatToolbarModule,
@@ -117,7 +121,9 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatTabGroup,
-    MatTab
+    MatTab,
+    MatRadioModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

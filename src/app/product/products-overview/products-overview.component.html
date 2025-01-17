@@ -3,7 +3,7 @@
       <h1 class="title">Products</h1>
       <div class="filters">
         <app-search-bar (searcher)="onSearch($event)"></app-search-bar>
-        <button mat-icon-button class="filter-button">
+        <button mat-icon-button class="filter-button" (click)="openDialog()">
           <mat-icon>tune</mat-icon>
         </button>
       </div>
@@ -16,6 +16,4 @@
       [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
       </mat-paginator>
     </div>
-  </div>
-  <!-- <app-product-filter *ngIf="showFilter"></app-product-filter> -->
-  <!-- TODO: implement product filter pop up -->
+</div>

@@ -1,27 +1,27 @@
-<div class="modal-overlay">
-  <div class="modal-container">
-    <button mat-icon-button (click)="onClose()">
-      <mat-icon>clear</mat-icon>
-    </button>
-    <h2>Update category proposal</h2>
-    <p>A similar category could already exist. You can either update your proposal with this category or choose an existing one from the list.</p>
-    <form [formGroup]="updateProposalForm">
-      <mat-form-field class="form-group" appearance="outline">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" name="name" formControlName="name"/>
-      </mat-form-field>
-      <mat-form-field class="form-group" appearance="outline">
-        <mat-label>Description</mat-label>
-        <textarea matInput type="text" name="description" formControlName="description"></textarea>
-      </mat-form-field>
-      <p>Select existing category</p>
-      <mat-form-field class="form-group" appearance="outline">
-        <mat-label>Existing category</mat-label>
-        <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button type="button" class="apply-button" (click)="onSave()">Save</button>
-    </form>
-  </div>
+<div class="popup-container">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <h2>Update category proposal</h2>
+  <p>A similar category could already exist. You can either update your proposal with this category or choose an existing one from the list.</p>
+  <form [formGroup]="updateProposalForm">
+    <mat-form-field class="form-group" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" name="name" formControlName="name"/>
+    </mat-form-field>
+    <mat-form-field class="form-group" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" name="description" formControlName="description"></textarea>
+    </mat-form-field>
+    <p>Select existing category</p>
+    <mat-form-field class="form-group" appearance="outline">
+      <mat-label>Existing category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="save-button">
+      <button mat-button (click)="onSave()">Save</button>
+    </div>
+  </form>
 </div>

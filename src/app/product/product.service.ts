@@ -5,6 +5,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
+import { ProductFilter } from './model/product-filter.model';
+import { PageProperties } from '../shared/model/page-properties.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(pageProperties?: any) : Observable<PagedResponse<Product>> { // TODO: see if this should be any
+  getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
     let params = new HttpParams();
     if (pageProperties){
       params = params
@@ -74,4 +76,26 @@ export class ProductService {
   getIsFavourite(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/products/favourites/${id}`);
   }
+
+  filterProducts(filter: ProductFilter, pageProperties: PageProperties) : Observable<PagedResponse<Product>> {
+    const params = this.buildQueryParams(filter, pageProperties)
+    return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/products/filter`, { params })
+  }
+
+  buildQueryParams(filter: ProductFilter, pageProperties: PageProperties): HttpParams {
+    let params = new HttpParams();
+    
+    Object.keys(filter).forEach((key) => {
+      const typedKey = key as keyof ProductFilter;
+      const value = filter[typedKey];
+      
+      if (value !== undefined && value != null && value != "")
+        params = params.set(typedKey, value);
+    });
+
+    params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+  
+    return params
+  }
+
 }

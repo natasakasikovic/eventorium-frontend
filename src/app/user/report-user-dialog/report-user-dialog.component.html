@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Report user</h2>
+<mat-dialog-content>
+    <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Reason</mat-label>
+        <textarea matInput [formControl]="reason" rows="4"></textarea>
+        <mat-error *ngIf="reason.hasError('required') && reason.touched">
+        Reason is required!
+        </mat-error>
+        <mat-error *ngIf="reason.hasError('minlength') && reason.touched">
+        Minimum 5 characters are required!
+        </mat-error>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="submitReport()">Submit report</button>
+</mat-dialog-actions>
