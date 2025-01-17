@@ -9,7 +9,6 @@
     <mat-form-field appearance="outline">
       <mat-label>Event type</mat-label>
       <mat-select formControlName="eventType">
-        <mat-option [value]="'all'"></mat-option>
         <mat-option *ngFor="let eventType of eventTypes" [value]="eventType.name">
           {{ eventType.name }}
         </mat-option>

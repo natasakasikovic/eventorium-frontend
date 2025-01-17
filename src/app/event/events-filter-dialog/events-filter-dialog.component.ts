@@ -82,7 +82,7 @@ export class EventsFilterDialogComponent implements OnInit{
       name: formValues.name,
       description: formValues.description,
       type: formValues.eventType,
-      location: formValues.location,
+      city: formValues.city,
       maxParticipants: formValues.maxParticipants,
       from: formValues.from === "" ? null : this.formatToDate(formValues.from),
       to: formValues.to === "" ? null : this.formatToDate(formValues.to),
