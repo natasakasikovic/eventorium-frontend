@@ -12,6 +12,8 @@ import { EventSummary } from './model/event-summary.model';
 import { ActivityRequest } from './model/activity-request.model';
 import { Privacy } from './model/privacy.enum';
 import { Invitation } from './model/invitation-request.model';
+import { EventFilter } from './model/event-filter.model';
+import { PageProperties } from '../shared/model/page-properties.model';
 
 @Injectable({
   providedIn: 'root'
@@ -90,9 +92,31 @@ export class EventService {
     return this.httpClient.post<void> (`${environment.apiHost}/invitations/${id}`, invitations)
   }
 
+  filterEvents(filter: EventFilter, pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
+    const params = this.buildQueryParams(filter, pageProperties);
+    return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/events/filter`, { params } );
+  }
+
+  buildQueryParams(filter: EventFilter, pageProperties: PageProperties): HttpParams {
+    let params = new HttpParams();
+
+    if (filter) {
+      Object.keys(filter).forEach((key) => {
+        const typedKey = key as keyof EventFilter;
+        const value = filter[typedKey];
+
+        if (value !== undefined && value != null && value != "")
+          params = params.set(typedKey, value);
+      });
+    }
+
+    if (pageProperties) 
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    return params
+  }
+
   getDraftedEvents(): Observable<Event[]> {
     return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
   }
-
 }
-

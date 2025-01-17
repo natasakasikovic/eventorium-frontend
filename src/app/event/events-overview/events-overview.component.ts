@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventService } from '../event.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Event } from '../model/event.model';
 import { PagedResponse } from '../../shared/model/paged-response.model';
 import { EventSummary } from '../model/event-summary.model';
+import { EventsFilterDialogComponent } from '../events-filter-dialog/events-filter-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EventFilter } from '../model/event-filter.model';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-events-overview',
@@ -18,13 +22,11 @@ export class EventsOverviewComponent implements OnInit {
     totalCount: 0
   }
 
-  showFilter: boolean; // TODO: implement event filter pop up
   events: EventSummary[];
   keyword: string;
+  activeFilter: EventFilter;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  constructor(private service: EventService) { }
+  constructor(private service: EventService, private dialog: MatDialog) { }
  
   ngOnInit(): void {
     this.getPagedEvents();
@@ -46,20 +48,51 @@ export class EventsOverviewComponent implements OnInit {
 
     if (this.keyword)
       this.onSearch(this.keyword)
+    else if (this.activeFilter)
+      this.filterEvents(this.activeFilter)
     else  
       this.getPagedEvents();
   }
-
-  closeFilter(): void {
-    this.showFilter = false;
-  }
     
-  openFilter(): void {
-    this.showFilter = true;
+  openDialog(): void {
+    let dialog = this.dialog.open(EventsFilterDialogComponent, {
+      height: '500px',
+      width: '600px',
+    });
+
+    this.handleDialogClose(dialog);
+  }
+  
+  private handleDialogClose(dialogRef: MatDialogRef<EventsFilterDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((filter: EventFilter) => {
+      this.filterEvents(filter);
+    });
+  }
+
+  private preprocessFilter(filter: EventFilter){
+    this.resetPageIndex(null, filter);
+    this.activeFilter = filter;
+    this.keyword = null;
+  }
+
+  filterEvents(filter: EventFilter) {
+    this.preprocessFilter(filter);
+    this.service.filterEvents(filter, this.pageProperties).subscribe({
+      next: (response: PagedResponse<EventSummary>) => {
+        this.events = response.content
+        this.pageProperties.totalCount = response.totalElements
+      },
+      error: (err) => {
+        if (err.status == 400)
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message) // TODO: see if on backend will  be @Valid annotation
+        else 
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
+      }
+    })
   }
 
   onSearch(keyword: string): void {
-    this.resetPageIndex(keyword)
+    this.resetPageIndex(keyword, null)
     this.keyword = keyword
     this.service.searchEvents(keyword, this.pageProperties)
       .subscribe({
@@ -69,10 +102,18 @@ export class EventsOverviewComponent implements OnInit {
         }
       })
   }
-
-  private resetPageIndex(keyword: string): void {
-    if (this.keyword != keyword && this.pageProperties.pageIndex != 0)
+  
+  private resetPageIndex(keyword: string | null, filter: EventFilter | null): void {
+    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
       this.pageProperties.pageIndex = 0
   }
 
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
 }
