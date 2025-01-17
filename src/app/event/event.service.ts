@@ -90,5 +90,9 @@ export class EventService {
     return this.httpClient.post<void> (`${environment.apiHost}/invitations/${id}`, invitations)
   }
 
+  getDraftedEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
+  }
+
 }
 

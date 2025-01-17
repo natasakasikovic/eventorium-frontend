@@ -4,11 +4,12 @@ import { Product } from '../model/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { PagedResponse } from '../../shared/model/paged-response.model';
 import { ProductsFilterDialogComponent } from '../products-filter-dialog/products-filter-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageProperties } from '../../shared/model/page-properties.model';
 import { ProductFilter } from '../model/product-filter.model';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import {ToastrService} from 'ngx-toastr';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-products-overview',
@@ -40,12 +41,11 @@ export class ProductsOverviewComponent implements OnInit {
       next: (response: PagedResponse<Product>) => {
         this.products = response.content;
         this.pageProperties.totalCount = response.totalElements;
-      } 
-    })  
+      }
+    });
   }
 
   onPageChanged(pageEvent : PageEvent): void {
-    debugger
     this.pageProperties.pageIndex = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
 
@@ -65,7 +65,7 @@ export class ProductsOverviewComponent implements OnInit {
 
     this.handleDialogClose(dialog);
   }
-  
+
   private handleDialogClose(dialogRef: MatDialogRef<ProductsFilterDialogComponent>): void {
     dialogRef.afterClosed().subscribe((filter: ProductFilter) => {
       this.filterProducts(filter);
@@ -88,7 +88,7 @@ export class ProductsOverviewComponent implements OnInit {
       error: (err) => {
         if (err.status == 400)
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
-        else 
+        else
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
       }
     })

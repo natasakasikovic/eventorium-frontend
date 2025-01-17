@@ -7,7 +7,15 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
+import {EventService} from '../../event/event.service';
+import {BudgetService} from '../../budget/budget.service';
+import {Event} from '../../event/model/event.model';
+import {Category} from '../../category/model/category.model';
+import {MatDialog} from '@angular/material/dialog';
+import {Budget} from '../../budget/model/budget.model';
+import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {Provider} from '../../web-socket/model/chat-user.model';
 
@@ -23,15 +31,14 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
+    private eventService: EventService,
+    private budgetService: BudgetService,
     private authService: AuthService,
     private toasterService: ToastrService,
+    private dialog: MatDialog,
     private router: Router,
     private chatService: ChatDialogService
   ) {
-  }
-
-  get loggedIn(): boolean {
-    return this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
@@ -39,7 +46,7 @@ export class ProductDetailsComponent implements OnInit {
       const id: number = +param['id'];
       this.productService.get(id).pipe(
         switchMap((product: Product) => {
-          if (this.loggedIn) {
+          if (this.getRole) {
             return forkJoin([
               this.productService.get(id),
               this.productService.getImages(product.id),
@@ -55,7 +62,7 @@ export class ProductDetailsComponent implements OnInit {
       ).subscribe({
         next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean?]) => {
           this.product = product;
-          if(this.loggedIn) {
+          if(this.getRole) {
             this.isFavorite = isFavourite;
           }
           this.product.images = images.map(image =>
@@ -87,6 +94,46 @@ export class ProductDetailsComponent implements OnInit {
         next: () => {
           this.toasterService.success(`Added ${this.product.name} to favourite products`, "Favourite products");
           this.isFavorite = true;
+        }
+      });
+    }
+  }
+
+  onPurchase(): void {
+    this.eventService.getDraftedEvents().subscribe({
+      next: (events: Event[]) => {
+          const dialogRef = this.dialog.open(EventSelectionComponent, {
+            width: '450px',
+            height: 'auto',
+            disableClose: true,
+            panelClass: 'custom-dialog-container',
+            data: events
+          });
+
+        dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
+          if(event != null) {
+            this.purchaseProduct(event.id, event.budget, plannedAmount);
+          }
+          dialogRef.close();
+        });
+      }
+    });
+  }
+
+  private purchaseProduct(eventId: number, budget: Budget, plannedAmount: number): void {
+    const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
+    if(!purchasedCategories.some(category => category.id === this.product.category.id)) {
+      this.budgetService.purchase(eventId, {
+        category: this.product.category,
+        itemId: this.product.id,
+        plannedAmount: plannedAmount
+      }).subscribe({
+        next: () => {
+          void this.router.navigate(['budget-planning', eventId]);
+          this.toasterService.success("Success", "Successfully purchased product!");
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to purchase product");
         }
       });
     }

@@ -21,6 +21,9 @@
 </div>
 <div class="item-cards">
   <div class="cards">
-    <app-product-card *ngFor="let product of productSuggestion"  [product]="product" ></app-product-card>
+    <app-product-card *ngFor="let product of productSuggestion"
+                      (purchase)="onPurchase($event)"
+                      [product]="product"
+                      [purchasable]="true" ></app-product-card>
   </div>
 </div>
