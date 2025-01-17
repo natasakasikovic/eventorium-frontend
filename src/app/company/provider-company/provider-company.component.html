@@ -1,0 +1,60 @@
+<div class="main-container mat-elevation-z4" *ngIf="company">
+    <div class="header">
+      <h1> {{ company.name }} </h1>
+      <button mat-icon-button aria-label="Edit account" (click)="edit()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <div class="info">
+      <div class="description">
+        <p> {{ company.description }} </p>
+      </div>
+      <div class="details">
+        <mat-card>
+          <mat-card-content>
+            <p>
+              <mat-icon class="icon">lock_open</mat-icon>
+              {{ company.openingHours }}
+            </p>
+            <p>
+              <mat-icon class="icon">lock</mat-icon>
+              {{ company.closingHours }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content class="card-content">
+            <div class="left-column">
+              <p>
+                <mat-icon class="icon">email</mat-icon>
+                {{ company.email }}
+              </p>
+              <p>
+                <mat-icon class="icon">phone</mat-icon>
+                {{ company.phoneNumber }}
+              </p>
+            </div>
+            <div class="right-column">
+              <p>
+                <mat-icon class="icon">location_on</mat-icon>
+                {{ company.address }}
+              </p>
+              <p>
+                <mat-icon class="icon">location_city</mat-icon>
+                {{ company.city.name }}
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>      
+    </div>
+    <div class="images">
+      <h3>Gallery</h3>
+      <div class="image-carousel">
+        <div class="image-wrapper" *ngFor="let image of company?.images">
+          <img [src]="image" alt="Company Image" />
+        </div>
+      </div>
+    </div>    
+  </div>
+  

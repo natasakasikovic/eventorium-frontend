@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyService } from '../company.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
   templateUrl: './company-register.component.html',
   styleUrl: './company-register.component.css'
 })
-export class CompanyRegisterComponent implements OnInit {
+export class CompanyRegisterComponent implements OnInit, OnDestroy {
   images: File[] = []; 
   imagePreviews: string[] = [];
   companyForm: FormGroup;
@@ -112,7 +112,7 @@ export class CompanyRegisterComponent implements OnInit {
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
         this.images = validImages;
-        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
+        this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
   }
@@ -124,5 +124,11 @@ export class CompanyRegisterComponent implements OnInit {
 
   getCities(): void {
     this.sharedService.getCities().subscribe(cities => this.cities = cities);
+  }
+
+  ngOnDestroy() {
+    this.imagePreviews.forEach(url => {
+      URL.revokeObjectURL(url);
+    });
   }
 }

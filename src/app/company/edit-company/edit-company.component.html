@@ -1,0 +1,78 @@
+<div class="container" *ngIf="company">
+    <div class="form-section">
+      <h2>Update infomration about your company.</h2>
+      <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        
+        <div class="address-group">
+          <mat-form-field appearance="outline" class="address-field">
+            <mat-label>Address</mat-label>
+            <input matInput type="text" formControlName="address">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="city-field">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city">
+              <mat-option *ngFor="let city of cities" [value]="city">
+                {{ city.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="tel" formControlName="phoneNumber" /> 
+          <mat-error *ngIf="companyForm.get('phoneNumber').hasError('pattern')">Phone number must be between 9 and 15 digits and may optionally start with a +.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="4" formControlName="description"></textarea>
+        </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Opens</mat-label>
+        <input matInput [ngxTimepicker]="pickerOpens" formControlName="openingHours">
+        <ngx-material-timepicker-toggle [for]="pickerOpens"></ngx-material-timepicker-toggle>
+        <ngx-material-timepicker #pickerOpens></ngx-material-timepicker>
+      </mat-form-field>
+      
+      <mat-form-field>
+        <mat-label>Closes</mat-label>
+        <input matInput [ngxTimepicker]="pickerCloses" formControlName="closingHours">
+        <ngx-material-timepicker-toggle [for]="pickerCloses"></ngx-material-timepicker-toggle>
+        <ngx-material-timepicker #pickerCloses></ngx-material-timepicker>
+      </mat-form-field>
+  
+      </form>
+  
+      <div class="submit-section">
+        <button mat-raised-button color="primary" class="submit-button standard-button" type="submit" (click)="onSubmit()">
+          Save
+        </button>
+      </div>
+    </div>
+  
+    <div class="images-section scrollable-container">
+      <label class="image-label">Images:</label>
+      <mat-grid-list cols="2" rowHeight="100px" class="image-grid">
+        <mat-grid-tile *ngFor="let image of existingImagesPreview; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeExistingImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile *ngFor="let image of newImagesPreview; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeNewImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    
+      <input type="file" accept="image/*" multiple (change)="onImageUpload($event)" hidden #fileInput />
+      <button mat-fab color="primary" class="upload-fab" (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  
