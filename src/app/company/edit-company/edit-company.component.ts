@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { City } from '../../shared/model/city.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,7 +18,7 @@ import { RemoveImageRequest } from '../../shared/model/remove-image-request.mode
   templateUrl: './edit-company.component.html',
   styleUrl: './edit-company.component.css'
 })
-export class EditCompanyComponent implements OnInit {
+export class EditCompanyComponent implements OnInit, OnDestroy {
   companyForm: FormGroup;
   cities: City[];
   company: ProviderCompany;
@@ -101,8 +101,9 @@ export class EditCompanyComponent implements OnInit {
         this.service.updateCompany(updatedCompany).subscribe({
           next: () => {
             this.showMessage(MESSAGES.success, MESSAGES.companyUpdated);
-            this.uploadNewImages();
             this.removeImages();
+            this.uploadNewImages();
+            if (this.newImages.length == 0) this.router.navigate(['provider-company']);
           },
           error: (_) => {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, "");
@@ -141,6 +142,9 @@ export class EditCompanyComponent implements OnInit {
   uploadNewImages(): void {
     if (this.newImages.length == 0) return;
     this.service.uploadImages(this.company.id, this.newImages).subscribe({ 
+      next: (_) => {
+        this.router.navigate(['provider-company']);
+      }, 
       error: (_) => {
         this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
       }
@@ -150,5 +154,11 @@ export class EditCompanyComponent implements OnInit {
   removeImages(): void {
     if (this.removedImages.length == 0) return;
     this.service.removeImages(this.removedImages).subscribe();
+  }
+
+  ngOnDestroy() {
+    this.newImagesPreview.forEach(url => {
+      URL.revokeObjectURL(url);
+    });
   }
 }
