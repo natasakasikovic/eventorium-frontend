@@ -12,7 +12,6 @@ import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.compon
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { MESSAGES } from '../../shared/constants/messages';
 import { RemoveImageRequest } from '../../shared/model/remove-image-request.model';
-import { UpdateImagesRequest } from '../model/update-images-request.model';
 
 @Component({
   selector: 'app-edit-company',
@@ -102,7 +101,8 @@ export class EditCompanyComponent implements OnInit {
         this.service.updateCompany(updatedCompany).subscribe({
           next: () => {
             this.showMessage(MESSAGES.success, MESSAGES.companyUpdated);
-            this.updateImages();
+            this.uploadNewImages();
+            this.removeImages();
           },
           error: (_) => {
             this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, "");
@@ -138,16 +138,17 @@ export class EditCompanyComponent implements OnInit {
     this.newImagesPreview.splice(index, 1);
   }
 
-  updateImages(): void {
-    if (this.removedImages.length == 0 && this.newImages.length == 0) return;
-    const request: UpdateImagesRequest = {
-      newImages: this.newImages,
-      removedImages: this.removedImages
-    }
-    this.service.updateImages(request).subscribe({ 
+  uploadNewImages(): void {
+    if (this.newImages.length == 0) return;
+    this.service.uploadImages(this.company.id, this.newImages).subscribe({ 
       error: (_) => {
         this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
       }
     })
+  }
+
+  removeImages(): void {
+    if (this.removedImages.length == 0) return;
+    this.service.removeImages(this.removedImages).subscribe();
   }
 }

@@ -6,7 +6,7 @@ import { CompanyRequest } from './model/company-request.model';
 import { CompanyResponse } from './model/company-response.model';
 import { ProviderCompany } from './model/provider-company.model';
 import { ImageResponseDto } from '../shared/model/image-response-dto.model';
-import { UpdateImagesRequest } from './model/update-images-request.model';
+import { RemoveImageRequest } from '../shared/model/remove-image-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,16 +45,7 @@ export class CompanyService {
     return this.http.put<CompanyResponse>(`${environment.apiHost}/companies`, company);
   }
 
-  updateImages(request: UpdateImagesRequest): Observable<void> {
-    const formData = new FormData();
-  
-    request.newImages.forEach((file, index) => {
-      formData.append(`newImages`, file, file.name);
-    });
-  
-    formData.append('removedImages', JSON.stringify(request.removedImages));
-  
-    return this.http.put<void>(`${environment.apiHost}/companies/images`, formData);
+  removeImages(removedImages: RemoveImageRequest[]): Observable<void> {
+    return this.http.delete<void>(`${environment.apiHost}/companies/images`, { body: removedImages });
   }
-  
 }
