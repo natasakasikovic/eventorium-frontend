@@ -6,12 +6,12 @@ import {PagedResponse} from '../../shared/model/paged-response.model';
 import {PageProperties} from '../../shared/model/page-properties.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
-import {DeleteConfirmationComponent} from '../../shared/delete-confirmation/delete-confirmation.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ServicesFilterDialogComponent} from '../services-filter-dialog/services-filter-dialog.component';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
 import {ServiceFilter} from '../model/service-filter.model';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-manageable-services',
@@ -59,7 +59,7 @@ export class ManageableServicesComponent implements OnInit {
       width: '600px',
     });
 
-    this.handleDialogClose(dialog);
+    this.handleFilterDialogClose(dialog);
   }
 
   showMessage(title: string, message: string) : void {
@@ -99,21 +99,18 @@ export class ManageableServicesComponent implements OnInit {
   }
 
   openDeleteConfirmation(service: Service): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container',
-      data: {
-        name: service.name
-      }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { name: service.name }
     });
 
+
+    this.handleConfirmationDialogClose(dialogRef, service)
+  }
+
+  private handleConfirmationDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>, service: Service){
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
+      if (confirmed)
         this.deleteService(service);
-      }
-      dialogRef.close();
     });
   }
 
@@ -137,7 +134,7 @@ export class ManageableServicesComponent implements OnInit {
       this.pageProperties.pageIndex = 0;
   }
 
-  private handleDialogClose(dialogRef: MatDialogRef<ServicesFilterDialogComponent>): void {
+  private handleFilterDialogClose(dialogRef: MatDialogRef<ServicesFilterDialogComponent>): void {
     dialogRef.afterClosed().subscribe((filter: ServiceFilter) => {
       this.filterServices(filter);
     });

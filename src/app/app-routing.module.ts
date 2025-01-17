@@ -30,6 +30,7 @@ import {ErrorComponent} from './shared/error/error.component';
 import { AccountDetailsComponent } from './user/account-details/account-details.component';
 import { EditAccountComponent } from './user/edit-account/edit-account.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { ManageReportsComponent } from './user/manage-reports/manage-reports.component';
 import { EventTypesOverviewComponent } from './event-type/event-types-overview/event-types-overview.component';
 import { ProviderCompanyComponent } from './company/provider-company/provider-company.component';
 import { EditCompanyComponent } from './company/edit-company/edit-company.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'price-list', component: PriceListComponent },
+  { path: 'report-management', component: ManageReportsComponent},
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
