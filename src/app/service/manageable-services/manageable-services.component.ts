@@ -12,6 +12,7 @@ import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
 import {ServiceFilter} from '../model/service-filter.model';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import {MESSAGES} from '../../shared/constants/messages';
 
 @Component({
   selector: 'app-manageable-services',
@@ -100,7 +101,7 @@ export class ManageableServicesComponent implements OnInit {
 
   openDeleteConfirmation(service: Service): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { name: service.name }
+      data: { message: MESSAGES.deleteConfirmation + " " + service.name + "?"}
     });
 
 
