@@ -8,8 +8,8 @@ export interface UpdateServiceRequestDto {
   discount: number;
   eventTypesIds: number[];
   type: ReservationType;
-  reservationDeadline: Date;
-  cancellationDeadline: Date;
+  reservationDeadline: number;
+  cancellationDeadline: number;
   minDuration: number;
   maxDuration: number;
   available: boolean;

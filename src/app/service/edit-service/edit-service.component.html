@@ -49,16 +49,12 @@
     <div class="form-section">
       <h4 class="section-title">Deadlines</h4>
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Reservation Date</mat-label>
-        <input matInput [matDatepicker]="reservationDeadlinePicker" formControlName="reservationDeadline" name="reservationDeadline">
-        <mat-datepicker-toggle matIconSuffix [for]="reservationDeadlinePicker"></mat-datepicker-toggle>
-        <mat-datepicker #reservationDeadlinePicker></mat-datepicker>
+        <mat-label>Reservation Deadline (days)</mat-label>
+        <input type="number" matInput formControlName="reservationDeadline" name="reservationDeadline">
       </mat-form-field>
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Cancellation Date</mat-label>
-        <input matInput [matDatepicker]="cancellationDeadlinePicker" formControlName="cancellationDeadline" name="cancellationDeadline">
-        <mat-datepicker-toggle matIconSuffix [for]="cancellationDeadlinePicker"></mat-datepicker-toggle>
-        <mat-datepicker #cancellationDeadlinePicker></mat-datepicker>
+        <mat-label>Cancellation Deadline (days)</mat-label>
+        <input type="number" matInput formControlName="cancellationDeadline" name="cancellationDeadline">
       </mat-form-field>
     </div>
 

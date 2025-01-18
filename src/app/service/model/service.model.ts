@@ -15,8 +15,8 @@ export interface Service {
   maxDuration: number;
   description: string;
   specialties: string;
-  reservationDeadline: Date;
-  cancellationDeadline: Date;
+  reservationDeadline: number;
+  cancellationDeadline: number;
   discount: number;
   visible: boolean;
   available: boolean;
