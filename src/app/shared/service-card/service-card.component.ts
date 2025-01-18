@@ -10,6 +10,7 @@ import {ServiceService} from '../../service/service.service';
 export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() service: Service;
   @Input() showActions: boolean;
+  @Input() reviewable: boolean;
 
   @Output() delete: EventEmitter<Service> = new EventEmitter();
 

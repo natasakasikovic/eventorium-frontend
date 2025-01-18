@@ -12,8 +12,9 @@ import {EventService} from '../../event/event.service';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
-
   @Input() purchasable: boolean;
+  @Input() reviewable: boolean;
+
   @Output() purchase: EventEmitter<Product> = new EventEmitter();
 
   constructor(
