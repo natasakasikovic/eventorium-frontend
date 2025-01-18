@@ -27,8 +27,8 @@ export class EditServiceComponent implements OnInit {
     type: new FormControl(ReservationType.MANUAL, Validators.required),
     isVisible: new FormControl("", Validators.required),
     isAvailable: new FormControl("", Validators.required),
-    reservationDeadline: new FormControl("", Validators.required),
-    cancellationDeadline: new FormControl("", Validators.required),
+    reservationDeadline: new FormControl("", [Validators.required, Validators.min(1)]),
+    cancellationDeadline: new FormControl("", [Validators.required, Validators.min(1)]),
     minDuration: new FormControl("", Validators.required),
     maxDuration: new FormControl("", Validators.required),
     eventTypes: new FormControl("", Validators.required)

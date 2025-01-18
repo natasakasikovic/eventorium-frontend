@@ -35,8 +35,8 @@ export class CreateServiceComponent implements OnInit {
     category: new FormControl(''),
     visible: new FormControl(),
     available: new FormControl(),
-    reservationDeadline: new FormControl('', Validators.required),
-    cancellationDeadline: new FormControl('', Validators.required),
+    reservationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
+    cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
   });
