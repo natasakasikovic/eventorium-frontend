@@ -14,16 +14,6 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../category/model/status-enum-ts';
 
-export function dateNotInPast(control: AbstractControl) {
-  const selectedDate = new Date(control.value);
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-
-  if (selectedDate < currentDate) {
-    return { 'dateInPast': true };
-  }
-  return null;
-}
 @Component({
   selector: 'app-create-service',
   templateUrl: './create-service.component.html',
@@ -45,8 +35,8 @@ export class CreateServiceComponent implements OnInit {
     category: new FormControl(''),
     visible: new FormControl(),
     available: new FormControl(),
-    reservationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
-    cancellationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
+    reservationDeadline: new FormControl('', Validators.required),
+    cancellationDeadline: new FormControl('', Validators.required),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
   });
