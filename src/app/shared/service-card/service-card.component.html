@@ -37,7 +37,7 @@
       <button mat-icon-button class="action-button" *ngIf="showActions" [routerLink]="['/edit-service', service.id]">
         <mat-icon>edit</mat-icon>
       </button>
-      <button *ngIf="reviewable" mat-icon-button class="action-button">
+      <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
         <mat-icon>feedback</mat-icon>
       </button>
     </div>

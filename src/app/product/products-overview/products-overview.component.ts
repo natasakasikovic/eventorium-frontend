@@ -58,7 +58,7 @@ export class ProductsOverviewComponent implements OnInit {
   }
 
   openDialog() {
-    let dialog = this.dialog.open(ProductsFilterDialogComponent, {
+    const dialog = this.dialog.open(ProductsFilterDialogComponent, {
       height: '510px',
       width: '600px',
     });

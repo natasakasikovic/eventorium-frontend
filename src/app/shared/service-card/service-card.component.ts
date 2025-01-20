@@ -13,6 +13,7 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() reviewable: boolean;
 
   @Output() delete: EventEmitter<Service> = new EventEmitter();
+  @Output() review: EventEmitter<Service> = new EventEmitter();
 
   constructor(
     private serviceService: ServiceService
@@ -35,6 +36,10 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
 
   onDelete(): void {
     this.delete.emit(this.service);
+  }
+
+  onReview(): void {
+    this.review.emit(this.service);
   }
 
   ngOnDestroy(): void {

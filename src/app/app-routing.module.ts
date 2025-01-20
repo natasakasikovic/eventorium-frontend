@@ -34,6 +34,7 @@ import { ManageReportsComponent } from './user/manage-reports/manage-reports.com
 import { EventTypesOverviewComponent } from './event-type/event-types-overview/event-types-overview.component';
 import { ProviderCompanyComponent } from './company/provider-company/provider-company.component';
 import { EditCompanyComponent } from './company/edit-company/edit-company.component';
+import {ReviewListComponent} from './review/review-list/review-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
   { path: 'price-list', component: PriceListComponent },
+  { path: 'reviews', component: ReviewListComponent },
   { path: 'report-management', component: ManageReportsComponent},
   {
     path: 'event-invitations/:id',
@@ -87,9 +89,9 @@ const routes: Routes = [
     }
   },
   { path: 'account-details', component: AccountDetailsComponent },
-  { path: 'edit-account', component: EditAccountComponent }, 
+  { path: 'edit-account', component: EditAccountComponent },
   { path: 'user-profile/:id', component: UserProfileComponent },
-  { path: 'provider-company', component: ProviderCompanyComponent }, 
+  { path: 'provider-company', component: ProviderCompanyComponent },
   { path: 'edit-company', component: EditCompanyComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

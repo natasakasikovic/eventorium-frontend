@@ -1,0 +1,23 @@
+<h2 mat-dialog-title class="custom-dialog-title">Review {{ data.name }}</h2>
+
+<mat-dialog-content class="custom-dialog-content">
+  <div>
+    <mat-label>Feedback</mat-label>
+    <textarea matInput [(ngModel)]="feedback" placeholder="Enter your feedback..." rows="5" class="feedback-input"></textarea>
+  </div>
+
+  <div class="rating">
+    <mat-label>Rating</mat-label>
+    <mat-icon *ngFor="let star of stars; let i = index"
+              (click)="rate(i+1)"
+              [ngClass]="{'active': rating >= i+1, 'hovered': rating === i+1}"
+              class="star-icon">
+      star
+    </mat-icon>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="custom-dialog-actions">
+  <button mat-button [mat-dialog-close]="{feedback: feedback, rating: rating}" class="submit-btn">Submit</button>
+  <button mat-button [mat-dialog-close]="null" class="cancel-btn">Cancel</button>
+</mat-dialog-actions>

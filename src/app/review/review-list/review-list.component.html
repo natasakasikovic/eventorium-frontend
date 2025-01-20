@@ -1,0 +1,14 @@
+<div class="cards-screen">
+  <mat-toolbar class="toolbar">
+    <h1 class="title">Products</h1>
+  </mat-toolbar>
+  <div class="product-cards">
+    <div class="cards">
+      <app-product-card *ngFor="let product of products"
+                        (review)="openDialog($event)"
+                        [reviewable]="true"
+                        [product]="product">
+      </app-product-card>
+    </div>
+  </div>
+</div>

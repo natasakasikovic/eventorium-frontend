@@ -4,6 +4,7 @@ import {ProductService} from '../../product/product.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Router} from '@angular/router';
 import {EventService} from '../../event/event.service';
+import {Review} from '../model/review.model';
 
 @Component({
   selector: 'app-product-card',
@@ -16,6 +17,7 @@ export class ProductCardComponent implements OnInit {
   @Input() reviewable: boolean;
 
   @Output() purchase: EventEmitter<Product> = new EventEmitter();
+  @Output() review: EventEmitter<Product> = new EventEmitter();
 
   constructor(
     private productService: ProductService
@@ -38,5 +40,10 @@ export class ProductCardComponent implements OnInit {
   onPurchase(): void {
     this.purchase.emit(this.product);
   }
+
+  onReview(): void {
+    this.review.emit(this.product);
+  }
+
 
 }
