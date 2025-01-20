@@ -14,6 +14,7 @@ import { Privacy } from './model/privacy.enum';
 import { Invitation } from './model/invitation-request.model';
 import { EventFilter } from './model/event-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
+import { EventDetails } from './model/event-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class EventService {
   private event: CreateEventRequestDto
 
   constructor(private httpClient: HttpClient) { }
+
+  getEvent(id: number) : Observable<EventDetails> {
+    return this.httpClient.get<EventDetails>(environment.apiHost + `/events/${id}`)
+  }
 
   setEventType(eventType: EventType): void {
     this.eventTypeSubject.next(eventType);
