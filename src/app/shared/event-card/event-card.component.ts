@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Event } from '../../event/model/event.model';
 import { EventSummary } from '../../event/model/event-summary.model';
 
 @Component({
