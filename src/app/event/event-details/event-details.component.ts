@@ -5,6 +5,9 @@ import { EventDetails } from '../model/event-details.model';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { AuthService } from '../../auth/auth.service';
+import {Recipient} from '../../web-socket/model/chat-user.model';
+import {ChatService} from '../../shared/chat-dialog/chat.service';
+import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 
 @Component({
   selector: 'app-event-details',
@@ -20,7 +23,8 @@ export class EventDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private service: EventService,
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private chatService: ChatDialogService
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +34,7 @@ export class EventDetailsComponent implements OnInit {
         this.event = event;
       },
       error: (_) => {
-        this.showMessage("", "An error ocured while loading event details. Try again later.");
+        this.showMessage("", "An error occurred while loading event details. Try again later.");
       }
     })
   }
@@ -48,4 +52,7 @@ export class EventDetailsComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
+  openChatDialog(recipient?: Recipient): void {
+    this.chatService.openChatDialog(recipient ? recipient : this.event.organizer);
+  }
 }

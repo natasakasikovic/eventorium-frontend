@@ -1,3 +1,5 @@
+import {Recipient} from '../../web-socket/model/chat-user.model';
+
 export interface EventDetails {
     name: string;
     description: string;
@@ -7,4 +9,5 @@ export interface EventDetails {
     address: string;
     city: string;
     date: string;
+    organizer: Recipient;
 }

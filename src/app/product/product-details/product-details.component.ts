@@ -17,7 +17,7 @@ import {EventSelectionComponent} from '../../shared/event-selection/event-select
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
-import {Provider} from '../../web-socket/model/chat-user.model';
+import {Recipient} from '../../web-socket/model/chat-user.model';
 
 @Component({
   selector: 'app-product-details',
@@ -139,8 +139,8 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  openChatDialog(provider?: Provider): void {
-    this.chatService.openChatDialog(provider ? provider : this.product.provider);
+  openChatDialog(recipient?: Recipient): void {
+    this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
   }
 
   getRole(): string {
