@@ -5,7 +5,7 @@ import { EventDetails } from '../model/event-details.model';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { AuthService } from '../../auth/auth.service';
-import {Recipient} from '../../web-socket/model/chat-user.model';
+import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
 import {ChatService} from '../../shared/chat-dialog/chat.service';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 
@@ -52,7 +52,7 @@ export class EventDetailsComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  openChatDialog(recipient?: Recipient): void {
+  openChatDialog(recipient?: ChatUserDetails): void {
     this.chatService.openChatDialog(recipient ? recipient : this.event.organizer);
   }
 }

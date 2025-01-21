@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ServiceService} from '../../service/service.service';
-import {Service} from '../../service/model/service.model';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
@@ -17,7 +15,7 @@ import {EventSelectionComponent} from '../../shared/event-selection/event-select
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
-import {Recipient} from '../../web-socket/model/chat-user.model';
+import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
 
 @Component({
   selector: 'app-product-details',
@@ -139,7 +137,7 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  openChatDialog(recipient?: Recipient): void {
+  openChatDialog(recipient?: ChatUserDetails): void {
     this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
   }
 
