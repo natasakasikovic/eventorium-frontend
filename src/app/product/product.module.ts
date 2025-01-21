@@ -6,6 +6,7 @@ import { TopFiveProductsComponent } from './top-five-products/top-five-products.
 import { ProductsOverviewComponent } from './products-overview/products-overview.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductsFilterDialogComponent } from './products-filter-dialog/products-filter-dialog.component';
+import {RouterLink} from "@angular/router";
 
 
 
@@ -16,11 +17,12 @@ import { ProductsFilterDialogComponent } from './products-filter-dialog/products
     ProductDetailsComponent,
     ProductsFilterDialogComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        MaterialModule,
+        RouterLink
+    ],
   exports: [
     TopFiveProductsComponent,
     ProductsOverviewComponent,
