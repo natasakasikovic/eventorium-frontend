@@ -49,7 +49,7 @@
           <mat-icon>person</mat-icon>
         </button>
         <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
-        <button mat-icon-button>
+        <button mat-icon-button [routerLink]="['/company', product?.company.id]">
           <mat-icon>business</mat-icon>
         </button>
         <span>{{ product?.company.name }}</span>
