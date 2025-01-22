@@ -1,12 +1,13 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Product } from './model/product.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../env/environment';
 import { PagedResponse } from '../shared/model/paged-response.model';
-import {ImageResponseDto} from '../shared/model/image-response-dto.model';
+import { ImageResponseDto } from '../shared/model/image-response-dto.model';
 import { ProductFilter } from './model/product-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
+import { CreateProduct } from './model/create-product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ import { PageProperties } from '../shared/model/page-properties.model';
 export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
+
+  create(product: CreateProduct): Observable<Product> {
+    return this.httpClient.post<Product>(`${environment.apiHost}/products`, product);
+  }
 
   getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
     let params = new HttpParams();
@@ -48,9 +53,9 @@ export class ProductService {
     );
   }
 
-    get(id: number): Observable<Product> {
-        return this.httpClient.get<Product>(`${environment.apiHost}/products/${id}`);
-    }
+  get(id: number): Observable<Product> {
+      return this.httpClient.get<Product>(`${environment.apiHost}/products/${id}`);
+  }
 
   getImages(id: number): Observable<ImageResponseDto[]> {
     return this.httpClient.get<ImageResponseDto[]>(

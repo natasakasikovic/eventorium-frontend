@@ -1,7 +1,14 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Category } from "../../category/model/category.model";
-import { EventType } from "../../event-type/model/event-type.model";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Category } from '../../category/model/category.model';
+import { CategoryService } from '../../category/category.service';
+import { EventTypeService } from '../../event-type/event-type.service';
+import { EventType } from '../../event-type/model/event-type.model';
+import { CreateProduct } from '../model/create-product.model';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { ProductService } from '../product.service';
 
 
 @Component({
@@ -9,7 +16,7 @@ import { EventType } from "../../event-type/model/event-type.model";
   templateUrl: './create-product.component.html',
   styleUrl: './create-product.component.css'
 })
-export class CreateProductComponent {
+export class CreateProductComponent implements OnInit, OnDestroy {
   productForm: FormGroup;
   categories: Category[] = [];
   eventTypes: EventType[] = [];
@@ -17,7 +24,11 @@ export class CreateProductComponent {
   imagePreviews: string[] = [];
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private categoryService: CategoryService,
+    private eventTypeService: EventTypeService,
+    private dialog: MatDialog,
+    private productService: ProductService
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -30,6 +41,33 @@ export class CreateProductComponent {
       category: [''],
       isVisible: [false],
       isAvailable: [false]
+    });
+  }
+
+  ngOnInit(): void {
+      this.getCategories();
+      this.getEventTypes();
+  }
+
+  getCategories() {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories.push(...categories);
+      },
+      error: (_) => {
+        this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.CATEGORIES_LOADING_ERROR);
+      }
+    });
+  }
+
+  getEventTypes() {
+    this.eventTypeService.getAll().subscribe({
+      next: (eventTypes: EventType[]) => {
+        this.eventTypes.push(...eventTypes);
+      },
+      error: (_) => {
+        this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.EVENT_TYPES_LOADING_ERROR);
+      }
     });
   }
 
@@ -52,7 +90,43 @@ export class CreateProductComponent {
   }
 
   onSubmit(): void {
-    
+    if (this.productForm.valid) {
+      const product : CreateProduct = this.productForm.value;
+      const category = this.getFormValue('category');
+      if (!category) {
+        const suggested: Category = {
+          id: null,
+          name: this.getFormValue('suggestedCategoryName'),
+          description: this.getFormValue('suggestedCategoryDescription')
+        }
+        product.category = suggested;
+      }
+      this.productService.create(product).subscribe({
+        next: (_) => {
+          console.log("success")
+        }, error: (error) => {
+          console.log(error);
+        }
+      })
+    }
   }
 
+  private getFormValue(name: string) {
+    return this.productForm.get(name).value;
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
+  ngOnDestroy() {
+    this.imagePreviews.forEach(url => {
+      URL.revokeObjectURL(url);
+    });
+  }
 }
