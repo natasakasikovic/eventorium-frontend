@@ -41,10 +41,14 @@
 
     <mat-card-actions class="footer">
       <div class="info">
-        <button mat-icon-button>
-          <mat-icon>info</mat-icon>
+        <button mat-icon-button [routerLink]="['/user-profile', product.provider.id]">
+          <mat-icon>person</mat-icon>
         </button>
         <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
+        <button mat-icon-button [routerLink]="['/company', product?.company.id]">
+          <mat-icon>business</mat-icon>
+        </button>
+        <span>{{ product?.company.name }}</span>
       </div>
     </mat-card-actions>
     <div class="button-reserve" *ngIf="getRole() === 'EVENT_ORGANIZER'">

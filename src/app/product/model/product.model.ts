@@ -1,6 +1,7 @@
 import {EventType} from '../../event-type/model/event-type.model';
 import {Category} from '../../category/model/category.model';
-import {Provider} from '../../web-socket/model/chat-user.model';
+import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {CompanyResponse} from '../../company/model/company-response.model';
 
 export interface Product {
   id: number;
@@ -15,5 +16,6 @@ export interface Product {
   category: Category;
   images: string[];
   rating: number;
-  provider: Provider;
+  provider: ChatUserDetails;
+  company: CompanyResponse;
 }

@@ -7,6 +7,7 @@ import { ProductsOverviewComponent } from './products-overview/products-overview
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductsFilterDialogComponent } from './products-filter-dialog/products-filter-dialog.component';
 import { CreateProductComponent } from './create-product/create-product.component';
+import { RouterLink } from "@angular/router";
 
 
 
@@ -18,11 +19,12 @@ import { CreateProductComponent } from './create-product/create-product.componen
     ProductsFilterDialogComponent,
     CreateProductComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        MaterialModule,
+        RouterLink
+    ],
   exports: [
     TopFiveProductsComponent,
     ProductsOverviewComponent,
