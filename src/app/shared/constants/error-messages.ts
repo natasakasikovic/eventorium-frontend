@@ -9,5 +9,7 @@ export const ERROR_MESSAGES = {
     IMAGE_UPLOAD_ERROR: 'An error occurred while uploading the images. Please update them later.',
     VALIDATOR_ERROR: 'Required fields',
     EVENT_TYPES_LOADING_ERROR: 'Error loading event types',
-    CATEGORIES_LOADING_ERROR: 'Error loading categories'
+    CATEGORIES_LOADING_ERROR: 'Error loading categories',
+    FORM_FIELD_ERROR: 'Invalid field input',
+    IMAGES_UPLOAD_ERROR: 'An error occured while uplading images'
   };

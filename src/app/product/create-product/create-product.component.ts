@@ -9,6 +9,10 @@ import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.compon
 import { MatDialog } from '@angular/material/dialog';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { ProductService } from '../product.service';
+import { MESSAGES } from '../../shared/constants/messages';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Product } from '../model/product.model';
+import { catchError, Observable, of, switchMap } from 'rxjs';
 
 
 @Component({
@@ -71,6 +75,10 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getFormValue(name: string) {
+    return this.productForm.get(name).value;
+  }
+
   onImageUpload(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -91,28 +99,51 @@ export class CreateProductComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      const product : CreateProduct = this.productForm.value;
-      const category = this.getFormValue('category');
-      if (!category) {
-        const suggested: Category = {
-          id: null,
-          name: this.getFormValue('suggestedCategoryName'),
-          description: this.getFormValue('suggestedCategoryDescription')
+      const product = this.prepareProduct();
+      this.productService.create(product).pipe(
+        switchMap((createdProduct: Product) => {
+          this.showMessage(MESSAGES.success, MESSAGES.productCreated);
+          return this.uploadProductImages(createdProduct.id);
+        })
+      ).subscribe({
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
         }
-        product.category = suggested;
-      }
-      this.productService.create(product).subscribe({
-        next: (_) => {
-          console.log("success")
-        }, error: (error) => {
-          console.log(error);
-        }
-      })
+      });
     }
   }
+  
+  private uploadProductImages(productId: number): Observable<void | null> {
+    if (this.imagePreviews.length !== 0) {
+      return this.productService.uploadImages(productId, this.images).pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGES_UPLOAD_ERROR);
+          throw error;
+        })
+      );
+    }
+    return of(null);
+  }
+  
+  private prepareProduct(): CreateProduct {
+    const product: CreateProduct = this.productForm.value;
+    const category = this.getFormValue('category');
+    if (!category) product.category = {
+      id: null,
+      name: this.getFormValue('suggestedCategoryName'),
+      description: this.getFormValue('suggestedCategoryDescription')
+    }
+    return product;
+  }
 
-  private getFormValue(name: string) {
-    return this.productForm.get(name).value;
+  private handleError(error: HttpErrorResponse) {
+    if (error.status >= 500) {
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+    } else if (error.status == 400) { 
+      this.showMessage(ERROR_MESSAGES.FORM_FIELD_ERROR, error.error.message);
+    } else {
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);
+    }
   }
 
   showMessage(title: string, message: string) : void {

@@ -21,6 +21,16 @@ export class ProductService {
     return this.httpClient.post<Product>(`${environment.apiHost}/products`, product);
   }
 
+  uploadImages(id: number, images: File[]): Observable<void> {
+    const formData: FormData = new FormData();
+
+    images.forEach(image => {
+      formData.append('images', image, image.name);
+    });
+
+    return this.httpClient.post<void>(`${environment.apiHost}/products/${id}/images`, formData);
+  }
+
   getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
     let params = new HttpParams();
     if (pageProperties){
