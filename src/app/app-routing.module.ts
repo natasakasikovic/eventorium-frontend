@@ -35,6 +35,7 @@ import { EventTypesOverviewComponent } from './event-type/event-types-overview/e
 import { ProviderCompanyComponent } from './company/provider-company/provider-company.component';
 import { EditCompanyComponent } from './company/edit-company/edit-company.component';
 import { EventDetailsComponent } from './event/event-details/event-details.component';
+import { CreateProductComponent } from './product/create-product/create-product.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
   { path: 'create-service', component: CreateServiceComponent },
+  { path: 'create-product', component: CreateProductComponent },
   { path: 'price-list', component: PriceListComponent },
   { path: 'report-management', component: ManageReportsComponent},
   {
