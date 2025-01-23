@@ -50,35 +50,43 @@ export class BudgetItemsComponent {
     if (!this.planning.invalid) {
       const formValue = this.planning.value;
       if (formValue.solutionType === 'product') {
-        this.productService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
-            next: (products: Product[]) => {
-              this.serviceSuggestions = [];
-              this.productSuggestion = products;
-              this.updateTotalPlanned(formValue.plannedAmount);
-            },
-            error(error: Error) {
-              console.error(error.message);
-            }
-          }
-        )
+       this.searchProducts(formValue.plannedAmount)
       } else {
-        this.serviceService.getBudgetSuggestions(this.category.id, formValue.plannedAmount).subscribe({
-          next: (services: Service[]) => {
-            this.productSuggestion = [];
-            this.serviceSuggestions = services;
-            this.updateTotalPlanned(formValue.plannedAmount);
-            services.forEach(s => this.serviceService.getImage(s.id).subscribe({
-              next: (image: Blob) => {
-                s.images[0] = URL.createObjectURL(image);
-              }
-            }));
-          },
-          error(error: Error) {
-            console.error(error.message);
-          }
-        });
+        this.searchServices(formValue.plannedAmount);
       }
     }
+  }
+
+  private searchServices(plannedAmount: number): void {
+    this.serviceService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
+      next: (services: Service[]) => {
+        this.productSuggestion = [];
+        this.serviceSuggestions = services;
+        this.updateTotalPlanned(plannedAmount);
+        services.forEach(s => this.serviceService.getImage(s.id).subscribe({
+          next: (image: Blob) => {
+            s.images[0] = URL.createObjectURL(image);
+          }
+        }));
+      },
+      error(error: Error) {
+        console.error(error.message);
+      }
+    });
+  }
+
+  private searchProducts(plannedAmount: number): void {
+    this.productService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
+        next: (products: Product[]) => {
+          this.serviceSuggestions = [];
+          this.productSuggestion = products;
+          this.updateTotalPlanned(plannedAmount);
+        },
+        error(error: Error) {
+          console.error(error.message);
+        }
+      }
+    )
   }
 
   onDelete(): void {
@@ -95,7 +103,7 @@ export class BudgetItemsComponent {
       next: (product: Product) => {
         this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
         this.deleteCategory.emit([this.category.id, true]);
-        this.totalSpentChanged.emit(product.price);
+        this.totalSpentChanged.emit(product.price * (1 - product.discount / 100));
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error("Failed to purchase product", error.error.message);
