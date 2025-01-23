@@ -44,7 +44,7 @@ export class ProductDetailsComponent implements OnInit {
       const id: number = +param['id'];
       this.productService.get(id).pipe(
         switchMap((product: Product) => {
-          if (this.getRole) {
+          if (this.getRole()) {
             return forkJoin([
               this.productService.get(id),
               this.productService.getImages(product.id),

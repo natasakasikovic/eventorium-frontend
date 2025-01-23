@@ -1,9 +1,9 @@
 .service-details {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 90vh;
   background-color: #eceae6;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .price {
@@ -19,7 +19,7 @@
 .service-card {
   margin-top: 3rem;
   min-width: 50%;
-  max-width: 80%;
+  max-width: 70%;
   background-color: #fdf7ef;
   padding: 15px;
 }
@@ -51,16 +51,40 @@ mat-card-header {
   padding: 16px 24px;
 }
 
-.gallery {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.images {
+  margin-top: 20px;
 }
 
+.image-carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+}
 
-.gallery-item img {
-  width: 10rem;
-  height: 10rem;
+.image-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.image-carousel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.image-wrapper {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .header-right {
