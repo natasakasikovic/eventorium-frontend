@@ -13,6 +13,7 @@ import {Service} from '../model/service.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../category/model/status-enum-ts';
+import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
 
 @Component({
   selector: 'app-create-service',
@@ -28,7 +29,7 @@ export class CreateServiceComponent implements OnInit {
     discount: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)]),
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
-    eventTypes: new FormControl('', Validators.minLength(1)),
+    eventTypes: new FormControl([], minSelectedValidator(1)),
     reservationType: new FormControl('', Validators.required),
     suggestedCategoryName: new FormControl(),
     suggestedCategoryDescription: new FormControl(),

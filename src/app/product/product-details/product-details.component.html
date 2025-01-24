@@ -32,10 +32,6 @@
       <p>
         {{ product?.description }}
       </p>
-      <h3>Specialties</h3>
-      <p>
-        {{ product?.specialties }}
-      </p>
       <div class="gallery">
         <div *ngFor="let image of product?.images" class="gallery-item">
           <img [src]="image" alt="service image"/>
