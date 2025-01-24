@@ -13,6 +13,7 @@ import { MESSAGES } from '../../shared/constants/messages';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../model/product.model';
 import { catchError, Observable, of, switchMap } from 'rxjs';
+import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       price: [null, [Validators.required, Validators.min(1)]],
       discount: [null, [Validators.required, Validators.min(0), Validators.max(100)]],
       description: ['', Validators.required],
-      eventTypes: ['', Validators.minLength(1)],
+      eventTypes: [[], minSelectedValidator(1)],
       suggestedCategoryName: [''],
       suggestedCategoryDescription: [''],
       category: [''],
