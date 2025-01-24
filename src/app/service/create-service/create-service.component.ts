@@ -76,7 +76,6 @@ export class CreateServiceComponent implements OnInit {
   onCreate(): void {
     if(this.createServiceForm.valid) {
       const formValue = this.createServiceForm.value;
-      console.log(formValue);
       const newService: CreateServiceRequestDto = {
         cancellationDeadline: formValue.cancellationDeadline,
         category: !formValue.category
