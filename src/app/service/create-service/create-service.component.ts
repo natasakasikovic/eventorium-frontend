@@ -76,9 +76,10 @@ export class CreateServiceComponent implements OnInit {
   onCreate(): void {
     if(this.createServiceForm.valid) {
       const formValue = this.createServiceForm.value;
+      console.log(formValue);
       const newService: CreateServiceRequestDto = {
         cancellationDeadline: formValue.cancellationDeadline,
-        category: formValue.category === ''
+        category: !formValue.category
           ? { id: null, name: formValue.suggestedCategoryName, description: formValue.suggestedCategoryDescription }
           : formValue.category,
         description: formValue.description,
@@ -87,6 +88,8 @@ export class CreateServiceComponent implements OnInit {
         maxDuration: formValue.maxDuration,
         minDuration: formValue.minDuration,
         name: formValue.name,
+        isAvailable: formValue.available ?? false,
+        isVisible: formValue.visible ?? false,
         price: formValue.price,
         reservationDeadline: formValue.reservationDeadline,
         specialties: formValue.specialties,

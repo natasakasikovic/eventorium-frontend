@@ -15,4 +15,6 @@ export interface CreateServiceRequestDto {
   cancellationDeadline: number;
   minDuration: number;
   maxDuration: number;
+  isAvailable: boolean;
+  isVisible: boolean;
 }
