@@ -1,13 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../category/model/category.model';
 import {ServiceService} from '../../service/service.service';
 import {ProductService} from '../../product/product.service';
 import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
-import {BudgetService} from '../budget.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-budget-items',
@@ -26,7 +23,7 @@ export class BudgetItemsComponent {
   previousPlanned: number = 0.0;
 
   planning: FormGroup = new FormGroup({
-    plannedAmount: new FormControl('', Validators.required),
+    plannedAmount: new FormControl(0, Validators.required),
     solutionType: new FormControl("product"),
   });
   serviceSuggestions: Service[] = [];
@@ -36,8 +33,6 @@ export class BudgetItemsComponent {
   constructor(
     private serviceService: ServiceService,
     private productService: ProductService,
-    private budgetService: BudgetService,
-    private toasterService: ToastrService
   ) {
   }
 
@@ -97,23 +92,6 @@ export class BudgetItemsComponent {
   onDelete(): void {
     this.deleteCategory.emit([this.category.id, false]);
     this.updateTotalPlanned(0);
-  }
-
-  onPurchase(product: Product): void {
-    this.budgetService.purchase(this.eventId, {
-      category: product.category,
-      itemId: product.id,
-      plannedAmount: this.planning.value.plannedAmount
-    }).subscribe({
-      next: (product: Product) => {
-        this.productSuggestion = this.productSuggestion.filter(p => p.id !== product.id);
-        this.deleteCategory.emit([this.category.id, true]);
-        this.totalSpentChanged.emit(product.price * (1 - product.discount / 100));
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toasterService.error("Failed to purchase product", error.error.message);
-      }
-    });
   }
 
 }

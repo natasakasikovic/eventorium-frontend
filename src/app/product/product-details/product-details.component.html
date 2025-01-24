@@ -48,7 +48,7 @@
 
     <mat-card-actions class="footer">
       <div class="info">
-        <button mat-icon-button [routerLink]="['/user-profile', product.provider.id]">
+        <button mat-icon-button [routerLink]="['/user-profile', product?.provider.id]">
           <mat-icon>person</mat-icon>
         </button>
         <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>

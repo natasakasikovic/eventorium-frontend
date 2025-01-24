@@ -29,7 +29,6 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-button class="see-more-button" [routerLink]="['/product-details', product.id]">See more..</button>
-      <button *ngIf="purchasable" mat-button (click)="onPurchase()">Purchase</button>
+      <button mat-button class="see-more-button" (click)="onClick()">See more..</button>
     </mat-card-actions>
   </mat-card>

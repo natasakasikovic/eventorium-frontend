@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, numberAttribute, OnInit, Output} from '@angular/core';
 import { Product } from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
 import {BudgetService} from '../../budget/budget.service';
@@ -13,11 +13,13 @@ import {EventService} from '../../event/event.service';
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
 
-  @Input() purchasable: boolean;
-  @Output() purchase: EventEmitter<Product> = new EventEmitter();
+  @Input() isBudgetContext: boolean = false;
+  @Input() eventId: number;
+  @Input() plannedAmount: number;
 
   constructor(
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {
   }
 
@@ -34,8 +36,16 @@ export class ProductCardComponent implements OnInit {
     });
   }
 
-  onPurchase(): void {
-    this.purchase.emit(this.product);
+  onClick(): void {
+    if (this.isBudgetContext && this.eventId && this.plannedAmount) {
+      void this.router.navigate(['/product-details', this.product.id], {
+        queryParams: {
+          eventId: this.eventId,
+          plannedAmount: this.plannedAmount,
+        },
+      });
+    } else {
+      void this.router.navigate(['/product-details', this.product.id]);
+    }
   }
-
 }
