@@ -158,7 +158,7 @@ export class ProductDetailsComponent implements OnInit {
         plannedAmount: plannedAmount
       }).subscribe({
         next: () => {
-          this.toasterService.success("Success", "Successfully purchased product!");
+          this.toasterService.success("Successfully purchased product!", "Success");
           if(this.plannedAmount && this.eventId) {
             void this.router.navigate(['budget-planning', this.eventId]);
           }
