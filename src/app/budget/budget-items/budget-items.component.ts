@@ -63,17 +63,22 @@ export class BudgetItemsComponent {
         this.productSuggestion = [];
         this.serviceSuggestions = services;
         this.updateTotalPlanned(plannedAmount);
-        services.forEach(s => this.serviceService.getImage(s.id).subscribe({
-          next: (image: Blob) => {
-            s.images[0] = URL.createObjectURL(image);
-          }
-        }));
+        this.getServiceImages(services);
       },
       error(error: Error) {
         console.error(error.message);
       }
     });
   }
+
+  private getServiceImages(services: Service[]): void {
+    services.forEach(s => this.serviceService.getImage(s.id).subscribe({
+      next: (image: Blob) => {
+        s.images[0] = URL.createObjectURL(image);
+      }
+    }));
+  }
+
 
   private searchProducts(plannedAmount: number): void {
     this.productService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
