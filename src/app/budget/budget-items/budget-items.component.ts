@@ -17,7 +17,6 @@ export class BudgetItemsComponent {
 
   @Output() deleteCategory: EventEmitter<[number, boolean]> = new EventEmitter();
   @Output() totalPriceChanged = new EventEmitter<number>();
-  @Output() totalSpentChanged = new EventEmitter<number>();
 
   totalPlanned: number;
   previousPlanned: number = 0.0;
