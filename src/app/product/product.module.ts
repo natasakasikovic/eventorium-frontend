@@ -6,7 +6,8 @@ import { TopFiveProductsComponent } from './top-five-products/top-five-products.
 import { ProductsOverviewComponent } from './products-overview/products-overview.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductsFilterDialogComponent } from './products-filter-dialog/products-filter-dialog.component';
-import {RouterLink} from "@angular/router";
+import { CreateProductComponent } from './create-product/create-product.component';
+import { RouterLink } from "@angular/router";
 
 
 
@@ -15,7 +16,8 @@ import {RouterLink} from "@angular/router";
     TopFiveProductsComponent,
     ProductsOverviewComponent,
     ProductDetailsComponent,
-    ProductsFilterDialogComponent
+    ProductsFilterDialogComponent,
+    CreateProductComponent
   ],
     imports: [
         CommonModule,
