@@ -4,7 +4,7 @@ import {ProductService} from '../../product/product.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Router} from '@angular/router';
 import {EventService} from '../../event/event.service';
-import {Review} from '../model/review.model';
+import {Review} from '../../review/model/review.model';
 
 @Component({
   selector: 'app-product-card',

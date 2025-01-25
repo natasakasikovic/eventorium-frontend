@@ -1,4 +1,4 @@
-export interface Review {
+export interface CreateReview {
   rating: number;
   feedback: string;
 }

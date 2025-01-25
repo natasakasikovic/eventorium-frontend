@@ -7,7 +7,7 @@ import {PagedResponse} from '../../shared/model/paged-response.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductsFilterDialogComponent} from '../../product/products-filter-dialog/products-filter-dialog.component';
 import {ReviewDialogComponent} from '../review-dialog/review-dialog.component';
-import {Review} from '../../shared/model/review.model';
+import {Review} from '../model/review.model';
 import {ReviewService} from '../review.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {EventService} from '../../event/event.service';

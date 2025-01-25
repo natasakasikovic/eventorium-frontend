@@ -44,7 +44,7 @@ export class CategoryService {
     return this.httpClient.put<Category>(`${environment.apiHost}/categories/pending/${id}`, dto);
   }
   updateCategoryStatus(id: number, status: Status): Observable<Category> {
-    return this.httpClient.patch<Category>(`${environment.apiHost}/categories/pending/${id}`, { status:status });
+    return this.httpClient.patch<Category>(`${environment.apiHost}/categories/pending/${id}`, { status: status });
   }
 
   changeCategoryProposal(id: number, category: CategoryRequestDto): Observable<Category> {

@@ -35,6 +35,7 @@ import { EventTypesOverviewComponent } from './event-type/event-types-overview/e
 import { ProviderCompanyComponent } from './company/provider-company/provider-company.component';
 import { EditCompanyComponent } from './company/edit-company/edit-company.component';
 import {ReviewListComponent} from './review/review-list/review-list.component';
+import {ManageReviewsComponent} from './review/manage-reviews/manage-reviews.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'price-list', component: PriceListComponent },
   { path: 'reviews', component: ReviewListComponent },
   { path: 'report-management', component: ManageReportsComponent},
+  { path: 'review-management', component: ManageReviewsComponent},
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
