@@ -110,13 +110,17 @@ export class EventService {
       });
     }
 
-    if (pageProperties) 
+    if (pageProperties)
       params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
 
     return params
   }
 
-  getDraftedEvents(): Observable<Event[]> {
-    return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
+  getDraftedEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
+  }
+
+  getOrganizerEvent(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/all`);
   }
 }

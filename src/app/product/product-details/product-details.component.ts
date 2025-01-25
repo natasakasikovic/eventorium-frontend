@@ -18,6 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {Provider} from '../../web-socket/model/chat-user.model';
+import {EventSummary} from '../../event/model/event-summary.model';
 
 @Component({
   selector: 'app-product-details',
@@ -101,7 +102,7 @@ export class ProductDetailsComponent implements OnInit {
 
   onPurchase(): void {
     this.eventService.getDraftedEvents().subscribe({
-      next: (events: Event[]) => {
+      next: (events: EventSummary[]) => {
           const dialogRef = this.dialog.open(EventSelectionComponent, {
             width: '450px',
             height: 'auto',
