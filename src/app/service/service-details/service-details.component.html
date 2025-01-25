@@ -18,7 +18,7 @@
         <button mat-icon-button (click)="toggleFavouriteService()" *ngIf="loggedIn">
           <mat-icon>{{ isFavourite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
-        <span class="price"> &euro;{{ service.price * (1 - service.discount / 100) | number:'1.2-2' }}</span>
+        <span class="price"> &euro;{{ service?.price * (1 - service?.discount / 100) | number:'1.2-2' }}</span>
       </div>
     </mat-card-header>
     <mat-card-content>
@@ -30,9 +30,12 @@
       <p>
         {{ service?.specialties }}
       </p>
-      <div class="gallery">
-        <div *ngFor="let image of service?.images" class="gallery-item">
-          <img [src]="image" alt="service image"/>
+      <div class="images">
+        <h3>Gallery</h3>
+        <div class="image-carousel">
+          <div class="image-wrapper" *ngFor="let image of service?.images">
+            <img [src]="image" alt="Company Image" />
+          </div>
         </div>
       </div>
     </mat-card-content>

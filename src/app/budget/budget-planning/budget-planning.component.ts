@@ -56,7 +56,7 @@ export class BudgetPlanningComponent implements OnInit {
       next: (budget: Budget) => {
 
         if(budget.items.length > 0) {
-          this.updateSpentPrice(budget.spentAmount);
+          this.totalSpent = budget.spentAmount;
           this.updatePlannedPrice(budget.plannedAmount);
 
           const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
@@ -105,10 +105,6 @@ export class BudgetPlanningComponent implements OnInit {
 
   updatePlannedPrice(difference: number) {
     this.totalPlanned += difference;
-  }
-
-  updateSpentPrice(amount: number) {
-    this.totalSpent += amount;
   }
 
   insertCategory(): void {

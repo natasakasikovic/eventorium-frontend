@@ -32,16 +32,19 @@
       <p>
         {{ product?.description }}
       </p>
-      <div class="gallery">
-        <div *ngFor="let image of product?.images" class="gallery-item">
-          <img [src]="image" alt="service image"/>
+      <div class="images">
+        <h3>Gallery</h3>
+        <div class="image-carousel">
+          <div class="image-wrapper" *ngFor="let image of product?.images">
+            <img [src]="image" alt="Company Image" />
+          </div>
         </div>
       </div>
     </mat-card-content>
 
     <mat-card-actions class="footer">
       <div class="info">
-        <button mat-icon-button [routerLink]="['/user-profile', product.provider.id]">
+        <button mat-icon-button [routerLink]="['/user-profile', product?.provider.id]">
           <mat-icon>person</mat-icon>
         </button>
         <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
