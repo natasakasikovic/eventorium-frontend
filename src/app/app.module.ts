@@ -21,6 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PriceListModule} from './price-list/price-list.module';
 import { UserModule } from './user/user.module';
 import {WebSocketModule} from './web-socket/web-socket.module';
+import { FavouritesModule } from './favourites/favourites.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {WebSocketModule} from './web-socket/web-socket.module';
     ToastrModule.forRoot(),
     PriceListModule,
     CompanyModule,
-    UserModule
+    UserModule,
+    FavouritesModule
   ],
   providers: [
     provideAnimationsAsync(),
