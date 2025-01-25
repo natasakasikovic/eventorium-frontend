@@ -9,13 +9,15 @@ import {EventService} from '../../event/event.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Event} from '../../event/model/event.model';
 import {Category} from '../../category/model/category.model';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {MESSAGES} from '../../shared/constants/messages';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-product-details',
@@ -98,16 +100,22 @@ export class ProductDetailsComponent implements OnInit {
           panelClass: 'custom-dialog-container',
           data: events
         });
-
-        dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-          if(event != null) {
-            this.purchaseProduct(event.id, event.budget, plannedAmount);
-          }
-          dialogRef.close();
-        });
+        this.handleCloseDialog(dialogRef);
       }
     });
   }
+
+  private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
+    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
+      if(event != null) {
+        this.purchaseProduct(event.id, event.budget, plannedAmount);
+      }
+      dialogRef.close();
+    });
+
+  }
+
+
 
   private loadProduct(id: number): void {
     this.productService.get(id).pipe(
@@ -168,7 +176,7 @@ export class ProductDetailsComponent implements OnInit {
         }
       });
     } else {
-      this.toasterService.error("You have already purchased a product from this category.", "Purchase Failed");
+      this.toasterService.error(ERROR_MESSAGES.ALREADY_PURCHASED, "Purchase Failed");
     }
   }
 

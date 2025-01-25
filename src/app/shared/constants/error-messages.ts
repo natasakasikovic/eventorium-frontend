@@ -11,5 +11,6 @@ export const ERROR_MESSAGES = {
     EVENT_TYPES_LOADING_ERROR: 'Error loading event types',
     CATEGORIES_LOADING_ERROR: 'Error loading categories',
     FORM_FIELD_ERROR: 'Invalid field input',
-    IMAGES_UPLOAD_ERROR: 'An error occured while uplading images'
+    IMAGES_UPLOAD_ERROR: 'An error occured while uplading images',
+    ALREADY_PURCHASED: "You have already purchased a product from this category."
   };
