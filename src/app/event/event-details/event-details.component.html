@@ -9,8 +9,8 @@
           <strong>Privacy type: </strong> {{ event.privacy }}
         </mat-card-subtitle>
         <div *ngIf="loggedIn" class="action-buttons">
-            <button mat-icon-button>
-              <mat-icon>favorite_border</mat-icon>
+            <button mat-icon-button (click)="toggleFavourite()">
+              <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
             </button>
             <button mat-icon-button (click)="openChatDialog()" >
               <mat-icon>message</mat-icon>

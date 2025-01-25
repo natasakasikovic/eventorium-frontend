@@ -124,4 +124,16 @@ export class EventService {
   getDraftedEvents(): Observable<Event[]> {
     return this.httpClient.get<Event[]>(`${environment.apiHost}/events/drafted`);
   }
+
+  isFavourite(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/favourites/${id}`);
+  }
+
+  addToFavourites(id: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/account/events/favourites/${id}`, null);
+  }
+
+  removeFromFavourites(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/account/events/favourites/${id}`);
+  }
 }
