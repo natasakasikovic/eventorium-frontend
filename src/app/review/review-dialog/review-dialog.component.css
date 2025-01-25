@@ -1,84 +1,54 @@
 .custom-dialog-title {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 20px;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .custom-dialog-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
-.feedback-input {
-  border-radius: 8px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  transition: border 0.3s ease-in-out;
+.full-width {
+  width: 100%;
 }
 
-.feedback-input:focus {
-  border: 1px solid #4caf50;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-}
-
-.rating {
+.rating-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.rating-label {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
 }
 
 .star-icon {
-  font-size: 1.5rem;
+  font-size: 24px;
+  color: #ccc;
   cursor: pointer;
-  color: gray;
-  transition: color 0.3s ease-in-out;
-}
-
-.star-icon:hover {
-  color: #ffcc00;
+  transition: color 0.3s ease;
 }
 
 .star-icon.active {
-  color: gold;
+  color: #fbc02d; /* Gold color */
 }
 
-.star-icon.hovered {
-  color: #ffcc00;
+.star-icon:hover {
+  color: #ffd54f;
 }
 
 .custom-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .submit-btn {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.submit-btn:hover {
-  background-color: #45a049;
-}
-
-.cancel-btn {
-  background-color: #f44336;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.cancel-btn:hover {
-  background-color: #e53935;
+  margin-right: 8px;
 }
