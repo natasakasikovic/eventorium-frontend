@@ -112,10 +112,7 @@ export class ProductDetailsComponent implements OnInit {
       }
       dialogRef.close();
     });
-
   }
-
-
 
   private loadProduct(id: number): void {
     this.productService.get(id).pipe(

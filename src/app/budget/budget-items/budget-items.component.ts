@@ -5,6 +5,7 @@ import {ServiceService} from '../../service/service.service';
 import {ProductService} from '../../product/product.service';
 import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-budget-items',
@@ -58,9 +59,6 @@ export class BudgetItemsComponent {
         this.serviceSuggestions = services;
         this.updateTotalPlanned(plannedAmount);
         this.getServiceImages(services);
-      },
-      error(error: Error) {
-        console.error(error.message);
       }
     });
   }
@@ -80,9 +78,6 @@ export class BudgetItemsComponent {
           this.serviceSuggestions = [];
           this.productSuggestion = products;
           this.updateTotalPlanned(plannedAmount);
-        },
-        error(error: Error) {
-          console.error(error.message);
         }
       }
     )
