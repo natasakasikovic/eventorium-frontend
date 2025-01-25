@@ -16,14 +16,16 @@
 </form>
 <div class="item-cards">
   <div class="cards">
-    <app-service-card *ngFor="let service of serviceSuggestions" [service]="service" ></app-service-card>
+    <app-service-card *ngFor="let service of serviceSuggestions"
+                      [service]="service"
+                      [plannedAmount]="planning.get('plannedAmount').value ?? 0"
+                      [eventId]="eventId"></app-service-card>
   </div>
 </div>
 <div class="item-cards">
   <div class="cards">
     <app-product-card *ngFor="let product of productSuggestion"
                       [product]="product"
-                      [isBudgetContext]="true"
                       [plannedAmount]="planning.get('plannedAmount').value ?? 0"
                       [eventId]="eventId"
                       ></app-product-card>

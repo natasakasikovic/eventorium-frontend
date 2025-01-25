@@ -13,7 +13,6 @@ import {EventService} from '../../event/event.service';
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
 
-  @Input() isBudgetContext: boolean = false;
   @Input() eventId: number;
   @Input() plannedAmount: number;
 
@@ -37,7 +36,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   onClick(): void {
-    if (this.isBudgetContext && this.eventId && this.plannedAmount) {
+    if (this.eventId && this.plannedAmount) {
       void this.router.navigate(['/product-details', this.product.id], {
         queryParams: {
           eventId: this.eventId,
