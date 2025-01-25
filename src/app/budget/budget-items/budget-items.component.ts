@@ -53,7 +53,7 @@ export class BudgetItemsComponent {
   }
 
   private searchServices(plannedAmount: number): void {
-    this.serviceService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
+    this.serviceService.getBudgetSuggestions(this.category.id, plannedAmount, this.eventId).subscribe({
       next: (services: Service[]) => {
         this.productSuggestion = [];
         this.serviceSuggestions = services;
