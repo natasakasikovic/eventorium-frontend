@@ -84,7 +84,10 @@ export class ServiceReservationDialogComponent implements OnInit{
 
   private submitReservation(reservation: ReservationRequest): void {
     this.serviceService.reserveService(reservation, this.data.eventId, this.data.serviceId).subscribe({
-      next: (_) => this.showMessage(MESSAGES.success, MESSAGES.reservationSuccess),
+      next: (_) => { 
+        this.showMessage(MESSAGES.success, MESSAGES.reservationSuccess);
+        this.dialogRef.close();
+      },
       error: (error) => this.handleError(error)
     });
   }
