@@ -45,7 +45,7 @@ export class ProductService {
     return this.httpClient.get<Product[]>(environment.apiHost + "/products/top-five-products")
   }
 
-  searchProducts(keyword: string, pageProperties?: any): Observable<PagedResponse<Product>> {
+  searchProducts(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
     let params = new HttpParams()
     if (pageProperties){
       params = params

@@ -47,6 +47,7 @@ export const MESSAGES = {
     companyUpdated: "Company updated successfully.",
     deleteConfirmation: "Are you sure you want to delete",
     suspensionConfirmation:"Are you sure you want to suspend the user? By suspending the user, they will not be able to log in until the suspension expires, which will take 3 days.",
-    productCreated: "Product created successfully!"
+    productCreated: "Product created successfully!",
+    reservationSuccess: "Check your email for more information about the reservation!"
   };
 
