@@ -93,10 +93,10 @@ export class ServiceReservationDialogComponent implements OnInit{
   }
 
   private handleError(error: HttpErrorResponse): void {
-    if (error.status >= 500)
-      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)
-    else 
+    if (error.status == 502 || error.status < 500)
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)      
   }
 
   showMessage(title: string, message: string) : void {
