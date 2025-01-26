@@ -17,3 +17,7 @@ mat-form-field {
 mat-dialog-actions {
     background-color: #f8f6f1;
 }
+
+mat-form-field.time-picker-field {
+    margin-bottom: 16px;
+}
