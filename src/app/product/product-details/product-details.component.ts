@@ -16,7 +16,7 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {EventSummary} from '../../event/model/event-summary.model';
-import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {UserDetails} from '../../user/model/user-details.model';
 import {MESSAGES} from '../../shared/constants/messages';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
@@ -83,7 +83,7 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  openChatDialog(recipient?: ChatUserDetails): void {
+  openChatDialog(recipient?: UserDetails): void {
     this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
   }
 

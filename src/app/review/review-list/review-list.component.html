@@ -1,17 +1,18 @@
 <div class="cards-screen">
-  <mat-select (selectionChange)="onEventChange($event)">
-    <mat-option *ngFor="let event of events" [value]="event">{{ event.name }}</mat-option>
-  </mat-select>
-  <mat-toolbar class="toolbar">
-    <h1 class="title">Products</h1>
-  </mat-toolbar>
-  <div class="product-cards">
-    <div class="cards">
-      <app-product-card *ngFor="let product of products"
-                        (review)="openDialog($event)"
-                        [reviewable]="true"
-                        [product]="product">
-      </app-product-card>
+    <p>Select event:</p>
+    <mat-select class="event-selector" (selectionChange)="onEventChange($event)">
+        <mat-option *ngFor="let event of events" [value]="event">{{ event.name }}</mat-option>
+    </mat-select>
+    <mat-toolbar class="toolbar">
+        <h1 class="title">Products</h1>
+    </mat-toolbar>
+    <div class="product-cards">
+        <div class="cards">
+            <app-product-card *ngFor="let product of products"
+                              (review)="openDialog($event)"
+                              [reviewable]="true"
+                              [product]="product">
+            </app-product-card>
+        </div>
     </div>
-  </div>
 </div>

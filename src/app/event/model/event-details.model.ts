@@ -1,4 +1,4 @@
-import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {UserDetails} from '../../user/model/user-details.model';
 
 export interface EventDetails {
     name: string;
@@ -9,5 +9,5 @@ export interface EventDetails {
     address: string;
     city: string;
     date: string;
-    organizer: ChatUserDetails;
+    organizer: UserDetails;
 }

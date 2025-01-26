@@ -4,6 +4,7 @@ import { ReviewListComponent } from './review-list/review-list.component';
 import {SharedModule} from '../shared/shared.module';
 import {MaterialModule} from '../infrastructure/material/material.module';
 import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
+import {RouterLink} from '@angular/router';
 
 
 
@@ -15,7 +16,8 @@ import { ManageReviewsComponent } from './manage-reviews/manage-reviews.componen
   imports: [
     CommonModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    RouterLink
   ],
   exports: [
     ReviewListComponent,

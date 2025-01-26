@@ -4,12 +4,12 @@
   <div *ngIf="product.status === 'PENDING'" class="pending-status">
     <span class="pending-label">PENDING</span>
   </div>
-  <div *ngIf="!product.visible" class="hidden-status">
+  <div *ngIf="!reviewable && !product.visible" class="hidden-status">
     <span class="hidden-label">HIDDEN</span>
   </div>
   <mat-card-header>
     <mat-card-title class="title">{{ product.name }}</mat-card-title>
-    <div class="rating">
+    <div class="rating" *ngIf="reviewable">
       <mat-icon>star</mat-icon>
       <span>{{ product.rating | number:'1.2-2' }}</span>
     </div>
@@ -29,7 +29,7 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-button class="see-more-button" [routerLink]="['/product-details', product.id]">See more..</button>
+    <button mat-button class="see-more-button" (click)="onClick()">See more..</button>
     <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
       <mat-icon>feedback</mat-icon>
     </button>

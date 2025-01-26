@@ -5,7 +5,7 @@ import { EventDetails } from '../model/event-details.model';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { AuthService } from '../../auth/auth.service';
-import { ChatUserDetails } from '../../web-socket/model/chat-user.model';
+import { UserDetails } from '../../user/model/user-details.model';
 import { ChatDialogService } from '../../shared/chat-dialog/chat-dialog.service';
 import { of, switchMap } from 'rxjs';
 
@@ -29,14 +29,14 @@ export class EventDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
-  
+
     this.service.getEvent(this.id).pipe(
       switchMap((event: EventDetails) => {
         this.event = event;
-  
+
         if (this.loggedIn) return this.service.isFavourite(this.id);
         else return of(false);
-        
+
       })
     ).subscribe({
       next: (isFav: boolean) => {
@@ -61,7 +61,7 @@ export class EventDetailsComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  openChatDialog(recipient?: ChatUserDetails): void {
+  openChatDialog(recipient?: UserDetails): void {
     this.chatService.openChatDialog(recipient ? recipient : this.event.organizer);
   }
 

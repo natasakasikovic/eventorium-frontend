@@ -15,6 +15,8 @@ import {EventSummary} from '../../event/model/event-summary.model';
 import {ToastrService} from 'ngx-toastr';
 import {MatSelectChange} from '@angular/material/select';
 import {BudgetService} from '../../budget/budget.service';
+import {AuthService} from '../../auth/auth.service';
+import {Status} from "../../category/model/status-enum-ts";
 
 @Component({
   selector: 'app-review-list',
@@ -30,6 +32,7 @@ export class ReviewListComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private reviewService: ReviewService,
+    private authService: AuthService,
     private budgetService: BudgetService,
     private toasterService: ToastrService,
     private dialog: MatDialog
@@ -47,6 +50,7 @@ export class ReviewListComponent implements OnInit {
       this.reviewService.createProductReview(id, { feedback: feedback, rating: rating }).subscribe({
         next: () => {
           this.toasterService.success(`Review for ${ data.name } has been created successfully!`, "Success");
+          this.products = this.products.filter(product => product.id !== id);
         },
         error: (error: HttpErrorResponse) => {
           this.toasterService.error(error.error.message, "Failed to create review");
@@ -59,7 +63,11 @@ export class ReviewListComponent implements OnInit {
     const selectedEvent: EventSummary = changeEvent.value;
     this.budgetService.getPurchased(selectedEvent.id).subscribe({
       next: (products: Product[]) => {
-
+        console.log(products);
+        const userId: number = this.authService.getUserId();
+        this.products = products
+          .filter(product =>
+            !product.reviews.map(review => review.user.id).includes(userId));
       }
     });
   }
