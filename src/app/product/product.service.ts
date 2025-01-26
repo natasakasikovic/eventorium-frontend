@@ -120,4 +120,15 @@ export class ProductService {
     return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products`, { params: params});
   }
 
+  searchProviderProducts(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
+    let params = new HttpParams();
+    if (pageProperties) {
+      params = params
+        .set('keyword', keyword)
+        .set('page', pageProperties.pageIndex)
+        .set('size', pageProperties.pageSize)
+    }
+    return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products/search`, {params: params});
+  }
+
 }
