@@ -131,4 +131,9 @@ export class ProductService {
     return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products/search`, {params: params});
   }
 
+  filterProviderProducts(filter: ProductFilter, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
+    const params = this.buildQueryParams(filter, pageProperties);
+    return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products/filter`, { params: params });
+  }
+
 }

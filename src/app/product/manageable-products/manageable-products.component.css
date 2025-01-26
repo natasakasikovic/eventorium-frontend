@@ -57,4 +57,15 @@
     font-family: jeju, serif;
     color: #35422F;
   }
+
+  .cards-screen .toolbar .filters .filter-button {
+    margin-left: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
   

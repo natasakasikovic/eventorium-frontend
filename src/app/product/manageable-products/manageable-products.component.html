@@ -5,6 +5,9 @@
       </div>
       <div class="filters">
         <app-search-bar class="searcher" (searcher)="onSearch($event)" />
+        <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openDialog()">
+          <mat-icon>tune</mat-icon>
+        </button>
       </div>
     </mat-toolbar>
     

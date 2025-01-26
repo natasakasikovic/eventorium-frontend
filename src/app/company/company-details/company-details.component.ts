@@ -55,8 +55,4 @@ export class CompanyDetailsComponent implements OnInit {
       }
     })
   }
-
-  comment() {
-    // TODO: If company commenting is not needed, delete this
-  }
 }
