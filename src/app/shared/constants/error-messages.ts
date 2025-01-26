@@ -7,5 +7,10 @@ export const ERROR_MESSAGES = {
     EMAIL_TAKEN_QUICK_REGISTRATION: 'Registration on Eventorium with this email address has already been completed. Please log in to access the application.',
     INVALID_ACTIVIY: 'One or more of the listed activities contain invalid or incomplete information. Please note that all fields are required. Locate the invalid activity and remove it by clicking the X button. You can then add a new activity with valid information.',
     IMAGE_UPLOAD_ERROR: 'An error occurred while uploading the images. Please update them later.',
-    VALIDATOR_ERROR: 'Required fields'
+    VALIDATOR_ERROR: 'Required fields',
+    EVENT_TYPES_LOADING_ERROR: 'Error loading event types',
+    CATEGORIES_LOADING_ERROR: 'Error loading categories',
+    FORM_FIELD_ERROR: 'Invalid field input',
+    IMAGES_UPLOAD_ERROR: 'An error occured while uplading images',
+    ALREADY_PURCHASED: "You have already purchased a product from this category."
   };

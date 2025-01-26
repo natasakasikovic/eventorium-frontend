@@ -11,8 +11,10 @@ export interface CreateServiceRequestDto {
   eventTypes: EventType[];
   category: Category;
   type: ReservationType;
-  reservationDeadline: Date;
-  cancellationDeadline: Date;
+  reservationDeadline: number;
+  cancellationDeadline: number;
   minDuration: number;
   maxDuration: number;
+  isAvailable: boolean;
+  isVisible: boolean;
 }

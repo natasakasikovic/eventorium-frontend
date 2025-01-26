@@ -7,6 +7,12 @@ import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ServiceReservationDialogComponent } from '../service-reservation-dialog/service-reservation-dialog.component';
+import { EventService } from '../../event/event.service';
+import { EventSelectionComponent } from '../../shared/event-selection/event-selection.component';
+import { Event } from '../../event/model/event.model';
+import {EventSummary} from '../../event/model/event-summary.model';
 
 @Component({
   selector: 'app-service-details',
@@ -14,59 +20,102 @@ import {ToastrService} from 'ngx-toastr';
   styleUrl: './service-details.component.css'
 })
 export class ServiceDetailsComponent implements OnInit {
-  @Input() service: Service
+
+  service: Service
   isFavourite: boolean;
+
+  serviceId: number;
+  eventId: number;
 
   constructor(
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private authService: AuthService,
+    private eventService: EventService,
     private toasterService: ToastrService,
     private router: Router,
-  ) {
-  }
+    private dialog: MatDialog) { }
 
   get loggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(param => {
-      const id: number = +param['id'];
-      this.serviceService.get(id).pipe(
-        switchMap((service: Service) =>{
-          if (this.loggedIn) {
-            return forkJoin([
-              this.serviceService.get(id),
-              this.serviceService.getImages(service.id),
-              this.serviceService.getIsFavourite(service.id)
-            ]);
-          } else {
-            return forkJoin([
-              this.serviceService.get(id),
-              this.serviceService.getImages(service.id)
-            ]);
-          }
-        })
-      ).subscribe({
-        next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean?]) => {
-          this.service = service;
-          if(this.loggedIn) {
-            this.isFavourite = isFavourite;
-          }
-          this.service.images = images.map(image =>
-            `data:${image.contentType};base64,${image.data}`
-          );
-        },
-        error: (error: HttpErrorResponse) => {
-          void this.router.navigate(['/error'], {
-            queryParams: {
-              code: error.status,
-              message: error.error?.message || 'An unknown error occurred.'
-            }
-          });
+    this.getParams();
+
+    this.serviceService.get(this.serviceId).pipe(
+      switchMap((service: Service) =>{
+        if (this.loggedIn) {
+          return forkJoin([
+            this.serviceService.get(this.serviceId),
+            this.serviceService.getImages(service.id),
+            this.serviceService.getIsFavourite(service.id)
+          ]);
+        } else {
+          return forkJoin([
+            this.serviceService.get(this.serviceId),
+            this.serviceService.getImages(service.id)
+          ]);
         }
-      });
+      })
+    ).subscribe({
+      next: ([service, images, isFavourite]: [Service, ImageResponseDto[], boolean?]) => {
+        this.service = service;
+        if(this.loggedIn) {
+          this.isFavourite = isFavourite;
+        }
+        this.service.images = images.map(image =>
+          `data:${image.contentType};base64,${image.data}`
+        );
+      },
+      error: (error: HttpErrorResponse) => {
+        void this.router.navigate(['/error'], {
+          queryParams: {
+            code: error.status,
+            message: error.error?.message || 'An unknown error occurred.'
+          }
+        });
+      }
+    });
+  }
+
+  getParams(): void {
+    this.route.params.subscribe(params => this.serviceId = +params['id']);
+    this.route.queryParams.subscribe(params => {
+      if (params['eventId'])
+        this.eventId = +params['eventId'];
+    });
+  }
+
+  onClick(): void{
+    if (this.eventId)
+      this.openReservationDialog();
+    else
+      this.openDraftEventDialog();
+  }
+
+  private openReservationDialog(): void {
+    this.dialog.open(ServiceReservationDialogComponent, {
+      data: { eventId: this.eventId, serviceId: this.serviceId }
+    });
+  }
+
+  private openDraftEventDialog(): void {
+    this.eventService.getDraftedEvents().subscribe({
+      next: (events: EventSummary[]) => {
+        const dialogRef = this.dialog.open(EventSelectionComponent, { data: events });
+        this.handleCloseDialog(dialogRef);
+      }
+    });
+  }
+
+  private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
+    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
+      if (!event) return;  // TODO: update amount spent in budget!
+
+      this.eventId = event.id;
+      dialogRef.close();
+      this.openReservationDialog()
     });
   }
 

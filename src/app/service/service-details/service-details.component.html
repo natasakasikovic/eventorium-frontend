@@ -18,7 +18,7 @@
         <button mat-icon-button (click)="toggleFavouriteService()" *ngIf="loggedIn">
           <mat-icon>{{ isFavourite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
-        <span class="price"> &euro;{{ service.price * (1 - service.discount / 100) | number:'1.2-2' }}</span>
+        <span class="price"> &euro;{{ service?.price * (1 - service?.discount / 100) | number:'1.2-2' }}</span>
       </div>
     </mat-card-header>
     <mat-card-content>
@@ -30,9 +30,12 @@
       <p>
         {{ service?.specialties }}
       </p>
-      <div class="gallery">
-        <div *ngFor="let image of service?.images" class="gallery-item">
-          <img [src]="image" alt="service image"/>
+      <div class="images">
+        <h3>Gallery</h3>
+        <div class="image-carousel">
+          <div class="image-wrapper" *ngFor="let image of service?.images">
+            <img [src]="image" alt="Company Image" />
+          </div>
         </div>
       </div>
     </mat-card-content>
@@ -48,12 +51,13 @@
         <p><strong>Duration:</strong> {{ service?.minDuration }}
           <span *ngIf="service?.minDuration != service?.maxDuration"> - {{ service?.maxDuration }} </span>h
         </p>
-        <p><strong>Reservation deadline:</strong> {{ service?.reservationDeadline | date:"longDate" }}</p>
-        <p><strong>Cancellation deadline:</strong> {{ service?.cancellationDeadline | date:"longDate" }}</p>
+        <p><strong>Reservation deadline:</strong> {{ service?.reservationDeadline }} days</p>
+        <p><strong>Cancellation deadline:</strong> {{ service?.cancellationDeadline }} days</p>
       </div>
     </mat-card-actions>
     <div class="button-reserve" >
       <button mat-raised-button
+              (click)="onClick()"
               [style.opacity]="service?.available ? 1 : 0.2"
               [disabled]="!service?.available" >Reserve</button>
     </div>

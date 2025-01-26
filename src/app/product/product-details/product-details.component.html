@@ -32,23 +32,26 @@
       <p>
         {{ product?.description }}
       </p>
-      <h3>Specialties</h3>
-      <p>
-        {{ product?.specialties }}
-      </p>
-      <div class="gallery">
-        <div *ngFor="let image of product?.images" class="gallery-item">
-          <img [src]="image" alt="service image"/>
+      <div class="images">
+        <h3>Gallery</h3>
+        <div class="image-carousel">
+          <div class="image-wrapper" *ngFor="let image of product?.images">
+            <img [src]="image" alt="Company Image" />
+          </div>
         </div>
       </div>
     </mat-card-content>
 
     <mat-card-actions class="footer">
       <div class="info">
-        <button mat-icon-button>
-          <mat-icon>info</mat-icon>
+        <button mat-icon-button [routerLink]="['/user-profile', product?.provider.id]">
+          <mat-icon>person</mat-icon>
         </button>
         <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
+        <button mat-icon-button [routerLink]="['/company', product?.company.id]">
+          <mat-icon>business</mat-icon>
+        </button>
+        <span>{{ product?.company.name }}</span>
       </div>
     </mat-card-actions>
     <div class="button-reserve" *ngIf="getRole() === 'EVENT_ORGANIZER'">

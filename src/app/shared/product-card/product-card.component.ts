@@ -1,10 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Product } from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
-import {BudgetService} from '../../budget/budget.service';
 import {Router} from '@angular/router';
-import {EventService} from '../../event/event.service';
-import {Review} from '../../review/model/review.model';
 
 @Component({
   selector: 'app-product-card',
@@ -13,14 +10,16 @@ import {Review} from '../../review/model/review.model';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
-  @Input() purchasable: boolean;
   @Input() reviewable: boolean;
 
-  @Output() purchase: EventEmitter<Product> = new EventEmitter();
   @Output() review: EventEmitter<Product> = new EventEmitter();
 
+  @Input() eventId: number;
+  @Input() plannedAmount: number;
+
   constructor(
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {
   }
 
@@ -37,13 +36,20 @@ export class ProductCardComponent implements OnInit {
     });
   }
 
-  onPurchase(): void {
-    this.purchase.emit(this.product);
+  onClick(): void {
+    if (this.eventId && this.plannedAmount) {
+      void this.router.navigate(['/product-details', this.product.id], {
+        queryParams: {
+          eventId: this.eventId,
+          plannedAmount: this.plannedAmount,
+        },
+      });
+    } else {
+      void this.router.navigate(['/product-details', this.product.id]);
+    }
   }
 
   onReview(): void {
     this.review.emit(this.product);
   }
-
-
 }

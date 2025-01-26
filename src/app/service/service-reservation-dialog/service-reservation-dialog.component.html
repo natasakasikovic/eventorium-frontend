@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Reserve a service</h2>
+<mat-dialog-content [formGroup]="reservationForm">
+  
+  <mat-form-field>
+    <mat-label>From: </mat-label>
+    <input matInput [ngxTimepicker]="pickerFrom" formControlName="startingTime">
+    <ngx-material-timepicker-toggle [for]="pickerFrom"></ngx-material-timepicker-toggle>
+    <ngx-material-timepicker #pickerFrom></ngx-material-timepicker>
+    <mat-error *ngIf="reservationForm.get('startingTime')?.hasError('required') && reservationForm.get('startingTime')?.touched">
+      Starting time is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>To: </mat-label>
+    <input matInput [ngxTimepicker]="pickerTo" formControlName="endingTime">
+    <ngx-material-timepicker-toggle [for]="pickerTo"></ngx-material-timepicker-toggle>
+    <ngx-material-timepicker #pickerTo></ngx-material-timepicker>
+    <mat-error *ngIf="reservationForm.get('endingTime')?.hasError('required') && reservationForm.get('endingTime')?.touched">
+      Ending time is required.
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="reserve()" [disabled]="reservationForm.invalid">Reserve a service</button>
+</mat-dialog-actions>

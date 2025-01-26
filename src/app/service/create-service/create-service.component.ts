@@ -13,17 +13,8 @@ import {Service} from '../model/service.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../category/model/status-enum-ts';
+import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
 
-export function dateNotInPast(control: AbstractControl) {
-  const selectedDate = new Date(control.value);
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-
-  if (selectedDate < currentDate) {
-    return { 'dateInPast': true };
-  }
-  return null;
-}
 @Component({
   selector: 'app-create-service',
   templateUrl: './create-service.component.html',
@@ -38,15 +29,15 @@ export class CreateServiceComponent implements OnInit {
     discount: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)]),
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
-    eventTypes: new FormControl('', Validators.minLength(1)),
+    eventTypes: new FormControl([], minSelectedValidator(1)),
     reservationType: new FormControl('', Validators.required),
     suggestedCategoryName: new FormControl(),
     suggestedCategoryDescription: new FormControl(),
     category: new FormControl(''),
     visible: new FormControl(),
     available: new FormControl(),
-    reservationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
-    cancellationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
+    reservationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
+    cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
   });
@@ -88,7 +79,7 @@ export class CreateServiceComponent implements OnInit {
       const formValue = this.createServiceForm.value;
       const newService: CreateServiceRequestDto = {
         cancellationDeadline: formValue.cancellationDeadline,
-        category: formValue.category === ''
+        category: !formValue.category
           ? { id: null, name: formValue.suggestedCategoryName, description: formValue.suggestedCategoryDescription }
           : formValue.category,
         description: formValue.description,
@@ -97,6 +88,8 @@ export class CreateServiceComponent implements OnInit {
         maxDuration: formValue.maxDuration,
         minDuration: formValue.minDuration,
         name: formValue.name,
+        isAvailable: formValue.available ?? false,
+        isVisible: formValue.visible ?? false,
         price: formValue.price,
         reservationDeadline: formValue.reservationDeadline,
         specialties: formValue.specialties,

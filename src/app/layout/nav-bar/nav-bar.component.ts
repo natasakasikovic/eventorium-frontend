@@ -3,7 +3,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
-import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,10 +17,8 @@ export class NavBarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog,
     private webSocketService: WebSocketService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.authService.userState.subscribe((result) => {
@@ -60,6 +57,6 @@ export class NavBarComponent implements OnInit {
   }
 
   createProduct() {
-    // TODO: change when implemented
+    void this.router.navigate(['create-product'])
   }
 }

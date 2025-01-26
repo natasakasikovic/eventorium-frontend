@@ -7,6 +7,7 @@ import { CompanyResponse } from './model/company-response.model';
 import { ProviderCompany } from './model/provider-company.model';
 import { ImageResponseDto } from '../shared/model/image-response-dto.model';
 import { RemoveImageRequest } from '../shared/model/remove-image-request.model';
+import { CompanyDetails } from './model/company-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,10 @@ export class CompanyService {
 
   getCompany(): Observable<ProviderCompany> {
     return this.http.get<ProviderCompany>(`${environment.apiHost}/companies/my-company`);
+  }
+
+  getCompanyDetails(id: number): Observable<CompanyDetails> {
+    return this.http.get<CompanyDetails>(`${environment.apiHost}/companies/${id}`)
   }
 
   getImages(id: number) : Observable<ImageResponseDto[]> {

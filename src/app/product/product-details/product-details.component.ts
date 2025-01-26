@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../model/product.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ServiceService} from '../../service/service.service';
-import {Service} from '../../service/model/service.model';
 import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
@@ -11,14 +9,16 @@ import {EventService} from '../../event/event.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Event} from '../../event/model/event.model';
 import {Category} from '../../category/model/category.model';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
-import {Provider} from '../../web-socket/model/chat-user.model';
 import {EventSummary} from '../../event/model/event-summary.model';
+import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {MESSAGES} from '../../shared/constants/messages';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-product-details',
@@ -28,6 +28,9 @@ import {EventSummary} from '../../event/model/event-summary.model';
 export class ProductDetailsComponent implements OnInit {
   @Input() product: Product;
   isFavorite: boolean;
+
+  eventId: number;
+  plannedAmount: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,41 +47,13 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
-      const id: number = +param['id'];
-      this.productService.get(id).pipe(
-        switchMap((product: Product) => {
-          if (this.getRole) {
-            return forkJoin([
-              this.productService.get(id),
-              this.productService.getImages(product.id),
-              this.productService.getIsFavourite(product.id)
-            ]);
-          } else {
-            return forkJoin([
-              this.productService.get(id),
-              this.productService.getImages(product.id),
-            ]);
-          }
-        })
-      ).subscribe({
-        next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean?]) => {
-          this.product = product;
-          if(this.getRole) {
-            this.isFavorite = isFavourite;
-          }
-          this.product.images = images.map(image =>
-            `data:${image.contentType};base64,${image.data}`
-          );
-        },
-        error: (error) => {
-          void this.router.navigate(['/error'], {
-            queryParams: {
-              code: error.status,
-              message: error.error?.message || 'An unknown error occurred.'
-            }
-          });
-        }
-      });
+      this.loadProduct(+param['id']);
+    });
+    this.route.queryParams.subscribe(param => {
+      if(param['eventId']) {
+        this.eventId = +param['eventId'];
+        this.plannedAmount = +param['plannedAmount'];
+      }
     });
   }
 
@@ -101,24 +76,83 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   onPurchase(): void {
+    if(this.eventId && this.plannedAmount) {
+      this.plannedPurchase();
+    } else {
+      this.draftedPurchase();
+    }
+  }
+
+  openChatDialog(recipient?: ChatUserDetails): void {
+    this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
+  }
+
+  getRole(): string {
+    return this.authService.getRole();
+  }
+
+  private draftedPurchase(): void {
     this.eventService.getDraftedEvents().subscribe({
       next: (events: EventSummary[]) => {
-          const dialogRef = this.dialog.open(EventSelectionComponent, {
-            width: '450px',
-            height: 'auto',
-            disableClose: true,
-            panelClass: 'custom-dialog-container',
-            data: events
-          });
-
-        dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-          if(event != null) {
-            this.purchaseProduct(event.id, event.budget, plannedAmount);
-          }
-          dialogRef.close();
+        const dialogRef = this.dialog.open(EventSelectionComponent, {
+          width: '450px',
+          height: 'auto',
+          disableClose: true,
+          panelClass: 'custom-dialog-container',
+          data: events
         });
+        this.handleCloseDialog(dialogRef);
       }
     });
+  }
+
+  private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
+    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
+      if(event != null) {
+        this.purchaseProduct(event.id, event.budget, plannedAmount);
+      }
+      dialogRef.close();
+    });
+  }
+
+  private loadProduct(id: number): void {
+    this.productService.get(id).pipe(
+      switchMap((product: Product) => {
+        if (this.getRole()) {
+          return forkJoin([
+            this.productService.get(id),
+            this.productService.getImages(product.id),
+            this.productService.getIsFavourite(product.id)
+          ]);
+        } else {
+          return forkJoin([
+            this.productService.get(id),
+            this.productService.getImages(product.id),
+          ]);
+        }
+      })
+    ).subscribe({
+      next: ([product, images, isFavourite]: [Product, ImageResponseDto[], boolean?]) => {
+        this.product = product;
+        if(this.getRole) {
+          this.isFavorite = isFavourite;
+        }
+        this.product.images = images.map(image =>
+          `data:${image.contentType};base64,${image.data}`
+        );
+      },
+      error: (error) => this.handleError(error)
+    });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    void this.router.navigate(['/error'], {
+      queryParams: {
+        code: error.status,
+        message: error.error?.message || 'An unknown error occurred.'
+      }
+    });
+
   }
 
   private purchaseProduct(eventId: number, budget: Budget, plannedAmount: number): void {
@@ -130,21 +164,25 @@ export class ProductDetailsComponent implements OnInit {
         plannedAmount: plannedAmount
       }).subscribe({
         next: () => {
-          void this.router.navigate(['budget-planning', eventId]);
-          this.toasterService.success("Success", "Successfully purchased product!");
+          this.toasterService.success("Successfully purchased product!", "Success");
+          if(this.plannedAmount && this.eventId) {
+            void this.router.navigate(['budget-planning', this.eventId]);
+          }
         },
         error: (error: HttpErrorResponse) => {
           this.toasterService.error(error.error.message, "Failed to purchase product");
         }
       });
+    } else {
+      this.toasterService.error(ERROR_MESSAGES.ALREADY_PURCHASED, "Purchase Failed");
     }
   }
 
-  openChatDialog(provider?: Provider): void {
-    this.chatService.openChatDialog(provider ? provider : this.product.provider);
-  }
-
-  getRole(): string {
-    return this.authService.getRole();
+  private plannedPurchase(): void {
+    this.budgetService.getBudget(this.eventId).subscribe({
+      next: (budget: Budget) => {
+        this.purchaseProduct(this.eventId, budget, this.plannedAmount);
+      }
+    })
   }
 }

@@ -22,6 +22,7 @@ import {PriceListModule} from './price-list/price-list.module';
 import { UserModule } from './user/user.module';
 import {WebSocketModule} from './web-socket/web-socket.module';
 import {ReviewModule} from './review/review.module';
+import { FavouritesModule } from './favourites/favourites.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {ReviewModule} from './review/review.module';
     PriceListModule,
     CompanyModule,
     UserModule,
-    ReviewModule
+    ReviewModule,
+    FavouritesModule
   ],
   providers: [
     provideAnimationsAsync(),

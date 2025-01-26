@@ -14,6 +14,7 @@ import { Privacy } from './model/privacy.enum';
 import { Invitation } from './model/invitation-request.model';
 import { EventFilter } from './model/event-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
+import { EventDetails } from './model/event-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class EventService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getEvent(id: number) : Observable<EventDetails> {
+    return this.httpClient.get<EventDetails>(environment.apiHost + `/events/${id}`)
+  }
+
   setEventType(eventType: EventType): void {
     this.eventTypeSubject.next(eventType);
   }
@@ -47,7 +52,7 @@ export class EventService {
     return this.eventPrivacySubject.value;
   }
 
-  getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
+  getAll(pageProperties?: PageProperties) : Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams();
     if (pageProperties){
       params = params
@@ -61,7 +66,7 @@ export class EventService {
     return this.httpClient.get<EventSummary[]>(environment.apiHost + "/events/top-five-events")
   }
 
-  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<EventSummary>> {
+  searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams()
     if (pageProperties){
       params = params
@@ -122,5 +127,17 @@ export class EventService {
 
   getOrganizerEvent(): Observable<EventSummary[]> {
     return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/all`);
+  }
+
+  isFavourite(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/favourites/${id}`);
+  }
+
+  addToFavourites(id: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/account/events/favourites/${id}`, null);
+  }
+
+  removeFromFavourites(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/account/events/favourites/${id}`);
   }
 }
