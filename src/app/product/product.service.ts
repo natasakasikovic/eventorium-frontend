@@ -100,17 +100,24 @@ export class ProductService {
   buildQueryParams(filter: ProductFilter, pageProperties: PageProperties): HttpParams {
     let params = new HttpParams();
     
-    Object.keys(filter).forEach((key) => {
-      const typedKey = key as keyof ProductFilter;
-      const value = filter[typedKey];
-      
-      if (value !== undefined && value != null && value != "")
-        params = params.set(typedKey, value);
-    });
+    if (filter) {
+      Object.keys(filter).forEach((key) => {
+        const typedKey = key as keyof ProductFilter;
+        const value = filter[typedKey];
+        
+        if (value !== undefined && value != null && value != "")
+          params = params.set(typedKey, value);
+      });
+    }
 
     params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
   
     return params
+  }
+
+  getProviderProducts(filter?: ProductFilter, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
+    let params = this.buildQueryParams(filter, pageProperties);
+    return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products`, { params: params});
   }
 
 }
