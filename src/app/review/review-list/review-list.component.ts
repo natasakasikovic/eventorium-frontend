@@ -36,11 +36,7 @@ export class ReviewListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.eventService.getOrganizerEvent().subscribe({
-      next: (events: EventSummary[]) => {
-        this.events = events;
-      }
-    });
+    this.loadEvents();
   }
 
   openDialog(data: Product | Service): void {
@@ -63,8 +59,17 @@ export class ReviewListComponent implements OnInit {
     const selectedEvent: EventSummary = changeEvent.value;
     this.budgetService.getPurchased(selectedEvent.id).subscribe({
       next: (products: Product[]) => {
-        this.products = products;
+
       }
     });
   }
+
+  private loadEvents(): void {
+    this.eventService.getOrganizerEvent().subscribe({
+      next: (events: EventSummary[]) => {
+        this.events = events;
+      }
+    });
+  }
+
 }
