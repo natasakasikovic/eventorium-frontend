@@ -52,7 +52,7 @@ export class EventService {
     return this.eventPrivacySubject.value;
   }
 
-  getAll(pageProperties?: any) : Observable<PagedResponse<EventSummary>> {
+  getAll(pageProperties?: PageProperties) : Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams();
     if (pageProperties){
       params = params
@@ -66,7 +66,7 @@ export class EventService {
     return this.httpClient.get<EventSummary[]>(environment.apiHost + "/events/top-five-events")
   }
 
-  searchEvents(keyword: string, pageProperties?: any): Observable<PagedResponse<EventSummary>> {
+  searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
     let params = new HttpParams()
     if (pageProperties){
       params = params
