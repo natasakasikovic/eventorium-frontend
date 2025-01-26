@@ -1,5 +1,5 @@
 <div class="cards-screen">
-  <mat-select formControlName="category">
+  <mat-select (selectionChange)="onEventChange($event)">
     <mat-option *ngFor="let event of events" [value]="event">{{ event.name }}</mat-option>
   </mat-select>
   <mat-toolbar class="toolbar">

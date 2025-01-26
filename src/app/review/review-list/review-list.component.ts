@@ -12,6 +12,9 @@ import {ReviewService} from '../review.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {EventService} from '../../event/event.service';
 import {EventSummary} from '../../event/model/event-summary.model';
+import {ToastrService} from 'ngx-toastr';
+import {MatSelectChange} from '@angular/material/select';
+import {BudgetService} from '../../budget/budget.service';
 
 @Component({
   selector: 'app-review-list',
@@ -27,9 +30,10 @@ export class ReviewListComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private reviewService: ReviewService,
+    private budgetService: BudgetService,
+    private toasterService: ToastrService,
     private dialog: MatDialog
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.eventService.getOrganizerEvent().subscribe({
@@ -46,12 +50,21 @@ export class ReviewListComponent implements OnInit {
     dialog.afterClosed().subscribe(({feedback, rating, id} : {feedback: string, rating: number, id: number}) => {
       this.reviewService.createProductReview(id, { feedback: feedback, rating: rating }).subscribe({
         next: () => {
-          console.log("Create review!");
+          this.toasterService.success(`Review for ${ data.name } has been created successfully!`, "Success");
         },
         error: (error: HttpErrorResponse) => {
-          console.error(error.error.message);
+          this.toasterService.error(error.error.message, "Failed to create review");
         }
       })
+    });
+  }
+
+  onEventChange(changeEvent: MatSelectChange) {
+    const selectedEvent: EventSummary = changeEvent.value;
+    this.budgetService.getPurchased(selectedEvent.id).subscribe({
+      next: (products: Product[]) => {
+        this.products = products;
+      }
     });
   }
 }
