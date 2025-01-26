@@ -9,6 +9,7 @@ import {CreateServiceRequestDto} from './model/create-service-dto.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
 import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
+import { ReservationRequest } from './model/reservation-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -119,6 +120,10 @@ export class ServiceService {
   getAllForProvider(pageProperties?: PageProperties, filter?: ServiceFilter): Observable<PagedResponse<Service>> {
     let params = this.buildQueryParams(filter, pageProperties);
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/account/services", { params: params });
+  }
+
+  reserveService(request: ReservationRequest, eventId: number, serviceId: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/events/${eventId}/services/${serviceId}/reservation`, request)
   }
 
   removeFromFavourites(id: number): Observable<void> {

@@ -75,7 +75,7 @@ const routes: Routes = [
     component: BudgetPlanningComponent,
     canActivate: [NavigationGuard],
     data: {
-      allowedUrls: ['/create-event', '/product-details'],
+      allowedUrls: ['/create-event', '/product-details', '/service-details'],
       fallback: "/home"
     }
   },
