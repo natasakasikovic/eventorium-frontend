@@ -38,6 +38,7 @@ import { EventDetailsComponent } from './event/event-details/event-details.compo
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { CompanyDetailsComponent } from './company/company-details/company-details.component';
 import { FavouritesComponent } from './favourites/favourites/favourites.component';
+import { NotificationsComponent } from './web-socket/notifications/notifications.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -59,6 +60,7 @@ const routes: Routes = [
   { path: 'create-product', component: CreateProductComponent },
   { path: 'price-list', component: PriceListComponent },
   { path: 'report-management', component: ManageReportsComponent},
+  { path: 'notifications', component: NotificationsComponent},
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
