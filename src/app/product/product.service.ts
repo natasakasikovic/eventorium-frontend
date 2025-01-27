@@ -84,8 +84,8 @@ export class ProductService {
     return this.httpClient.delete<void>(`${environment.apiHost}/account/products/favourites/${id}`);
   }
 
-  addToFavourites(id: number): Observable<Product> {
-    return this.httpClient.post<Product>(`${environment.apiHost}/account/products/favourites/${id}`, {});
+  addToFavourites(id: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/account/products/favourites/${id}`, {});
   }
 
   getIsFavourite(id: number): Observable<boolean> {
@@ -99,17 +99,17 @@ export class ProductService {
 
   buildQueryParams(filter: ProductFilter, pageProperties: PageProperties): HttpParams {
     let params = new HttpParams();
-    
+
     Object.keys(filter).forEach((key) => {
       const typedKey = key as keyof ProductFilter;
       const value = filter[typedKey];
-      
+
       if (value !== undefined && value != null && value != "")
         params = params.set(typedKey, value);
     });
 
     params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
-  
+
     return params
   }
 
