@@ -14,7 +14,7 @@
       </div>
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
-        <span>{{ service?.rating }}</span>
+        <span>{{ service?.rating | number:'1.2-2' }}</span>
         <button mat-icon-button (click)="toggleFavouriteService()" *ngIf="loggedIn">
           <mat-icon>{{ isFavourite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>

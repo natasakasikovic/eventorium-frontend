@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Product } from '../../product/model/product.model';
-import { ProductService } from '../../product/product.service';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Product} from '../../product/model/product.model';
+import {ProductService} from '../../product/product.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
+  @Input() reviewable: boolean;
+
+  @Output() review: EventEmitter<Product> = new EventEmitter();
   @Input() showActions: boolean;
 
   @Input() eventId: number;
@@ -44,5 +47,9 @@ export class ProductCardComponent implements OnInit {
     } else {
       void this.router.navigate(['/product-details', this.product.id]);
     }
+  }
+
+  onReview(): void {
+    this.review.emit(this.product);
   }
 }

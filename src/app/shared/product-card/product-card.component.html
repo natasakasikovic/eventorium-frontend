@@ -1,42 +1,45 @@
 <mat-card class="product-card">
-    <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING' && product.visible" class="sale-badge">Save {{ product.discount }}%</div>
-    <img [src]="product.images && product.images[0]" alt="Product image"/>
-    <div *ngIf="product.status === 'PENDING'" class="pending-status">
-      <span class="pending-label">PENDING</span>
+  <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING' && product.visible" class="sale-badge">Save {{ product.discount }}%</div>
+  <img [src]="product.images && product.images[0]" alt="Product image"/>
+  <div *ngIf="product.status === 'PENDING'" class="pending-status">
+    <span class="pending-label">PENDING</span>
+  </div>
+  <div *ngIf="!reviewable && !product.visible" class="hidden-status">
+    <span class="hidden-label">HIDDEN</span>
+  </div>
+  <mat-card-header>
+    <mat-card-title class="title">{{ product.name }}</mat-card-title>
+    <div class="rating" *ngIf="!reviewable">
+      <mat-icon>star</mat-icon>
+      <span>{{ product.rating | number:'1.2-2' }}</span>
     </div>
-    <div *ngIf="!product.visible" class="hidden-status">
-      <span class="hidden-label">HIDDEN</span>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="price">
+      Price:
+        <span *ngIf="product.discount !== 0.0">
+        <s>{{ product.price }}</s>
+          {{ product.price * (1 - product.discount / 100) | number:'1.2-2' }}
+        </span>
+        <span *ngIf="product.discount === 0.0">
+          {{ product.price | number:'1.2-2' }}
+        </span>
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button class="see-more-button" (click)="onClick()">See more</button>
+    <div class="action-buttons" *ngIf="showActions">
+      <button mat-icon-button class="action-button">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      <button mat-icon-button class="action-button">
+        <mat-icon color="primary">edit</mat-icon>
+      </button>
     </div>
-    <mat-card-header>
-      <mat-card-title class="title">{{ product.name }}</mat-card-title>
-      <div class="rating">
-        <mat-icon>star</mat-icon>
-        <span>{{ product.rating | number:'1.2-2' }}</span>
-      </div>
-    </mat-card-header>
-
-    <mat-card-content>
-      <p class="price">
-        Price:
-          <span *ngIf="product.discount !== 0.0">
-          <s>{{ product.price }}</s>
-            {{ product.price * (1 - product.discount / 100) | number:'1.2-2' }}
-          </span>
-          <span *ngIf="product.discount === 0.0">
-            {{ product.price | number:'1.2-2' }}
-          </span>
-      </p>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-button class="see-more-button" (click)="onClick()">See more</button>
-      <div class="action-buttons" *ngIf="showActions">
-        <button mat-icon-button class="action-button">
-          <mat-icon color="warn">delete</mat-icon>
-        </button>
-        <button mat-icon-button class="action-button">
-          <mat-icon color="primary">edit</mat-icon>
-        </button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+    <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
+      <mat-icon>feedback</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

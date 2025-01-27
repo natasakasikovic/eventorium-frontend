@@ -21,6 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PriceListModule} from './price-list/price-list.module';
 import { UserModule } from './user/user.module';
 import {WebSocketModule} from './web-socket/web-socket.module';
+import {ReviewModule} from './review/review.module';
 import { FavouritesModule } from './favourites/favourites.module';
 
 @NgModule({
@@ -46,6 +47,7 @@ import { FavouritesModule } from './favourites/favourites.module';
     PriceListModule,
     CompanyModule,
     UserModule,
+    ReviewModule,
     FavouritesModule
   ],
   providers: [

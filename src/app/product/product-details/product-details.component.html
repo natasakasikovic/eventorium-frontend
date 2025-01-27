@@ -20,7 +20,7 @@
       </div>
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
-        <span>{{ product?.rating }}</span>
+        <span>{{ product?.rating | number:'1.2-2' }}</span>
         <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>

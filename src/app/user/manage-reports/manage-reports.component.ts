@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { UserService } from '../user.service';
 import { UserReportResponse } from '../model/user-report-response.model';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './manage-reports.component.html',
   styleUrl: './manage-reports.component.css'
 })
-export class ManageReportsComponent {
+export class ManageReportsComponent implements OnInit, AfterViewInit {
 
 
   dataSource: MatTableDataSource<UserReportResponse> = new MatTableDataSource();
@@ -56,7 +56,7 @@ export class ManageReportsComponent {
     });
   }
 
-  declineReport(report: UserReportResponse) { 
+  declineReport(report: UserReportResponse) {
     this.updateReportStatus(report, Status.DECLINED);
   }
 

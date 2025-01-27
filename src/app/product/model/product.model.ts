@@ -1,12 +1,14 @@
 import {EventType} from '../../event-type/model/event-type.model';
 import {Category} from '../../category/model/category.model';
-import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {Review} from '../../review/model/review.model';
+import {UserDetails} from '../../user/model/user-details.model';
 import {CompanyResponse} from '../../company/model/company-response.model';
 
 export interface Product {
   id: number;
   name: string;
   description: string;
+  specialties: string;
   price: number;
   discount: number;
   status: string;
@@ -16,6 +18,7 @@ export interface Product {
   category: Category;
   images: string[];
   rating: number;
-  provider: ChatUserDetails;
+  provider: UserDetails;
   company: CompanyResponse;
+  reviews: Review[];
 }
