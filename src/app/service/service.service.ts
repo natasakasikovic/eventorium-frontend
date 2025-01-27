@@ -91,7 +91,7 @@ export class ServiceService {
     ) as Observable<Blob>;
   }
 
-    getBudgetSuggestions(id: number, price: number, eventId: number): Observable<Service[]> {
+  getBudgetSuggestions(id: number, price: number, eventId: number): Observable<Service[]> {
     return this.httpClient.get<Service[]>(
       `${environment.apiHost}/services/suggestions`,
       { params: new HttpParams().set('categoryId', id).set('price', price).set("eventId", eventId) }
@@ -130,8 +130,8 @@ export class ServiceService {
     return this.httpClient.delete<void>(`${environment.apiHost}/account/services/favourites/${id}`);
   }
 
-  addToFavourites(id: number): Observable<Service> {
-    return this.httpClient.post<Service>(`${environment.apiHost}/account/services/favourites/${id}`, {});
+  addToFavourites(id: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/account/services/favourites/${id}`, {});
   }
 
   getIsFavourite(id: number): Observable<boolean> {
