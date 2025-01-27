@@ -79,16 +79,18 @@ export class UserRegisterComponent {
           } else this.nextStep();
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status >= 500) {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
-          } else {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
-          }
+          this.handleError(error);
         }
       })
     }
   }
-  
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status == 502 || error.status < 500)
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)      
+  }
   
   nextStep(): void {
     if (this.user.roles[0].name.toUpperCase() === "PROVIDER") 

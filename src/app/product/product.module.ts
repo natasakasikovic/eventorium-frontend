@@ -8,6 +8,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductsFilterDialogComponent } from './products-filter-dialog/products-filter-dialog.component';
 import { CreateProductComponent } from './create-product/create-product.component';
 import { RouterLink } from "@angular/router";
+import { ManageableProductsComponent } from './manageable-products/manageable-products.component';
 
 
 
@@ -17,7 +18,8 @@ import { RouterLink } from "@angular/router";
     ProductsOverviewComponent,
     ProductDetailsComponent,
     ProductsFilterDialogComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    ManageableProductsComponent
   ],
     imports: [
         CommonModule,

@@ -1,9 +1,7 @@
-import {Component, EventEmitter, Input, numberAttribute, OnInit, Output} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../../product/model/product.model';
-import {ProductService} from '../../product/product.service';
-import {BudgetService} from '../../budget/budget.service';
-import {Router} from '@angular/router';
-import {EventService} from '../../event/event.service';
+import { ProductService } from '../../product/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
@@ -12,6 +10,7 @@ import {EventService} from '../../event/event.service';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
+  @Input() showActions: boolean;
 
   @Input() eventId: number;
   @Input() plannedAmount: number;
@@ -19,8 +18,7 @@ export class ProductCardComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.productService.getImage(this.product.id).subscribe({

@@ -94,14 +94,13 @@
 .product-card .action-button {
   background-color: #d3d3d3;
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   margin: 0 3px;
 }
 
 .product-card .action-button mat-icon {
-  font-size: 28px;
-  color: black;
+  font-size: 25px;
 }
 
 .product-card .action-button:hover {
