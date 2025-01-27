@@ -4,7 +4,7 @@ import {Service} from '../../service/model/service.model';
 import {ProductService} from '../../product/product.service';
 import {ServiceService} from '../../service/service.service';
 import {PagedResponse} from '../../shared/model/paged-response.model';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ProductsFilterDialogComponent} from '../../product/products-filter-dialog/products-filter-dialog.component';
 import {ReviewDialogComponent} from '../review-dialog/review-dialog.component';
 import {Review} from '../model/review.model';
@@ -46,6 +46,23 @@ export class ReviewListComponent implements OnInit {
     const dialog = this.dialog.open(ReviewDialogComponent, {
       data: data
     });
+    this.handleCloseDialog(dialog, data)
+  }
+
+  onEventChange(changeEvent: MatSelectChange) {
+    const selectedEvent: EventSummary = changeEvent.value;
+    this.budgetService.getPurchased(selectedEvent.id).subscribe({
+      next: (products: Product[]) => {
+        console.log(products);
+        const userId: number = this.authService.getUserId();
+        this.products = products
+          .filter(product =>
+            !product.reviews.map(review => review.user.id).includes(userId));
+      }
+    });
+  }
+
+  private handleCloseDialog(dialog: MatDialogRef<ReviewDialogComponent>, data: Product | Service): void {
     dialog.afterClosed().subscribe(({feedback, rating, id} : {feedback: string, rating: number, id: number}) => {
       this.reviewService.createProductReview(id, { feedback: feedback, rating: rating }).subscribe({
         next: () => {
@@ -56,18 +73,6 @@ export class ReviewListComponent implements OnInit {
           this.toasterService.error(error.error.message, "Failed to create review");
         }
       })
-    });
-  }
-
-  onEventChange(changeEvent: MatSelectChange) {
-    const selectedEvent: EventSummary = changeEvent.value;
-    this.budgetService.getPurchased(selectedEvent.id).subscribe({
-      next: (products: Product[]) => {
-        const userId: number = this.authService.getUserId();
-        this.products = products
-          .filter(product =>
-            !product.reviews.map(review => review.user.id).includes(userId));
-      }
     });
   }
 
