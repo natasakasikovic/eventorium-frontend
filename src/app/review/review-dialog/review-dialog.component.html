@@ -30,7 +30,7 @@
   <button
     mat-raised-button
     color="primary"
-    [mat-dialog-close]="{ feedback: feedback, rating: rating, id: data.id }"
+    (click)="closeDialog()"
     class="submit-btn"
   >
     Submit

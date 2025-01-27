@@ -64,20 +64,20 @@ export class ReviewListComponent implements OnInit {
 
   private handleCloseDialog(dialog: MatDialogRef<ReviewDialogComponent>, data: Product | Service): void {
     dialog.afterClosed().subscribe(({feedback, rating, id} : {feedback: string, rating: number, id: number}) => {
-      this.reviewService.createProductReview(id, { feedback: feedback, rating: rating }).subscribe({
+      this.reviewService.createProductReview(id, {feedback: feedback, rating: rating}).subscribe({
         next: () => {
-          this.toasterService.success(`Review for ${ data.name } has been created successfully!`, "Success");
+          this.toasterService.success(`Review for ${data.name} has been created successfully!`, "Success");
           this.products = this.products.filter(product => product.id !== id);
         },
         error: (error: HttpErrorResponse) => {
           this.toasterService.error(error.error.message, "Failed to create review");
         }
-      })
+      });
     });
   }
 
   private loadEvents(): void {
-    this.eventService.getOrganizerEvent().subscribe({
+    this.eventService.getOrganizerEvents().subscribe({
       next: (events: EventSummary[]) => {
         this.events = events;
       }

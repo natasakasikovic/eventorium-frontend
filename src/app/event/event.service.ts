@@ -125,8 +125,8 @@ export class EventService {
     return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
   }
 
-  getOrganizerEvent(): Observable<EventSummary[]> {
-    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/all`);
+  getOrganizerEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/my-events`);
   }
 
   isFavourite(id: number): Observable<boolean> {
