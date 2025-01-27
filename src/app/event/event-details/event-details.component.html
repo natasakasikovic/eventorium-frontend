@@ -1,12 +1,12 @@
 <div class="container">
     <mat-card>
       <mat-card-header>
-        <mat-card-title> {{ event.name }}</mat-card-title>
+        <mat-card-title> {{ event?.name }}</mat-card-title>
         <mat-card-subtitle class="type">
-          <strong>Event type: </strong> {{ event.eventType }}
+          <strong>Event type: </strong> {{ event?.eventType }}
         </mat-card-subtitle>
         <mat-card-subtitle class="type">
-          <strong>Privacy type: </strong> {{ event.privacy }}
+          <strong>Privacy type: </strong> {{ event?.privacy }}
         </mat-card-subtitle>
         <div *ngIf="loggedIn" class="action-buttons">
             <button mat-icon-button (click)="toggleFavourite()">
@@ -18,11 +18,11 @@
         </div>
     </mat-card-header>
       <mat-card-content>
-        <p class="description">{{ event.description }}</p>
-        <p><mat-icon>groups</mat-icon> {{ event.maxParticipants }}</p>
-        <p><mat-icon>location_on</mat-icon><strong> {{ event.address }} </strong></p>
-        <p><mat-icon>location_city</mat-icon><strong> {{ event.city }} </strong></p>
-        <p><mat-icon>date_range</mat-icon><strong> {{ event.date }} </strong></p>
+        <p class="description">{{ event?.description }}</p>
+        <p><mat-icon>groups</mat-icon> {{ event?.maxParticipants }}</p>
+        <p><mat-icon>location_on</mat-icon><strong> {{ event?.address }} </strong></p>
+        <p><mat-icon>location_city</mat-icon><strong> {{ event?.city }} </strong></p>
+        <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
       </mat-card-content>
     </mat-card>
     <mat-card class="question">

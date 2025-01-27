@@ -33,5 +33,14 @@
     <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
       <mat-icon>feedback</mat-icon>
     </button>
+    <button mat-button class="see-more-button" (click)="onClick()">See more</button>
+    <div class="action-buttons" *ngIf="showActions">
+      <button mat-icon-button class="action-button">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      <button mat-icon-button class="action-button">
+        <mat-icon color="primary">edit</mat-icon>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

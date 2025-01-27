@@ -37,7 +37,7 @@ export class DrawerComponent {
         items.push(
           { label: 'Company', icon: 'business', route: '/provider-company' },
           { label: 'Services', icon: 'information', route: '/manageable-services' },
-          { label: 'Products', icon: 'information', route: '' },
+          { label: 'Products', icon: 'information', route: '/manageable-products' },
           { label: 'Price List', icon: 'receipt', route: '/price-list' }
         );
       }

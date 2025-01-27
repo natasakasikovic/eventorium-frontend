@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { Product } from '../../product/model/product.model';
+import {Product} from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
 import {Router} from '@angular/router';
 
@@ -13,6 +13,7 @@ export class ProductCardComponent implements OnInit {
   @Input() reviewable: boolean;
 
   @Output() review: EventEmitter<Product> = new EventEmitter();
+  @Input() showActions: boolean;
 
   @Input() eventId: number;
   @Input() plannedAmount: number;
@@ -20,8 +21,7 @@ export class ProductCardComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.productService.getImage(this.product.id).subscribe({

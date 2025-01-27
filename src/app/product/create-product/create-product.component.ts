@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../model/product.model';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private eventTypeService: EventTypeService,
     private dialog: MatDialog,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -107,6 +109,9 @@ export class CreateProductComponent implements OnInit, OnDestroy {
           return this.uploadProductImages(createdProduct.id);
         })
       ).subscribe({
+        next: () => {
+          this.router.navigate(['manageable-products']);
+        },
         error: (error: HttpErrorResponse) => {
           this.handleError(error);
         }

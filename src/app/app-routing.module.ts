@@ -38,6 +38,7 @@ import { EventDetailsComponent } from './event/event-details/event-details.compo
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { CompanyDetailsComponent } from './company/company-details/company-details.component';
 import { FavouritesComponent } from './favourites/favourites/favourites.component';
+import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
 import { ReviewListComponent } from './review/review-list/review-list.component';
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
 
@@ -54,6 +55,7 @@ const routes: Routes = [
   { path: 'product-details/:id', component: ProductDetailsComponent},
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
+  { path: 'manageable-products', component: ManageableProductsComponent},
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
@@ -95,7 +97,7 @@ const routes: Routes = [
       fallback: '/home',
     }
   },
-  { path: 'event-details/:id', component:EventDetailsComponent },
+  { path: 'event-details/:id', component: EventDetailsComponent },
   { path: 'account-details', component: AccountDetailsComponent },
   { path: 'edit-account', component: EditAccountComponent },
   { path: 'user-profile/:id', component: UserProfileComponent },
