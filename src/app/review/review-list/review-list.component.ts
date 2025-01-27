@@ -63,7 +63,6 @@ export class ReviewListComponent implements OnInit {
     const selectedEvent: EventSummary = changeEvent.value;
     this.budgetService.getPurchased(selectedEvent.id).subscribe({
       next: (products: Product[]) => {
-        console.log(products);
         const userId: number = this.authService.getUserId();
         this.products = products
           .filter(product =>

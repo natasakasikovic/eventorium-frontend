@@ -9,7 +9,7 @@
   </div>
   <mat-card-header>
     <mat-card-title class="title">{{ product.name }}</mat-card-title>
-    <div class="rating" *ngIf="reviewable">
+    <div class="rating" *ngIf="!reviewable">
       <mat-icon>star</mat-icon>
       <span>{{ product.rating | number:'1.2-2' }}</span>
     </div>
