@@ -1,4 +1,4 @@
-export interface ChatUserDetails {
+export interface UserDetails {
   id: number,
   name: string,
   lastname: string

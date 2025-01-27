@@ -3,7 +3,7 @@ import {ChatDialogComponent} from './chat-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ChatMessage} from "../../web-socket/model/chat-message.model";
 import {HttpClient} from '@angular/common/http';
-import {ChatUserDetails} from '../../web-socket/model/chat-user.model';
+import {UserDetails} from '../../user/model/user-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class ChatDialogService {
   ) {}
 
 
-  openChatDialog(recipient: ChatUserDetails): void {
+  openChatDialog(recipient: UserDetails): void {
     this.dialogRef = this.dialog.open(ChatDialogComponent, {
       width: 'auto',
       height: 'auto',

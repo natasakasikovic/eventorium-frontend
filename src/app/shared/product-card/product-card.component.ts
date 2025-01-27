@@ -1,9 +1,7 @@
-import {Component, EventEmitter, Input, numberAttribute, OnInit, Output} from '@angular/core';
-import { Product } from '../../product/model/product.model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Product} from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
-import {BudgetService} from '../../budget/budget.service';
 import {Router} from '@angular/router';
-import {EventService} from '../../event/event.service';
 
 @Component({
   selector: 'app-product-card',
@@ -12,6 +10,10 @@ import {EventService} from '../../event/event.service';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
+  @Input() reviewable: boolean;
+
+  @Output() review: EventEmitter<Product> = new EventEmitter();
+  @Input() showActions: boolean;
 
   @Input() eventId: number;
   @Input() plannedAmount: number;
@@ -19,8 +21,7 @@ export class ProductCardComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.productService.getImage(this.product.id).subscribe({
@@ -46,5 +47,9 @@ export class ProductCardComponent implements OnInit {
     } else {
       void this.router.navigate(['/product-details', this.product.id]);
     }
+  }
+
+  onReview(): void {
+    this.review.emit(this.product);
   }
 }

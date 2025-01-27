@@ -37,12 +37,15 @@ export class DrawerComponent {
         items.push(
           { label: 'Company', icon: 'business', route: '/provider-company' },
           { label: 'Services', icon: 'information', route: '/manageable-services' },
-          { label: 'Products', icon: 'information', route: '' },
+          { label: 'Products', icon: 'information', route: '/manageable-products' },
           { label: 'Price List', icon: 'receipt', route: '/price-list' }
         );
       }
 
       if (userRole === "EVENT_ORGANIZER") {
+        items.push(
+          { label: 'Review', icon: 'feedback', route: '/reviews' }
+        );
       }
 
       if (userRole === "ADMIN") {
@@ -50,7 +53,8 @@ export class DrawerComponent {
          { label: 'Categories', icon: 'category', route: '/categories-overview' },
          { label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals' },
          { label: 'Event types', icon: 'drag_indicator', route: '/event-types' },
-         { label: 'Report management', icon:'gavel', route:'/report-management' }
+         { label: 'Report management', icon:'gavel', route:'/report-management' },
+         { label: 'Review management', icon:'feedback', route:'/review-management'}
         )
       }
     }

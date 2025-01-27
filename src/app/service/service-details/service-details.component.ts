@@ -12,6 +12,7 @@ import { ServiceReservationDialogComponent } from '../service-reservation-dialog
 import { EventService } from '../../event/event.service';
 import { EventSelectionComponent } from '../../shared/event-selection/event-selection.component';
 import { Event } from '../../event/model/event.model';
+import {EventSummary} from '../../event/model/event-summary.model';
 
 @Component({
   selector: 'app-service-details',
@@ -19,10 +20,10 @@ import { Event } from '../../event/model/event.model';
   styleUrl: './service-details.component.css'
 })
 export class ServiceDetailsComponent implements OnInit {
-  
+
   service: Service
   isFavourite: boolean;
-  
+
   serviceId: number;
   eventId: number;
 
@@ -89,7 +90,7 @@ export class ServiceDetailsComponent implements OnInit {
   onClick(): void{
     if (this.eventId)
       this.openReservationDialog();
-    else 
+    else
       this.openDraftEventDialog();
   }
 
@@ -97,11 +98,11 @@ export class ServiceDetailsComponent implements OnInit {
     this.dialog.open(ServiceReservationDialogComponent, {
       data: { eventId: this.eventId, serviceId: this.serviceId }
     });
-  }  
+  }
 
   private openDraftEventDialog(): void {
     this.eventService.getDraftedEvents().subscribe({
-      next: (events: Event[]) => {
+      next: (events: EventSummary[]) => {
         const dialogRef = this.dialog.open(EventSelectionComponent, { data: events });
         this.handleCloseDialog(dialogRef);
       }

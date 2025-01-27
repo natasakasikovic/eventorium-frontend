@@ -11,11 +11,13 @@ import {Router} from '@angular/router';
 export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() service: Service;
   @Input() showActions: boolean;
+  @Input() reviewable: boolean;
 
   @Input() eventId: number;
   @Input() plannedAmount: number;
 
   @Output() delete: EventEmitter<Service> = new EventEmitter();
+  @Output() review: EventEmitter<Service> = new EventEmitter();
 
   constructor(
     private serviceService: ServiceService,
@@ -39,6 +41,10 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
 
   onDelete(): void {
     this.delete.emit(this.service);
+  }
+
+  onReview(): void {
+    this.review.emit(this.service);
   }
 
   ngOnDestroy(): void {
