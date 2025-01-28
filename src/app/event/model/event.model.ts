@@ -14,7 +14,6 @@ export interface Event{
     eventType: EventType | null;
     city: City;
     address: string;
-    // activities: Activity[];
     organizer: User;
     invitations: string[];
     budget: Budget;

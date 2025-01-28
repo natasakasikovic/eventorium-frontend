@@ -44,6 +44,9 @@
 mat-icon {
   margin-right: 16px; 
   color: #35422F;
+  font-size: 24px;
+  vertical-align: middle;
+  line-height: normal;
 }
 
 mat-icon:hover {
@@ -66,12 +69,12 @@ mat-list-item span {
 span[matLine] {
   font-size: 16px; 
   font-weight: 500; 
-  line-height: 1; 
+  line-height: 1.5;
   color: #35422F;    
   vertical-align: middle;
 }
 
-.items_container{
+.items_container {
   background-color: #e0e0e0;
   height: calc(100vh - 82px);
 }

@@ -29,6 +29,7 @@ export class DrawerComponent {
     if (userRole) {
       items.push(
         { label: 'Profile', icon: 'person', route: '/account-details' },
+        { label: 'Calendar', icon: 'calendar_month', route: '/calendar'},
         { label: 'Notifications', icon: 'notifications', route: '/notifications' },
         { label: 'Favourites', icon: 'favorite', route: '/favourites' }
       );

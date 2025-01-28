@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FavouritesComponent } from './favourites/favourites.component';
 import { MaterialModule } from '../infrastructure/material/material.module';
-import { SharedModule } from "../shared/shared.module";
+import { CalendarComponent } from './calendar/calendar.component';
+
 
 @NgModule({
   declarations: [
-    FavouritesComponent
+    CalendarComponent
   ],
   imports: [
-    CommonModule, 
-    SharedModule,
+    CommonModule,
     MaterialModule
-]
+  ]
 })
-export class FavouritesModule { }
+export class CalendarModule { }

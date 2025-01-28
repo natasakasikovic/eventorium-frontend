@@ -1,0 +1,15 @@
+<div class="layout-container" [class.show-details]="selectedDate">
+  <div class="calendar-container" [class.expanded]="!selectedDate">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+  <div class="date-details" [class.hidden]="!selectedDate">
+    <mat-list role="list" *ngIf="eventsOnDate.length > 0" class="list">
+      <mat-list-item role="listitem" *ngFor="let e of eventsOnDate">
+        <a [routerLink]="['/event-details', e.id]" class="event-link">
+          {{ e.name }}
+        </a>
+      </mat-list-item>
+    </mat-list>
+    <p *ngIf="eventsOnDate.length === 0" class="no-events-message">No plans for the selected date.</p>
+  </div>
+</div>

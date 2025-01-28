@@ -8,6 +8,8 @@ import { AuthService } from '../../auth/auth.service';
 import { UserDetails } from '../../user/model/user-details.model';
 import { ChatDialogService } from '../../shared/chat-dialog/chat-dialog.service';
 import { of, switchMap } from 'rxjs';
+import { MESSAGES } from '../../shared/constants/messages';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-event-details',
@@ -82,6 +84,16 @@ export class EventDetailsComponent implements OnInit {
     this.service.removeFromFavourites(this.id).subscribe({
       next: (_) => {
         this.isFavourite = false;
+      }
+    })
+  }
+
+  addToCalendar(): void  {
+    this.service.addToCalendar(this.id).subscribe({
+      next: (_) => {
+        this.showMessage(MESSAGES.success, MESSAGES.addedToCalendar);
+      }, error: (_) => {
+        this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, "");
       }
     })
   }

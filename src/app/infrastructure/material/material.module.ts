@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
@@ -8,9 +7,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
@@ -32,6 +29,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatRadioModule} from '@angular/material/radio'; 
 import { MatMenuModule } from '@angular/material/menu';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [],
@@ -78,7 +78,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabGroup,
     MatTab,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    FullCalendarModule,
+    MatListModule,
+    RouterModule
   ],
   exports: [
     MatToolbarModule,
@@ -123,7 +126,10 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabGroup,
     MatTab,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    FullCalendarModule,
+    MatListModule,
+    RouterModule
   ]
 })
 export class MaterialModule { }

@@ -48,6 +48,7 @@ export const MESSAGES = {
     deleteConfirmation: "Are you sure you want to delete",
     suspensionConfirmation:"Are you sure you want to suspend the user? By suspending the user, they will not be able to log in until the suspension expires, which will take 3 days.",
     productCreated: "Product created successfully!",
-    reservationSuccess: "Check your email for more information about the reservation!"
+    reservationSuccess: "Check your email for more information about the reservation!",
+    addedToCalendar: "The event has been successfully added to your calendar. We are counting on your attendance. If there are any changes regarding the event, you will be notified via email. We look forward to seeing you!"
   };
 
