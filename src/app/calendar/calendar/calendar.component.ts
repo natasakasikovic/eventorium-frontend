@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core/index.js';
+import { CalendarOptions, EventInput } from '@fullcalendar/core/index.js';
 import { CalendarService } from '../calendar.service';
 import { CalendarEvent } from '../model/calendar-event.model';
 import { AuthService } from '../../auth/auth.service';
 import { CalendarReservation } from '../model/calendar-reservation.model';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { areDatesEqual } from '../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-calendar',
@@ -19,11 +20,14 @@ export class CalendarComponent implements OnInit {
   organizerEventsOnDate: CalendarEvent[] = [];
   reservations: CalendarReservation[] = [];
   reservationsOnDate: CalendarReservation[] = [];
+
+  eventInputs: EventInput[] = []; 
   
   selectedDate: Date | null = null;
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
+    events: [],
     headerToolbar: {
       left: 'title',
       center: '',
@@ -42,39 +46,43 @@ export class CalendarComponent implements OnInit {
       next: (events: CalendarEvent[]) => {
         this.events = events;
         this.mapEvents(events);
+        this.updateCalendarEvents();
       }
-    })
+    });
+  
     this.addOrganizerEvents();
     this.addReservations();
   }
-
+  
   addOrganizerEvents() {
     if (this.authService.getRole() === 'EVENT_ORGANIZER') {
       this.service.getOrganizerEvents().subscribe({
         next: (events: CalendarEvent[]) => {
           this.organizerEvents = events;
           this.mapEvents(events);
+          this.updateCalendarEvents();
         }
-      })
-    } 
+      });
+    }
   }
-
+  
   addReservations() {
     if (this.authService.getRole() === 'PROVIDER') {
       this.service.getServiceReservations().subscribe({
         next: (reservations: CalendarReservation[]) => {
           this.reservations = reservations;
           this.mapReservations(reservations);
+          this.updateCalendarEvents();
         }
-      })
+      });
     }
   }
 
   mapEvents(events: CalendarEvent[]) {
-    this.calendarOptions.events = events.map(event => ({
+    this.eventInputs.push(...events.map(event => ({
       title: event.name,
       date: event.date
-    }));
+    })));
   }
 
   mapReservations(reservation: CalendarReservation[]) {
@@ -82,17 +90,22 @@ export class CalendarComponent implements OnInit {
       .map(res => res.date)
       .filter((value, index, self) => self.indexOf(value) === index);
   
-    this.calendarOptions.events = mappedReservations.map(date => ({
+    this.eventInputs.push(...mappedReservations.map(date => ({
       title: 'Reservations',
       date: date
-    }));
+    })));
   }
-
-  handleDateClick(arg: DateClickArg) {
-    this.selectedDate = new Date(arg.dateStr); 
   
-    this.eventsOnDate = this.events.filter(event => new Date(event.date).toDateString() === this.selectedDate.toDateString());
-    this.organizerEventsOnDate = this.organizerEvents.filter(event => new Date(event.date).toDateString() === this.selectedDate.toDateString());
-    this.reservationsOnDate = this.reservations.filter(reservation => new Date(reservation.date).toDateString() === this.selectedDate.toDateString());
+  updateCalendarEvents() {
+    this.calendarOptions.events = [...this.eventInputs];
   }
+  
+  handleDateClick(arg: DateClickArg) {
+    this.selectedDate = new Date(arg.date);
+  
+    this.eventsOnDate = this.events.filter(event => areDatesEqual(new Date(event.date), this.selectedDate));
+    this.organizerEventsOnDate = this.organizerEvents.filter(event => areDatesEqual(new Date(event.date), this.selectedDate));
+    this.reservationsOnDate = this.reservations.filter(reservation => areDatesEqual(new Date(reservation.date), this.selectedDate));
+  }
+  
 }
