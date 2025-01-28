@@ -16,6 +16,19 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="solution">
+      <th mat-header-cell *matHeaderCellDef> Solution </th>
+      <td mat-cell *matCellDef="let element">
+        <a
+          [routerLink]="element.solution.solutionType === 'PRODUCT'
+          ? '/product-details/' + element.solution.id
+          : '/service-details/' + element.solution.id"
+        >
+          {{ element.solution.name }}
+        </a>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="feedback">
       <th mat-header-cell *matHeaderCellDef> Feedback </th>
       <td mat-cell *matCellDef="let element"> {{ element.feedback }} </td>
