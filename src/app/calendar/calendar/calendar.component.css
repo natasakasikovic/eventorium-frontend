@@ -67,3 +67,10 @@ mat-list-item .event-link {
 mat-list-item:hover .event-link {
   color: #333;
 }
+
+.label {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}

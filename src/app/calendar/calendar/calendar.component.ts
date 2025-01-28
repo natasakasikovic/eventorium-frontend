@@ -5,6 +5,7 @@ import { CalendarEvent } from '../model/calendar-event.model';
 import { Router } from '@angular/router';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -14,6 +15,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 export class CalendarComponent implements OnInit {
   events: CalendarEvent[] = [];
   eventsOnDate: CalendarEvent[] = [];
+  organizerEvents: CalendarEvent[] = [];
+  organizerEventsOnDate: CalendarEvent[] = [];
   selectedDate: Date | null = null;
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -28,20 +31,29 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private service: CalendarService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.service.getAttendingEvents().subscribe({
       next: (events: CalendarEvent[]) => {
         this.events = events;
-        this.mapToCalendar();
+        this.mapToCalendar(events);
       }
     })
+    if (this.authService.getRole() === 'EVENT_ORGANIZER') {
+      this.service.getOrganizerEvents().subscribe({
+        next: (events: CalendarEvent[]) => {
+          this.organizerEvents = events;
+          this.mapToCalendar(events);
+        }
+      })
+    } 
   }
 
-  mapToCalendar() {
-    this.calendarOptions.events = this.events.map(event => ({
+  mapToCalendar(events: CalendarEvent[]) {
+    this.calendarOptions.events = events.map(event => ({
       title: event.name,
       date: event.date
     }));
@@ -50,6 +62,7 @@ export class CalendarComponent implements OnInit {
   handleDateClick(arg: any) {
     this.selectedDate = arg.dateStr;
     this.eventsOnDate = this.events.filter(event => event.date === this.selectedDate);
+    this.organizerEventsOnDate = this.organizerEvents.filter(event => event.date === this.selectedDate)
   }
   
 }
