@@ -44,6 +44,8 @@ export class ReviewListComponent implements OnInit {
 
   openDialog(data: Product | Service): void {
     const dialog = this.dialog.open(ReviewDialogComponent, {
+      width: '450px',
+      height: 'auto',
       data: data
     });
     this.handleCloseDialog(dialog, data)
@@ -53,7 +55,6 @@ export class ReviewListComponent implements OnInit {
     const selectedEvent: EventSummary = changeEvent.value;
     this.budgetService.getPurchased(selectedEvent.id).subscribe({
       next: (products: Product[]) => {
-        console.log(products);
         const userId: number = this.authService.getUserId();
         this.products = products
           .filter(product =>
