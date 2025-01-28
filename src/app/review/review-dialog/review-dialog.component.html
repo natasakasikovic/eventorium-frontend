@@ -9,6 +9,9 @@
       placeholder="Enter your feedback..."
       rows="5"
     ></textarea>
+    <mat-error *ngIf="!feedback">
+      Feedback is required
+    </mat-error>
   </mat-form-field>
 
   <div class="rating-container">
@@ -24,7 +27,11 @@
       </mat-icon>
     </div>
   </div>
+  <mat-error *ngIf="formError">
+    All fields are required!
+  </mat-error>
 </mat-dialog-content>
+
 
 <mat-dialog-actions align="end" class="custom-dialog-actions">
   <button
