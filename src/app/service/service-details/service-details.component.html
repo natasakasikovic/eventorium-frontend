@@ -42,10 +42,14 @@
 
     <mat-card-actions class="footer">
       <div class="info">
-        <button mat-icon-button>
-          <mat-icon>info</mat-icon>
+        <button mat-icon-button [routerLink]="['/user-profile', service?.provider.id]">
+          <mat-icon>person</mat-icon>
         </button>
-        <span>{{ service?.provider }}</span>
+        <span>{{ service?.provider.name }} {{ service?.provider.lastname }}</span>
+        <button mat-icon-button [routerLink]="['/company', service?.company.id]">
+          <mat-icon>business</mat-icon>
+        </button>
+        <span>{{ service?.company.name }}</span>
       </div>
       <div class="details">
         <p><strong>Duration:</strong> {{ service?.minDuration }}
