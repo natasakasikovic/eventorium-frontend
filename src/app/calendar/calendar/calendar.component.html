@@ -19,6 +19,12 @@
         </a>
       </mat-list-item>
     </mat-list>
+    <mat-list role="list" *ngIf="reservationsOnDate.length > 0" class="list">
+      <p class="label">Reservations: </p>
+      <mat-list-item role="listitem" *ngFor="let r of reservationsOnDate">
+        {{ r.serviceName }} -> {{ r.eventName }} 
+      </mat-list-item>
+    </mat-list>
     <p *ngIf="eventsOnDate.length === 0" class="no-events-message">No plans for the selected date.</p>
   </div>
 </div>
