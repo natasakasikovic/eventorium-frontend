@@ -38,6 +38,7 @@ import { EventDetailsComponent } from './event/event-details/event-details.compo
 import { CreateProductComponent } from './product/create-product/create-product.component';
 import { CompanyDetailsComponent } from './company/company-details/company-details.component';
 import { FavouritesComponent } from './favourites/favourites/favourites.component';
+import { NotificationsComponent } from './web-socket/notifications/notifications.component';
 import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
 import { ReviewListComponent } from './review/review-list/review-list.component';
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
@@ -66,6 +67,7 @@ const routes: Routes = [
   { path: 'price-list', component: PriceListComponent },
   { path: 'reviews', component: ReviewListComponent },
   { path: 'report-management', component: ManageReportsComponent},
+  { path: 'notifications', component: NotificationsComponent},
   { path: 'review-management', component: ManageReviewsComponent},
   {
     path: 'event-invitations/:id',
