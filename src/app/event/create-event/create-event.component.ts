@@ -52,16 +52,7 @@ export class CreateEventComponent implements OnInit {
 
   onSubmit(): void {
     if (this.createEventForm.valid) {
-      const newEvent: CreateEventRequestDto = {
-        name: this.createEventForm.get('name').value,
-        description: this.createEventForm.get('description').value,
-        maxParticipants: this.createEventForm.get('maxParticipants').value,
-        privacy: this.createEventForm.get('privacy').value.toUpperCase(),
-        address: this.createEventForm.get('address').value,
-        city: this.createEventForm.get('city').value,
-        date: this.createEventForm.get('eventDate').value,
-        eventType: this.createEventForm.get('eventType').value === "all" ? null : this.createEventForm.get('eventType').value
-      };
+      const newEvent = this.getFormFields();
 
       this.eventService.createEvent(newEvent).subscribe({
         next: (event: CreatedEvent) => {
@@ -70,23 +61,34 @@ export class CreateEventComponent implements OnInit {
           void this.router.navigate(['budget-planning', event.id]);
         },
         error: (error: HttpErrorResponse) => {
-          if (error.status === 400) {
-            this.showMessage("", error.message);
-          } else {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
-          }
+          this.handleError(error);
         }
       });
 
     }
   }
 
+  getFormFields(): CreateEventRequestDto {
+    const { eventType, eventDate, privacy, ...event } = this.createEventForm.value;
+  
+    return {
+      ...event,
+      eventType: eventType === "all" ? null : eventType,
+      date: new Date(eventDate.getTime() - eventDate.getTimezoneOffset() * 60000),
+      privacy: privacy.toUpperCase(),
+    };
+  }  
+
+  handleError(error: HttpErrorResponse): void {
+    if (error.status < 500)
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)      
+  }
+
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: title,
-        message: message
-      }
+      data: { title: title, message: message }
     })
   }
 
