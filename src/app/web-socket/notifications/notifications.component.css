@@ -1,0 +1,40 @@
+.main-container {
+    text-align: center;
+    height: 80.5vh;
+}
+
+.common-style {
+    font-family: 'jeju';
+    font-size: 1.8rem;
+}
+
+mat-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #eeeeec;
+    border: 0.15rem solid #ddd;
+    border-radius: 1rem;
+    width: auto;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    min-height: 5rem;
+}
+
+.timestamp {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1rem;
+    color: gray;
+    font-style: italic;
+}
+
+.seen-indicator {
+    position: absolute;
+    top: 1.8rem;
+    right: 1rem;
+    color: #4caf50;
+    font-size: 1rem;
+    font-style: italic;
+}

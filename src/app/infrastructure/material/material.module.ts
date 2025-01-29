@@ -32,6 +32,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatRadioModule} from '@angular/material/radio'; 
 import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [],
@@ -78,7 +79,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabGroup,
     MatTab,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatListModule
   ],
   exports: [
     MatToolbarModule,
@@ -123,7 +125,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTabGroup,
     MatTab,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatListModule
   ]
 })
 export class MaterialModule { }

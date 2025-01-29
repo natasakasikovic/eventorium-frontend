@@ -9,6 +9,9 @@ import {ToastrService} from 'ngx-toastr';
 import {ChatMessageRequestDto} from './model/chat-message-request-dto.model';
 import {ChatMessage} from './model/chat-message.model';
 import {ChatDialogService} from '../shared/chat-dialog/chat-dialog.service';
+import { HttpClient } from '@angular/common/http';
+import { NotificationResponse } from './notifications/notifications-response.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +27,8 @@ export class WebSocketService {
   constructor(
     private authService: AuthService,
     private toasterService: ToastrService,
-    private chatDialog: ChatDialogService
-  ) { }
+    private chatDialog: ChatDialogService,
+    private http: HttpClient) { }
 
   openSocket(): void {
     let ws = new SockJS(`${environment.apiHost}/ws`);
@@ -109,5 +112,13 @@ export class WebSocketService {
 
   private closeAdminSubscriptions(): void {
     this.adminNotificationSubscription.unsubscribe();
+  }
+
+  getNotifications(): Observable<NotificationResponse[]> {
+    return this.http.get<NotificationResponse[]>(`${environment.apiHost}/notifications`);
+  }
+  
+  markAsSeen(): Observable<void> {
+    return this.http.patch<void>(`${environment.apiHost}/notifications/seen`, {});
   }
 }
