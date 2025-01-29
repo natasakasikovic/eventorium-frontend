@@ -23,6 +23,7 @@ import { UserModule } from './user/user.module';
 import {WebSocketModule} from './web-socket/web-socket.module';
 import {ReviewModule} from './review/review.module';
 import { FavouritesModule } from './favourites/favourites.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { FavouritesModule } from './favourites/favourites.module';
     CompanyModule,
     UserModule,
     ReviewModule,
-    FavouritesModule
+    FavouritesModule,
+    CalendarModule
   ],
   providers: [
     provideAnimationsAsync(),

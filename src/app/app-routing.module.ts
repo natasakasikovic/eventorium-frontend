@@ -42,11 +42,13 @@ import { NotificationsComponent } from './web-socket/notifications/notifications
 import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
 import { ReviewListComponent } from './review/review-list/review-list.component';
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
+import { CalendarComponent } from './calendar/calendar/calendar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: UserRegisterComponent},
+  { path: 'calendar', component: CalendarComponent},
   { path: 'events-overview', component: EventsOverviewComponent},
   { path: 'categories-overview', component: CategoriesOverviewComponent },
   { path: 'category-proposals', component: CategoryProposalsComponent },

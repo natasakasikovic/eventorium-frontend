@@ -18,7 +18,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     CreateEventComponent,
     EventAgendaComponent,
     EventsFilterDialogComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
   ],
   imports: [
     CommonModule,

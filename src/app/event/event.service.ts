@@ -140,4 +140,8 @@ export class EventService {
   removeFromFavourites(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${environment.apiHost}/account/events/favourites/${id}`);
   }
+
+  addToCalendar(id: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/account/events/${id}/attendance`, null);
+  }
 }

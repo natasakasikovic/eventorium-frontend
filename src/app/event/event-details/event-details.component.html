@@ -25,9 +25,9 @@
         <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
       </mat-card-content>
     </mat-card>
-    <mat-card class="question">
+    <mat-card class="question" *ngIf="loggedIn">
       <p>Are you planning to join this event?</p>
-        <button mat-button>
+        <button mat-button (click)="addToCalendar()">
           <mat-icon>event_available</mat-icon>
           Add to calendar
         </button>
