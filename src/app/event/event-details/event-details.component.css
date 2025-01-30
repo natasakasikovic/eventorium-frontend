@@ -69,3 +69,45 @@
     align-items: center;
     justify-items: center;
   }
+  
+  .schedule {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .schedule mat-card-title {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .schedule table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .schedule th {
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 8px;
+    font-weight: bold;
+  }
+  
+  .schedule td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .schedule tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .schedule mat-card-content {
+    overflow-x: auto;
+  }
+  
+

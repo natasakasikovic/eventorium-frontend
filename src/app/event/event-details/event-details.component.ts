@@ -7,9 +7,10 @@ import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.compon
 import { AuthService } from '../../auth/auth.service';
 import { UserDetails } from '../../user/model/user-details.model';
 import { ChatDialogService } from '../../shared/chat-dialog/chat-dialog.service';
-import { of, switchMap } from 'rxjs';
+import { forkJoin, of, switchMap } from 'rxjs';
 import { MESSAGES } from '../../shared/constants/messages';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { Activity } from '../model/activity.model';
 
 @Component({
   selector: 'app-event-details',
@@ -20,6 +21,8 @@ export class EventDetailsComponent implements OnInit {
   id: number;
   event: EventDetails;
   isFavourite: boolean;
+  displayedColumns: string[] = ['name', 'description', 'startTime', 'endTime', 'location'];
+  agenda: Activity[]
 
   constructor(
     private route: ActivatedRoute,
@@ -36,13 +39,18 @@ export class EventDetailsComponent implements OnInit {
       switchMap((event: EventDetails) => {
         this.event = event;
 
-        if (this.loggedIn) return this.service.isFavourite(this.id);
-        else return of(false);
+        const fav$ = this.loggedIn ? this.service.isFavourite(this.id) : of(false);
+        const agenda$ = this.service.getAgenda(this.id);
 
+        return forkJoin({
+          isFav: fav$,
+          agenda: agenda$
+        });
       })
     ).subscribe({
-      next: (isFav: boolean) => {
+      next: ({ isFav, agenda }) => {
         this.isFavourite = isFav;
+        this.agenda = agenda;
       },
       error: (_) => {
         this.showMessage("", "An error occurred while loading event details. Try again later.");
@@ -52,10 +60,7 @@ export class EventDetailsComponent implements OnInit {
 
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: title,
-        message: message
-      }
+      data: { title: title, message: message }
     })
   }
 
