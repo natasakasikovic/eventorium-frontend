@@ -15,6 +15,7 @@ import { Invitation } from './model/invitation-request.model';
 import { EventFilter } from './model/event-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
 import { EventDetails } from './model/event-details.model';
+import { Activity } from './model/activity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -143,5 +144,13 @@ export class EventService {
 
   addToCalendar(id: number): Observable<void> {
     return this.httpClient.post<void>(`${environment.apiHost}/account/events/${id}/attendance`, null);
+  }
+
+  getAgenda(id: number): Observable<Activity[]> {
+    return this.httpClient.get<Activity[]>(`${environment.apiHost}/events/${id}/agenda`);
+  }
+
+  exportToPDF(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf`, { responseType: 'blob' });
   }
 }

@@ -125,10 +125,6 @@ export class EventAgendaComponent implements OnInit {
     })
   }
 
-  exportToPdf(): void {
-    console.log('Exporting to PDF'); // not implemented!
-  }
-
   isClosed(): boolean {
     return this.privacy === Privacy.CLOSED.toUpperCase();
   }
