@@ -102,4 +102,17 @@ export class EventDetailsComponent implements OnInit {
       }
     })
   }
+
+  exportToPDF() {
+    this.service.exportToPDF(this.id).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = 'event_details.pdf';
+        link.click();
+      }
+    });
+  }
 }

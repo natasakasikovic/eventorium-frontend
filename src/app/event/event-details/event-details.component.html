@@ -25,14 +25,24 @@
         <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
       </mat-card-content>
     </mat-card>
-    <mat-card class="question" *ngIf="loggedIn">
-      <p>Are you planning to join this event?</p>
+    <mat-card class="question">
+      <div class="question-header" *ngIf="loggedIn">
+        <p>Are you planning to join this event?</p>
         <button mat-button (click)="addToCalendar()">
           <mat-icon>event_available</mat-icon>
           Add to calendar
         </button>
+      </div>
+      <div class="export-section">
+        <p>Save event information:</p>
+        <button mat-button (click)="exportToPDF()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Export to PDF
+        </button>
+      </div>
     </mat-card>
-    <mat-card class="schedule" *ngIf="loggedIn && agenda.length != 0">
+    
+    <mat-card class="schedule" *ngIf="agenda.length != 0">
       <mat-card-content>
         <mat-card-title> <mat-icon>schedule</mat-icon> Agenda</mat-card-title>
         <table mat-table [dataSource]="agenda" class="mat-elevation-z8">

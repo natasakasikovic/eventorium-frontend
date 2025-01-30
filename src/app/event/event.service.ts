@@ -149,4 +149,8 @@ export class EventService {
   getAgenda(id: number): Observable<Activity[]> {
     return this.httpClient.get<Activity[]>(`${environment.apiHost}/events/${id}/agenda`);
   }
+
+  exportToPDF(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf`, { responseType: 'blob' });
+  }
 }
