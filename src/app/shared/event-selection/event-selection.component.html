@@ -4,7 +4,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Event</mat-label>
     <mat-select formControlName="event">
-      <mat-option *ngFor="let event of draftedEvents" [value]="event">{{ event.name }}</mat-option>
+      <mat-option *ngFor="let event of events" [value]="event">{{ event.name }}</mat-option>
     </mat-select>
   </mat-form-field>
 

@@ -6,6 +6,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {UserReportResponse} from '../../user/model/user-report-response.model';
 import {Status} from '../../category/model/status-enum-ts';
 import {ToastrService} from 'ngx-toastr';
+import {SolutionType} from '../model/solution-type.enum';
 
 @Component({
   selector: 'app-manage-reviews',
@@ -14,7 +15,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class ManageReviewsComponent implements OnInit, AfterViewInit {
   reviews: MatTableDataSource<Review> = new MatTableDataSource();
-  displayedColumns: string[] = ['creationDate', 'user', 'feedback', 'rating', 'actions'];
+  displayedColumns: string[] = ['creationDate', 'user', 'solution', 'feedback', 'rating', 'actions'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

@@ -15,9 +15,10 @@ export class ReviewDialogComponent {
   rating: number = 0;
   stars: number[] = [1, 2, 3, 4, 5];
 
+  formError: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
-    private toasterService: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: Service | Product | Event
   ) {
   }
@@ -30,7 +31,7 @@ export class ReviewDialogComponent {
     if(this.rating && this.feedback) {
       this.dialogRef.close({feedback: this.feedback, rating: this.rating, id: this.data.id });
     } else {
-      this.toasterService.error("All fields are mandatory", "Failed to create review!");
+      this.formError = true;
     }
   }
 }

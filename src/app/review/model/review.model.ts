@@ -1,4 +1,5 @@
 import {UserDetails} from '../../user/model/user-details.model';
+import {SolutionReview} from './solution-review.model';
 
 export interface Review {
   id: number;
@@ -6,4 +7,5 @@ export interface Review {
   feedback: string;
   creationDate: Date;
   user: UserDetails
+  solution: SolutionReview
 }

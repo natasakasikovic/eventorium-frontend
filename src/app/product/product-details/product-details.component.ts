@@ -92,18 +92,13 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   private draftedPurchase(): void {
-    this.eventService.getDraftedEvents().subscribe({
-      next: (events: EventSummary[]) => {
-        const dialogRef = this.dialog.open(EventSelectionComponent, {
-          width: '450px',
-          height: 'auto',
-          disableClose: true,
-          panelClass: 'custom-dialog-container',
-          data: events
-        });
-        this.handleCloseDialog(dialogRef);
-      }
+    const dialogRef = this.dialog.open(EventSelectionComponent, {
+      width: '450px',
+      height: 'auto',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
     });
+    this.handleCloseDialog(dialogRef);
   }
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {

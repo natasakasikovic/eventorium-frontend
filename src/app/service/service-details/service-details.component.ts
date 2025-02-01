@@ -101,12 +101,8 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   private openDraftEventDialog(): void {
-    this.eventService.getDraftedEvents().subscribe({
-      next: (events: EventSummary[]) => {
-        const dialogRef = this.dialog.open(EventSelectionComponent, { data: events });
-        this.handleCloseDialog(dialogRef);
-      }
-    });
+      const dialogRef = this.dialog.open(EventSelectionComponent, { width: '450px', height: 'auto', });
+      this.handleCloseDialog(dialogRef);
   }
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
