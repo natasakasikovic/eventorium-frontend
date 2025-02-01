@@ -56,4 +56,8 @@ export class UserService {
   getReports(): Observable<UserReportResponse[]> {
     return this.httpClient.get<UserReportResponse[]>(`${environment.apiHost}/user-reports`)
   }
+
+  blockUser(userId: number): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiHost}/user-blocking/${userId}`, {})
+  }
 }

@@ -49,6 +49,8 @@ export const MESSAGES = {
     suspensionConfirmation:"Are you sure you want to suspend the user? By suspending the user, they will not be able to log in until the suspension expires, which will take 3 days.",
     productCreated: "Product created successfully!",
     reservationSuccess: "Check your email for more information about the reservation!",
-    addedToCalendar: "The event has been successfully added to your calendar. We are counting on your attendance. If there are any changes regarding the event, you will be notified via email. We look forward to seeing you!"
+    addedToCalendar: "The event has been successfully added to your calendar. We are counting on your attendance. If there are any changes regarding the event, you will be notified via email. We look forward to seeing you!",
+    confirmBlockUserMessage: "Are you sure you want to block this user? You will no longer see any content related to them, and communication will no longer be possible. This action is permanent and cannot be undone!",
+    successfullyBlocked: "User is successfully blocked!"
   };
 

@@ -1,11 +1,11 @@
 <div class="screen" *ngIf="user">
   <mat-card class="account-container">
-    <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button">
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button" *ngIf="isLoggedIn">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="openReportDialog()">Report user</button>
-        <button mat-menu-item (click)="blockUser()">Block user</button>
+        <button mat-menu-item (click)="openBlockConfirmationDialog()">Block user</button>
       </mat-menu>
     <div>
       <div class="profile-picture">
