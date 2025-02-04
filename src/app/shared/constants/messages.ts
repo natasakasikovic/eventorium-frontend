@@ -28,17 +28,6 @@ export const MESSAGES = {
         <p>Best regards,<br>The Eventorium Team</p>
       `
     },
-    alreadyRegistered: {
-      title: 'Already Registered!',
-      message: `
-        <p>We noticed that you have already used one of your invitations and registered on Eventorium!</p>
-        
-        <p>Please log in, as you already have an account associated with this email. Any further registration attempts will be unsuccessful.</p>
-        
-        <p>Best regards,<br>The Eventorium Team</p>
-      `
-    },
-
     success : "Success",
     eventCreated: "Event created successfully!",
     accountUpdated: "Account updated successfully!",
@@ -51,6 +40,7 @@ export const MESSAGES = {
     reservationSuccess: "Check your email for more information about the reservation!",
     addedToCalendar: "The event has been successfully added to your calendar. We are counting on your attendance. If there are any changes regarding the event, you will be notified via email. We look forward to seeing you!",
     confirmBlockUserMessage: "Are you sure you want to block this user? You will no longer see any content related to them, and communication will no longer be possible. This action is permanent and cannot be undone!",
-    successfullyBlocked: "User is successfully blocked!"
+    successfullyBlocked: "User is successfully blocked!",
+    alreadyRegistered:"Already registered!"
   };
 
