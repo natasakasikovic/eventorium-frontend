@@ -10,7 +10,6 @@ import { UserReport } from '../model/user-report.model';
 import { MESSAGES } from '../../shared/constants/messages';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { AuthService } from '../../auth/auth.service';
-import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-user-profile',
