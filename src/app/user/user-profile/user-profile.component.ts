@@ -19,8 +19,6 @@ import { MatMenu } from '@angular/material/menu';
 })
 export class UserProfileComponent implements OnInit {
   
-  @ViewChild('menu') menu: MatMenu;
-
   id: number | null;
   user: AccountDetails;
   isLoggedIn: boolean = false;
