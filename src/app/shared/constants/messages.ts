@@ -41,6 +41,8 @@ export const MESSAGES = {
     addedToCalendar: "The event has been successfully added to your calendar. We are counting on your attendance. If there are any changes regarding the event, you will be notified via email. We look forward to seeing you!",
     confirmBlockUserMessage: "Are you sure you want to block this user? You will no longer see any content related to them, and communication will no longer be possible. This action is permanent and cannot be undone!",
     successfullyBlocked: "User is successfully blocked!",
-    alreadyRegistered:"Already registered!"
+    alreadyRegistered:"Already registered!",
+    deactivateConfiramation: "Are you sure you want to deactivate your account? Please note that once deactivated, your account cannot be restored.",
+    accountDeactivated: "Account deactivation is complete. You no longer have access to the account."
   };
 
