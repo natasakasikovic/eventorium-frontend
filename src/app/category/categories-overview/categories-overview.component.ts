@@ -19,8 +19,7 @@ export class CategoriesOverviewComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private toasterService: ToastrService,
-    private dialog: MatDialog,
-    private editDialog: MatDialog,
+    private dialog: MatDialog
   ) {
   }
 
@@ -64,7 +63,7 @@ export class CategoriesOverviewComponent implements OnInit {
   }
 
   openEdit(category: Category): void {
-    const dialogRef = this.editDialog.open(EditCategoryComponent, {
+    const dialogRef = this.dialog.open(EditCategoryComponent, {
       width: '450px',
       height: 'auto',
       disableClose: true,

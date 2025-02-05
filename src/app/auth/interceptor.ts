@@ -31,6 +31,7 @@ export class Interceptor implements HttpInterceptor {
       catchError((errorResponse: HttpErrorResponse) => {
         if (errorResponse.status === 401 && errorResponse.error?.error === 'Token expired') {
           this.authService.logout();
+          this.router.navigate(['/login']);
         }
         return throwError(() => errorResponse);
       })

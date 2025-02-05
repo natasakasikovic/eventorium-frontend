@@ -60,4 +60,8 @@ export class UserService {
   blockUser(userId: number): Observable<void> {
     return this.httpClient.post<void>(`${environment.apiHost}/user-blocking/${userId}`, {})
   }
+
+  deactivateAccount(): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/users`);
+  }
 }

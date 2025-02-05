@@ -8,11 +8,13 @@ import { Person } from '../model/person.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { combineLatest } from 'rxjs';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { MESSAGES } from '../../shared/constants/messages';
 import { Router } from '@angular/router';
 import { ChangePasswordDialogComponent } from '../change-password-dialog/change-password-dialog.component';
+import { AuthService } from '../../auth/auth.service';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-edit-account',
@@ -28,6 +30,7 @@ export class EditAccountComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private sharedService: SharedService,
               private service: UserService,
+              private authService: AuthService,
               private dialog: MatDialog,
               private router: Router
   ) {
@@ -118,12 +121,42 @@ export class EditAccountComponent implements OnInit {
     this.dialog.open(ChangePasswordDialogComponent);
   }
 
+  openDeactivateConfirmation(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          data: { message: MESSAGES.deactivateConfiramation }
+        });
+
+    this.handleDialogClose(dialogRef);
+  }
+
+  private handleDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed)
+        this.deactivate();
+    });
+  }
+
+  private deactivate(): void {
+    this.service.deactivateAccount().subscribe({
+    next: () => {
+      this.showMessage(MESSAGES.success, MESSAGES.accountDeactivated);
+      this.authService.logout();
+      this.router.navigate([''])
+    },
+    error: (error: HttpErrorResponse) => this.handleError(error)
+  })
+  }
+
+  handleError(error: HttpErrorResponse): void {
+    if (error.status >= 500) 
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);
+  }
+
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: title,
-        message: message
-      }
+      data: { title: title, message: message }
     })
   }
 
