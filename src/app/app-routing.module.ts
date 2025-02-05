@@ -41,7 +41,7 @@ import { FavouritesComponent } from './favourites/favourites/favourites.componen
 import { NotificationsComponent } from './web-socket/notifications/notifications.component';
 import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
 import { ReviewListComponent } from './review/review-list/review-list.component';
-import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
+import { ManageCommentsComponent } from './review/manage-comments/manage-comments.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 
 const routes: Routes = [
@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'reviews', component: ReviewListComponent },
   { path: 'report-management', component: ManageReportsComponent},
   { path: 'notifications', component: NotificationsComponent},
-  { path: 'review-management', component: ManageReviewsComponent},
+  { path: 'review-management', component: ManageCommentsComponent},
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,

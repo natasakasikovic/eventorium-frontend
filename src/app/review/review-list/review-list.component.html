@@ -1,6 +1,6 @@
 <div class="cards-screen">
     <p>Select event:</p>
-    <mat-select class="event-selector" (selectionChange)="onEventChange($event)">
+    <mat-select class="event-selector"> <!-- (selectionChange)="onEventChange($event)"> -->
         <mat-option *ngFor="let event of events" [value]="event">{{ event.name }}</mat-option>
     </mat-select>
     <mat-toolbar class="toolbar">
@@ -8,8 +8,8 @@
     </mat-toolbar>
     <div class="product-cards">
         <div class="cards">
+<!--          (review)="openDialog($event)"-->
             <app-product-card *ngFor="let product of products"
-                              (review)="openDialog($event)"
                               [reviewable]="true"
                               [product]="product">
             </app-product-card>

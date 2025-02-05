@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReviewListComponent } from './review-list/review-list.component';
 import {SharedModule} from '../shared/shared.module';
 import {MaterialModule} from '../infrastructure/material/material.module';
-import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
+import { ManageCommentsComponent } from './manage-comments/manage-comments.component';
 import {RouterLink} from '@angular/router';
 
 
@@ -11,7 +11,7 @@ import {RouterLink} from '@angular/router';
 @NgModule({
   declarations: [
     ReviewListComponent,
-    ManageReviewsComponent
+    ManageCommentsComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +21,7 @@ import {RouterLink} from '@angular/router';
   ],
   exports: [
     ReviewListComponent,
-    ManageReviewsComponent
+    ManageCommentsComponent
   ]
 })
 export class ReviewModule { }
