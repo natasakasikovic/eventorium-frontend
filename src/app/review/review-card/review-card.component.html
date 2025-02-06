@@ -9,7 +9,7 @@
       *ngFor="let star of stars; let i = index"
       (click)="rate(i + 1)"
       [ngClass]="{ 'active': rating >= i + 1 }"
-      [attr.disabled]="item.rating ? true : null"
+      [attr.disabled]="item.rating"
       class="star-icon"
     >
       star
@@ -17,7 +17,8 @@
   </div>
 
   <mat-card-actions>
-    <button mat-button (click)="onRate()" > Rate </button>
+    <button mat-button class="see-more-button" (click)="onSeeMoreClick()">See more</button>
+    <button mat-button (click)="onRate()" *ngIf="!item.rating" [disabled]="rating === 0"> Rate </button>
     <button mat-button (click)="openDialog()"> Comment </button>
   </mat-card-actions>
 </mat-card>

@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="custom-dialog-title">Review {{ data.name }}</h2>
+<h2 mat-dialog-title class="custom-dialog-title">Comment {{ data.name }}</h2>
 
 <mat-dialog-content class="custom-dialog-content">
   <mat-form-field appearance="outline">
@@ -9,10 +9,11 @@
       placeholder="Enter your comment..."
       rows="5"
     ></textarea>
-    <mat-error *ngIf="!comment">
-      Comment is required!
-    </mat-error>
   </mat-form-field>
+
+  <mat-error *ngIf="formError">
+    Comment is required!
+  </mat-error>
 
   <mat-dialog-actions align="end" class="custom-dialog-actions">
     <button

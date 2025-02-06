@@ -9,7 +9,9 @@ import {CommentDialogComponent} from '../comment-dialog/comment-dialog.component
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CommentService} from '../comment.service';
 import {ReviewType} from '../model/review-type.enum';
-import {Comment} from '../model/comment.model';
+import {ToastrService} from 'ngx-toastr';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-review-card',
@@ -21,13 +23,15 @@ export class ReviewCardComponent implements OnInit {
 
   image: string = "/photo_placeholder.png";
   stars: number[] = [1, 2, 3, 4, 5];
-  rating: number;
+  rating: number = 0;
 
   constructor(
     private productService: ProductService,
     private serviceService: ServiceService,
     private ratingService: RatingService,
     private commentService: CommentService,
+    private toasterService: ToastrService,
+    private router: Router,
     private dialog: MatDialog,
   ) {}
 
@@ -64,11 +68,9 @@ export class ReviewCardComponent implements OnInit {
     this.ratingService.createRating(this.item.id, this.item.type, this.rating).subscribe({
       next: (rating: Rating) => {
         this.item.rating = rating;
-        console.log("Success");
+        this.toasterService.success("Rating has been created successfully!", "Success");
       },
-      error: (error: HttpErrorResponse) => {
-        console.error(error.error.message);
-      }
+      error: (error: HttpErrorResponse) => this.handleError(error)
     });
   }
 
@@ -84,10 +86,26 @@ export class ReviewCardComponent implements OnInit {
   private handleCloseDialog(dialog: MatDialogRef<CommentDialogComponent>): void {
     dialog.afterClosed().subscribe(({ comment }: { comment: string }) => {
       this.commentService.createComment(this.item.id, this.item.type, { comment: comment }).subscribe({
-        next: (comment: Comment) => {
-          console.log("Success");
-        }
+        next: () => {
+          this.toasterService.success("Comment has been created successfully!", "Success");
+        },
+        error: (error: HttpErrorResponse) => this.handleError(error)
       });
     });
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status < 500)
+      this.toasterService.error(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.toasterService.error(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)
+  }
+
+  onSeeMoreClick(): void {
+    if(this.item.type === ReviewType.PRODUCT) {
+      void this.router.navigate(['product-details', this.item.id]);
+    } else {
+      void this.router.navigate(['service-details', this.item.id]);
+    }
   }
 }
