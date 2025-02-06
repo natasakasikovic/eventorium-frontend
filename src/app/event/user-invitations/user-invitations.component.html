@@ -1,0 +1,10 @@
+<div class="invitation-list">
+    <h1 class="invitation-list-title">Invitations</h1>
+    <div *ngIf="invitations.length === 0" class="no-invitations-message">
+      No invitations found.
+    </div>
+    <div class="invitation-cards-container">
+      <app-invitation-card *ngFor="let invitation of invitations" [invitation]="invitation"></app-invitation-card>
+    </div>
+  </div>
+  

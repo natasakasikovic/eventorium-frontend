@@ -16,6 +16,7 @@ import { EventFilter } from './model/event-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
 import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
+import { InvitationDetails } from './model/invitation-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -152,5 +153,9 @@ export class EventService {
 
   exportToPDF(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf`, { responseType: 'blob' });
+  }
+
+  getInvitations(): Observable<InvitationDetails[]> {
+    return this.httpClient.get<InvitationDetails[]>(`${environment.apiHost}/invitations/my-invitations`);
   }
 }
