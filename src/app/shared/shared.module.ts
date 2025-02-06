@@ -12,7 +12,7 @@ import { EventSelectionComponent } from './event-selection/event-selection.compo
 import { ErrorComponent } from './error/error.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import {ChatDialogComponent} from './chat-dialog/chat-dialog.component';
-import { ReviewDialogComponent } from '../review/review-dialog/review-dialog.component';
+import { CommentDialogComponent } from '../review/comment-dialog/comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { ReviewDialogComponent } from '../review/review-dialog/review-dialog.com
     ChatDialogComponent,
     ErrorComponent,
     ConfirmationDialogComponent,
-    ReviewDialogComponent,
+    CommentDialogComponent,
     ],
   imports: [
     CommonModule,

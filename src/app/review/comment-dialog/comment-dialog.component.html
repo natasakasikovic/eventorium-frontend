@@ -1,0 +1,30 @@
+<h2 mat-dialog-title class="custom-dialog-title">Review {{ data.name }}</h2>
+
+<mat-dialog-content class="custom-dialog-content">
+  <mat-form-field appearance="outline">
+    <mat-label>Comment</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="comment"
+      placeholder="Enter your comment..."
+      rows="5"
+    ></textarea>
+    <mat-error *ngIf="!comment">
+      Comment is required!
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions align="end" class="custom-dialog-actions">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="closeDialog()"
+      class="submit-btn"
+    >
+      Submit
+    </button>
+    <button mat-button color="warn" [mat-dialog-close]="null" class="cancel-btn">
+      Cancel
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

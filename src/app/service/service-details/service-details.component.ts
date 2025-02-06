@@ -1,18 +1,16 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Service} from '../model/service.model';
-import {ActivatedRoute, Router, RouterState} from '@angular/router';
-import {ServiceService} from '../service.service';
-import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
-import {forkJoin, switchMap} from 'rxjs';
-import {AuthService} from '../../auth/auth.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
+import { Service } from '../model/service.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServiceService } from '../service.service';
+import { ImageResponseDto } from '../../shared/model/image-response-dto.model';
+import { forkJoin, switchMap } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ServiceReservationDialogComponent } from '../service-reservation-dialog/service-reservation-dialog.component';
-import { EventService } from '../../event/event.service';
 import { EventSelectionComponent } from '../../shared/event-selection/event-selection.component';
 import { Event } from '../../event/model/event.model';
-import {EventSummary} from '../../event/model/event-summary.model';
 
 @Component({
   selector: 'app-service-details',
@@ -31,7 +29,6 @@ export class ServiceDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private authService: AuthService,
-    private eventService: EventService,
     private toasterService: ToastrService,
     private router: Router,
     private dialog: MatDialog) { }
@@ -44,7 +41,7 @@ export class ServiceDetailsComponent implements OnInit {
     this.getParams();
 
     this.serviceService.get(this.serviceId).pipe(
-      switchMap((service: Service) =>{
+      switchMap((service: Service) => {
         if (this.loggedIn) {
           return forkJoin([
             this.serviceService.get(this.serviceId),
@@ -68,14 +65,7 @@ export class ServiceDetailsComponent implements OnInit {
           `data:${image.contentType};base64,${image.data}`
         );
       },
-      error: (error: HttpErrorResponse) => {
-        void this.router.navigate(['/error'], {
-          queryParams: {
-            code: error.status,
-            message: error.error?.message || 'An unknown error occurred.'
-          }
-        });
-      }
+      error: (error: HttpErrorResponse) => this.handleError(error)
     });
   }
 
@@ -92,6 +82,15 @@ export class ServiceDetailsComponent implements OnInit {
       this.openReservationDialog();
     else
       this.openDraftEventDialog();
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    void this.router.navigate(['/error'], {
+      queryParams: {
+        code: error.status,
+        message: error.error?.message || 'An unknown error occurred.'
+      }
+    });
   }
 
   private openReservationDialog(): void {

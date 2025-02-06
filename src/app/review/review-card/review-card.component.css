@@ -1,0 +1,87 @@
+.review-card {
+  width: 16rem;
+  height: 18rem;
+  margin: 1rem;
+}
+
+.review-card img {
+  height: 9.5rem;
+  width: 16rem;
+}
+
+.review-card mat-card-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-card mat-card-header .title {
+  font-size: 1rem;
+  font-family: jeju, serif;
+  font-weight: bold;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color:#35422f
+}
+
+.review-card .mat-card-content {
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.review-card .mat-card-content p {
+  margin: 4px 0;
+  text-align: center;
+}
+
+.review-card mat-card-actions {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-card mat-card-actions .see-more-button {
+  text-transform: none;
+  background-color: #35422f;
+  color: #f5f5f5;
+}
+
+.review-card .action-button {
+  background-color: #d3d3d3;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 0 3px;
+}
+
+.review-card .action-button mat-icon {
+  font-size: 25px;
+}
+
+.review-card .action-button:hover {
+  background-color: #b0b0b0;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+  gap: 1rem;
+}
+
+.star-icon {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.star-icon.active {
+  color: #fbc02d;
+}
+
+.star-icon:hover {
+  color: #ffd54f;
+}
+

@@ -10,9 +10,7 @@ import {Router} from '@angular/router';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product: Product;
-  @Input() reviewable: boolean;
 
-  @Output() review: EventEmitter<Product> = new EventEmitter();
   @Input() showActions: boolean;
 
   @Input() eventId: number;
@@ -47,9 +45,5 @@ export class ProductCardComponent implements OnInit {
     } else {
       void this.router.navigate(['/product-details', this.product.id]);
     }
-  }
-
-  onReview(): void {
-    this.review.emit(this.product);
   }
 }
