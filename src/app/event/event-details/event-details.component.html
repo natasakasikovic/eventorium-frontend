@@ -35,9 +35,16 @@
       </div>
       <div class="export-section">
         <p>Save event information:</p>
-        <button mat-button (click)="exportToPDF()">
+        <button mat-button (click)="exportDetailsToPDF()">
           <mat-icon>picture_as_pdf</mat-icon>
           Export to PDF
+        </button>
+      </div>
+      <div class="export-section"  *ngIf="isOrganizer && event?.organizer?.id">
+        <p>Guests:</p>
+        <button mat-button (click)="exportGuestListToPDF()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Export guest list to PDF
         </button>
       </div>
     </mat-card>
