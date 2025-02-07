@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'reviews', component: ReviewListComponent },
   { path: 'report-management', component: ManageReportsComponent},
   { path: 'notifications', component: NotificationsComponent},
-  { path: 'review-management', component: ManageCommentsComponent},
+  { path: 'comment-management', component: ManageCommentsComponent},
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
