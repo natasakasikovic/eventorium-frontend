@@ -43,6 +43,7 @@ import { ManageableProductsComponent } from './product/manageable-products/manag
 import { ReviewListComponent } from './review/review-list/review-list.component';
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
+import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -109,6 +110,7 @@ const routes: Routes = [
   { path: 'provider-company', component: ProviderCompanyComponent },
   { path: 'company/:id', component: CompanyDetailsComponent },
   { path: 'edit-company', component: EditCompanyComponent },
+  { path: 'user-invitations', component: UserInvitationsComponent },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
