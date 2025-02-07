@@ -158,4 +158,8 @@ export class EventService {
   getInvitations(): Observable<InvitationDetails[]> {
     return this.httpClient.get<InvitationDetails[]>(`${environment.apiHost}/invitations/my-invitations`);
   }
+
+  exportGuestListToPDF(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
+  }
 }
