@@ -45,6 +45,7 @@ import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.c
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
 import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
+import { EditEventComponent } from './event/edit-event/edit-event.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -93,6 +94,7 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
+  { path: 'edit-event/:id', component: EditEventComponent },
   { path: 'event-types', component: EventTypesOverviewComponent },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {

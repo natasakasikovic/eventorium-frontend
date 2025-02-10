@@ -12,6 +12,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { UserInvitationsComponent } from './user-invitations/user-invitations.component';
 import { InvitationCardComponent } from './invitation-card/invitation-card.component';
 import { ManageableEventsComponent } from './manageable-events/manageable-events.component';
+import { EditEventComponent } from './edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ManageableEventsComponent } from './manageable-events/manageable-events
     UserInvitationsComponent,
     InvitationCardComponent,
     ManageableEventsComponent,
+    EditEventComponent,
   ],
   imports: [
     CommonModule,

@@ -41,12 +41,8 @@ h1 {
   gap: 16px;
 }
 
-#submit {
-  color: #35422F;
-  border: 0.1em solid #35422F;
-  border-radius: 50%;
-  height: 5em;
-  width: 5em;
-  cursor: pointer;
-  margin-left: 10em;
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }

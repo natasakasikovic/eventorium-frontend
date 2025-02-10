@@ -1,71 +1,70 @@
 .cards-screen {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-  }
-  
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    background-color: #eceae6;
-  }
-  
-  .title-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .title {
-    margin: 0;
-    font-size: 24px;
-    text-align: center;
-  }
-  
-  .filters {
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 0;
-  }
-  
-  .products-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: space-between;
-  }
-  
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); 
-    gap: 10px;
-    width: 100%;
-  }
-  
-  mat-paginator {
-    margin-top: 16px;
-    justify-content: center;
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
 
-  .cards-screen .toolbar .title {
-    flex: 1;
-    text-align: center;
-    margin: 0;
-    font-size: 2.5rem;
-    font-family: jeju, serif;
-    color: #35422F;
-  }
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: #eceae6;
+}
 
-  .cards-screen .toolbar .filters .filter-button {
-    margin-left: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-  
+.title-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 0;
+}
+
+.products-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+mat-paginator {
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.cards-screen .toolbar .title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 2.5rem;
+  font-family: jeju, serif;
+  color: #35422F;
+}
+
+.cards-screen .toolbar .filters .filter-button {
+  margin-left: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

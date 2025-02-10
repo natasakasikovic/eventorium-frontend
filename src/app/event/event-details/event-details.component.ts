@@ -35,7 +35,7 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
 
-    this.service.getEvent(this.id).pipe(
+    this.service.getEventDetails(this.id).pipe(
       switchMap((event: EventDetails) => {
         this.event = event;
 

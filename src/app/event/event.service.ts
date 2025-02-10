@@ -17,6 +17,7 @@ import { PageProperties } from '../shared/model/page-properties.model';
 import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
 import { InvitationDetails } from './model/invitation-details.model';
+import { UpdateEventRequest } from './model/update-event-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +35,8 @@ export class EventService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvent(id: number) : Observable<EventDetails> {
-    return this.httpClient.get<EventDetails>(environment.apiHost + `/events/${id}`)
+  getEventDetails(id: number) : Observable<EventDetails> {
+    return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
   }
 
   setEventType(eventType: EventType): void {
@@ -44,6 +45,10 @@ export class EventService {
 
   setEventPrivacy(privacy: Privacy): void {
     this.eventPrivacySubject.next(privacy);
+  }
+
+  getEvent(id: number): Observable<Event> {
+    return this.httpClient.get<Event>(`${environment.apiHost}/events/${id}`)
   }
 
   getEventType(): EventType | null {
@@ -97,6 +102,10 @@ export class EventService {
 
   sendInvitations(invitations: Invitation[], id: number): Observable<void> {
     return this.httpClient.post<void> (`${environment.apiHost}/invitations/${id}`, invitations)
+  }
+
+  updateEvent(id: number, request: UpdateEventRequest): Observable<void> {
+    return this.httpClient.put<void>(`${environment.apiHost}/events/${id}`, request);
   }
 
   filterEvents(filter: EventFilter, pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
