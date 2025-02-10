@@ -78,7 +78,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   private loadEvents(): void {
-    this.eventService.getOrganizerEvents().subscribe({
+    this.eventService.getAllOrganizerEvents().subscribe({
       next: (events: EventSummary[]) => {
         this.events = events;
       }

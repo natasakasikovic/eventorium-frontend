@@ -127,8 +127,8 @@ export class EventService {
     return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
   }
 
-  getOrganizerEvents(): Observable<EventSummary[]> {
-    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/my-events`);
+  getAllOrganizerEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/all`);
   }
 
   isFavourite(id: number): Observable<boolean> {
@@ -162,4 +162,21 @@ export class EventService {
   exportGuestListToPDF(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
   }
+  
+  getOrganizerEvents(pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
+    const params = this.buildQueryParams(null, pageProperties);
+    return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/account/events`, { params: params });
+  }
+
+  searchOrganizerEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
+    let params = new HttpParams();
+    if (pageProperties) {
+      params = params
+        .set('keyword', keyword)
+        .set('page', pageProperties.pageIndex)
+        .set('size', pageProperties.pageSize)
+    }
+    return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/account/events/search`, {params: params})
+  }
+
 }

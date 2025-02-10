@@ -11,6 +11,7 @@ import { EventsFilterDialogComponent } from './events-filter-dialog/events-filte
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { UserInvitationsComponent } from './user-invitations/user-invitations.component';
 import { InvitationCardComponent } from './invitation-card/invitation-card.component';
+import { ManageableEventsComponent } from './manageable-events/manageable-events.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { InvitationCardComponent } from './invitation-card/invitation-card.compo
     EventDetailsComponent,
     UserInvitationsComponent,
     InvitationCardComponent,
+    ManageableEventsComponent,
   ],
   imports: [
     CommonModule,
