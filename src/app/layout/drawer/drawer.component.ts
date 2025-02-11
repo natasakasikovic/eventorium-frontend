@@ -40,6 +40,7 @@ export class DrawerComponent {
           { label: 'Your company', icon: 'business', route: '/provider-company' },
           { label: 'Your services', icon: 'information', route: '/manageable-services' },
           { label: 'Your products', icon: 'information', route: '/manageable-products' },
+          { label: 'Manage reservations', icon: 'access_time', route: '/reservation-management' },
           { label: 'Price List', icon: 'receipt', route: '/price-list' }
         );
       }

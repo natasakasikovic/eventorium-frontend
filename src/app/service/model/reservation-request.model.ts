@@ -1,4 +1,4 @@
-export interface ReservationRequest{
+export interface ReservationRequest {
     startingTime: string;
     endingTime: string;
 }

@@ -44,6 +44,7 @@ import { ReviewListComponent } from './review/review-list/review-list.component'
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
+import {ManageReservationsComponent} from './service/manage-reservations/manage-reservations.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -67,7 +68,8 @@ const routes: Routes = [
   { path: 'create-product', component: CreateProductComponent },
   { path: 'price-list', component: PriceListComponent },
   { path: 'reviews', component: ReviewListComponent },
-  { path: 'report-management', component: ManageReportsComponent},
+  { path: 'report-management', component: ManageReportsComponent },
+  { path: 'reservation-management', component: ManageReservationsComponent },
   { path: 'notifications', component: NotificationsComponent},
   { path: 'review-management', component: ManageReviewsComponent},
   {
