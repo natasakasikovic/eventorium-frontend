@@ -27,6 +27,8 @@ export class EditEventComponent implements OnInit {
   eventTypes: EventType[];
   event: Event;
   updatedEvent: UpdateEventRequest;
+  initialEventDate: Date;
+  showWarningMessage: boolean = false;
 
   constructor(
     private service: EventService,
@@ -42,6 +44,7 @@ export class EditEventComponent implements OnInit {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.initializeForm();
     this.loadData();
+    this.checkForDateChange();
   }
   
   private loadData(): void {
@@ -72,8 +75,8 @@ export class EditEventComponent implements OnInit {
     })
   }
 
-
   patchValues(): void {
+    this.initialEventDate = new Date(this.event.date);
     const selectedCity = this.cities.find(city => city.id === this.event.city.id);
     const selectedEventType = this.eventTypes.find(type => type.id === this.event.type?.id);
     this.editForm.patchValue({
@@ -83,8 +86,16 @@ export class EditEventComponent implements OnInit {
       city: selectedCity,
       address: this.event.address,
       maxParticipants: this.event.maxParticipants,
-      eventDate: this.event.date
+      eventDate: this.initialEventDate
     })
+  }
+
+  checkForDateChange(): void {
+    this.editForm.get('eventDate').valueChanges.subscribe(value => {
+      const dateWithoutTime = new Date(value.setHours(0, 0, 0, 0));
+      const initialDateWithoutTime = new Date(this.initialEventDate.setHours(0, 0, 0, 0));
+      this.showWarningMessage = dateWithoutTime.getTime() !== initialDateWithoutTime.getTime();
+    });
   }
 
   onSubmit(): void {
@@ -102,15 +113,11 @@ export class EditEventComponent implements OnInit {
 
   getFormFields(): UpdateEventRequest {
     const { eventType, eventDate, ...event } = this.editForm.value;
-  
-    let date: Date;
-    if (typeof eventDate === 'string') date = new Date(eventDate);
-    else date = new Date(eventDate.getTime() - eventDate.getTimezoneOffset() * 60000);
 
     return {
       ...event,
       eventType: eventType === "all" ? null : eventType,
-      date: date
+      date: new Date(eventDate.getTime() - eventDate.getTimezoneOffset() * 60000)
     };
   }
 
@@ -127,4 +134,7 @@ export class EditEventComponent implements OnInit {
     })
   }
 
+  getWarningMessage(): string {
+    return ERROR_MESSAGES.RESERVATION_CANCELLATION_WARNING;
+  }
 }

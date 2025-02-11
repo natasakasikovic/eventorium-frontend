@@ -1,6 +1,5 @@
 <div class="form-container">
   <form (ngSubmit)="onSubmit()" [formGroup]="editForm">
-    <h1>Update Event</h1>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Name</mat-label>
@@ -58,6 +57,12 @@
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="editForm.get('eventDate').invalid">Please select a valid date.</mat-error>
     </mat-form-field>
+    
+    <div *ngIf="showWarningMessage" class="warning-message">
+      <mat-icon>warning</mat-icon>
+      <span id="warning-text">{{ getWarningMessage() }}</span>
+    </div>
+
     <div class="button-container">
       <button mat-fab>
         <mat-icon>done</mat-icon>
