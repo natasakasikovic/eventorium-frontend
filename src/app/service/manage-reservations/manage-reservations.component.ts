@@ -5,6 +5,9 @@ import {ServiceService} from '../service.service';
 import {Reservation} from '../model/reservation.model';
 import {Status} from '../../category/model/status-enum-ts';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-reservations',
@@ -17,7 +20,7 @@ export class ManageReservationsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private service: ServiceService) {
+  constructor(private service: ServiceService, private toasterService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -34,23 +37,28 @@ export class ManageReservationsComponent implements OnInit, AfterViewInit {
 
   acceptReservation(reservation: Reservation): void {
     this.service.updateReservation(reservation.id, Status.ACCEPTED).subscribe({
-      next: (reservation: Reservation) => {
-        console.log("Success")
+      next: () => {
+        this.toasterService.success("Successfully accepted reservation", "Success");
+        this.reservations.data = this.reservations.data.filter(res => res.id !== reservation.id);
       },
-      error: (error: HttpErrorResponse) => {
-        console.log("Error", error.error.message);
-      }
+      error: (error: HttpErrorResponse) => this.handleError(error)
     });
   }
 
   declineReservation(reservation: Reservation): void {
     this.service.updateReservation(reservation.id, Status.DECLINED).subscribe({
-      next: (reservation: Reservation) => {
-        console.log("Success")
+      next: () => {
+        this.toasterService.success("Successfully declined reservation", "Success");
+        this.reservations.data = this.reservations.data.filter(res => res.id !== reservation.id);
       },
-      error: (error: HttpErrorResponse) => {
-        console.log("Error", error.error.message);
-      }
+      error: (error: HttpErrorResponse) => this.handleError(error)
     });
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status > 500)
+      this.toasterService.error(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
+    else
+      this.toasterService.error(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
   }
 }
