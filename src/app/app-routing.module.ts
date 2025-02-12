@@ -44,6 +44,8 @@ import { ReviewListComponent } from './review/review-list/review-list.component'
 import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
+import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
+import { EditEventComponent } from './event/edit-event/edit-event.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -60,6 +62,7 @@ const routes: Routes = [
   { path: 'services-overview', component: ServicesOverviewComponent},
   { path: 'manageable-services', component: ManageableServicesComponent },
   { path: 'manageable-products', component: ManageableProductsComponent},
+  { path: 'manageable-events', component: ManageableEventsComponent },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
   { path: 'edit-service/:id', component: EditServiceComponent },
@@ -91,6 +94,7 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
+  { path: 'edit-event/:id', component: EditEventComponent },
   { path: 'event-types', component: EventTypesOverviewComponent },
   { path: 'edit-event-type/:id', component: EditEventTypeComponent},
   {

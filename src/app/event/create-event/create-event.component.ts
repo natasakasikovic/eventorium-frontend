@@ -43,7 +43,7 @@ export class CreateEventComponent implements OnInit {
       privacy: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      eventDate: ['', Validators.required],
+      eventDate: ['', Validators.required]
     });
 
     this.getAllEventTypes();

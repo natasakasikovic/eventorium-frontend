@@ -29,7 +29,7 @@ export class EditEventTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this,this.route.params.subscribe((params) => {
+    this.route.params.subscribe((params) => {
       const id = +params['id']
       this.eventTypeService.get(id).subscribe({
         next: (data: EventType) => {

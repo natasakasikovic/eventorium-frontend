@@ -8,4 +8,5 @@ import { EventSummary } from '../../event/model/event-summary.model';
 })
 export class EventCardComponent {
   @Input() event: EventSummary;
+  @Input() showActions: boolean;
 }

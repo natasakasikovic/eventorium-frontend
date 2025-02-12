@@ -10,5 +10,6 @@ export const ERROR_MESSAGES = {
     CATEGORIES_LOADING_ERROR: 'Error loading categories',
     FORM_FIELD_ERROR: 'Invalid field input',
     IMAGES_UPLOAD_ERROR: 'An error occured while uplading images',
-    ALREADY_PURCHASED: "You have already purchased a product from this category."
+    ALREADY_PURCHASED: "You have already purchased a product from this category.",
+    RESERVATION_CANCELLATION_WARNING: "You have modified the event date. Please note that all reservations with a cancellation deadline that has not passed will be canceled. Reservations with a passed cancellation deadline will not be affected."
   };

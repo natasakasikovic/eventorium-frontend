@@ -1,7 +1,6 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Event} from '../../event/model/event.model';
 import {EventSummary} from '../../event/model/event-summary.model';
 import {EventService} from '../../event/event.service';
 
