@@ -29,6 +29,7 @@ export class EditEventComponent implements OnInit {
   updatedEvent: UpdateEventRequest;
   initialEventDate: Date;
   showWarningMessage: boolean = false;
+  isSubmitting: boolean = false;
 
   constructor(
     private service: EventService,
@@ -99,15 +100,20 @@ export class EditEventComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.editForm.valid) {
+    if (this.editForm.valid && !this.isSubmitting) {
+      this.isSubmitting = true;
       this.updatedEvent = this.getFormFields();
+      
       this.service.updateEvent(this.id, this.updatedEvent).subscribe({
         next: (_) => {
           this.showMessage(MESSAGES.success, MESSAGES.eventUpdated);
           void this.router.navigate(['manageable-events']);
         },
-        error: (error: HttpErrorResponse) => this.handleError(error)
-      })
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+          this.isSubmitting = false;
+        }
+      });
     }
   }
 
