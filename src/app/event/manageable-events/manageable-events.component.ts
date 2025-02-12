@@ -27,7 +27,6 @@ export class ManageableEventsComponent implements OnInit {
     pageSize: 10,
     totalCount: 0
   }
-  activeFilter?: EventFilter = null;
   keyword: string = "";
 
   onPageChanged(pageEvent: PageEvent): void {
@@ -57,7 +56,7 @@ export class ManageableEventsComponent implements OnInit {
   }
 
   private resetPageIndex(keyword: string | null, filter: EventFilter | null): void {
-    if ((keyword && this.keyword != keyword) || (filter && this.activeFilter !== filter) && this.pageProperties.pageIndex != 0)
+    if ((keyword && this.keyword != keyword) && this.pageProperties.pageIndex != 0)
       this.pageProperties.pageIndex = 0;
   }
 
