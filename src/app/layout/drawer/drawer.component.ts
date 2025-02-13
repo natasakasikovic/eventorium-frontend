@@ -31,20 +31,22 @@ export class DrawerComponent {
         { label: 'Profile', icon: 'person', route: '/account-details' },
         { label: 'Calendar', icon: 'calendar_month', route: '/calendar'},
         { label: 'Notifications', icon: 'notifications', route: '/notifications' },
-        { label: 'Favourites', icon: 'favorite', route: '/favourites' }
+        { label: 'Favourites', icon: 'favorite', route: '/favourites' },
+        { label: 'Your invitations', icon: 'free_cancellation', route: '/user-invitations'}
       );
 
       if (userRole === "PROVIDER") {
         items.push(
-          { label: 'Company', icon: 'business', route: '/provider-company' },
-          { label: 'Services', icon: 'information', route: '/manageable-services' },
-          { label: 'Products', icon: 'information', route: '/manageable-products' },
+          { label: 'Your company', icon: 'business', route: '/provider-company' },
+          { label: 'Your services', icon: 'design_services', route: '/manageable-services' },
+          { label: 'Your products', icon: 'storefront', route: '/manageable-products' },
           { label: 'Price List', icon: 'receipt', route: '/price-list' }
         );
       }
 
       if (userRole === "EVENT_ORGANIZER") {
         items.push(
+          { label: 'Your events', icon: 'event', route: '/manageable-events' },
           { label: 'Review', icon: 'feedback', route: '/reviews' }
         );
       }

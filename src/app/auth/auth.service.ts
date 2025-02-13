@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthResponse } from './model/auth-response.model';
 import { environment } from '../../env/environment';
 import { Login } from './model/login.model';
@@ -36,7 +36,7 @@ export class AuthService {
 
   getRole(): string {
     if (this.isLoggedIn()) {
-      const accessToken: any = localStorage.getItem('user');
+      const accessToken: string = localStorage.getItem('user');
       const helper = new JwtHelperService();
       return helper.decodeToken(accessToken).roles[0];
     }
@@ -45,7 +45,7 @@ export class AuthService {
 
   getUserId(): number {
     if (this.isLoggedIn()) {
-      const accessToken: any = localStorage.getItem('user');
+      const accessToken: string = localStorage.getItem('user');
       const helper = new JwtHelperService();
       return helper.decodeToken(accessToken).userId;
     }

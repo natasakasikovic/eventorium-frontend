@@ -16,6 +16,8 @@ import { EventFilter } from './model/event-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
 import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
+import { InvitationDetails } from './model/invitation-details.model';
+import { UpdateEventRequest } from './model/update-event-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +35,8 @@ export class EventService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEvent(id: number) : Observable<EventDetails> {
-    return this.httpClient.get<EventDetails>(environment.apiHost + `/events/${id}`)
+  getEventDetails(id: number) : Observable<EventDetails> {
+    return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
   }
 
   setEventType(eventType: EventType): void {
@@ -43,6 +45,10 @@ export class EventService {
 
   setEventPrivacy(privacy: Privacy): void {
     this.eventPrivacySubject.next(privacy);
+  }
+
+  getEvent(id: number): Observable<Event> {
+    return this.httpClient.get<Event>(`${environment.apiHost}/events/${id}`)
   }
 
   getEventType(): EventType | null {
@@ -98,6 +104,10 @@ export class EventService {
     return this.httpClient.post<void> (`${environment.apiHost}/invitations/${id}`, invitations)
   }
 
+  updateEvent(id: number, request: UpdateEventRequest): Observable<void> {
+    return this.httpClient.put<void>(`${environment.apiHost}/events/${id}`, request);
+  }
+
   filterEvents(filter: EventFilter, pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
     const params = this.buildQueryParams(filter, pageProperties);
     return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/events/filter`, { params } );
@@ -126,8 +136,8 @@ export class EventService {
     return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
   }
 
-  getOrganizerEvents(): Observable<EventSummary[]> {
-    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/my-events`);
+  getAllOrganizerEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/account/events/all`);
   }
 
   isFavourite(id: number): Observable<boolean> {
@@ -153,4 +163,29 @@ export class EventService {
   exportToPDF(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf`, { responseType: 'blob' });
   }
+
+  getInvitations(): Observable<InvitationDetails[]> {
+    return this.httpClient.get<InvitationDetails[]>(`${environment.apiHost}/invitations/my-invitations`);
+  }
+
+  exportGuestListToPDF(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
+  }
+  
+  getOrganizerEvents(pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
+    const params = this.buildQueryParams(null, pageProperties);
+    return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/account/events`, { params: params });
+  }
+
+  searchOrganizerEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
+    let params = new HttpParams();
+    if (pageProperties) {
+      params = params
+        .set('keyword', keyword)
+        .set('page', pageProperties.pageIndex)
+        .set('size', pageProperties.pageSize)
+    }
+    return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/account/events/search`, {params: params})
+  }
+
 }

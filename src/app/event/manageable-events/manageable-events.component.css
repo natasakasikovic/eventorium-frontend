@@ -24,13 +24,7 @@
   text-align: center;
 }
 
-.filters {
-  display: flex;
-  justify-content: flex-end;
-  flex-grow: 0;
-}
-
-.products-cards {
+.events-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;

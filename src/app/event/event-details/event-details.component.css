@@ -125,5 +125,22 @@
   .schedule mat-card-content {
     overflow-x: auto;
   }
-  
 
+  .organizer-button {
+    color: #1f7533 !important;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 16px;
+    padding: 10px; 
+  }
+
+  .organizer-button-container {
+    margin-bottom: 10px;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+  }

@@ -43,6 +43,7 @@ export const MESSAGES = {
     successfullyBlocked: "User is successfully blocked!",
     alreadyRegistered:"Already registered!",
     deactivateConfiramation: "Are you sure you want to deactivate your account? Please note that once deactivated, your account cannot be restored.",
-    accountDeactivated: "Account deactivation is complete. You no longer have access to the account."
+    accountDeactivated: "Account deactivation is complete. You no longer have access to the account.",
+    eventUpdated: "Event updated successfully!"
   };
 

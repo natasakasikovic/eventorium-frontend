@@ -4,14 +4,14 @@ import { City } from "../../shared/model/city.model";
 import { Privacy } from "./privacy.enum";
 import {Budget} from '../../budget/model/budget.model';
 
-export interface Event{
+export interface Event {
     id: number;
     name: string;
     description: string;
     date: Date;
     privacy: Privacy;
     maxParticipants: number;
-    eventType: EventType | null;
+    type: EventType | null;
     city: City;
     address: string;
     organizer: User;

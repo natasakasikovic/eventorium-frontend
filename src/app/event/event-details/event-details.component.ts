@@ -7,7 +7,7 @@ import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.compon
 import { AuthService } from '../../auth/auth.service';
 import { UserDetails } from '../../user/model/user-details.model';
 import { ChatDialogService } from '../../shared/chat-dialog/chat-dialog.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { MESSAGES } from '../../shared/constants/messages';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { Activity } from '../model/activity.model';
@@ -35,7 +35,7 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
 
-    this.service.getEvent(this.id).pipe(
+    this.service.getEventDetails(this.id).pipe(
       switchMap((event: EventDetails) => {
         this.event = event;
 
@@ -66,6 +66,10 @@ export class EventDetailsComponent implements OnInit {
 
   get loggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  get isOrganizer(): boolean {
+    return (this.authService.getUserId() == this.event.organizer.id);
   }
 
   openChatDialog(recipient?: UserDetails): void {
@@ -103,16 +107,24 @@ export class EventDetailsComponent implements OnInit {
     })
   }
 
-  exportToPDF() {
-    this.service.exportToPDF(this.id).subscribe({
+  exportDetailsToPDF() {
+    this.exportToPDF('event_details.pdf', this.service.exportToPDF(this.id));
+  }
+  
+  exportGuestListToPDF() {
+    this.exportToPDF('guest_list.pdf', this.service.exportGuestListToPDF(this.id));
+  }
+
+  exportToPDF(fileName: string, exportMethod: Observable<Blob>) {
+    exportMethod.subscribe({
       next: (blob: Blob) => {
         const fileURL = URL.createObjectURL(blob);
-
         const link = document.createElement('a');
         link.href = fileURL;
-        link.download = 'event_details.pdf';
+        link.download = fileName;
         link.click();
       }
     });
   }
+   
 }

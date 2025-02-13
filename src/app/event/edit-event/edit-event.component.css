@@ -16,13 +16,6 @@ form {
   width: 100%;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #3e3e3e;
-  font-family: 'jeju';
-}
-
 .mat-form-field {
   margin-bottom: 16px;
 }
@@ -41,12 +34,30 @@ h1 {
   gap: 16px;
 }
 
-#submit {
-  color: #35422F;
-  border: 0.1em solid #35422F;
-  border-radius: 50%;
-  height: 5em;
-  width: 5em;
-  cursor: pointer;
-  margin-left: 10em;
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
+
+.warning-message {
+  display: flex;
+  align-items: center;
+  background-color: #ffcc00;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.warning-message mat-icon {
+  margin-right: 8px;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+#warning-text {
+  font-family: 'jeju'
+}
+

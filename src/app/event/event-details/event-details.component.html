@@ -8,12 +8,10 @@
         <mat-card-subtitle class="type">
           <strong>Privacy type: </strong> {{ event?.privacy }}
         </mat-card-subtitle>
+        
         <div *ngIf="loggedIn" class="action-buttons">
             <button mat-icon-button (click)="toggleFavourite()">
               <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
-            </button>
-            <button mat-icon-button (click)="openChatDialog()" >
-              <mat-icon>message</mat-icon>
             </button>
         </div>
     </mat-card-header>
@@ -23,7 +21,17 @@
         <p><mat-icon>location_on</mat-icon><strong> {{ event?.address }} </strong></p>
         <p><mat-icon>location_city</mat-icon><strong> {{ event?.city }} </strong></p>
         <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
+        <hr>
       </mat-card-content>
+      <mat-card-actions *ngIf="!isOrganizer && event?.organizer?.id">
+        <button *ngIf="loggedIn" mat-icon-button (click)="openChatDialog()" >
+          <mat-icon>message</mat-icon>
+        </button>
+        <button mat-button [routerLink]="['/user-profile', event?.organizer.id]" class="organizer-button">
+          <mat-icon>person</mat-icon>
+          <span>{{ event?.organizer.name }} {{ event?.organizer.lastname }}</span>
+        </button>
+      </mat-card-actions>
     </mat-card>
     <mat-card class="question">
       <div class="question-header" *ngIf="loggedIn">
@@ -35,9 +43,16 @@
       </div>
       <div class="export-section">
         <p>Save event information:</p>
-        <button mat-button (click)="exportToPDF()">
+        <button mat-button (click)="exportDetailsToPDF()">
           <mat-icon>picture_as_pdf</mat-icon>
           Export to PDF
+        </button>
+      </div>
+      <div class="export-section"  *ngIf="isOrganizer && event?.organizer?.id">
+        <p>Guests:</p>
+        <button mat-button (click)="exportGuestListToPDF()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Export guest list to PDF
         </button>
       </div>
     </mat-card>
