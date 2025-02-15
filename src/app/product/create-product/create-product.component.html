@@ -3,7 +3,7 @@
     <div class="form-section">
       <h2>Enter information about product...</h2>
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-        
+
         <mat-card-content>
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
@@ -19,8 +19,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Discount</mat-label>
               <input matInput type="number" name="discount" formControlName="discount" />
-              <mat-error *ngIf="productForm.get('discount').hasError('min')">Discount mast be positive.</mat-error>
-              <mat-error *ngIf="productForm.get('discount').hasError('max')">Discount mast be <= 100 </mat-error>
+              <mat-error *ngIf="productForm.get('discount').hasError('min')">Discount must be positive.</mat-error>
+              <mat-error *ngIf="productForm.get('discount').hasError('max')">Discount must be <= 100 </mat-error>
             </mat-form-field>
           </div>
 
@@ -31,7 +31,7 @@
               <mat-option *ngFor="let category of categories" [value]="category"> {{ category.name }} </mat-option>
             </mat-select>
           </mat-form-field>
-          
+
           <div *ngIf="productForm.controls['category'].value === null">
             <mat-form-field appearance="outline">
               <mat-label>Suggest Category Name</mat-label>

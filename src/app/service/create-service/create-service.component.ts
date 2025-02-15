@@ -7,7 +7,7 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
-import {CreateServiceRequestDto} from '../model/create-service-dto.model';
+import {CreateService} from '../model/create-service.model';
 import {of, switchMap} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -94,7 +94,7 @@ export class CreateServiceComponent implements OnInit {
     this.imagePreviews = this.images.map(file => URL.createObjectURL(file));
   }
 
-  private createService(service: CreateServiceRequestDto): void {
+  private createService(service: CreateService): void {
     this.serviceService.create(service).pipe(
       switchMap(service => {
         this.toasterService[service.status === Status.ACCEPTED ? 'success' : 'info'](

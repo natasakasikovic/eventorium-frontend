@@ -16,8 +16,8 @@
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Discount</mat-label>
         <input matInput type="number" name="discount" formControlName="discount"/>
-        <mat-error *ngIf="createServiceForm.get('discount').hasError('min')">Discount mast be positive.</mat-error>
-        <mat-error *ngIf="createServiceForm.get('discount').hasError('max')">Discount mast be <= 100 </mat-error>
+        <mat-error *ngIf="createServiceForm.get('discount').hasError('min')">Discount must be positive.</mat-error>
+        <mat-error *ngIf="createServiceForm.get('discount').hasError('max')">Discount must be <= 100 </mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Category</mat-label>
@@ -110,7 +110,7 @@
     </div>
 
     <div class="form-section">
-      <h4 class="section-title">This product can be used for:</h4>
+      <h4 class="section-title">This service can be used for:</h4>
       <mat-error>(select at least one event type)</mat-error>
       <mat-selection-list formControlName="eventTypes" [multiple]="true">
         <mat-list-option *ngFor="let type of eventTypes" [value]="type">

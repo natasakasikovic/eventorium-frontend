@@ -2,7 +2,7 @@ import {EventType} from '../../event-type/model/event-type.model';
 import {Category} from '../../category/model/category.model';
 import {ReservationType} from './reservation-type.enum';
 
-export interface CreateServiceRequestDto {
+export interface CreateService {
   name: string;
   description: string;
   specialties: string;

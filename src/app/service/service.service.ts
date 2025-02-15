@@ -5,10 +5,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
-import {CreateServiceRequestDto} from './model/create-service-dto.model';
+import {CreateService} from './model/create-service.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
-import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
+import {UpdateService} from './model/update-service.model';
 import { ReservationRequest } from './model/reservation-request.model';
 
 @Injectable({
@@ -32,11 +32,11 @@ export class ServiceService {
     return this.httpClient.get<Service[]>(environment.apiHost + "/services/top-five-services");
   }
 
-  update(id: number, service: UpdateServiceRequestDto): Observable<Service> {
+  update(id: number, service: UpdateService): Observable<Service> {
     return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
-  create(service: CreateServiceRequestDto): Observable<Service> {
+  create(service: CreateService): Observable<Service> {
     return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 

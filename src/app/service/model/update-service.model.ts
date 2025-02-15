@@ -1,6 +1,6 @@
 import {ReservationType} from './reservation-type.enum';
 
-export interface UpdateServiceRequestDto {
+export interface UpdateService {
   name: string;
   description: string;
   specialties: string;
