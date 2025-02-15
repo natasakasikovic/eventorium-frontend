@@ -93,11 +93,11 @@ describe('CreateServiceComponent', () => {
   }));
 
   it('should enable Create button when the form is valid', () => {
+    const createButton = fixture.nativeElement.querySelector('.create-button');
     form.patchValue(mockValidService);
 
     fixture.detectChanges();
 
-    const createButton = fixture.nativeElement.querySelector('.create-button');
     expect(createButton.disabled).toBeFalse();
   });
 
@@ -106,8 +106,10 @@ describe('CreateServiceComponent', () => {
 
     fixture.detectChanges();
 
-    expect(form.contains('suggestedCategoryName')).toBeTruthy();
-    expect(form.contains('suggestedCategoryDescription')).toBeTruthy();
+    const suggestionNameField = fixture.debugElement.query(By.css('input[formControlName="suggestedCategoryName"]'));
+    const suggestionDescField = fixture.debugElement.query(By.css('textarea[formControlName="suggestedCategoryDescription"]'));
+    expect(suggestionNameField).toBeTruthy();
+    expect(suggestionDescField).toBeTruthy();
   });
 
   it('should disable category suggestion fields when a category is selected', () => {
@@ -158,6 +160,17 @@ describe('CreateServiceComponent', () => {
 
     expect(component.images.length).toBe(2);
     expect(component.imagePreviews.length).toBe(2);
+  });
+
+  it('should not create empty category suggestion', () => {
+    const createButton = fixture.nativeElement.querySelector('.create-button');
+    form.patchValue(mockValidService);
+    form.controls['category'].setValue(null);
+
+    fixture.detectChanges();
+
+    expect(form.invalid).toBeTrue();
+    expect(createButton.disabled).toBeTrue();
   });
 
   it('should call service creation when form is valid', fakeAsync(() => {

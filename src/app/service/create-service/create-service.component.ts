@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {ReservationType} from '../model/reservation-type.enum';
 import {Router} from '@angular/router';
 import {EventTypeService} from '../../event-type/event-type.service';
@@ -67,7 +67,7 @@ export class CreateServiceComponent implements OnInit {
       cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
       minDuration: new FormControl(6),
       maxDuration: new FormControl(12),
-    });
+    }, { validators: this.categoryValidator() });
   }
 
   onCreate(): void {
@@ -110,5 +110,29 @@ export class CreateServiceComponent implements OnInit {
     });
   }
 
+  private categoryValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const form = control as FormGroup;
+      const category = form.get('category')?.value;
+      const suggestedName = form.get('suggestedCategoryName')?.value;
+      const suggestedDescription = form.get('suggestedCategoryDescription')?.value;
+
+      if (!category) {
+        const errors: ValidationErrors = {};
+
+        if (!suggestedName || suggestedName.trim() === '') {
+          errors['suggestedCategoryNameRequired'] = true;
+        }
+
+        if (!suggestedDescription || suggestedDescription.trim() === '') {
+          errors['suggestedCategoryDescriptionRequired'] = true;
+        }
+
+        return Object.keys(errors).length ? errors : null;
+      }
+
+      return null;
+    };
+  }
   protected readonly ReservationType = ReservationType;
 }
