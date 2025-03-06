@@ -20,7 +20,7 @@ export class AuthService {
     skip: 'true',
   });
 
-  user$ = new BehaviorSubject<String | null>(null);
+  user$ = new BehaviorSubject<string | null>(null);
   userState = this.user$.asObservable();
 
 
