@@ -1,0 +1,29 @@
+<h2>Conversations</h2>
+<div class="chat">
+
+  <div class="chat-rooms">
+    <div *ngFor="let chatRoom of chatRooms">
+      <app-chat-room-card [chatRoom]="chatRoom"></app-chat-room-card>
+    </div>
+  </div>
+
+  <div class="messages-section">
+    <div class="chat-body">
+      <div *ngFor="let message of messages"
+           class="message"
+           [ngClass]="{
+          'recipient-message': message.recipientId === userId,
+          'user-message': message.recipientId !== userId
+         }">
+        <p>{{ message.message }}</p>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input [(ngModel)]="newMessage" matInput type="text" placeholder="Type a message..." (keydown.enter)="sendMessage()"/>
+      <button mat-icon-button (click)="sendMessage()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+
+</div>

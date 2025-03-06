@@ -24,6 +24,7 @@ import {WebSocketModule} from './web-socket/web-socket.module';
 import {ReviewModule} from './review/review.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { CalendarModule } from './calendar/calendar.module';
+import {ChatModule} from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { CalendarModule } from './calendar/calendar.module';
     UserModule,
     ReviewModule,
     FavouritesModule,
-    CalendarModule
+    CalendarModule,
+    ChatModule
   ],
   providers: [
     provideAnimationsAsync(),

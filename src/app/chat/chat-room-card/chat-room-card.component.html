@@ -1,0 +1,9 @@
+<mat-card class="chat-room" (click)="selectRoom()">
+  <mat-card-header>
+    <mat-card-title> {{ chatRoom.displayName }}</mat-card-title>
+    <mat-card-subtitle> {{ chatRoom.lastMessage }}  </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{ chatRoom.timestamp.toString() | date:'hh:mm d/M/yy' }}
+  </mat-card-content>
+</mat-card>

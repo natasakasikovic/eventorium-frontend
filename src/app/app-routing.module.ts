@@ -47,6 +47,7 @@ import { UserInvitationsComponent } from './event/user-invitations/user-invitati
 import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
 import { EditEventComponent } from './event/edit-event/edit-event.component';
 import {AuthGuard} from './auth/guards/auth.guard';
+import {ChatComponent} from './chat/chat/chat.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -231,6 +232,11 @@ const routes: Routes = [
   },
   {
     path: 'user-invitations', component: UserInvitationsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+  },
+  {
+    path: 'chat', component: ChatComponent,
     canActivate: [AuthGuard],
     data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
   },
