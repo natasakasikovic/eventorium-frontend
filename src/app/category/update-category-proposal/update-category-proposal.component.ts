@@ -42,8 +42,8 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onClose(): void {
-    this.dialogRef.close(this.data.category.id);
+  onClose(id?: number): void {
+    this.dialogRef.close(id);
   }
 
   onSave(): void {
@@ -52,7 +52,6 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     } else {
       this.changeCategory();
     }
-    this.onClose();
   }
 
   private updateCategory(): void {
@@ -65,6 +64,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     this.categoryService.updateCategoryProposal(this.data.category.id, category).subscribe({
       next: (category: Category) => {
         this.toasterService.success(`Category ${category.name} has been updated successfully!`, "Success");
+        this.onClose(this.data.category.id);
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to update category");
@@ -76,6 +76,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     this.categoryService.changeCategoryProposal(this.data.category.id, this.updateProposalForm.value.category).subscribe({
       next: (category: Category) => {
         this.toasterService.success(`Category ${category.name} has been updated successfully!`, "Success");
+        this.onClose(this.data.category.id);
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to update category");
