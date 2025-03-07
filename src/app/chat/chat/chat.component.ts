@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {ChatRoomService} from '../chat-room.service';
 import {ChatRoom} from '../model/chat-room.model';
 import {ChatMessage} from '../../web-socket/model/chat-message.model';
@@ -8,27 +8,42 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
 import {ChatMessageRequestDto} from '../../web-socket/model/chat-message-request-dto.model';
+import {Subscription} from 'rxjs';
+import {ChatCommunicationService} from '../chat-communication.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   chatRooms: ChatRoom[];
   messages: ChatMessage[];
   selectedRoom: ChatRoom;
   newMessage: string;
 
+  private subscription!: Subscription;
+
   constructor(
     private service: ChatRoomService,
     private chatService: ChatService,
+    private chatCommunicationService: ChatCommunicationService,
     private webSocketService: WebSocketService,
     private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
     this.loadChatRooms();
+    this.subscription = this.chatCommunicationService.sendMessage$.subscribe(chatMessage => {
+      if(this.selectedRoom.recipientId === chatMessage.senderId)
+        this.addMessage(chatMessage);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   get userId(): number {
@@ -52,7 +67,6 @@ export class ChatComponent implements OnInit {
       recipientId: this.selectedRoom.recipientId,
       senderId: this.userId
     });
-    this.selectedRoom.lastMessage = this.newMessage;
     const request = this.getRequest();
     this.webSocketService.sendMessage(request);
     this.newMessage = "";
@@ -62,8 +76,8 @@ export class ChatComponent implements OnInit {
     this.service.getChatRooms().subscribe({
       next: (chatRooms: ChatRoom[]) => {
         if(chatRooms.length > 0) {
-          this.chatRooms = chatRooms;
           this.selectedRoom = chatRooms[0];
+          this.chatRooms = chatRooms;
           this.loadMessages();
         }
       },
@@ -90,6 +104,7 @@ export class ChatComponent implements OnInit {
   }
 
   private addMessage(message: ChatMessage) {
+    this.selectedRoom.lastMessage = message.message;
     this.messages.push(message);
   }
 }

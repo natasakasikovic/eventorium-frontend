@@ -69,3 +69,7 @@
   background-color: #E3DCD1;
   margin-right: auto;
 }
+
+.selected-room {
+  background-color: #e0f7fa;
+}
