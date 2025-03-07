@@ -35,8 +35,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadChatRooms();
     this.subscription = this.chatCommunicationService.sendMessage$.subscribe(chatMessage => {
-      if(this.selectedRoom.recipientId === chatMessage.senderId)
+      if(this.selectedRoom.recipientId === chatMessage.senderId) {
         this.addMessage(chatMessage);
+      } else {
+        const room = this.chatRooms.find(room => room.recipientId === chatMessage.senderId);
+        room.lastMessage = chatMessage.message;
+      }
     });
   }
 
