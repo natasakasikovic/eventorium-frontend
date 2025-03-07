@@ -35,6 +35,29 @@ export class ChatComponent implements OnInit {
     return this.authService.getUserId();
   }
 
+  selectRoom(id: number): void {
+    if(this.selectedRoom.id === id) {
+      return;
+    }
+    this.selectedRoom = this.chatRooms.find(room => room.id === id);
+    this.loadMessages();
+  }
+
+  sendMessage(): void {
+    if(this.newMessage.trim().length === 0) {
+      return;
+    }
+    this.addMessage({
+      message: this.newMessage,
+      recipientId: this.selectedRoom.recipientId,
+      senderId: this.userId
+    });
+    this.selectedRoom.lastMessage = this.newMessage;
+    const request = this.getRequest();
+    this.webSocketService.sendMessage(request);
+    this.newMessage = "";
+  }
+
   private loadChatRooms(): void {
     this.service.getChatRooms().subscribe({
       next: (chatRooms: ChatRoom[]) => {
@@ -53,28 +76,9 @@ export class ChatComponent implements OnInit {
   private loadMessages() {
     this.chatService.getMessages(this.userId, this.selectedRoom.recipientId).subscribe({
       next: (messages: ChatMessage[]) => {
-        console.log(messages);
         this.messages = messages;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
       }
     });
-  }
-
-  sendMessage(): void {
-    if(this.newMessage.trim().length === 0) {
-      return;
-    }
-    this.addMessage({
-      message: this.newMessage,
-      recipientId: this.selectedRoom.recipientId,
-      senderId: this.userId
-    });
-
-    const request = this.getRequest();
-    this.webSocketService.sendMessage(request);
-    this.newMessage = "";
   }
 
   private getRequest(): ChatMessageRequestDto {

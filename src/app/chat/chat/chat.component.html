@@ -3,7 +3,7 @@
 
   <div class="chat-rooms">
     <div *ngFor="let chatRoom of chatRooms">
-      <app-chat-room-card [chatRoom]="chatRoom"></app-chat-room-card>
+      <app-chat-room-card [chatRoom]="chatRoom" (selectRoom)="selectRoom($event)"></app-chat-room-card>
     </div>
   </div>
 

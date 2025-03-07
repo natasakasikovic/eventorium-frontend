@@ -8,8 +8,9 @@ import {ChatRoom} from '../model/chat-room.model';
 })
 export class ChatRoomCardComponent {
   @Input() chatRoom: ChatRoom
+  @Output() selectRoom: EventEmitter<number> = new EventEmitter();
 
-  selectRoom(): void {
-
+  onSelectRoom(): void {
+    this.selectRoom.emit(this.chatRoom.id);
   }
 }
