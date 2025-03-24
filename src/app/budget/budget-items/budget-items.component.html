@@ -8,7 +8,7 @@
   </mat-radio-group>
   <mat-form-field appearance="outline">
     <mat-label>Planned amount</mat-label>
-    <input matInput type="number"  name="plannedAmount" formControlName="plannedAmount"/>
+    <input matInput type="number" id="{{ category.name }}-plannedInput" name="plannedAmount" formControlName="plannedAmount"/>
   </mat-form-field>
   <div class="button-create">
     <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
