@@ -46,7 +46,8 @@ import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
 import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
 import { EditEventComponent } from './event/edit-event/edit-event.component';
-import {AuthGuard} from './auth/guards/auth.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { ManageReservationsComponent } from './service/manage-reservations/manage-reservations.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -144,6 +145,14 @@ const routes: Routes = [
     data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
   },
   { path: 'review-management', component: ManageReviewsComponent},
+  {
+    path: 'reservation-management',
+    component: ManageReservationsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['PROVIDER']
+    }
+  },
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
