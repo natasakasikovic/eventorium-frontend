@@ -38,8 +38,8 @@ export class DrawerComponent {
       if (userRole === "PROVIDER") {
         items.push(
           { label: 'Your company', icon: 'business', route: '/provider-company' },
-          { label: 'Your services', icon: 'information', route: '/manageable-services' },
-          { label: 'Your products', icon: 'information', route: '/manageable-products' },
+          { label: 'Your services', icon: 'design_services', route: '/manageable-services' },
+          { label: 'Your products', icon: 'storefront', route: '/manageable-products' },
           { label: 'Manage reservations', icon: 'access_time', route: '/reservation-management' },
           { label: 'Price List', icon: 'receipt', route: '/price-list' }
         );
@@ -47,6 +47,7 @@ export class DrawerComponent {
 
       if (userRole === "EVENT_ORGANIZER") {
         items.push(
+          { label: 'Your events', icon: 'event', route: '/manageable-events' },
           { label: 'Review', icon: 'feedback', route: '/reviews' }
         );
       }

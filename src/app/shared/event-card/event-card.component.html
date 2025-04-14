@@ -11,5 +11,8 @@
 
   <mat-card-actions>
     <button mat-button class="see-more-button" [routerLink]="['/event-details', event.id]">See more..</button>
+    <button *ngIf="showActions" mat-icon-button class="action-button" [routerLink]="['/edit-event', event.id]">
+      <mat-icon color="primary">edit</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>

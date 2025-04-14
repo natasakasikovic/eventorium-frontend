@@ -21,6 +21,6 @@ export class CalendarService {
   }
   
   getOrganizerEvents(): Observable<CalendarEvent[]> {
-    return this.httpClient.get<CalendarEvent[]>(`${environment.apiHost}/account/events/my-events`);
+    return this.httpClient.get<CalendarEvent[]>(`${environment.apiHost}/account/events/calendar`);
   }
 }
