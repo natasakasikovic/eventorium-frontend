@@ -1,0 +1,9 @@
+<mat-card class="chat-room" (click)="onSelectRoom()">
+  <mat-card-header [routerLink]="['/user-profile', chatRoom.recipientId]">
+    <mat-card-title> {{ chatRoom.displayName }}</mat-card-title>
+    <mat-card-subtitle> {{ chatRoom.lastMessage }}  </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{ chatRoom.timestamp.toString() | date:'hh:mm d/M/yy' }}
+  </mat-card-content>
+</mat-card>

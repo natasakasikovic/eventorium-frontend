@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
@@ -9,7 +9,7 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.css']
 })
-export class DrawerComponent {
+export class DrawerComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   menuItems: MenuItem[] = [];
 
@@ -29,6 +29,7 @@ export class DrawerComponent {
     if (userRole) {
       items.push(
         { label: 'Profile', icon: 'person', route: '/account-details' },
+        { label: 'Messages', icon: 'mail', route: '/chat' },
         { label: 'Calendar', icon: 'calendar_month', route: '/calendar'},
         { label: 'Notifications', icon: 'notifications', route: '/notifications' },
         { label: 'Favourites', icon: 'favorite', route: '/favourites' },

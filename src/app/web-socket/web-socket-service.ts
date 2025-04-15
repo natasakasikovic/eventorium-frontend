@@ -12,6 +12,8 @@ import {ChatDialogService} from '../shared/chat-dialog/chat-dialog.service';
 import { HttpClient } from '@angular/common/http';
 import { NotificationResponse } from './notifications/notifications-response.model';
 import { Observable } from 'rxjs';
+import {Router} from '@angular/router';
+import {ChatCommunicationService} from '../chat/chat-communication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,8 @@ export class WebSocketService {
     private authService: AuthService,
     private toasterService: ToastrService,
     private chatDialog: ChatDialogService,
+    private chatCommunicationService: ChatCommunicationService,
+    private router: Router,
     private http: HttpClient) { }
 
   openSocket(): void {
@@ -85,10 +89,12 @@ export class WebSocketService {
   }
 
   private handleChatMessage(chatMessage: ChatMessage): void {
-    if(!this.chatDialog.isOpened()) {
+    if(!this.chatDialog.isOpened() && this.router.url !== '/chat') {
       this.chatDialog.openChatDialog(chatMessage.sender);
-    } else {
+    } else if (this.router.url !== '/chat'){
       this.chatDialog.sendMessage(chatMessage);
+    } else {
+      this.chatCommunicationService.sendMessage(chatMessage);
     }
   }
 
@@ -117,7 +123,7 @@ export class WebSocketService {
   getNotifications(): Observable<NotificationResponse[]> {
     return this.http.get<NotificationResponse[]>(`${environment.apiHost}/notifications`);
   }
-  
+
   markAsSeen(): Observable<void> {
     return this.http.patch<void>(`${environment.apiHost}/notifications/seen`, {});
   }

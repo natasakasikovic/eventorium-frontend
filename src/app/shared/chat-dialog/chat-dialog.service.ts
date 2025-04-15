@@ -38,5 +38,4 @@ export class ChatDialogService {
   isOpened(): boolean {
     return this.dialogRef != null;
   }
-
 }
