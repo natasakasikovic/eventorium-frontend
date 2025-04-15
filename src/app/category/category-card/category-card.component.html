@@ -11,23 +11,23 @@
   <mat-card-actions *ngIf="!proposalCard">
     <div class="action-buttons">
       <button mat-icon-button class="action-button" (click)="onDelete()">
-        <mat-icon>delete</mat-icon>
+        <mat-icon color="warn">delete</mat-icon>
       </button>
       <button mat-icon-button class="action-button" (click)="onEdit()">
-        <mat-icon>edit</mat-icon>
+        <mat-icon color="primary">edit</mat-icon>
       </button>
     </div>
   </mat-card-actions>
   <mat-card-actions *ngIf="proposalCard">
     <div class="action-buttons">
       <button mat-icon-button class="action-button" (click)="onAccept()">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon color="primary">check_circle</mat-icon>
       </button>
       <button mat-icon-button class="action-button" (click)="onUpdate()">
         <mat-icon>update</mat-icon>
       </button>
       <button mat-icon-button class="action-button" (click)="onDecline()">
-        <mat-icon>cancel</mat-icon>
+        <mat-icon color="warn">cancel</mat-icon>
       </button>
     </div>
   </mat-card-actions>

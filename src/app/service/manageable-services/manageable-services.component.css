@@ -1,5 +1,4 @@
 .cards-screen {
-  background-color: #eceae6;
   min-height: 100vh;
   height: auto;
   display: flex;
@@ -32,10 +31,6 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
   background-color: #eceae6;
-}
-
-.cards-screen .toolbar .space {
-  flex: 1;
 }
 
 .cards-screen .toolbar .title {
@@ -137,9 +132,6 @@ mat-paginator {
     margin-bottom: 1rem;
   }
 
-  .cards-screen .toolbar .filters {
-    margin: 0 3rem;
-  }
   .cards-screen .service-cards .filters .searcher {
     min-width: 30rem;
   }
