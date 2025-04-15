@@ -1,5 +1,8 @@
 <h2>Conversations</h2>
-<div class="chat">
+<div *ngIf="!selectedRoom" class="no-conversations">
+  <p class="empty-message">No conversations found.</p>
+</div>
+<div class="chat" *ngIf="selectedRoom">
 
   <div class="chat-rooms">
     <div *ngFor="let chatRoom of chatRooms">
