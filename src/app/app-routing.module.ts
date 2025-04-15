@@ -46,8 +46,9 @@ import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
 import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
 import { EditEventComponent } from './event/edit-event/edit-event.component';
-import {AuthGuard} from './auth/guards/auth.guard';
-import {ChatComponent} from './chat/chat/chat.component';
+import { ManageReservationsComponent } from './service/manage-reservations/manage-reservations.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { ChatComponent } from './chat/chat/chat.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -146,6 +147,14 @@ const routes: Routes = [
   },
   { path: 'review-management', component: ManageReviewsComponent},
   {
+    path: 'reservation-management',
+    component: ManageReservationsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['PROVIDER']
+    }
+  },
+  {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard, AuthGuard],
@@ -173,7 +182,7 @@ const routes: Routes = [
     component: BudgetPlanningComponent,
     canActivate: [NavigationGuard, AuthGuard],
     data: {
-      data: { role: ['EVENT_ORGANIZER'] },
+      role: ['EVENT_ORGANIZER'],
       allowedUrls: ['/create-event', '/product-details', '/service-details'],
       fallback: "/home"
     }

@@ -10,6 +10,8 @@ import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
 import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
 import { ReservationRequest } from './model/reservation-request.model';
+import {Reservation} from './model/reservation.model';
+import {Status} from '../category/model/status-enum-ts';
 
 @Injectable({
   providedIn: 'root'
@@ -124,6 +126,14 @@ export class ServiceService {
 
   reserveService(request: ReservationRequest, eventId: number, serviceId: number): Observable<void> {
     return this.httpClient.post<void>(`${environment.apiHost}/events/${eventId}/services/${serviceId}/reservation`, request)
+  }
+
+  getPendingReservations(): Observable<Reservation[]> {
+    return this.httpClient.get<Reservation[]>(`${environment.apiHost}/reservations/pending`);
+  }
+
+  updateReservation(id: number, status: Status): Observable<Reservation> {
+    return this.httpClient.patch<Reservation>(`${environment.apiHost}/reservations/${id}`, { status:status });
   }
 
   removeFromFavourites(id: number): Observable<void> {
