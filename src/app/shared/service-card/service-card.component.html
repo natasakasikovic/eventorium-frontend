@@ -32,10 +32,10 @@
     <button mat-button class="see-more-button" (click)="onClick()">See more</button>
     <div class="action-buttons" >
       <button mat-icon-button class="action-button"  *ngIf="showActions" (click)="onDelete()">
-        <mat-icon>delete</mat-icon>
+        <mat-icon color="warn">delete</mat-icon>
       </button>
       <button mat-icon-button class="action-button" *ngIf="showActions" [routerLink]="['/edit-service', service.id]">
-        <mat-icon>edit</mat-icon>
+        <mat-icon color="primary">edit</mat-icon>
       </button>
       <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
         <mat-icon>feedback</mat-icon>

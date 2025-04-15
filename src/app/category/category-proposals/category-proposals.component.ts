@@ -53,8 +53,9 @@ export class CategoryProposalsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((id: number) => {
-      this.categoryProposals = this.categoryProposals.filter(category => category.id !== id);
-      dialogRef.close();
+      if(id) {
+        this.categoryProposals = this.categoryProposals.filter(category => category.id !== id);
+      }
     });
   }
 

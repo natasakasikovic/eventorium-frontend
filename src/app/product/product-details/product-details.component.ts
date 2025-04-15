@@ -15,9 +15,7 @@ import {EventSelectionComponent} from '../../shared/event-selection/event-select
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
-import {EventSummary} from '../../event/model/event-summary.model';
 import {UserDetails} from '../../user/model/user-details.model';
-import {MESSAGES} from '../../shared/constants/messages';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 
 @Component({
