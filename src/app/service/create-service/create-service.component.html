@@ -1,21 +1,25 @@
 <div class="screen">
-  <form class="service-details" [formGroup]="createServiceForm">
-    <h2>Create Service</h2>
+  <form class="form-card" [formGroup]="createServiceForm">
+    <h2>Enter information about service...</h2>
     <div class="form-section">
       <h4 class="section-title">General Information</h4>
+
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Name</mat-label>
         <input matInput type="text" name="name" formControlName="name"/>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Price</mat-label>
-        <mat-icon matSuffix>euro</mat-icon>
-        <input matInput type="number" name="price" formControlName="price"/>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Discount</mat-label>
-        <input matInput type="number" name="discount" formControlName="discount"/>
-      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Price</mat-label>
+          <mat-icon matSuffix>euro</mat-icon>
+          <input matInput type="number" name="price" formControlName="price"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Discount</mat-label>
+          <input matInput type="number" name="discount" formControlName="discount"/>
+        </mat-form-field>
+      </div>
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
@@ -23,6 +27,7 @@
           <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
         </mat-select>
       </mat-form-field>
+
       <div *ngIf="!createServiceForm.controls['category'].value">
         <mat-form-field appearance="outline" class="form-field">
           <mat-label>Suggest Category Name</mat-label>
@@ -35,7 +40,6 @@
       </div>
     </div>
 
-    <h4 class="section-title">Details</h4>
     <div class="form-section">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Description</mat-label>
@@ -47,26 +51,6 @@
       </mat-form-field>
     </div>
 
-    <div class="form-section">
-      <h4 class="section-title">Photos</h4>
-      <div class="image-grid">
-        <div *ngFor="let image of imagePreviews" class="image-item">
-          <img [src]="image" alt="Image" class="image-thumbnail" />
-        </div>
-      </div>
-      <button mat-raised-button class="upload-button" (click)="fileInput.click()">
-        <mat-icon>upload</mat-icon>
-        Upload Photos
-      </button>
-      <input
-        #fileInput
-        type="file"
-        multiple
-        accept="image/*"
-        (change)="onFilesSelected($event)"
-        style="display: none"
-      />
-    </div>
 
     <div class="form-section">
       <h4 class="section-title">Visibility and Availability</h4>
@@ -121,4 +105,22 @@
       </button>
     </div>
   </form>
+  <mat-card class="images-card">
+    <h3>Gallery</h3>
+    <div class="images-section">
+      <input type="file" accept="image/*" multiple (change)="onFilesSelected($event)" hidden #fileInput />
+      <button mat-fab color="primary" class="upload-fab" (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-grid-list cols="1" rowHeight="200px" class="image-grid">
+        <mat-grid-tile *ngFor="let image of imagePreviews; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="deleteImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-card>
+
 </div>

@@ -12,6 +12,7 @@ import {UpdateServiceRequestDto} from './model/update-service-request-dto.model'
 import { ReservationRequest } from './model/reservation-request.model';
 import {Reservation} from './model/reservation.model';
 import {Status} from '../category/model/status-enum-ts';
+import {RemoveImageRequest} from '../shared/model/remove-image-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class ServiceService {
     return this.httpClient.get<PagedResponse<Service>> (environment.apiHost + "/services/search", {params: params})
   }
 
-  uploadFiles(serviceId: number, files: File[]): Observable<void> {
+  uploadImages(serviceId: number, files: File[]): Observable<void> {
     const formData: FormData = new FormData();
 
     files.forEach(file => {
@@ -146,6 +147,10 @@ export class ServiceService {
 
   getIsFavourite(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
+
+  removeImages(id: number, removedImages: RemoveImageRequest[]): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/services/${id}/images`, { body: removedImages });
   }
 
   private buildQueryParams(filter: ServiceFilter, pageProperties: PageProperties): HttpParams {
