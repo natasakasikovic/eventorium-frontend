@@ -117,3 +117,17 @@
 h2 {
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .screen {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 426px) {
+  .form-section {
+    margin: 0;
+    padding: 0;
+  }
+}

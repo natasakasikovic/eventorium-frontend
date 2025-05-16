@@ -33,6 +33,14 @@ mat-card h3 {
   text-align: center;
 }
 
+.delete-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
 .upload-fab {
   position: sticky;
   top: 0;
@@ -51,9 +59,9 @@ mat-card h3 {
 .form-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding-left: 140px;
-  padding-right: 100px;
+  gap: 0.5rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .duration-slider {
@@ -145,4 +153,18 @@ mat-card h3 {
 
 h2 {
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .screen {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 426px) {
+  .form-section {
+    margin: 0;
+    padding: 0;
+  }
 }
