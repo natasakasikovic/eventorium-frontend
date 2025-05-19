@@ -3,8 +3,9 @@
     <div class="form-section">
       <h2>Enter information about product...</h2>
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-        
+
         <mat-card-content>
+          <h4 class="section-title">General Information</h4>
           <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput type="text" name="name" formControlName="name" />
@@ -31,7 +32,7 @@
               <mat-option *ngFor="let category of categories" [value]="category"> {{ category.name }} </mat-option>
             </mat-select>
           </mat-form-field>
-          
+
           <div *ngIf="productForm.controls['category'].value === null">
             <mat-form-field appearance="outline">
               <mat-label>Suggest Category Name</mat-label>
@@ -50,6 +51,7 @@
         </mat-card-content>
 
         <mat-card-content>
+          <h4 class="section-title">Visibility and Availability</h4>
           <mat-checkbox name="visible" formControlName="isVisible">Visible</mat-checkbox>
           <mat-checkbox name="available" formControlName="isAvailable">Available</mat-checkbox>
         </mat-card-content>

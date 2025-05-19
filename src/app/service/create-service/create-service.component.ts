@@ -104,7 +104,7 @@ export class CreateServiceComponent implements OnInit {
             this.toasterService.info("The service is currently in a pending state. Please wait while we process your request.", "Info");
           }
           if(this.images.length !== 0) {
-            return this.serviceService.uploadFiles(serviceId, this.images);
+            return this.serviceService.uploadImages(serviceId, this.images);
           }
           return of(null);
         })
@@ -130,6 +130,11 @@ export class CreateServiceComponent implements OnInit {
         this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
       }
     }
+  }
+
+  deleteImage(index: number): void {
+    this.images.splice(index, 1);
+    this.imagePreviews.splice(index, 1);
   }
 
   protected readonly ReservationType = ReservationType;
