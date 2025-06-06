@@ -1,8 +1,27 @@
 <div class="screen">
   <div>
-    <h2>Enter information about new event type</h2>
     <div class="container" >
-      <div class="left-section" [formGroup]="createEventTypeForm">
+      <div class="left-section">
+        <div class="image">
+          <mat-icon *ngIf="!image">event</mat-icon>
+          <img *ngIf="image" [src]="imageUrl" alt="Selected event type Picture" />
+        </div>
+        <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon>
+          Upload your photo
+        </button>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+        <input type="file" hidden (change)="onFileSelected($event)" #fileInput id="fileInput" />
+      </div>
+
+      <div class="right-section" [formGroup]="createEventTypeForm">
+        <h2>Enter information about new event type</h2>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Name</mat-label>
           <input matInput type="text" id="name" formControlName="name"/>
@@ -18,9 +37,7 @@
             Description is required
           </mat-error>
         </mat-form-field>
-      </div>
 
-      <div class="right-section">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Proposed categories of services and products</mat-label>
           <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory">
@@ -47,8 +64,8 @@
     </div>
 
     <div class="submit-section">
-      <button mat-raised-button color="primary" class="standard-button" (click)="saveEvent()"
-        [disabled]="createEventTypeForm.invalid || selectedCategories.length === 0">
+      <button mat-raised-button color="primary" class="standard-button" (click)="saveEvent()">
+<!--        [disabled]="createEventTypeForm.invalid || selectedCategories.length === 0">-->
         Save
       </button>
     </div>

@@ -8,6 +8,12 @@ import { EventType } from '../model/event-type.model';
 import { Router } from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {catchError, of, switchMap, tap, throwError} from 'rxjs';
+import {MESSAGES} from '../../shared/constants/messages';
+import {Product} from '../../product/model/product.model';
 
 @Component({
   selector: 'app-create-event',
@@ -18,6 +24,8 @@ export class CreateEventTypeComponent implements OnInit {
   selectedCategories: Category[] = [];
   currentlySelectedCategory: Category | null = null;
   availableCategories: Category[];
+  image: File | null = null;
+  imageUrl: string | null = null;
 
   createEventTypeForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -54,7 +62,6 @@ export class CreateEventTypeComponent implements OnInit {
   removeCategory(index: number) {
     this.selectedCategories.splice(index, 1);
     this.currentlySelectedCategory = null;
-    console.log(this.selectedCategories);
   }
 
   saveEvent() {
@@ -67,17 +74,41 @@ export class CreateEventTypeComponent implements OnInit {
       name: this.createEventTypeForm.value.name,
       description: this.createEventTypeForm.value.description,
       suggestedCategories: this.selectedCategories
-    }).subscribe({
-      next: (eventType: EventType) => {
-        console.log(eventType);
-        this.toasterService.success(`${eventType.name} has been created successfully!`, "Success");
-        void this.router.navigate(['home']); // TODO: Update navigation to go to the event types overview page once it's implemented
+    }).pipe(
+      switchMap((eventType: EventType) => {
+        this.toasterService.success(MESSAGES.eventTypeCreated, MESSAGES.success);
+        return this.uploadImage(eventType);
+      })
+    ).subscribe({
+      next: () => {
+          void this.router.navigate(['event-types']);
       },
       error: (error: HttpErrorResponse) => {
-        this.toasterService.error(error.error.message, "Failed to create event type");
+          this.toasterService.error(error.error.message, "Failed to create event type");
       }
     });
   }
 
+  private uploadImage(eventType: EventType) {
+    if (this.image != null && eventType) {
+      return this.eventTypeService.uploadImage(eventType.id, this.image).pipe(
+        tap(() => console.log('Success')),
+        catchError((error: HttpErrorResponse) => {
+          this.toasterService.error(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGES_UPLOAD_ERROR);
+          return throwError(() => error);
+        })
+      );
+    }
+    return of(null);
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const file : File = input.files[0];
+      this.image = file;
+      this.imageUrl = URL.createObjectURL(file);
+    }
+  }
 }
 

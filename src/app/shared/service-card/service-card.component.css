@@ -49,9 +49,16 @@
   text-transform: uppercase;
 }
 
-.service-card img {
-  height: 9.5rem;
-  width: 16rem;
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .service-card mat-card-header {
