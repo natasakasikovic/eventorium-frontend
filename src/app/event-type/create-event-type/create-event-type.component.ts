@@ -11,7 +11,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
 import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {catchError, of, switchMap, tap, throwError} from 'rxjs';
+import {catchError, Observable, of, switchMap, tap, throwError} from 'rxjs';
 import {MESSAGES} from '../../shared/constants/messages';
 import {Product} from '../../product/model/product.model';
 
@@ -89,7 +89,7 @@ export class CreateEventTypeComponent implements OnInit {
     });
   }
 
-  private uploadImage(eventType: EventType) {
+  private uploadImage(eventType: EventType): Observable<string> {
     if (this.image != null && eventType) {
       return this.eventTypeService.uploadImage(eventType.id, this.image).pipe(
         tap(() => console.log('Success')),

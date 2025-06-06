@@ -40,7 +40,7 @@
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Proposed categories of services and products</mat-label>
-          <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory">
+          <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let category of availableCategories" [value]="category">
               {{ category.name }}
             </mat-option>

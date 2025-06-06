@@ -40,6 +40,15 @@ export class EventTypeService {
       { responseType: 'text' as 'json' });
   }
 
+  updateImage(id: number, image: File): Observable<void> {
+    const formData: FormData = new FormData();
+    formData.append('image', image)
+    return this.httpClient.put<void>(`${environment.apiHost}/event-types/${id}/image`,
+      formData,
+      { responseType: 'text' as 'json' }
+    );
+  }
+
   getImage(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/event-types/${id}/image`,
       { responseType: 'blob' }
