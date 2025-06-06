@@ -48,7 +48,7 @@ export class DrawerComponent {
       if (userRole === "EVENT_ORGANIZER") {
         items.push(
           { label: 'Your events', icon: 'event', route: '/manageable-events' },
-          { label: 'Review', icon: 'feedback', route: '/reviews' }
+          { label: 'Reviewable Solutions', icon: 'feedback', route: '/reviewable-solutions' }
         );
       }
 

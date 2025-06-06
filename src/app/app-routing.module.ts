@@ -40,7 +40,7 @@ import { CompanyDetailsComponent } from './company/company-details/company-detai
 import { FavouritesComponent } from './favourites/favourites/favourites.component';
 import { NotificationsComponent } from './web-socket/notifications/notifications.component';
 import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
-import { ReviewListComponent } from './review/review-list/review-list.component';
+import { ReviewableSolutionsComponent } from './review/reviewable-solutions/reviewable-solutions.component';
 import { ManageCommentsComponent } from './review/manage-comments/manage-comments.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
@@ -132,8 +132,9 @@ const routes: Routes = [
     data: { role: ['PROVIDER'] }
   },
   {
-    path: 'reviews',
-    component: ReviewListComponent,
+    // Event organizer can rate and comment on purchased / reserved solutions
+    path: 'reviewable-solutions',
+    component: ReviewableSolutionsComponent,
     canActivate: [AuthGuard],
     data: { role: ['EVENT_ORGANIZER'] }
   },

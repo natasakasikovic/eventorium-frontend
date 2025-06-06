@@ -6,10 +6,10 @@ import {Review} from '../model/review.model';
 
 @Component({
   selector: 'app-review-list',
-  templateUrl: './review-list.component.html',
-  styleUrl: './review-list.component.css'
+  templateUrl: './reviewable-solutions.component.html',
+  styleUrl: './reviewable-solutions.component.css'
 })
-export class ReviewListComponent implements OnInit {
+export class ReviewableSolutionsComponent implements OnInit {
   items: Review[];
 
   constructor(private budgetService: BudgetService) { }
