@@ -28,26 +28,6 @@
   margin-right: 8px;
 }
 
-.stars {
-  display: flex;
-  gap: 4px;
-}
-
-.star-icon {
-  font-size: 24px;
-  color: #ccc;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.star-icon.active {
-  color: #fbc02d;
-}
-
-.star-icon:hover {
-  color: #ffd54f;
-}
-
 .custom-dialog-actions {
   margin-top: 16px;
 }

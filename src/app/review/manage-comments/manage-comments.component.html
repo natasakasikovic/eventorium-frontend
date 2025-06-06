@@ -1,6 +1,6 @@
 <div class="main-container">
   <p>Manage reviews</p>
-  <table mat-table [dataSource]="reviews" class="mat-elevation-z8">
+  <table mat-table [dataSource]="comments" class="mat-elevation-z8">
 
     <ng-container matColumnDef="creationDate">
       <th mat-header-cell *matHeaderCellDef> Created at </th>
@@ -16,34 +16,31 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="solution">
-      <th mat-header-cell *matHeaderCellDef> Solution </th>
+    <ng-container matColumnDef="commentable">
+      <th mat-header-cell *matHeaderCellDef> Commentable </th>
       <td mat-cell *matCellDef="let element">
         <a
-          [routerLink]="element.solution.solutionType === 'PRODUCT'
-          ? '/product-details/' + element.solution.id
-          : '/service-details/' + element.solution.id"
+          [routerLink]="
+            element.type === 'PRODUCT' ? '/product-details/' + element.commentable.id :
+            element.type === 'SERVICE' ? '/service-details/' + element.commentable.id :
+            element.type === 'EVENT' ? '/event-details/' + element.commentable.id : ''
+          "
         >
-          {{ element.solution.name }}
+          {{ element.commentable.displayName }}
         </a>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="feedback">
-      <th mat-header-cell *matHeaderCellDef> Feedback </th>
-      <td mat-cell *matCellDef="let element"> {{ element.feedback }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="rating">
-      <th mat-header-cell *matHeaderCellDef> Rating </th>
-      <td mat-cell *matCellDef="let element"> {{ element.rating }} / 5 </td>
+    <ng-container matColumnDef="comment">
+      <th mat-header-cell *matHeaderCellDef> Comment </th>
+      <td mat-cell *matCellDef="let element"> {{ element.comment }} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Accept / Decline </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button (click)="acceptReview(element)"><mat-icon>check</mat-icon></button>
-        <button mat-button (click)="declineReview(element)"><mat-icon color="warn">close</mat-icon></button>
+        <button mat-button (click)="acceptComment(element)"><mat-icon>check</mat-icon></button>
+        <button mat-button (click)="declineComment(element)"><mat-icon color="warn">close</mat-icon></button>
       </td>
     </ng-container>
 

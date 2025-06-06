@@ -6,9 +6,9 @@ import { ServiceFilter } from '../model/service-filter.model';
 import { PagedResponse } from '../../shared/model/paged-response.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ServicesFilterDialogComponent } from '../services-filter-dialog/services-filter-dialog.component';
-import { PageProperties } from '../../shared/model/page-properties.model';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import {PageProperties} from '../../shared/model/page-properties.model';
 
 @Component({
   selector: 'app-services-overview',
@@ -18,7 +18,7 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 export class ServicesOverviewComponent implements OnInit {
 
-  pageProperties = {
+  pageProperties: PageProperties = {
     pageIndex: 0,
     pageSize: 10,
     totalCount: 0
@@ -51,11 +51,11 @@ export class ServicesOverviewComponent implements OnInit {
       this.onSearch(this.keyword)
     else if (this.activeFilter)
       this.filterServices(this.activeFilter)
-    else 
+    else
       this.getPagedServices();
   }
 
-  openDialog() {
+  openDialog(): void {
     let dialog = this.dialog.open(ServicesFilterDialogComponent, {
       height: '510px',
       width: '600px',
@@ -86,7 +86,7 @@ export class ServicesOverviewComponent implements OnInit {
       error: (err) => {
         if (err.status == 400)
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, err.error.message)
-        else 
+        else
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR)
       }
     })

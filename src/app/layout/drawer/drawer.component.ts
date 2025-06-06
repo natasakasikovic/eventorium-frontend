@@ -49,7 +49,7 @@ export class DrawerComponent implements OnInit {
       if (userRole === "EVENT_ORGANIZER") {
         items.push(
           { label: 'Your events', icon: 'event', route: '/manageable-events' },
-          { label: 'Review', icon: 'feedback', route: '/reviews' }
+          { label: 'Reviewable Solutions', icon: 'feedback', route: '/reviewable-solutions' }
         );
       }
 
@@ -59,7 +59,7 @@ export class DrawerComponent implements OnInit {
          { label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals' },
          { label: 'Event types', icon: 'drag_indicator', route: '/event-types' },
          { label: 'Report management', icon:'gavel', route:'/report-management' },
-         { label: 'Review management', icon:'feedback', route:'/review-management'}
+         { label: 'Comment management', icon:'feedback', route:'/comment-management'}
         )
       }
     }

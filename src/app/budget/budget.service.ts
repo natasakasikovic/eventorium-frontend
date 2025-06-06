@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../env/environment';
 import {BudgetItem} from './model/budget-item.model';
 import {Budget} from './model/budget.model';
+import {ReviewableSolution} from '../review/model/reviewable-solution.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,12 @@ export class BudgetService {
     return this.httpClient.post<Product>(`${environment.apiHost}/events/${id}/budget/purchase`, item);
   }
 
-  getPurchased(id: number): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(`${environment.apiHost}/events/${id}/budget/purchased`);
-  }
 
   getBudget(id: number): Observable<Budget> {
     return this.httpClient.get<Budget>(`${environment.apiHost}/events/${id}/budget`);
+  }
+
+  getBudgetItems(): Observable<ReviewableSolution[]> {
+    return this.httpClient.get<ReviewableSolution[]>(`${environment.apiHost}/budget-items`);
   }
 }

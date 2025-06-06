@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReviewListComponent } from './review-list/review-list.component';
+import { ReviewableSolutionsComponent } from './reviewable-solutions/reviewable-solutions.component';
 import {SharedModule} from '../shared/shared.module';
 import {MaterialModule} from '../infrastructure/material/material.module';
-import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
+import { ManageCommentsComponent } from './manage-comments/manage-comments.component';
 import {RouterLink} from '@angular/router';
+import { ReviewableSolutionCardComponent } from './reviewable-solution-card/reviewable-solution-card.component';
 
 
 
 @NgModule({
   declarations: [
-    ReviewListComponent,
-    ManageReviewsComponent
+    ReviewableSolutionsComponent,
+    ManageCommentsComponent,
+    ReviewableSolutionCardComponent
   ],
   imports: [
     CommonModule,
@@ -20,8 +22,8 @@ import {RouterLink} from '@angular/router';
     RouterLink
   ],
   exports: [
-    ReviewListComponent,
-    ManageReviewsComponent
+    ReviewableSolutionsComponent,
+    ManageCommentsComponent
   ]
 })
 export class ReviewModule { }

@@ -15,11 +15,8 @@ import {EventSelectionComponent} from '../../shared/event-selection/event-select
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
-import {EventSummary} from '../../event/model/event-summary.model';
 import {UserDetails} from '../../user/model/user-details.model';
-import {MESSAGES} from '../../shared/constants/messages';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
-import {SolutionType} from '../../review/model/solution-type.enum';
 
 @Component({
   selector: 'app-product-details',
@@ -157,8 +154,7 @@ export class ProductDetailsComponent implements OnInit {
       this.budgetService.purchase(eventId, {
         category: this.product.category,
         itemId: this.product.id,
-        plannedAmount: plannedAmount,
-        itemType: SolutionType.PRODUCT,
+        plannedAmount: plannedAmount
       }).subscribe({
         next: () => {
           this.toasterService.success("Successfully purchased product!", "Success");

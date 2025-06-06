@@ -133,11 +133,11 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   private getPurchased(): void {
-    this.budgetService.getPurchased(this.id).subscribe({
-      next: (products: Product[]) => {
-        this.purchasedProducts = products;
-      }
-    });
+    // this.budgetService.getPurchased(this.id).subscribe({
+    //   next: (products: Product[]) => {
+    //     this.purchasedProducts = products;
+    //   }
+    // });
   }
 
   private fetchAllCategories() {
