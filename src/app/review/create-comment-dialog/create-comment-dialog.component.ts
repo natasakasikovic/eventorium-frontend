@@ -5,21 +5,21 @@ import {Product} from '../../product/model/product.model';
 import {Event} from '../../event/model/event.model'
 import {ToastrService} from 'ngx-toastr';
 import {ReviewType} from '../model/review-type.enum';
-import {Review} from '../model/review.model';
+import {ReviewableSolution} from '../model/reviewable-solution.model';
 
 @Component({
   selector: 'app-review-dialog',
-  templateUrl: './comment-dialog.component.html',
-  styleUrl: './comment-dialog.component.css'
+  templateUrl: './create-comment-dialog.component.html',
+  styleUrl: './create-comment-dialog.component.css'
 })
-export class CommentDialogComponent {
+export class CreateCommentDialogComponent {
   comment: string = '';
 
   formError: boolean = false;
 
   constructor(
-    public dialogRef: MatDialogRef<CommentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Review
+    public dialogRef: MatDialogRef<CreateCommentDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ReviewableSolution
   ) {
   }
 

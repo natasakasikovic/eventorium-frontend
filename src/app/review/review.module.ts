@@ -5,7 +5,7 @@ import {SharedModule} from '../shared/shared.module';
 import {MaterialModule} from '../infrastructure/material/material.module';
 import { ManageCommentsComponent } from './manage-comments/manage-comments.component';
 import {RouterLink} from '@angular/router';
-import { ReviewCardComponent } from './review-card/review-card.component';
+import { ReviewableSolutionCardComponent } from './reviewable-solution-card/reviewable-solution-card.component';
 
 
 
@@ -13,7 +13,7 @@ import { ReviewCardComponent } from './review-card/review-card.component';
   declarations: [
     ReviewableSolutionsComponent,
     ManageCommentsComponent,
-    ReviewCardComponent
+    ReviewableSolutionCardComponent
   ],
   imports: [
     CommonModule,

@@ -22,7 +22,7 @@ export class CommentService {
     return this.httpClient.get<Comment[]>(`${environment.apiHost}/comments/pending`);
   }
 
-  updateComment(id: number, status: Status): Observable<Comment> {
+  updateCommentStatus(id: number, status: Status): Observable<Comment> {
     return this.httpClient.patch<Comment>(`${environment.apiHost}/comments/${id}`, {status: status});
   }
 }

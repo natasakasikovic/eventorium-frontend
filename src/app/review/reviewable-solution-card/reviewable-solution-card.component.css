@@ -1,20 +1,20 @@
-.review-card {
+.reviewable-solution-card {
   width: 16rem;
   height: 18rem;
   margin: 1rem;
 }
 
-.review-card img {
+.reviewable-solution-card img {
   height: 9.5rem;
   width: 16rem;
 }
 
-.review-card mat-card-header {
+.reviewable-solution-card mat-card-header {
   justify-content: space-between;
   align-items: center;
 }
 
-.review-card mat-card-header .title {
+.reviewable-solution-card mat-card-header .title {
   font-size: 1rem;
   font-family: jeju, serif;
   font-weight: bold;
@@ -23,7 +23,7 @@
   color:#35422f
 }
 
-.review-card .mat-card-content {
+.reviewable-solution-card .mat-card-content {
   font-size: 0.9rem;
   display: flex;
   flex-direction: row;
@@ -31,23 +31,23 @@
   align-items: center;
 }
 
-.review-card .mat-card-content p {
+.reviewable-solution-card .mat-card-content p {
   margin: 4px 0;
   text-align: center;
 }
 
-.review-card mat-card-actions {
+.reviewable-solution-card mat-card-actions {
   justify-content: space-between;
   align-items: center;
 }
 
-.review-card mat-card-actions .see-more-button {
+.reviewable-solution-card mat-card-actions .see-more-button {
   text-transform: none;
   background-color: #35422f;
   color: #f5f5f5;
 }
 
-.review-card .action-button {
+.reviewable-solution-card .action-button {
   background-color: #d3d3d3;
   border-radius: 50%;
   width: 40px;
@@ -55,11 +55,11 @@
   margin: 0 3px;
 }
 
-.review-card .action-button mat-icon {
+.reviewable-solution-card .action-button mat-icon {
   font-size: 25px;
 }
 
-.review-card .action-button:hover {
+.reviewable-solution-card .action-button:hover {
   background-color: #b0b0b0;
 }
 

@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ToastrService} from 'ngx-toastr';
 import {BudgetService} from '../../budget/budget.service';
-import {Review} from '../model/review.model';
+import {ReviewableSolution} from '../model/reviewable-solution.model';
 
 @Component({
   selector: 'app-review-list',
@@ -10,7 +8,7 @@ import {Review} from '../model/review.model';
   styleUrl: './reviewable-solutions.component.css'
 })
 export class ReviewableSolutionsComponent implements OnInit {
-  items: Review[];
+  items: ReviewableSolution[];
 
   constructor(private budgetService: BudgetService) { }
 
@@ -20,7 +18,7 @@ export class ReviewableSolutionsComponent implements OnInit {
 
   private loadItems(): void {
     this.budgetService.getBudgetItems().subscribe({
-      next: (items: Review[]) => {
+      next: (items: ReviewableSolution[]) => {
         this.items = items;
       }
     });

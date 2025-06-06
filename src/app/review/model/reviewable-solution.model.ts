@@ -1,7 +1,7 @@
 import {Rating} from './rating.model';
 import {ReviewType} from './review-type.enum';
 
-export interface Review {
+export interface ReviewableSolution {
   id: number;
   name: string;
   price: number;

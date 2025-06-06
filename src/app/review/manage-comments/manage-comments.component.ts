@@ -35,7 +35,7 @@ export class ManageCommentsComponent implements OnInit, AfterViewInit {
   }
 
   acceptComment(comment: Comment): void {
-    this.commentService.updateComment(comment.id, Status.ACCEPTED).subscribe({
+    this.commentService.updateCommentStatus(comment.id, Status.ACCEPTED).subscribe({
       next: (comment: Comment) => {
         this.comments.data = this.comments.data.filter(r => r.id !== comment.id);
         this.toasterService.success("Comment has been accepted successfully", "Success");
@@ -44,7 +44,7 @@ export class ManageCommentsComponent implements OnInit, AfterViewInit {
   }
 
   declineComment(comment: Comment): void {
-    this.commentService.updateComment(comment.id, Status.DECLINED).subscribe({
+    this.commentService.updateCommentStatus(comment.id, Status.DECLINED).subscribe({
       next: (comment: Comment) => {
         this.comments.data = this.comments.data.filter(r => r.id !== comment.id);
         this.toasterService.success("Review has been declined successfully", "Success");

@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Review} from '../model/review.model';
+import {ReviewableSolution} from '../model/reviewable-solution.model';
 import {ProductService} from '../../product/product.service';
 import {ServiceService} from '../../service/service.service';
 import {RatingService} from '../rating.service';
 import {Rating} from '../model/rating.model';
 import {HttpErrorResponse} from '@angular/common/http';
-import {CommentDialogComponent} from '../comment-dialog/comment-dialog.component';
+import {CreateCommentDialogComponent} from '../create-comment-dialog/create-comment-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CommentService} from '../comment.service';
 import {ReviewType} from '../model/review-type.enum';
@@ -15,11 +15,11 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-review-card',
-  templateUrl: './review-card.component.html',
-  styleUrl: './review-card.component.css'
+  templateUrl: './reviewable-solution-card.component.html',
+  styleUrl: './reviewable-solution-card.component.css'
 })
-export class ReviewCardComponent implements OnInit {
-  @Input() item: Review;
+export class ReviewableSolutionCardComponent implements OnInit {
+  @Input() item: ReviewableSolution;
 
   image: string = "/photo_placeholder.png";
   stars: number[] = [1, 2, 3, 4, 5];
@@ -75,7 +75,7 @@ export class ReviewCardComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialog = this.dialog.open(CommentDialogComponent, {
+    const dialog = this.dialog.open(CreateCommentDialogComponent, {
       width: '450px',
       height: 'auto',
       data: this.item
@@ -83,7 +83,7 @@ export class ReviewCardComponent implements OnInit {
     this.handleCloseDialog(dialog)
   }
 
-  private handleCloseDialog(dialog: MatDialogRef<CommentDialogComponent>): void {
+  private handleCloseDialog(dialog: MatDialogRef<CreateCommentDialogComponent>): void {
     dialog.afterClosed().subscribe(({ comment }: { comment: string }) => {
       this.commentService.createComment(this.item.id, this.item.type, { comment: comment }).subscribe({
         next: () => {
