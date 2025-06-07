@@ -4,8 +4,16 @@
     margin: 1rem;
 }
 
-.event-card img {
-    height: 14rem;
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .event-card mat-card-header {

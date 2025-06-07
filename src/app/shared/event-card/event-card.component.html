@@ -1,5 +1,7 @@
 <mat-card class="event-card">
-  <img [src]="" alt="Event image"/>
+  <div class="image-container">
+    <img [src]="event.image" alt="Event image"/>
+  </div>
 
   <mat-card-header>
     <mat-card-title class="title">{{ event.name }}</mat-card-title>

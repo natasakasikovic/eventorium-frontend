@@ -32,10 +32,10 @@ export class UserRegisterComponent {
   userId: number;
 
   constructor(
-    private fb: FormBuilder, 
-    private authService: AuthService, 
+    private fb: FormBuilder,
+    private authService: AuthService,
     private sharedService: SharedService,
-    private router: Router, 
+    private router: Router,
     private dialog: MatDialog) {
 
     this.registrationForm = this.fb.group({
@@ -48,8 +48,8 @@ export class UserRegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
-    }, 
-    { 
+    },
+    {
       validators: passwordMatchValidator(),
       updateOn: 'change'
     }
@@ -58,7 +58,7 @@ export class UserRegisterComponent {
     this.getCities();
     this.getRoles();
   }
-  
+
   onSubmit() {
     if (this.registrationForm.valid) {
       const newUser = this.getFormValues();
@@ -66,7 +66,7 @@ export class UserRegisterComponent {
       this.authService.registerUser(newUser).subscribe({
         next: (response: AuthResponse) => {
           if (response) this.userId = response.id
-          
+
           if (response && this.profilePhoto) {
             this.authService.uploadProfilePhoto(response.id, this.profilePhoto).subscribe({
               next: () => {
@@ -89,11 +89,11 @@ export class UserRegisterComponent {
     if (error.status == 502 || error.status < 500)
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
     else
-      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)      
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)
   }
-  
+
   nextStep(): void {
-    if (this.user.roles[0].name.toUpperCase() === "PROVIDER") 
+    if (this.user.roles[0].name.toUpperCase() === "PROVIDER")
       void this.router.navigate([`${this.userId}/company-register`]);
     else {
       this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
@@ -109,13 +109,13 @@ export class UserRegisterComponent {
       }
     })
   }
-  
-  onFileSelected(event: Event) {
+
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
       const file : File = input.files[0];
-      this.profilePhoto = file; 
-      this.imageUrl = URL.createObjectURL(file); 
+      this.profilePhoto = file;
+      this.imageUrl = URL.createObjectURL(file);
     }
   }
 
@@ -129,7 +129,7 @@ export class UserRegisterComponent {
 
   getFormValues(): AuthRequestDto {
     const formValue = this.registrationForm.value;
-  
+
     const newPerson: PersonRequestDto = {
       name : formValue.name,
       lastname : formValue.lastname,
@@ -154,4 +154,4 @@ export class UserRegisterComponent {
     return toString(role);
   }
 
-}  
+}

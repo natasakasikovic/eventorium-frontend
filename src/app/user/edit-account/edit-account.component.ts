@@ -113,7 +113,7 @@ export class EditAccountComponent implements OnInit {
     if (input?.files?.length) {
       const file : File = input.files[0];
       this.profilePhoto = file;
-      this.user.profilePhoto = URL.createObjectURL(file); 
+      this.user.profilePhoto = URL.createObjectURL(file);
     }
   }
 
@@ -123,7 +123,7 @@ export class EditAccountComponent implements OnInit {
 
   openDeactivateConfirmation(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          data: { message: MESSAGES.deactivateConfiramation }
+          data: { message: MESSAGES.deactivateConfirmation }
         });
 
     this.handleDialogClose(dialogRef);
@@ -148,7 +148,7 @@ export class EditAccountComponent implements OnInit {
   }
 
   handleError(error: HttpErrorResponse): void {
-    if (error.status >= 500) 
+    if (error.status >= 500)
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
     else
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);
