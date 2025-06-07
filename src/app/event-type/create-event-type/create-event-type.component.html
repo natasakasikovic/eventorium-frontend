@@ -4,11 +4,11 @@
       <div class="left-section">
         <div class="image">
           <mat-icon *ngIf="!image">event</mat-icon>
-          <img *ngIf="image" [src]="imageUrl" alt="Selected event type Picture" />
+          <img *ngIf="image" [src]="imageUrl" alt="Selected event type photo" />
         </div>
         <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
           <mat-icon>upload</mat-icon>
-          Upload your photo
+          Add a photo that represents this event type
         </button>
         <input
           #fileInput
@@ -64,8 +64,8 @@
     </div>
 
     <div class="submit-section">
-      <button mat-raised-button color="primary" class="standard-button" (click)="saveEvent()">
-<!--        [disabled]="createEventTypeForm.invalid || selectedCategories.length === 0">-->
+      <button mat-raised-button color="primary" class="standard-button" (click)="saveEvent()"
+        [disabled]="createEventTypeForm.invalid || selectedCategories.length === 0">
         Save
       </button>
     </div>

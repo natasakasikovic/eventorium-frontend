@@ -90,8 +90,6 @@ export class EditEventTypeComponent implements OnInit {
       return;
     }
 
-    console.log(this.eventType);
-
     this.eventTypeService.update(this.eventType.id, {
       name: this.eventType.name,
       description: this.editEventTypeForm.value.description,

@@ -5,11 +5,11 @@
         <div class="left-section">
           <div class="image">
             <mat-icon *ngIf="!eventType.image">event</mat-icon>
-            <img *ngIf="eventType.image" [src]="eventType.image" alt="Selected event type Picture" />
+            <img *ngIf="eventType.image" [src]="eventType.image" alt="Selected event type photo" />
           </div>
           <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
             <mat-icon>upload</mat-icon>
-            Upload your photo
+            Add a photo that represents this event type
           </button>
           <input
             #fileInput
