@@ -9,6 +9,7 @@ import { ProductsFilterDialogComponent } from './products-filter-dialog/products
 import { CreateProductComponent } from './create-product/create-product.component';
 import { RouterLink } from "@angular/router";
 import { ManageableProductsComponent } from './manageable-products/manageable-products.component';
+import { ReviewModule } from '../review/review.module';
 
 
 
@@ -25,7 +26,8 @@ import { ManageableProductsComponent } from './manageable-products/manageable-pr
         CommonModule,
         SharedModule,
         MaterialModule,
-        RouterLink
+        RouterLink,
+        ReviewModule
     ],
   exports: [
     TopFiveProductsComponent,

@@ -111,12 +111,14 @@ mat-card-header {
   margin-right: 2rem;
 }
 
-.button-reserve {
+.action-buttons {
   display: flex;
   justify-content: center;
+  gap: 1rem; 
+  margin-top: 1rem;
 }
 
-.button-reserve > button {
+.action-buttons button {
   background-color: #35422F;
   color: #ECEAE6;
 }

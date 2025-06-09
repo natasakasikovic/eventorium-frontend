@@ -59,11 +59,16 @@
         <p><strong>Cancellation deadline:</strong> {{ service?.cancellationDeadline }} days</p>
       </div>
     </mat-card-actions>
-    <div class="button-reserve" >
-      <button mat-raised-button
-              (click)="onClick()"
-              [style.opacity]="service?.available ? 1 : 0.2"
-              [disabled]="!service?.available" >Reserve</button>
-    </div>
+     <mat-card-actions class="action-buttons">
+      <ng-container *ngIf="getRole() === 'EVENT_ORGANIZER'">
+        <button mat-raised-button
+          (click)="onClick()"
+          [style.opacity]="service?.available ? 1 : 0.2"
+          [disabled]="!service?.available" >Reserve</button>
+      </ng-container>
+      <button mat-raised-button color="accent" (click)="openSeeCommentsDialog()">
+        See comments
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>

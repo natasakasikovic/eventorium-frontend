@@ -6,6 +6,7 @@ import {MaterialModule} from '../infrastructure/material/material.module';
 import { ManageCommentsComponent } from './manage-comments/manage-comments.component';
 import {RouterLink} from '@angular/router';
 import { ReviewableSolutionCardComponent } from './reviewable-solution-card/reviewable-solution-card.component';
+import { CommentsDialogComponent } from './comments-dialog/comments-dialog.component';
 
 
 
@@ -13,7 +14,8 @@ import { ReviewableSolutionCardComponent } from './reviewable-solution-card/revi
   declarations: [
     ReviewableSolutionsComponent,
     ManageCommentsComponent,
-    ReviewableSolutionCardComponent
+    ReviewableSolutionCardComponent,
+    CommentsDialogComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { ReviewableSolutionCardComponent } from './reviewable-solution-card/revi
   ],
   exports: [
     ReviewableSolutionsComponent,
-    ManageCommentsComponent
+    ManageCommentsComponent,
+    CommentsDialogComponent
   ]
 })
 export class ReviewModule { }
