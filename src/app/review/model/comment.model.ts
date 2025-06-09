@@ -1,6 +1,5 @@
 import {UserDetails} from '../../user/model/user-details.model';
 import {ReviewType} from './review-type.enum';
-import {Commentable} from './commentable.model';
 
 export interface Comment {
   id: number;
@@ -8,5 +7,6 @@ export interface Comment {
   creationDate: Date;
   user: UserDetails;
   type: ReviewType;
-  commentable: Commentable;
+  objectId: number;
+  displayName: string;
 }
