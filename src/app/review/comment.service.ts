@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CreateComment} from './model/create-comment.model';
 import {ReviewType} from './model/review-type.enum';
@@ -24,5 +24,13 @@ export class CommentService {
 
   updateCommentStatus(id: number, status: Status): Observable<Comment> {
     return this.httpClient.patch<Comment>(`${environment.apiHost}/comments/${id}`, {status: status});
+  }
+
+  getAcceptedCommentsForTarget(type: ReviewType, objectId: number): Observable<Comment[]> {
+    const params = new HttpParams()
+      .set('type', type)
+      .set('id', objectId.toString());
+
+    return this.httpClient.get<Comment[]>(`${environment.apiHost}/comments`, { params });
   }
 }

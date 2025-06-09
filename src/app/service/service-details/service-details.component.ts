@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ServiceReservationDialogComponent } from '../service-reservation-dialog/service-reservation-dialog.component';
 import { EventSelectionComponent } from '../../shared/event-selection/event-selection.component';
 import { Event } from '../../event/model/event.model';
+import { CommentsDialogComponent } from '../../review/comments-dialog/comments-dialog.component';
+import { ReviewType } from '../../review/model/review-type.enum';
 
 @Component({
   selector: 'app-service-details',
@@ -93,10 +95,20 @@ export class ServiceDetailsComponent implements OnInit {
     });
   }
 
+  getRole(): string { return this.authService.getRole(); }
+
   private openReservationDialog(): void {
     this.dialog.open(ServiceReservationDialogComponent, {
       data: { eventId: this.eventId, serviceId: this.serviceId }
     });
+  }
+
+  openSeeCommentsDialog(): void {
+      this.dialog.open(CommentsDialogComponent, { width: '450px', height: 'auto', 
+        data: {
+          objectId: this.service?.id,
+          reviewType: ReviewType.SERVICE
+        }});
   }
 
   private openDraftEventDialog(): void {

@@ -17,6 +17,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {UserDetails} from '../../user/model/user-details.model';
 import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import { CommentsDialogComponent } from '../../review/comments-dialog/comments-dialog.component';
+import { ReviewType } from '../../review/model/review-type.enum';
 
 @Component({
   selector: 'app-product-details',
@@ -39,9 +41,7 @@ export class ProductDetailsComponent implements OnInit {
     private toasterService: ToastrService,
     private dialog: MatDialog,
     private router: Router,
-    private chatService: ChatDialogService
-  ) {
-  }
+    private chatService: ChatDialogService ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(param => {
@@ -74,20 +74,26 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   onPurchase(): void {
-    if(this.eventId && this.plannedAmount) {
+    if (this.eventId && this.plannedAmount)
       this.plannedPurchase();
-    } else {
+    else
       this.draftedPurchase();
-    }
   }
 
-  openChatDialog(recipient?: UserDetails): void {
+  openChatDialog (recipient?: UserDetails): void {
     this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
   }
 
-  getRole(): string {
-    return this.authService.getRole();
+   openSeeCommentsDialog(): void {
+    this.dialog.open(CommentsDialogComponent, {  width: '450px', height: 'auto',
+        data: {
+          objectId: this.product?.id,
+          reviewType: ReviewType.PRODUCT
+        }
+    });
   }
+
+  getRole(): string { return this.authService.getRole(); }
 
   private draftedPurchase(): void {
     const dialogRef = this.dialog.open(EventSelectionComponent, {
@@ -101,9 +107,10 @@ export class ProductDetailsComponent implements OnInit {
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
     dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-      if(event != null) {
+      
+      if(event != null)
         this.purchaseProduct(event.id, event.budget, plannedAmount);
-      }
+      
       dialogRef.close();
     });
   }
@@ -139,13 +146,10 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   private handleError(error: HttpErrorResponse): void {
-    void this.router.navigate(['/error'], {
-      queryParams: {
-        code: error.status,
-        message: error.error?.message || 'An unknown error occurred.'
-      }
-    });
-
+    void this.router.navigate(['/error'], { queryParams: {
+      code: error.status,
+      message: error.error?.message || 'An unknown error occurred.'
+    }});
   }
 
   private purchaseProduct(eventId: number, budget: Budget, plannedAmount: number): void {
@@ -173,9 +177,7 @@ export class ProductDetailsComponent implements OnInit {
 
   private plannedPurchase(): void {
     this.budgetService.getBudget(this.eventId).subscribe({
-      next: (budget: Budget) => {
-        this.purchaseProduct(this.eventId, budget, this.plannedAmount);
-      }
+      next: (budget: Budget) => this.purchaseProduct(this.eventId, budget, this.plannedAmount)
     })
   }
 }

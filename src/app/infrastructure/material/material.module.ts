@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [],
@@ -81,7 +82,8 @@ import { RouterModule } from '@angular/router';
     MatMenuModule,
     FullCalendarModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatToolbarModule,
@@ -129,7 +131,8 @@ import { RouterModule } from '@angular/router';
     MatMenuModule,
     FullCalendarModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

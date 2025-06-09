@@ -4,6 +4,7 @@ import {Commentable} from './commentable.model';
 
 export interface Comment {
   id: number;
+  comment: string;
   creationDate: Date;
   user: UserDetails;
   type: ReviewType;

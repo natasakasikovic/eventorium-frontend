@@ -1,0 +1,46 @@
+h2[mat-dialog-title]{
+    text-align: center;
+    background-color: #E3DCD1;
+    font-size: 1.8rem;
+    font-family: 'jeju';
+}
+
+mat-list-item.comment-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #eeeeec;
+  border: 0.15rem solid #ddd;
+  border-radius: 1rem;
+  width: auto;
+  height: auto;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  min-height: 5rem;
+  padding: 1rem 2.5rem 1rem 1rem;}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.comment-text {
+  margin: 0;
+}
+
+.timestamp {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1rem;
+  color: gray;
+  font-style: italic;
+}
+
+.comment-text {
+  white-space: normal;    
+  word-wrap: break-word;  
+  overflow-wrap: break-word;
+}

@@ -17,19 +17,13 @@ export class CreateCommentDialogComponent {
 
   formError: boolean = false;
 
-  constructor(
-    public dialogRef: MatDialogRef<CreateCommentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ReviewableSolution
-  ) {
-  }
-
+  constructor( public dialogRef: MatDialogRef<CreateCommentDialogComponent>,
+               @Inject(MAT_DIALOG_DATA) public data: ReviewableSolution ) { } 
 
   closeDialog(): void {
-    if(this.comment.trim()) {
+    if(this.comment.trim())
       this.dialogRef.close({ comment: this.comment });
-    } else {
+    else
       this.formError = true;
-    }
   }
-
 }
