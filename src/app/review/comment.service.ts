@@ -14,8 +14,8 @@ export class CommentService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createComment(id: number, type: ReviewType, request: CreateComment): Observable<Comment> {
-    return this.httpClient.post<Comment>(`${environment.apiHost}/${type.toLowerCase()}s/${id}/comments`, request);
+  createComment(request: CreateComment): Observable<Comment> {
+    return this.httpClient.post<Comment>(`${environment.apiHost}/comments`, request);
   }
 
   getPendingComments(): Observable<Comment[]> {
@@ -23,7 +23,7 @@ export class CommentService {
   }
 
   updateCommentStatus(id: number, status: Status): Observable<Comment> {
-    return this.httpClient.patch<Comment>(`${environment.apiHost}/comments/${id}`, {status: status});
+    return this.httpClient.patch<Comment>(`${environment.apiHost}/comments/${id}`, { status: status });
   }
 
   getAcceptedCommentsForTarget(type: ReviewType, objectId: number): Observable<Comment[]> {
