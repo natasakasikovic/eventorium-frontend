@@ -11,6 +11,8 @@ import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { MESSAGES } from '../../shared/constants/messages';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { Activity } from '../model/activity.model';
+import { RatingService } from '../../review/rating.service';
+import { ReviewType } from '../../review/model/review-type.enum';
 
 @Component({
   selector: 'app-event-details',
@@ -26,14 +28,16 @@ export class EventDetailsComponent implements OnInit {
   showShakeAnimation: boolean = false;
   rating: number = 0;
   isUserEligibleToRate: boolean = false;
-  stars: [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5];
+  showStars: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private service: EventService,
     private dialog: MatDialog,
     private authService: AuthService,
-    private chatService: ChatDialogService
+    private chatService: ChatDialogService,
+    private ratingService: RatingService
   ) {}
 
   ngOnInit(): void {
@@ -111,8 +115,15 @@ export class EventDetailsComponent implements OnInit {
     })
   }
 
-  setRating(value: number) {
+  rate(value: number): void {
     this.rating = value;
+    this.ratingService.createRating(this.id, ReviewType.EVENT, value).subscribe({
+      next: () => {
+        this.showStars = false;
+        this.showMessage("Thank you for your feedback!", `You rated the event ${value} star${value > 1 ? 's' : ''}.`);
+      },
+      error: () => {} 
+    })
   }
 
   addToCalendar(): void  {

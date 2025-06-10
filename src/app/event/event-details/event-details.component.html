@@ -15,10 +15,10 @@
         <strong>Privacy type: </strong> {{ event?.privacy }}
       </mat-card-subtitle>
 
-      <div class="rating-stars" [ngClass]="{ shake: showShakeAnimation }" *ngIf="isUserEligibleToRate">
+      <div class="rating-stars" [ngClass]="{ shake: showShakeAnimation }" *ngIf="isUserEligibleToRate && showStars" >
         <mat-icon
           *ngFor="let star of stars; let i = index"
-          (click)="setRating(i + 1)"
+          (click)="rate(i + 1)"
           [ngClass]="{ filled: i < rating }"
           >{{ i < rating ? 'star' : 'star_border' }}</mat-icon>
       </div>
@@ -30,7 +30,7 @@
         <p><mat-icon>location_on</mat-icon><strong> {{ event?.address }} </strong></p>
         <p><mat-icon>location_city</mat-icon><strong> {{ event?.city }} </strong></p>
         <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
-        <p *ngIf="isUserEligibleToRate"><mat-icon>star</mat-icon> {{event?.avgRating}} </p>
+        <p *ngIf="isUserEligibleToRate && showStars"><mat-icon>star</mat-icon> {{event?.avgRating}} </p>
         <hr>
       </mat-card-content>
       <mat-card-actions *ngIf="!isOrganizer && event?.organizer?.id">
