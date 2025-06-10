@@ -27,6 +27,7 @@ export class ServiceDetailsComponent implements OnInit {
   serviceId: number;
   plannedAmount: number = 0;
   eventId: number;
+  moveToBudget: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -78,6 +79,7 @@ export class ServiceDetailsComponent implements OnInit {
       if (params['eventId']) {
         this.eventId = +params['eventId'];
         this.plannedAmount = +params['plannedAmount'];
+        this.moveToBudget = true;
       }
     });
   }
@@ -122,16 +124,16 @@ export class ServiceDetailsComponent implements OnInit {
 
   private handleReservationClose(dialogRef: MatDialogRef<ServiceReservationDialogComponent>): void {
     dialogRef.afterClosed().subscribe((_) => {
-      if(this.plannedAmount && this.eventId) {
+      if(this.moveToBudget) {
         void this.router.navigate(['budget-planning', this.eventId]);
       }
     });
   }
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
-    dialogRef.afterClosed().subscribe(({ plannedAmount: _, event }: { plannedAmount: number, event: Event }) => {
+    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
       if (!event) return;
-
+      this.plannedAmount = plannedAmount;
       this.eventId = event.id;
       dialogRef.close();
       this.openReservationDialog()
