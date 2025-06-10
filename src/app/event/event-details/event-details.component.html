@@ -44,7 +44,7 @@
       </mat-card-actions>
     </mat-card>
     <mat-card class="question">
-      <div class="question-header" *ngIf="loggedIn">
+      <div class="question-header" *ngIf="loggedIn && !isUserEligibleToRate">
         <p>Are you planning to join this event?</p>
         <button mat-button (click)="addToCalendar()">
           <mat-icon>event_available</mat-icon>
