@@ -85,7 +85,7 @@ export class ReviewableSolutionCardComponent implements OnInit {
 
   private handleCloseDialog(dialog: MatDialogRef<CreateCommentDialogComponent>): void {
     dialog.afterClosed().subscribe(({ comment }: { comment: string }) => {
-      this.commentService.createComment(this.item.id, this.item.type, { comment: comment }).subscribe({
+      this.commentService.createComment({ comment: comment, objectId: this.item.id, type: this.item.type }).subscribe({
         next: () => {
           this.toasterService.success("Comment has been created successfully!", "Success");
         },
