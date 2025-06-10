@@ -13,6 +13,11 @@
 
   <mat-card-actions>
     <button mat-button class="see-more-button" [routerLink]="['/event-details', event.id]">See more..</button>
+    <div class="budget-items" *ngIf="route == 'manageable-events'" (click)="openBudgetDialog()">
+      <button mat-icon-button class="budget-item-icon">
+        <mat-icon color="white">attach_money</mat-icon>
+      </button>
+    </div>
     <button *ngIf="showActions" mat-icon-button class="action-button" [routerLink]="['/edit-event', event.id]">
       <mat-icon color="primary">edit</mat-icon>
     </button>

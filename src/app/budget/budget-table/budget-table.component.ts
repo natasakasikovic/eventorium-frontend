@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BudgetItem} from '../model/budget-item.model';
 
 @Component({
@@ -9,4 +9,12 @@ import {BudgetItem} from '../model/budget-item.model';
 export class BudgetTableComponent {
   @Input() items: BudgetItem[];
   displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount"];
+
+  getTotalSpent(): number {
+    return this.items.reduce((acc, item) => acc + (item.spentAmount || 0), 0);
+  }
+
+  getTotalPlanned(): number {
+    return this.items.reduce((acc, item) => acc + (item.plannedAmount || 0), 0);
+  }
 }

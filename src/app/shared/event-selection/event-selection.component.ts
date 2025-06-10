@@ -23,7 +23,7 @@ export class EventSelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.eventService.getDraftedEvents().subscribe({
+    this.eventService.getFutureEvents().subscribe({
       next: (events: EventSummary[]) => {
         this.events = events;
       }

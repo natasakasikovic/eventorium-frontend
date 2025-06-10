@@ -141,9 +141,6 @@ export class BudgetPlanningComponent implements OnInit {
     this.categoryService.getAll().subscribe({
       next: (categories: Category[]) => {
         this.otherCategories = categories;
-      },
-      error: (err) => {
-        console.error('Failed to fetch categories:', err);
       }
     });
   }
