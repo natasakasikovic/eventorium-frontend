@@ -22,7 +22,11 @@ export class EventDetailsComponent implements OnInit {
   event: EventDetails;
   isFavourite: boolean;
   displayedColumns: string[] = ['name', 'description', 'startTime', 'endTime', 'location'];
-  agenda: Activity[]
+  agenda: Activity[];
+  showShakeAnimation: boolean = false;
+  rating: number = 0;
+  isUserEligibleToRate: boolean = false;
+  stars: [1, 2, 3, 4, 5];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +60,16 @@ export class EventDetailsComponent implements OnInit {
         this.showMessage("", "An error occurred while loading event details. Try again later.");
       }
     });
+
+    this.service.isUserEligableToRate(this.id).subscribe({
+      next: (isEligible: boolean) => this.isUserEligibleToRate = isEligible,
+      error: (_) => this.isUserEligibleToRate = false
+    })
+    
+    setTimeout(() => {
+      this.showShakeAnimation = true;
+      setTimeout(() => { this.showShakeAnimation = false; }, 500);
+    }, 500);
   }
 
   showMessage(title: string, message: string) : void {
@@ -95,6 +109,10 @@ export class EventDetailsComponent implements OnInit {
         this.isFavourite = false;
       }
     })
+  }
+
+  setRating(value: number) {
+    this.rating = value;
   }
 
   addToCalendar(): void  {
