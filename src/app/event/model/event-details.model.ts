@@ -9,5 +9,6 @@ export interface EventDetails {
     address: string;
     city: string;
     date: string;
+    avgRating: number;
     organizer: UserDetails;
 }

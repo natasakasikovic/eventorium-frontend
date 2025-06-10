@@ -39,6 +39,10 @@ export class EventService {
     return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
   }
 
+  isUserEligableToRate(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/${id}/rating-eligibility`)
+  }
+
   setEventType(eventType: EventType): void {
     this.eventTypeSubject.next(eventType);
   }

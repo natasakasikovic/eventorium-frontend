@@ -1,26 +1,36 @@
 <div class="container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title> {{ event?.name }}</mat-card-title>
-        <mat-card-subtitle class="type">
-          <strong>Event type: </strong> {{ event?.eventType }}
-        </mat-card-subtitle>
-        <mat-card-subtitle class="type">
-          <strong>Privacy type: </strong> {{ event?.privacy }}
-        </mat-card-subtitle>
-        
-        <div *ngIf="loggedIn" class="action-buttons">
-            <button mat-icon-button (click)="toggleFavourite()">
-              <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
-            </button>
-        </div>
+  <mat-card class="event-card">
+    <div *ngIf="loggedIn" class="action-buttons">
+      <button mat-icon-button (click)="toggleFavourite()">
+        <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
+      </button>
+    </div>
+
+    <mat-card-header>
+      <mat-card-title>{{ event?.name }}</mat-card-title>
+      <mat-card-subtitle class="type">
+        <strong>Event type: </strong> {{ event?.eventType }}
+      </mat-card-subtitle>
+      <mat-card-subtitle class="type">
+        <strong>Privacy type: </strong> {{ event?.privacy }}
+      </mat-card-subtitle>
+
+      <div class="rating-stars" [ngClass]="{ shake: showShakeAnimation }" *ngIf="isUserEligibleToRate && showStars" >
+        <mat-icon
+          *ngFor="let star of stars; let i = index"
+          (click)="rate(i + 1)"
+          [ngClass]="{ filled: i < rating }"
+          >{{ i < rating ? 'star' : 'star_border' }}</mat-icon>
+      </div>
     </mat-card-header>
-      <mat-card-content>
+
+    <mat-card-content>
         <p class="description">{{ event?.description }}</p>
         <p><mat-icon>groups</mat-icon> {{ event?.maxParticipants }}</p>
         <p><mat-icon>location_on</mat-icon><strong> {{ event?.address }} </strong></p>
         <p><mat-icon>location_city</mat-icon><strong> {{ event?.city }} </strong></p>
         <p><mat-icon>date_range</mat-icon><strong> {{ event?.date }} </strong></p>
+        <p *ngIf="isUserEligibleToRate && showStars"><mat-icon>star</mat-icon> {{event?.avgRating}} </p>
         <hr>
       </mat-card-content>
       <mat-card-actions *ngIf="!isOrganizer && event?.organizer?.id">
@@ -34,7 +44,7 @@
       </mat-card-actions>
     </mat-card>
     <mat-card class="question">
-      <div class="question-header" *ngIf="loggedIn">
+      <div class="question-header" *ngIf="loggedIn && !isUserEligibleToRate">
         <p>Are you planning to join this event?</p>
         <button mat-button (click)="addToCalendar()">
           <mat-icon>event_available</mat-icon>
