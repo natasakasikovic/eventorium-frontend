@@ -9,6 +9,7 @@ import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
 import {Budget} from '../model/budget.model';
+import {BudgetItem} from '../model/budget-item.model';
 
 @Component({
   selector: 'app-budget-planning',
@@ -16,10 +17,10 @@ import {Budget} from '../model/budget.model';
   styleUrl: './budget-planning.component.css'
 })
 export class BudgetPlanningComponent implements OnInit {
-  id: number | null;
+  eventId: number | null;
   eventType: EventType | null;
 
-  purchasedProducts: Product[];
+  budgetItems: BudgetItem[];
   plannedCategories: Category[] = []
   otherCategories: Category[];
 
@@ -47,12 +48,12 @@ export class BudgetPlanningComponent implements OnInit {
 
   private loadParams(): void {
     this.route.params.subscribe(params => {
-      this.id = params['id'] ?? null;
+      this.eventId = params['id'] ?? null;
     });
   }
 
   private loadBudget(): void {
-    this.budgetService.getBudget(this.id).subscribe({
+    this.budgetService.getBudget(this.eventId).subscribe({
       next: (budget: Budget) => {
 
         if(budget.items.length > 0) {
@@ -123,21 +124,17 @@ export class BudgetPlanningComponent implements OnInit {
   }
 
   onSubmit(): void {
-    void this.router.navigate(['/event-agenda', this.id]);
+    void this.router.navigate(['/event-agenda', this.eventId]);
   }
 
   onTabChange(event: MatTabChangeEvent) {
     if(event.tab.textLabel === "Purchased & Reserved") {
-      this.getPurchased();
+      this.budgetService.getBudgetItems(this.eventId).subscribe({
+        next: (budgetItems: BudgetItem[]) => {
+          this.budgetItems = budgetItems;
+        }
+      });
     }
-  }
-
-  private getPurchased(): void {
-    // this.budgetService.getPurchased(this.id).subscribe({
-    //   next: (products: Product[]) => {
-    //     this.purchasedProducts = products;
-    //   }
-    // });
   }
 
   private fetchAllCategories() {

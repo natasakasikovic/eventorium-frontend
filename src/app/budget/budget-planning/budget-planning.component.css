@@ -52,3 +52,29 @@
   cursor: pointer;
   float: right;
 }
+
+.item-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 2.5rem;
+  font-family: jeju, serif;
+  color: #35422F;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  padding: 16px;
+}

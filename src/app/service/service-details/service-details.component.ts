@@ -25,6 +25,7 @@ export class ServiceDetailsComponent implements OnInit {
   isFavourite: boolean;
 
   serviceId: number;
+  plannedAmount: number = 0;
   eventId: number;
 
   constructor(
@@ -74,8 +75,10 @@ export class ServiceDetailsComponent implements OnInit {
   getParams(): void {
     this.route.params.subscribe(params => this.serviceId = +params['id']);
     this.route.queryParams.subscribe(params => {
-      if (params['eventId'])
+      if (params['eventId']) {
         this.eventId = +params['eventId'];
+        this.plannedAmount = +params['plannedAmount'];
+      }
     });
   }
 
@@ -98,13 +101,14 @@ export class ServiceDetailsComponent implements OnInit {
   getRole(): string { return this.authService.getRole(); }
 
   private openReservationDialog(): void {
-    this.dialog.open(ServiceReservationDialogComponent, {
-      data: { eventId: this.eventId, serviceId: this.serviceId }
+    const dialogRef = this.dialog.open(ServiceReservationDialogComponent, {
+      data: { eventId: this.eventId, serviceId: this.serviceId, plannedAmount: this.plannedAmount }
     });
+    this.handleReservationClose(dialogRef);
   }
 
   openSeeCommentsDialog(): void {
-      this.dialog.open(CommentsDialogComponent, { width: '450px', height: 'auto', 
+      this.dialog.open(CommentsDialogComponent, { width: '450px', height: 'auto',
         data: {
           objectId: this.service?.id,
           reviewType: ReviewType.SERVICE
@@ -116,9 +120,17 @@ export class ServiceDetailsComponent implements OnInit {
       this.handleCloseDialog(dialogRef);
   }
 
+  private handleReservationClose(dialogRef: MatDialogRef<ServiceReservationDialogComponent>): void {
+    dialogRef.afterClosed().subscribe((_) => {
+      if(this.plannedAmount && this.eventId) {
+        void this.router.navigate(['budget-planning', this.eventId]);
+      }
+    });
+  }
+
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
-    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-      if (!event) return;  // TODO: update amount spent in budget!
+    dialogRef.afterClosed().subscribe(({ plannedAmount: _, event }: { plannedAmount: number, event: Event }) => {
+      if (!event) return;
 
       this.eventId = event.id;
       dialogRef.close();
