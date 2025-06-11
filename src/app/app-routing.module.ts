@@ -49,6 +49,7 @@ import { EditEventComponent } from './event/edit-event/edit-event.component';
 import { ManageReservationsComponent } from './service/manage-reservations/manage-reservations.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
+import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -163,6 +164,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       role: ['PROVIDER']
+    }
+  },
+  {
+    path: 'past-events-overview',
+    component: PastEventsOverviewComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN']
     }
   },
   {

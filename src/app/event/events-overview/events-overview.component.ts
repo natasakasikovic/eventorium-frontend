@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../event.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 import { PagedResponse } from '../../shared/model/paged-response.model';
 import { EventSummary } from '../model/event-summary.model';
 import { EventsFilterDialogComponent } from '../events-filter-dialog/events-filter-dialog.component';

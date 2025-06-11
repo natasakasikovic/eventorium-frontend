@@ -1,0 +1,42 @@
+<h2><mat-icon>bar_chart</mat-icon>Past Events Overview</h2>
+<p>List of previous events and their basic details</p>
+
+<table mat-table [dataSource]="events" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Event </th>
+    <td mat-cell *matCellDef="let event"> {{ event.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let event"> {{ event.date | date:'mediumDate' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="privacy">
+    <th mat-header-cell *matHeaderCellDef> Privacy </th>
+    <td mat-cell *matCellDef="let event"> {{ event.privacy }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="maxParticipants">
+    <th mat-header-cell *matHeaderCellDef> Max </th>
+    <td mat-cell *matCellDef="let event"> {{ event.maxParticipants }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef> City </th>
+    <td mat-cell *matCellDef="let event"> {{ event.city.name }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let event">
+      <button mat-icon-button color="primary" (click)="viewStats(event.id)">
+        <mat-icon>bar_chart</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

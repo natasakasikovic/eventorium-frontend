@@ -18,6 +18,7 @@ import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
 import { InvitationDetails } from './model/invitation-details.model';
 import { UpdateEventRequest } from './model/update-event-request.model';
+import { EventTable } from './model/event-table.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,10 @@ export class EventService {
 
   getTopEvents(): Observable<EventSummary[]> {
     return this.httpClient.get<EventSummary[]>(environment.apiHost + "/events/top-five-events")
+  }
+
+  getPassedEvents(): Observable<EventTable[]> {
+    return this.httpClient.get<EventTable[]>(`${environment.apiHost}/events/passed`);
   }
 
   searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
