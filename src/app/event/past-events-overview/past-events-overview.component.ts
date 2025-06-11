@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { EventTable } from '../model/event-table.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-past-events-overview',
@@ -25,7 +26,8 @@ export class PastEventsOverviewComponent implements OnInit {
 
   constructor(
     private service: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class PastEventsOverviewComponent implements OnInit {
   }
 
   viewStats(id: number): void {
-
+     void this.router.navigate(['/event-stats', id]);
   }
 
 }

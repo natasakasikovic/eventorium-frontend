@@ -50,6 +50,7 @@ import { ManageReservationsComponent } from './service/manage-reservations/manag
 import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
 import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
+import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -182,6 +183,14 @@ const routes: Routes = [
       role: ['EVENT_ORGANIZER'],
       allowedUrls: ['/event-agenda'],
       fallback: "/home"
+    }
+  },
+  {
+    path: 'event-stats/:id',
+    component: EventRatingStatisticsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN']
     }
   },
   {path: ':provider-id/company-register', component: CompanyRegisterComponent},

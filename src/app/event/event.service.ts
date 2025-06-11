@@ -19,6 +19,7 @@ import { Activity } from './model/activity.model';
 import { InvitationDetails } from './model/invitation-details.model';
 import { UpdateEventRequest } from './model/update-event-request.model';
 import { EventTable } from './model/event-table.model';
+import { EventRatingsStatistics } from './model/event-rating-statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,10 @@ export class EventService {
 
   getPassedEvents(): Observable<EventTable[]> {
     return this.httpClient.get<EventTable[]>(`${environment.apiHost}/events/passed`);
+  }
+
+  getEventStatistics(id: number): Observable<EventRatingsStatistics> {
+    return this.httpClient.get<EventRatingsStatistics>(`${environment.apiHost}/events/${id}/statistics`);
   }
 
   searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {

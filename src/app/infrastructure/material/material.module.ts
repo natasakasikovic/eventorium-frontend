@@ -33,6 +33,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @NgModule({
   declarations: [],
@@ -83,7 +84,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FullCalendarModule,
     MatListModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CanvasJSAngularChartsModule
   ],
   exports: [
     MatToolbarModule,
@@ -132,7 +134,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FullCalendarModule,
     MatListModule,
     RouterModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CanvasJSAngularChartsModule
   ]
 })
 export class MaterialModule { }
