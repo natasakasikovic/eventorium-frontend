@@ -41,6 +41,25 @@ export class PastEventsOverviewComponent implements OnInit {
     })
   } 
 
+  viewStats(id: number): void {
+    void this.router.navigate(['/event-stats', id]);
+  }
+
+  exportStats(id: number): void {
+    this.service.exportEventStatisticsToPdf(id).subscribe({
+      next: (blob: Blob) => {
+        const fileURL = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = "event-stats.pdf";
+        link.click();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
+    })
+  }
+
   handleError(error: HttpErrorResponse): void {
     if (error.status < 500)
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
@@ -53,9 +72,4 @@ export class PastEventsOverviewComponent implements OnInit {
       data: { title: title, message: message }
     })
   }
-
-  viewStats(id: number): void {
-     void this.router.navigate(['/event-stats', id]);
-  }
-
 }

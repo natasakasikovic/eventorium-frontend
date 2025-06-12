@@ -4,5 +4,20 @@
 }
 
 .event-stats p {
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+.chart-wrapper {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.centered-content {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.event-stats p {
   margin: 4px 0;
 }

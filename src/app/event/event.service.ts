@@ -41,7 +41,7 @@ export class EventService {
     return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
   }
 
-  isUserEligableToRate(id: number): Observable<boolean> {
+  isUserEligibleToRate(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/${id}/rating-eligibility`)
   }
 
@@ -184,6 +184,10 @@ export class EventService {
 
   exportGuestListToPDF(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
+  }
+
+  exportEventStatisticsToPdf(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf-statistics`, {responseType: 'blob'});
   }
   
   getOrganizerEvents(pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
