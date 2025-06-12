@@ -35,7 +35,6 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private eventService: EventService,
     private budgetService: BudgetService,
     private authService: AuthService,
     private toasterService: ToastrService,
@@ -107,10 +106,10 @@ export class ProductDetailsComponent implements OnInit {
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
     dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-      
+
       if(event != null)
         this.purchaseProduct(event.id, event.budget, plannedAmount);
-      
+
       dialogRef.close();
     });
   }

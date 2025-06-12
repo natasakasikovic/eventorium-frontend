@@ -1,4 +1,5 @@
 export interface ReservationRequest {
-    startingTime: string;
-    endingTime: string;
+  startingTime: string;
+  endingTime: string;
+  plannedAmount: number;
 }

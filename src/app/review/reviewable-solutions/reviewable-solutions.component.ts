@@ -17,7 +17,7 @@ export class ReviewableSolutionsComponent implements OnInit {
   }
 
   private loadItems(): void {
-    this.budgetService.getBudgetItems().subscribe({
+    this.budgetService.getAllBudgetItems().subscribe({
       next: (items: ReviewableSolution[]) => {
         this.items = items;
       }

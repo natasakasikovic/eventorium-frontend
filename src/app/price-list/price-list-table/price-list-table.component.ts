@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PriceListItem} from '../model/price-list-item.model';
 import {PriceListService} from '../price-list.service';
 

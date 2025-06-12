@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Budget</h2>
+<mat-dialog-content>
+  <mat-list>
+    <app-budget-table *ngIf="items && items.length > 0" [items]="items"></app-budget-table>
+    <div *ngIf="!items || items.length == 0" class="no-items">
+      There is no budget items yet.
+    </div>
+  </mat-list>
+</mat-dialog-content>
