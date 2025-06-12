@@ -6,7 +6,7 @@ export interface BudgetItem {
   spentAmount: number;
   solutionId: number;
   solutionName: string;
-  purchased: Date;
+  processedAt: Date;
   type: SolutionType;
   category: Category;
 }
