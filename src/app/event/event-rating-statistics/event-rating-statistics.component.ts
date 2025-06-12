@@ -32,23 +32,12 @@ export class EventRatingStatisticsComponent implements OnInit {
         this.stats = stats;
         this.chartOptions = {
           animationEnabled: true,
-          title: {
-            text: stats.eventName
-          },
-          axisX: {
-            title: "Rating",
-            interval: 1
-          },
-          axisY: {
-            title: "Count",
-            interval: stats.totalRatings
-          },
+          title: { text: stats.eventName },
+          axisX: { title: "Rating", interval: 1 },
+          axisY: { title: "Count", interval: stats.totalRatings },
           data: [{
             type: "column",
-            dataPoints: Object.entries(stats.ratingsCount).map(([label, y]) => ({
-              label,
-              y
-            }))
+            dataPoints: Object.entries(stats.ratingsCount).map(([label, y]) => ({ label, y }))
           }]
         };
       },
