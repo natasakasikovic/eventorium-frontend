@@ -13,6 +13,8 @@ import { UserInvitationsComponent } from './user-invitations/user-invitations.co
 import { InvitationCardComponent } from './invitation-card/invitation-card.component';
 import { ManageableEventsComponent } from './manageable-events/manageable-events.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
+import { PastEventsOverviewComponent } from './past-events-overview/past-events-overview.component';
+import { EventRatingStatisticsComponent } from './event-rating-statistics/event-rating-statistics.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { EditEventComponent } from './edit-event/edit-event.component';
     InvitationCardComponent,
     ManageableEventsComponent,
     EditEventComponent,
+    PastEventsOverviewComponent,
+    EventRatingStatisticsComponent,
   ],
   imports: [
     CommonModule,

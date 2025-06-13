@@ -49,6 +49,8 @@ import { EditEventComponent } from './event/edit-event/edit-event.component';
 import { ManageReservationsComponent } from './service/manage-reservations/manage-reservations.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
+import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
+import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -166,6 +168,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'past-events-overview',
+    component: PastEventsOverviewComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN', 'EVENT_ORGANIZER']
+    }
+  },
+  {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
     canActivate: [NavigationGuard, AuthGuard],
@@ -173,6 +183,14 @@ const routes: Routes = [
       role: ['EVENT_ORGANIZER'],
       allowedUrls: ['/event-agenda'],
       fallback: "/home"
+    }
+  },
+  {
+    path: 'event-stats/:id',
+    component: EventRatingStatisticsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN', 'EVENT_ORGANIZER']
     }
   },
   {path: ':provider-id/company-register', component: CompanyRegisterComponent},

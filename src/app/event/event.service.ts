@@ -18,6 +18,8 @@ import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
 import { InvitationDetails } from './model/invitation-details.model';
 import { UpdateEventRequest } from './model/update-event-request.model';
+import { EventTable } from './model/event-table.model';
+import { EventRatingsStatistics } from './model/event-rating-statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +41,7 @@ export class EventService {
     return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
   }
 
-  isUserEligableToRate(id: number): Observable<boolean> {
+  isUserEligibleToRate(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/${id}/rating-eligibility`)
   }
 
@@ -75,6 +77,14 @@ export class EventService {
 
   getTopEvents(): Observable<EventSummary[]> {
     return this.httpClient.get<EventSummary[]>(environment.apiHost + "/events/top-five-events")
+  }
+
+  getPassedEvents(): Observable<EventTable[]> {
+    return this.httpClient.get<EventTable[]>(`${environment.apiHost}/events/passed`);
+  }
+
+  getEventStatistics(id: number): Observable<EventRatingsStatistics> {
+    return this.httpClient.get<EventRatingsStatistics>(`${environment.apiHost}/events/${id}/statistics`);
   }
 
   searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
@@ -176,6 +186,10 @@ export class EventService {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
   }
 
+  exportEventStatisticsToPdf(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf-statistics`, {responseType: 'blob'});
+  }
+  
   getOrganizerEvents(pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {
     const params = this.buildQueryParams(null, pageProperties);
     return this.httpClient.get<PagedResponse<EventSummary>>(`${environment.apiHost}/account/events`, { params: params });

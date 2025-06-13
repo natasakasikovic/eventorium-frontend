@@ -1,0 +1,10 @@
+<div class="centered-content" *ngIf="chartOptions">
+  <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+</div>
+
+<div class="centered-content" *ngIf="stats">
+  <div class="event-stats">
+    <p><strong>Total ratings:</strong> {{ stats.totalRatings }}</p>
+    <p><strong>Total visitors:</strong> {{ stats.totalVisitors }}</p>
+  </div>
+</div>

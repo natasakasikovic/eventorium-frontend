@@ -25,6 +25,7 @@ import {ReviewModule} from './review/review.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { CalendarModule } from './calendar/calendar.module';
 import {ChatModule} from './chat/chat.module';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {ChatModule} from './chat/chat.module';
     ReviewModule,
     FavouritesModule,
     CalendarModule,
-    ChatModule
+    ChatModule,
+    CanvasJSAngularChartsModule
   ],
   providers: [
     provideAnimationsAsync(),

@@ -65,7 +65,7 @@ export class EventDetailsComponent implements OnInit {
       }
     });
 
-    this.service.isUserEligableToRate(this.id).subscribe({
+    this.service.isUserEligibleToRate(this.id).subscribe({
       next: (isEligible: boolean) => this.isUserEligibleToRate = isEligible,
       error: (_) => this.isUserEligibleToRate = false
     })
