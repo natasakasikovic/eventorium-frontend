@@ -13,9 +13,6 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() showActions: boolean;
   @Input() reviewable: boolean;
 
-  @Input() eventId: number;
-  @Input() plannedAmount: number;
-
   @Output() delete: EventEmitter<Service> = new EventEmitter();
   @Output() review: EventEmitter<Service> = new EventEmitter();
 
@@ -50,16 +47,4 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
     URL.revokeObjectURL(this.service.images[0]);
   }
 
-  onClick(): void {
-    if(this.eventId && this.plannedAmount) {
-      void this.router.navigate(['/service-details', this.service.id], {
-        queryParams: {
-          eventId: this.eventId,
-          plannedAmount: this.plannedAmount,
-        }
-      });
-    } else {
-      void this.router.navigate(['/service-details', this.service.id]);
-    }
-  }
 }

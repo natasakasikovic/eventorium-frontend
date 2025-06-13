@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Product} from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
 import {Router} from '@angular/router';
@@ -12,9 +12,6 @@ export class ProductCardComponent implements OnInit {
   @Input() product: Product;
 
   @Input() showActions: boolean;
-
-  @Input() eventId: number;
-  @Input() plannedAmount: number;
 
   constructor(
     private productService: ProductService,
@@ -35,15 +32,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   onClick(): void {
-    if (this.eventId && this.plannedAmount) {
-      void this.router.navigate(['/product-details', this.product.id], {
-        queryParams: {
-          eventId: this.eventId,
-          plannedAmount: this.plannedAmount,
-        },
-      });
-    } else {
       void this.router.navigate(['/product-details', this.product.id]);
-    }
   }
 }
