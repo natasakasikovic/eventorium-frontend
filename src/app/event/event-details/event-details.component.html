@@ -1,7 +1,7 @@
 <div class="container">
   <mat-card class="event-card">
-    <div *ngIf="loggedIn" class="action-buttons">
-      <button mat-icon-button (click)="toggleFavourite()">
+    <div class="action-buttons">
+      <button mat-icon-button (click)="toggleFavourite()" *ngIf="loggedIn" >
         <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
       </button>
       <button mat-icon-button (click)="scrollToMap()">
