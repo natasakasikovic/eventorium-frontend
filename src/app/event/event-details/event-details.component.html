@@ -103,10 +103,7 @@
     </mat-card>
 
     <mat-card class="map-class">
-      <div *ngIf="locationNotFound" class="map-error">
-        Location not found on map.
-      </div>
-      <div id="map" class="map-class" *ngIf="!locationNotFound"></div>
+      <app-event-map [address]="event.address" [city]="event.city"></app-event-map>
     </mat-card>
     
 </div>
