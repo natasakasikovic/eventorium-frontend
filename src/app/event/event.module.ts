@@ -15,6 +15,7 @@ import { ManageableEventsComponent } from './manageable-events/manageable-events
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { PastEventsOverviewComponent } from './past-events-overview/past-events-overview.component';
 import { EventRatingStatisticsComponent } from './event-rating-statistics/event-rating-statistics.component';
+import { EventMapComponent } from './event-map/event-map.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { EventRatingStatisticsComponent } from './event-rating-statistics/event-
     EditEventComponent,
     PastEventsOverviewComponent,
     EventRatingStatisticsComponent,
+    EventMapComponent,
   ],
   imports: [
     CommonModule,

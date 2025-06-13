@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../event.service';
 import { EventDetails } from '../model/event-details.model';
@@ -13,6 +13,8 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { Activity } from '../model/activity.model';
 import { RatingService } from '../../review/rating.service';
 import { ReviewType } from '../../review/model/review-type.enum';
+import { MapService } from '../map.service';
+import { EventMapComponent } from '../event-map/event-map.component';
 
 @Component({
   selector: 'app-event-details',
@@ -30,6 +32,7 @@ export class EventDetailsComponent implements OnInit {
   isUserEligibleToRate: boolean = false;
   stars: number[] = [1, 2, 3, 4, 5];
   showStars: boolean = true;
+  @ViewChild(EventMapComponent) eventMapComponent!: EventMapComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,10 +73,6 @@ export class EventDetailsComponent implements OnInit {
       error: (_) => this.isUserEligibleToRate = false
     })
     
-    setTimeout(() => {
-      this.showShakeAnimation = true;
-      setTimeout(() => { this.showShakeAnimation = false; }, 500);
-    }, 500);
   }
 
   showMessage(title: string, message: string) : void {
@@ -156,4 +155,7 @@ export class EventDetailsComponent implements OnInit {
     });
   }
    
+  scrollToMap(): void {
+    this.eventMapComponent.scrollToMap();
+  }
 }
