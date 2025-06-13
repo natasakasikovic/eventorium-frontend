@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Product} from '../product/model/product.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../env/environment';
@@ -7,6 +7,7 @@ import {BudgetItem} from './model/budget-item.model';
 import {Budget} from './model/budget.model';
 import {ReviewableSolution} from '../review/model/reviewable-solution.model';
 import {BudgetItemRequest} from './model/budget-item-request.model';
+import {BudgetSuggestion} from './model/budget-suggestion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class BudgetService {
     return this.httpClient.post<Product>(`${environment.apiHost}/events/${id}/budget/purchase`, item);
   }
 
+  getBudgetSuggestions(eventId: number, categoryId: number, price: number): Observable<BudgetSuggestion[]> {
+    const params = new HttpParams().set("category-id", categoryId).set("price", price);
+    return this.httpClient.get<BudgetSuggestion[]>(`${environment.apiHost}/events/${eventId}/budget/suggestions`, { params });
+  }
 
   getBudget(id: number): Observable<Budget> {
     return this.httpClient.get<Budget>(`${environment.apiHost}/events/${id}/budget`);

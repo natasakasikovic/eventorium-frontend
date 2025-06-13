@@ -6,6 +6,7 @@ import { BudgetItemsComponent } from './budget-items/budget-items.component';
 import {SharedModule} from '../shared/shared.module';
 import { BudgetTableComponent } from './budget-table/budget-table.component';
 import { BudgetDialogComponent } from './budget-dialog/budget-dialog.component';
+import { BudgetSuggestionCardComponent } from './budget-suggestion-card/budget-suggestion-card.component';
 
 
 
@@ -14,7 +15,8 @@ import { BudgetDialogComponent } from './budget-dialog/budget-dialog.component';
     BudgetPlanningComponent,
     BudgetItemsComponent,
     BudgetTableComponent,
-    BudgetDialogComponent
+    BudgetDialogComponent,
+    BudgetSuggestionCardComponent
   ],
   imports: [
     CommonModule,
