@@ -58,10 +58,12 @@ export class EventMapComponent implements AfterViewInit {
   }
 
   private addMarker(lat: number, lon: number): void {
+    let icon: L.Icon = L.icon({ iconUrl: 'marker-icon.png' });
     L.marker([lat, lon])
       .addTo(this.map)
       .bindPopup(`${this.address}, ${this.city}`)
-      .openPopup();
+      .openPopup()
+      .setIcon(icon);
   }
 
   scrollToMap(): void {
