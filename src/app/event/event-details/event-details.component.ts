@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../event.service';
 import { EventDetails } from '../model/event-details.model';
@@ -13,13 +13,15 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { Activity } from '../model/activity.model';
 import { RatingService } from '../../review/rating.service';
 import { ReviewType } from '../../review/model/review-type.enum';
+import { MapService } from '../map.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.css'
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit, AfterViewInit {
   id: number;
   event: EventDetails;
   isFavourite: boolean;
@@ -30,6 +32,9 @@ export class EventDetailsComponent implements OnInit {
   isUserEligibleToRate: boolean = false;
   stars: number[] = [1, 2, 3, 4, 5];
   showStars: boolean = true;
+  private map: L.Map;
+  locationNotFound: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +42,8 @@ export class EventDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     private chatService: ChatDialogService,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private mapService: MapService
   ) {}
 
   ngOnInit(): void {
@@ -70,10 +76,7 @@ export class EventDetailsComponent implements OnInit {
       error: (_) => this.isUserEligibleToRate = false
     })
     
-    setTimeout(() => {
-      this.showShakeAnimation = true;
-      setTimeout(() => { this.showShakeAnimation = false; }, 500);
-    }, 500);
+    setTimeout(() => this.map.invalidateSize(), 0);
   }
 
   showMessage(title: string, message: string) : void {
@@ -156,4 +159,62 @@ export class EventDetailsComponent implements OnInit {
     });
   }
    
+  // map setup
+
+  ngAfterViewInit(): void {
+    const waitForMap = setInterval(() => {
+      const mapContainer = document.getElementById('map');
+      if (mapContainer && this.event?.address) {
+        clearInterval(waitForMap);
+        this.initMap();
+      }
+    }, 200);
+  }
+
+  private initMap(): void {
+    this.map = L.map('map', { zoom: 13 });
+
+    const tiles = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        maxZoom: 18,
+        minZoom: 3,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }
+    );
+    tiles.addTo(this.map);
+    this.search()
+  }
+
+  search(): void {
+    this.mapService.search(`${this.event.address}, ${this.event.city}`).subscribe({
+      next: (result) => {
+        if (result.length > 0) {
+          const lat = result[0].lat;
+          const lon = result[0].lon;
+
+          this.map.setView([lat, lon], 15);
+
+          L.marker([lat, lon])
+            .addTo(this.map)
+            .bindPopup(`${this.event.address}, ${this.event.city}`)
+            .openPopup();
+
+          this.locationNotFound = false;
+        } 
+        else this.locationNotFound = true;
+        
+      },
+      error: () => this.locationNotFound = true
+    });
+  }
+
+
+  scrollToMap(): void {
+    const mapElement: HTMLElement | null = document.getElementById('map');
+    if (mapElement instanceof HTMLElement) {
+      mapElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
 }

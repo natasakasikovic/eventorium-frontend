@@ -4,6 +4,9 @@
       <button mat-icon-button (click)="toggleFavourite()">
         <mat-icon> {{ isFavourite ? 'favorite' : 'favorite_border' }} </mat-icon>
       </button>
+      <button mat-icon-button (click)="scrollToMap()">
+        <mat-icon>location_on</mat-icon>
+      </button>
     </div>
 
     <mat-card-header>
@@ -97,6 +100,13 @@
     
         </table>
       </mat-card-content>
+    </mat-card>
+
+    <mat-card class="map-class">
+      <div *ngIf="locationNotFound" class="map-error">
+        Location not found on map.
+      </div>
+      <div id="map" class="map-class" *ngIf="!locationNotFound"></div>
     </mat-card>
     
 </div>
