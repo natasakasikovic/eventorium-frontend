@@ -49,7 +49,8 @@ export class DrawerComponent implements OnInit {
       if (userRole === "EVENT_ORGANIZER") {
         items.push(
           { label: 'Your events', icon: 'event', route: '/manageable-events' },
-          { label: 'Reviewable Solutions', icon: 'feedback', route: '/reviewable-solutions' }
+          { label: 'Reviewable Solutions', icon: 'feedback', route: '/reviewable-solutions' },
+          { label: 'Event statistics', icon: 'bar_chart', route:'/past-events-overview'}
         );
       }
 

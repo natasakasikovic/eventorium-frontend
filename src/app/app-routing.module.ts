@@ -172,7 +172,7 @@ const routes: Routes = [
     component: PastEventsOverviewComponent,
     canActivate: [AuthGuard],
     data: {
-      role: ['ADMIN']
+      role: ['ADMIN', 'EVENT_ORGANIZER']
     }
   },
   {
@@ -190,7 +190,7 @@ const routes: Routes = [
     component: EventRatingStatisticsComponent,
     canActivate: [AuthGuard],
     data: {
-      role: ['ADMIN']
+      role: ['ADMIN', 'EVENT_ORGANIZER']
     }
   },
   {path: ':provider-id/company-register', component: CompanyRegisterComponent},
