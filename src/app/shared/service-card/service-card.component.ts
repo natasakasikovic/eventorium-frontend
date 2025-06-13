@@ -38,7 +38,6 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-
   onDelete(): void {
     this.delete.emit(this.service);
   }

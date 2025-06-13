@@ -4,7 +4,7 @@
       <mat-tab-group class="category-tabs">
         <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
           <app-budget-items [category]="category"
-                            [eventId]="id"
+                            [eventId]="eventId"
                             (totalPriceChanged)="updatePlannedPrice($event)"
                             (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
@@ -24,7 +24,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Purchased & Reserved">
-      <app-purchased-and-reserved [purchasedProducts]="purchasedProducts"></app-purchased-and-reserved>
+      <app-budget-table *ngIf="budgetItems && budgetItems.length > 0" [items]="budgetItems"></app-budget-table>
+      <div *ngIf="!budgetItems || budgetItems.length == 0" class="no-items">
+        There is no budget items yet.
+      </div>
     </mat-tab>
   </mat-tab-group>
   <div class="total">

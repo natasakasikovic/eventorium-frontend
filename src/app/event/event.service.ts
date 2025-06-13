@@ -146,8 +146,8 @@ export class EventService {
     return params
   }
 
-  getDraftedEvents(): Observable<EventSummary[]> {
-    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
+  getFutureEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/future`);
   }
 
   getAllOrganizerEvents(): Observable<EventSummary[]> {
