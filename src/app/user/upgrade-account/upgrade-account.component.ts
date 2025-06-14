@@ -20,8 +20,6 @@ import { Router } from '@angular/router';
 export class UpgradeAccountComponent implements OnInit {
   upgradeForm: FormGroup;
   roles: Role[];
-  profilePhoto: File | null = null;
-  imageUrl: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -44,15 +42,6 @@ export class UpgradeAccountComponent implements OnInit {
     this.authService.getRegistrationOptions().subscribe(roles => this.roles = roles);
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      const file : File = input.files[0];
-      this.profilePhoto = file;
-      this.imageUrl = URL.createObjectURL(file);
-    }
-  }
-
   roleToString(role: Role): string {
     return toString(role);
   }
@@ -65,7 +54,7 @@ export class UpgradeAccountComponent implements OnInit {
       next: (res: AuthResponse) => {
         this.authService.updateSession(res);
         if (request.role.name == 'PROVIDER')
-          void this.router.navigate([`${this.authService.getUserId}/company-register`])
+          void this.router.navigate([`${this.authService.getUserId()}/company-register`])
         
       }, 
       error: (err: HttpErrorResponse) => console.log(err)
