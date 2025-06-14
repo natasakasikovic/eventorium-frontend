@@ -57,3 +57,15 @@
   background-color: #35422f;
   color: #F5F5F5;
 }
+
+.suggestion-card .sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: yellow;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 2rem;
+  z-index: 10;
+}
