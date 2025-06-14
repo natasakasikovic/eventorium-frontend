@@ -94,13 +94,6 @@ export class ServiceService {
     ) as Observable<Blob>;
   }
 
-  getBudgetSuggestions(id: number, price: number, eventId: number): Observable<Service[]> {
-    return this.httpClient.get<Service[]>(
-      `${environment.apiHost}/services/suggestions`,
-      { params: new HttpParams().set('categoryId', id).set('price', price).set("eventId", eventId) }
-    );
-  }
-
   filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
     const params = this.buildQueryParams(filter, pageProperties)
     return this.httpClient.get<PagedResponse<Service>>(

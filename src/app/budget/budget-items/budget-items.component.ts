@@ -6,6 +6,8 @@ import {ProductService} from '../../product/product.service';
 import {Service} from '../../service/model/service.model';
 import {Product} from '../../product/model/product.model';
 import {ToastrService} from 'ngx-toastr';
+import {BudgetSuggestion} from '../model/budget-suggestion.model';
+import {BudgetService} from '../budget.service';
 
 @Component({
   selector: 'app-budget-items',
@@ -26,13 +28,11 @@ export class BudgetItemsComponent {
     plannedAmount: new FormControl(0, Validators.required),
     solutionType: new FormControl("product"),
   });
-  serviceSuggestions: Service[] = [];
-  productSuggestion: Product[] = []
+  budgetSuggestions: BudgetSuggestion[];
 
 
   constructor(
-    private serviceService: ServiceService,
-    private productService: ProductService,
+    private budgetService: BudgetService,
   ) {
   }
 
@@ -43,44 +43,13 @@ export class BudgetItemsComponent {
 
   searchItems(): void {
     if (!this.planning.invalid) {
-      const formValue = this.planning.value;
-      if (formValue.solutionType === 'product') {
-       this.searchProducts(formValue.plannedAmount)
-      } else {
-        this.searchServices(formValue.plannedAmount);
-      }
-    }
-  }
-
-  private searchServices(plannedAmount: number): void {
-    this.serviceService.getBudgetSuggestions(this.category.id, plannedAmount, this.eventId).subscribe({
-      next: (services: Service[]) => {
-        this.productSuggestion = [];
-        this.serviceSuggestions = services;
-        this.updateTotalPlanned(plannedAmount);
-        this.getServiceImages(services);
-      }
-    });
-  }
-
-  private getServiceImages(services: Service[]): void {
-    services.forEach(s => this.serviceService.getImage(s.id).subscribe({
-      next: (image: Blob) => {
-        s.images[0] = URL.createObjectURL(image);
-      }
-    }));
-  }
-
-
-  private searchProducts(plannedAmount: number): void {
-    this.productService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
-        next: (products: Product[]) => {
-          this.serviceSuggestions = [];
-          this.productSuggestion = products;
-          this.updateTotalPlanned(plannedAmount);
+      const plannedAmount = this.planning.value.plannedAmount;
+      this.budgetService.getBudgetSuggestions(this.eventId, this.category.id, plannedAmount).subscribe({
+        next: (suggestions: BudgetSuggestion[]) => {
+          this.budgetSuggestions = suggestions;
         }
-      }
-    )
+      });
+    }
   }
 
   onDelete(): void {

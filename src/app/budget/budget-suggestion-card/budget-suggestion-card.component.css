@@ -1,0 +1,71 @@
+.suggestion-card {
+  width: 16rem;
+  height: 18rem;
+  margin: 1rem;
+  position: relative;
+}
+
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.suggestion-card mat-card-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.suggestion-card mat-card-header .title {
+  font-size: 1rem;
+  font-family: jeju, serif;
+  font-weight: bold;
+  color:#35422f
+}
+
+.suggestion-card mat-card-header .rating {
+  display: flex;
+  align-items: center;
+}
+
+.suggestion-card mat-card-header .rating mat-icon {
+  color: #fdd835;
+  margin-right: 4px;
+}
+
+.suggestion-card .mat-card-content {
+  font-size: 0.9rem;
+}
+
+.suggestion-card .mat-card-content p {
+  margin: 4px 0;
+}
+
+.suggestion-card mat-card-actions {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.suggestion-card mat-card-actions .see-more-button {
+  text-transform: none;
+  background-color: #35422f;
+  color: #F5F5F5;
+}
+
+.suggestion-card .sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: yellow;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 2rem;
+  z-index: 10;
+}

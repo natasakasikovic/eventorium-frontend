@@ -56,13 +56,6 @@ export class ProductService {
     return this.httpClient.get<PagedResponse<Product>> (environment.apiHost + "/products/search", {params : params})
   }
 
-  getBudgetSuggestions(id: number, plannedAmount: number): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(
-      `${environment.apiHost}/products/suggestions`,
-      { params: new HttpParams().set('categoryId', id).set('price', plannedAmount) }
-    );
-  }
-
   get(id: number): Observable<Product> {
       return this.httpClient.get<Product>(`${environment.apiHost}/products/${id}`);
   }

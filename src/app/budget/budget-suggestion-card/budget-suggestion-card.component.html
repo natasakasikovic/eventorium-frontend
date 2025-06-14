@@ -1,0 +1,31 @@
+<mat-card class="suggestion-card">
+  <div *ngIf="budgetSuggestion.discount != 0.0" class="sale-badge">Save {{ budgetSuggestion.discount }}%</div>
+  <div class="image-container">
+    <img [src]="budgetSuggestion.image" alt="Solution image"/>
+  </div>
+  <mat-card-header>
+    <mat-card-title class="title">{{ budgetSuggestion.name }}</mat-card-title>
+    <div class="rating">
+      <mat-icon>star</mat-icon>
+      <span>{{ budgetSuggestion.rating | number:'1.2-2' }}</span>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>
+      Price:
+      <span *ngIf="budgetSuggestion.discount !== 0.0">
+        <s>{{ budgetSuggestion.price }}</s>
+        {{ budgetSuggestion.price * (1 - budgetSuggestion.discount / 100) | number:'1.2-2' }}
+      </span>
+      <span *ngIf="budgetSuggestion.discount === 0.0">
+        {{ budgetSuggestion.price | number:'1.2-2' }}
+      </span>
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button class="see-more-button" (click)="onClick()">See more</button>
+  </mat-card-actions>
+
+</mat-card>
