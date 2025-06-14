@@ -27,7 +27,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio'; 
+import {MatRadioModule} from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatListModule } from '@angular/material/list';
@@ -45,6 +45,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    MatChipsModule,
     MatCardModule,
     MatIconModule,
     FormsModule,
@@ -92,6 +93,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
+    MatChipsModule,
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
