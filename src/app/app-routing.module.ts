@@ -51,6 +51,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
 import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
 import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
+import { UpgradeAccountComponent } from './user/upgrade-account/upgrade-account.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -245,6 +246,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
   },
+  { path: 'upgrade-account', component: UpgradeAccountComponent },
   {
     path: 'edit-account',
     component: EditAccountComponent,

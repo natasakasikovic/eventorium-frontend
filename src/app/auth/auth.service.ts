@@ -86,5 +86,11 @@ export class AuthService {
     return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
       formData,
       { responseType: 'text' as 'json' });
-    }
+  }
+
+  updateSession(auth: AuthResponse): void {
+    localStorage.setItem('user', auth.jwt);
+    this.setUser();
+    this.router.navigate(['/']);
+  }
 }
