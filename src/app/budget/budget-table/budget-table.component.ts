@@ -9,7 +9,7 @@ import {BudgetItemStatus} from '../model/budget-item-status.enum';
 })
 export class BudgetTableComponent {
   @Input() items: BudgetItem[];
-  displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount", "Status"];
+  displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount", "Status", "Actions"];
 
   statusClasses = {
     [BudgetItemStatus.PENDING] : 'status-pending',

@@ -10,4 +10,24 @@ h2[mat-dialog-title]{
   color: #888;
   font-size: 16px;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+mat-dialog-content.dialog {
+  width: 100%;
+  padding: 0;
+}
+
+.budget-content {
+  width: 100%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table.mat-table {
+  width: 100%;
+  table-layout: auto;
 }

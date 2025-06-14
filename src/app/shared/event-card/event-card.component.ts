@@ -62,7 +62,7 @@ export class EventCardComponent implements OnInit {
 
   private openDialog(): void {
     this.dialog.open(BudgetDialogComponent, {
-      width: '600px', height: 'auto',
+      maxWidth: '100vw',
       data: {
         budgetItems:  this.items
       }
