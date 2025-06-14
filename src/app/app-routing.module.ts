@@ -60,7 +60,7 @@ const routes: Routes = [
     path: 'calendar',
     component: CalendarComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   { path: 'events-overview', component: EventsOverviewComponent},
   {
@@ -151,7 +151,7 @@ const routes: Routes = [
     path: 'notifications',
     component: NotificationsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   {
     path: 'comment-management',
@@ -243,7 +243,7 @@ const routes: Routes = [
   {
     path: 'account-details', component: AccountDetailsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER'] }
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
   },
   {
     path: 'edit-account',
@@ -255,7 +255,7 @@ const routes: Routes = [
   {
     path: 'favourites', component: FavouritesComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER'] }
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
   },
   {
     path: 'provider-company', component: ProviderCompanyComponent,
@@ -271,12 +271,12 @@ const routes: Routes = [
   {
     path: 'user-invitations', component: UserInvitationsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   {
     path: 'chat', component: ChatComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
