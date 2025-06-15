@@ -65,7 +65,10 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
           if (this.images.length > 0) {
             this.companyService.uploadImages(response.id, this.images).subscribe({
               next: () => {
-                this.showActivationDialog(); 
+                if (this.authService.getUserId() != this.providerId)
+                  this.showActivationDialog();
+                else 
+                  this.router.navigate(['/'])
               }, 
               error: (error: HttpErrorResponse) => {
                 this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
