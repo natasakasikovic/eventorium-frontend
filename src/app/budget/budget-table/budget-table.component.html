@@ -46,7 +46,15 @@
     <ng-container matColumnDef="Actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        todo
+        <button mat-icon-button
+                *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.PRODUCT"
+                (click)="purchaseProduct(element)"
+        >
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.SERVICE">
+          <mat-icon>calendar_today</mat-icon>
+        </button>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>

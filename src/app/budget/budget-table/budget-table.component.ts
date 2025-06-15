@@ -1,6 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BudgetItem} from '../model/budget-item.model';
 import {BudgetItemStatus} from '../model/budget-item-status.enum';
+import {SolutionType} from '../model/solution-type.enum';
+import {BudgetService} from '../budget.service';
+import {Product} from '../../product/model/product.model';
 
 @Component({
   selector: 'app-budget-table',
@@ -9,6 +12,8 @@ import {BudgetItemStatus} from '../model/budget-item-status.enum';
 })
 export class BudgetTableComponent {
   @Input() items: BudgetItem[];
+  @Input() eventId: number;
+
   displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount", "Status", "Actions"];
 
   statusClasses = {
@@ -17,6 +22,9 @@ export class BudgetTableComponent {
     [BudgetItemStatus.PROCESSED] : 'status-processed',
     [BudgetItemStatus.DENIED] : 'status-denied',
     null : 'status-denied',
+  }
+
+  constructor(private budgetService: BudgetService) {
   }
 
   getTotalSpent(): number {
@@ -38,8 +46,24 @@ export class BudgetTableComponent {
   }
 
   getStatusColor(status: BudgetItemStatus): string {
-    const color =  this.statusClasses[status];
-    console.log(color);
-    return color;
+    return this.statusClasses[status];
   }
+
+  purchaseProduct(item: BudgetItem): void {
+    this.budgetService.purchase(this.eventId, {
+      category: item.category,
+      itemId: item.solutionId,
+      itemType: item.type,
+      plannedAmount: item.plannedAmount
+    }).subscribe({
+      next: (product: Product) => {
+        const processedItem = this.items.find(bi => bi.solutionId == item.solutionId);
+        processedItem.status = BudgetItemStatus.PROCESSED;
+        processedItem.spentAmount = product.price * (1 - product.discount / 100);
+      }
+    });
+  }
+
+  protected readonly BudgetItemStatus = BudgetItemStatus;
+  protected readonly SolutionType = SolutionType;
 }

@@ -5,10 +5,8 @@ import {ImageResponseDto} from '../../shared/model/image-response-dto.model';
 import {ProductService} from '../product.service';
 import {forkJoin, switchMap} from 'rxjs';
 import {AuthService} from '../../auth/auth.service';
-import {EventService} from '../../event/event.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Event} from '../../event/model/event.model';
-import {Category} from '../../category/model/category.model';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
@@ -16,9 +14,9 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
 import {UserDetails} from '../../user/model/user-details.model';
-import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
-import { CommentsDialogComponent } from '../../review/comments-dialog/comments-dialog.component';
-import { ReviewType } from '../../review/model/review-type.enum';
+import {CommentsDialogComponent} from '../../review/comments-dialog/comments-dialog.component';
+import {ReviewType} from '../../review/model/review-type.enum';
+import {SolutionType} from '../../budget/model/solution-type.enum';
 
 @Component({
   selector: 'app-product-details',
@@ -108,7 +106,7 @@ export class ProductDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
 
       if(event != null)
-        this.purchaseProduct(event.id, event.budget, plannedAmount);
+        this.purchaseProduct(event.id, plannedAmount);
 
       dialogRef.close();
     });
@@ -151,32 +149,28 @@ export class ProductDetailsComponent implements OnInit {
     }});
   }
 
-  private purchaseProduct(eventId: number, budget: Budget, plannedAmount: number): void {
-    const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
-    if(!purchasedCategories.some(category => category.id === this.product.category.id)) {
-      this.budgetService.purchase(eventId, {
-        category: this.product.category,
-        itemId: this.product.id,
-        plannedAmount: plannedAmount
-      }).subscribe({
-        next: () => {
-          this.toasterService.success("Successfully purchased product!", "Success");
-          if(this.plannedAmount && this.eventId) {
-            void this.router.navigate(['budget-planning', this.eventId]);
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this.toasterService.error(error.error.message, "Failed to purchase product");
+  private purchaseProduct(eventId: number, plannedAmount: number): void {
+    this.budgetService.purchase(eventId, {
+      category: this.product.category,
+      itemId: this.product.id,
+      plannedAmount: plannedAmount,
+      itemType: SolutionType.PRODUCT,
+    }).subscribe({
+      next: () => {
+        this.toasterService.success("Successfully purchased product!", "Success");
+        if(this.plannedAmount && this.eventId) {
+          void this.router.navigate(['budget-planning', this.eventId]);
         }
-      });
-    } else {
-      this.toasterService.error(ERROR_MESSAGES.ALREADY_PURCHASED, "Purchase Failed");
-    }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to purchase product");
+      }
+    });
   }
 
   private plannedPurchase(): void {
     this.budgetService.getBudget(this.eventId).subscribe({
-      next: (budget: Budget) => this.purchaseProduct(this.eventId, budget, this.plannedAmount)
+      next: (budget: Budget) => this.purchaseProduct(this.eventId, this.plannedAmount)
     })
   }
 }

@@ -24,7 +24,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Purchased & Reserved">
-      <app-budget-table *ngIf="budgetItems && budgetItems.length > 0" [items]="budgetItems"></app-budget-table>
+      <app-budget-table *ngIf="budgetItems && budgetItems.length > 0" [items]="budgetItems" [eventId]="eventId"></app-budget-table>
       <div *ngIf="!budgetItems || budgetItems.length == 0" class="no-items">
         There is no budget items yet.
       </div>

@@ -15,7 +15,6 @@ export class ProductCardComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,9 +28,5 @@ export class ProductCardComponent implements OnInit {
         this.product.images.push("/photo_placeholder.png");
       }
     });
-  }
-
-  onClick(): void {
-      void this.router.navigate(['/product-details', this.product.id]);
   }
 }

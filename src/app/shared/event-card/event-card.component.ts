@@ -64,7 +64,8 @@ export class EventCardComponent implements OnInit {
     this.dialog.open(BudgetDialogComponent, {
       maxWidth: '100vw',
       data: {
-        budgetItems:  this.items
+        budgetItems:  this.items,
+        eventId: this.event.id,
       }
     });
   }
