@@ -8,8 +8,6 @@ import { ChangePasswordRequest } from './model/change-password-request.model';
 import { UserReport } from './model/user-report.model';
 import { UserReportResponse } from './model/user-report-response.model';
 import { UpdateReportRequest } from './model/update-report-status.model';
-import { UpgradeAccountRequest } from './model/upgrade-account-request.model';
-import { AuthResponse } from '../auth/model/auth-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,9 +63,5 @@ export class UserService {
 
   deactivateAccount(): Observable<void> {
     return this.httpClient.delete<void>(`${environment.apiHost}/users`);
-  }
-
-  upgradeAccount(request: UpgradeAccountRequest): Observable<AuthResponse> {
-    return this.httpClient.put<AuthResponse>(`${environment.apiHost}/users/account-role`, request);
   }
 }

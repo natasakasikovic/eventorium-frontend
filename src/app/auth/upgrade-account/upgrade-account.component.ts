@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth.service';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Role } from '../../auth/model/user-role.model';
-import { toString } from '../../auth/model/user-role.model';
-import { UserService } from '../user.service';
-import { UpgradeAccountRequest } from '../model/upgrade-account-request.model';
+import { Role } from '../model/user-role.model';
+import { toString } from '../model/user-role.model';
+import { UpgradeAccountRequest } from '../../user/model/upgrade-account-request.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
-import { AuthResponse } from '../../auth/model/auth-response.model';
+import { AuthResponse } from '../model/auth-response.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,7 +24,6 @@ export class UpgradeAccountComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private dialog: MatDialog,
-    private userService: UserService,
     private router: Router
   ) { }
   
@@ -50,7 +48,7 @@ export class UpgradeAccountComponent implements OnInit {
     if (!this.upgradeForm.valid) return;
 
     const request: UpgradeAccountRequest = this.upgradeForm.value;
-    this.userService.upgradeAccount(request).subscribe({
+    this.authService.upgradeAccount(request).subscribe({
       next: (res: AuthResponse) => {
         this.authService.updateSession(res);
         if (request.role.name == 'PROVIDER')
