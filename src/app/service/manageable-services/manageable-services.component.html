@@ -10,7 +10,7 @@
   </mat-toolbar>
   <div class="service-cards">
     <div class="cards">
-        <app-service-card *ngFor="let service of services" [showActions]="true" [service]="service" (delete)="openDeleteConfirmation($event)"></app-service-card>
+        <app-service-card *ngFor="let service of services" [showActions]="true" [service]="service" (delete)="openDeleteConfirmation($event)"/>
     </div>
     <button mat-icon-button class="create-card" [routerLink]="['/create-service']">
       <mat-icon>add_circle</mat-icon>

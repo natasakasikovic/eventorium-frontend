@@ -33,10 +33,10 @@
   <mat-card-actions>
     <button mat-button class="see-more-button" [routerLink]="['/product-details', product.id]">See more</button>
     <div class="action-buttons" *ngIf="showActions">
-      <button mat-icon-button class="action-button">
+      <button mat-icon-button class="action-button" (click)="onDelete()">
         <mat-icon color="warn">delete</mat-icon>
       </button>
-      <button mat-icon-button class="action-button">
+      <button mat-icon-button class="action-button"  [routerLink]="['/edit-product', product.id]">
         <mat-icon color="primary">edit</mat-icon>
       </button>
     </div>
