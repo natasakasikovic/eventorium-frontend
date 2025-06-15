@@ -30,11 +30,7 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-  <div class="total">
-    <p><strong>Total planned</strong>: {{ totalPlanned | number:'1.2-2'}}</p>
-    <p><strong>Total spent</strong>: {{ totalSpent | number:'1.2-2' }}</p>
-  </div>
-  <button (click)="onSubmit()" id="submit">
+  <button (click)="onSubmit()" id="submit" [disabled]="disableAdvance" [hidden]="disableAdvance">
     <mat-icon>arrow_forward</mat-icon>
   </button>
 

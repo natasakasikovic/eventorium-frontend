@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BudgetItem} from '../model/budget-item.model';
 import {BudgetItemStatus} from '../model/budget-item-status.enum';
 import {SolutionType} from '../model/solution-type.enum';
@@ -16,6 +16,7 @@ export class BudgetTableComponent {
   @Input() eventId: number;
 
   displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount", "Status", "Actions"];
+  @Output() navigateToPlanner: EventEmitter<void> = new EventEmitter();
 
   statusClasses = {
     [BudgetItemStatus.PENDING] : 'status-pending',
@@ -25,8 +26,10 @@ export class BudgetTableComponent {
     null : 'status-denied',
   }
 
-  constructor(private budgetService: BudgetService, private currentRoute: ActivatedRoute) {
-  }
+  constructor(
+    private budgetService: BudgetService,
+    private currentRoute: ActivatedRoute
+  ) {}
 
   get route(): string {
     return this.currentRoute.snapshot.url.join('/');
@@ -40,13 +43,22 @@ export class BudgetTableComponent {
     return this.items.reduce((acc, item) => acc + (item.plannedAmount || 0), 0);
   }
 
-  getStatusLabel(status: BudgetItemStatus): string {
-    switch (status) {
-      case BudgetItemStatus.PROCESSED: return 'Processed';
+  planBudget(): void {
+    this.navigateToPlanner.emit(null);
+  }
+
+  getStatusLabel(item: BudgetItem): string {
+    switch (item.status) {
+      case BudgetItemStatus.PROCESSED:
+        if(item.type == SolutionType.PRODUCT) {
+          return 'Purchased';
+        } else {
+          return 'Reserved';
+        }
       case BudgetItemStatus.DENIED: return 'Denied';
       case BudgetItemStatus.PLANNED: return 'Planned';
       case BudgetItemStatus.PENDING: return 'Pending';
-      default: return status;
+      default: return 'Error';
     }
   }
 

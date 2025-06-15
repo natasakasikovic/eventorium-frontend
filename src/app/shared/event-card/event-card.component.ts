@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import { EventSummary } from '../../event/model/event-summary.model';
 import {EventTypeService} from '../../event-type/event-type.service';
 import {ActivatedRoute} from '@angular/router';
-import {CommentsDialogComponent} from '../../review/comments-dialog/comments-dialog.component';
-import {ReviewType} from '../../review/model/review-type.enum';
 import {BudgetDialogComponent} from '../../budget/budget-dialog/budget-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {BudgetService} from '../../budget/budget.service';
@@ -63,6 +61,7 @@ export class EventCardComponent implements OnInit {
   private openDialog(): void {
     this.dialog.open(BudgetDialogComponent, {
       maxWidth: '100vw',
+      minHeight: '10rem',
       data: {
         budgetItems:  this.items,
         eventId: this.event.id,
