@@ -5,6 +5,8 @@ import {SolutionType} from '../model/solution-type.enum';
 import {BudgetService} from '../budget.service';
 import {Product} from '../../product/model/product.model';
 import {ActivatedRoute} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-table',
@@ -28,6 +30,7 @@ export class BudgetTableComponent {
 
   constructor(
     private budgetService: BudgetService,
+    private toasterService: ToastrService,
     private currentRoute: ActivatedRoute
   ) {}
 
@@ -48,13 +51,13 @@ export class BudgetTableComponent {
   }
 
   getStatusLabel(item: BudgetItem): string {
+    console.log(item.status);
     switch (item.status) {
       case BudgetItemStatus.PROCESSED:
-        if(item.type == SolutionType.PRODUCT) {
+        if(item.type == SolutionType.PRODUCT)
           return 'Purchased';
-        } else {
+        else
           return 'Reserved';
-        }
       case BudgetItemStatus.DENIED: return 'Denied';
       case BudgetItemStatus.PLANNED: return 'Planned';
       case BudgetItemStatus.PENDING: return 'Pending';
@@ -64,6 +67,18 @@ export class BudgetTableComponent {
 
   getStatusColor(status: BudgetItemStatus): string {
     return this.statusClasses[status];
+  }
+
+  updatePlannedAmount(item: BudgetItem): void {
+    this.budgetService.updateBudgetItem(this.eventId, item).subscribe({
+      next: () => {
+        this.toasterService.success(`${item.solutionName} has been updated successfully!`, "Budget");
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to update planned amount");
+
+      }
+    });
   }
 
   purchaseProduct(item: BudgetItem): void {

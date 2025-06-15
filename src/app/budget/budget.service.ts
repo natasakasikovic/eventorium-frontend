@@ -27,7 +27,15 @@ export class BudgetService {
     return this.httpClient.get<BudgetSuggestion[]>(`${environment.apiHost}/events/${eventId}/budget/suggestions`, { params });
   }
 
+  updateBudgetItem(eventId: number, item: BudgetItem): Observable<BudgetItem> {
+    return this.httpClient.patch<BudgetItem>(
+      `${environment.apiHost}/events/${eventId}/budget/budget-items/${item.id}`,
+      { plannedAmount: item.plannedAmount }
+    )
+  }
+
   createBudgetItem(eventId: number, request: BudgetItemRequest): Observable<BudgetItem> {
+    console.log(eventId, request);
     return this.httpClient.post<BudgetItem>(`${environment.apiHost}/events/${eventId}/budget/budget-items`, request);
   }
 
