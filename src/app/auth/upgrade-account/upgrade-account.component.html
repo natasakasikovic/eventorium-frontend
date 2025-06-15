@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="upgrade-form mat-elevation-z2">
+      <h2>Fill form to continue</h2>
+      <form [formGroup]="upgradeForm" (ngSubmit)="onSubmit()">
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" />
+          <mat-error *ngIf="upgradeForm.get('address').hasError('required')">Address is required</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Phone number</mat-label>
+          <input matInput formControlName="phoneNumber" type="tel" />
+          <mat-error *ngIf="upgradeForm.get('phoneNumber').hasError('required')">Phone number is required</mat-error>
+          <mat-error *ngIf="upgradeForm.get('phoneNumber').hasError('pattern')">Invalid phone number</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+            <mat-label>Upgrade to</mat-label>
+            <mat-select formControlName="role">
+              <mat-option *ngFor="let role of roles" [value]="role">{{ roleToString(role) }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="upgradeForm.get('role').hasError('required')">Please select a role</mat-error>
+          </mat-form-field>
+          
+  
+        <div class="submit-section">
+          <button mat-fab color="primary" class="submit-button" type="submit" [disabled]="upgradeForm.invalid">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

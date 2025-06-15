@@ -51,6 +51,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
 import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
 import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
+import { UpgradeAccountComponent } from './auth/upgrade-account/upgrade-account.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -60,7 +61,7 @@ const routes: Routes = [
     path: 'calendar',
     component: CalendarComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   { path: 'events-overview', component: EventsOverviewComponent},
   {
@@ -151,7 +152,7 @@ const routes: Routes = [
     path: 'notifications',
     component: NotificationsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   {
     path: 'comment-management',
@@ -243,8 +244,9 @@ const routes: Routes = [
   {
     path: 'account-details', component: AccountDetailsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER'] }
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
   },
+  { path: 'upgrade-account', component: UpgradeAccountComponent },
   {
     path: 'edit-account',
     component: EditAccountComponent,
@@ -255,7 +257,7 @@ const routes: Routes = [
   {
     path: 'favourites', component: FavouritesComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER'] }
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
   },
   {
     path: 'provider-company', component: ProviderCompanyComponent,
@@ -271,12 +273,12 @@ const routes: Routes = [
   {
     path: 'user-invitations', component: UserInvitationsComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   {
     path: 'chat', component: ChatComponent,
     canActivate: [AuthGuard],
-    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN'] }
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
   },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
