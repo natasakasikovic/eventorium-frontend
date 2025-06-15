@@ -8,7 +8,6 @@ import {AuthService} from '../../auth/auth.service';
 import {BudgetService} from '../../budget/budget.service';
 import {Event} from '../../event/model/event.model';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Budget} from '../../budget/model/budget.model';
 import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -17,6 +16,7 @@ import {UserDetails} from '../../user/model/user-details.model';
 import {CommentsDialogComponent} from '../../review/comments-dialog/comments-dialog.component';
 import {ReviewType} from '../../review/model/review-type.enum';
 import {SolutionType} from '../../budget/model/solution-type.enum';
+import {BudgetItem} from '../../budget/model/budget-item.model';
 
 @Component({
   selector: 'app-product-details',
@@ -72,13 +72,13 @@ export class ProductDetailsComponent implements OnInit {
 
   onPurchase(): void {
     if (this.eventId && this.plannedAmount)
-      this.plannedPurchase();
+      this.purchaseProduct(this.eventId, this.plannedAmount)
     else
       this.draftedPurchase();
   }
 
   openChatDialog (recipient?: UserDetails): void {
-    this.chatService.openChatDialog(recipient ? recipient : this.product.provider);
+    this.chatService.openChatDialog(recipient || this.product.provider);
   }
 
    openSeeCommentsDialog(): void {
@@ -98,18 +98,19 @@ export class ProductDetailsComponent implements OnInit {
       height: 'auto',
       disableClose: true,
       panelClass: 'custom-dialog-container',
+      data: { type: SolutionType.PRODUCT }
     });
     this.handleCloseDialog(dialogRef);
   }
 
   private handleCloseDialog(dialogRef: MatDialogRef<EventSelectionComponent>): void {
-    dialogRef.afterClosed().subscribe(({ plannedAmount, event }: { plannedAmount: number, event: Event }) => {
-
-      if(event != null)
-        this.purchaseProduct(event.id, plannedAmount);
-
-      dialogRef.close();
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe(({ addToPlanner, plannedAmount, event }: { addToPlanner: boolean, plannedAmount: number, event: Event }) => {
+        if(addToPlanner) {
+          this.createBudgetItem(event.id, plannedAmount);
+        } else this.purchaseProduct(event.id, plannedAmount);
+      });
   }
 
   private loadProduct(id: number): void {
@@ -168,9 +169,27 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  private plannedPurchase(): void {
-    this.budgetService.getBudget(this.eventId).subscribe({
-      next: (budget: Budget) => this.purchaseProduct(this.eventId, this.plannedAmount)
-    })
+  createBudgetItem(eventId: number, plannedAmount: number): void {
+    if(plannedAmount < this.product.price * (1 - this.product.discount / 100)) {
+      this.toasterService.error("Planned amount should be larger then price", "Error");
+      return;
+    }
+
+    this.budgetService.createBudgetItem(eventId, {
+      category: this.product.category,
+      itemId: this.product.id,
+      itemType: SolutionType.PRODUCT,
+      plannedAmount: plannedAmount
+    }).subscribe({
+      next: (item: BudgetItem) => {
+        this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
+        if(this.eventId && this.plannedAmount) {
+          void this.router.navigate(['budget-planning', this.eventId]);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to add to budget planner");
+      }
+    });
   }
 }

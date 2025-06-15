@@ -56,7 +56,11 @@
           <mat-icon>calendar_today</mat-icon>
         </button>
       </td>
-      <td mat-footer-cell *matFooterCellDef></td>
+      <td mat-footer-cell *matFooterCellDef>
+        <button mat-icon-button *ngIf="!route">
+          <mat-icon>schedule</mat-icon>
+        </button>
+      </td>
     </ng-container>
 
 

@@ -13,6 +13,7 @@ import { EventSelectionComponent } from '../../shared/event-selection/event-sele
 import { Event } from '../../event/model/event.model';
 import { CommentsDialogComponent } from '../../review/comments-dialog/comments-dialog.component';
 import { ReviewType } from '../../review/model/review-type.enum';
+import {SolutionType} from '../../budget/model/solution-type.enum';
 
 @Component({
   selector: 'app-service-details',
@@ -88,7 +89,7 @@ export class ServiceDetailsComponent implements OnInit {
     if (this.eventId)
       this.openReservationDialog();
     else
-      this.openDraftEventDialog();
+      this.openEventSelectionDialog();
   }
 
   private handleError(error: HttpErrorResponse): void {
@@ -117,8 +118,12 @@ export class ServiceDetailsComponent implements OnInit {
         }});
   }
 
-  private openDraftEventDialog(): void {
-      const dialogRef = this.dialog.open(EventSelectionComponent, { width: '450px', height: 'auto', });
+  private openEventSelectionDialog(): void {
+      const dialogRef = this.dialog.open(EventSelectionComponent, {
+        width: '450px',
+        height: 'auto',
+        data: { type: SolutionType.SERVICE }
+      });
       this.handleCloseDialog(dialogRef);
   }
 
@@ -135,7 +140,6 @@ export class ServiceDetailsComponent implements OnInit {
       if (!event) return;
       this.plannedAmount = plannedAmount;
       this.eventId = event.id;
-      dialogRef.close();
       this.openReservationDialog()
     });
   }

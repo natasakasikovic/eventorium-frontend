@@ -4,6 +4,7 @@ import {BudgetItemStatus} from '../model/budget-item-status.enum';
 import {SolutionType} from '../model/solution-type.enum';
 import {BudgetService} from '../budget.service';
 import {Product} from '../../product/model/product.model';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-budget-table',
@@ -24,7 +25,11 @@ export class BudgetTableComponent {
     null : 'status-denied',
   }
 
-  constructor(private budgetService: BudgetService) {
+  constructor(private budgetService: BudgetService, private currentRoute: ActivatedRoute) {
+  }
+
+  get route(): string {
+    return this.currentRoute.snapshot.url.join('/');
   }
 
   getTotalSpent(): number {
