@@ -7,6 +7,12 @@ import {Product} from '../../product/model/product.model';
 import {ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
+import {
+  ServiceReservationDialogComponent
+} from '../../service/service-reservation-dialog/service-reservation-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
+import {Event} from '../../event/model/event.model';
 
 @Component({
   selector: 'app-budget-table',
@@ -31,6 +37,7 @@ export class BudgetTableComponent {
   constructor(
     private budgetService: BudgetService,
     private toasterService: ToastrService,
+    private dialog: MatDialog,
     private currentRoute: ActivatedRoute
   ) {}
 
@@ -76,8 +83,13 @@ export class BudgetTableComponent {
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to update planned amount");
-
       }
+    });
+  }
+
+  openReservationDialog(item: BudgetItem): void {
+    this.dialog.open(ServiceReservationDialogComponent, {
+      data: { eventId: this.eventId, serviceId: item.solutionId, plannedAmount: item.plannedAmount }
     });
   }
 

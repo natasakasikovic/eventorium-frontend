@@ -66,6 +66,11 @@
           [style.opacity]="service?.available ? 1 : 0.2"
           [disabled]="!service?.available" >Reserve</button>
       </ng-container>
+       <button mat-button class="see-more-button"
+               *ngIf="plannedAmount && eventId"
+               (click)="createBudgetItem(eventId, plannedAmount)">
+         Add to planner
+       </button>
       <button mat-raised-button color="accent" (click)="openSeeCommentsDialog()">
         See comments
       </button>

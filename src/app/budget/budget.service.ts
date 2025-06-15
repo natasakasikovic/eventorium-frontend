@@ -35,7 +35,6 @@ export class BudgetService {
   }
 
   createBudgetItem(eventId: number, request: BudgetItemRequest): Observable<BudgetItem> {
-    console.log(eventId, request);
     return this.httpClient.post<BudgetItem>(`${environment.apiHost}/events/${eventId}/budget/budget-items`, request);
   }
 

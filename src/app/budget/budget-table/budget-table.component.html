@@ -63,7 +63,9 @@
         </button>
         <button mat-icon-button
                 matTooltip="Reserve"
-                *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.SERVICE">
+                *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.SERVICE"
+                (click)="openReservationDialog(element)"
+        >
           <mat-icon>calendar_today</mat-icon>
         </button>
         <button mat-icon-button
