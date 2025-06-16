@@ -40,6 +40,10 @@ export class AccountDetailsComponent implements OnInit {
     void this.router.navigate(['edit-account']);
   }
 
+  upgrade(): void {
+    void this.router.navigate(['upgrade-account'])
+  }
+
   showMessage(title: string, message: string) : void {
     this.dialog.open(InfoDialogComponent, {
       data: {
