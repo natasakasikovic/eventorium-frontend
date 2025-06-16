@@ -51,6 +51,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { ChatComponent } from './chat/chat/chat.component';
 import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
 import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
 import { UpgradeAccountComponent } from './auth/upgrade-account/upgrade-account.component';
 
 const routes: Routes = [
@@ -117,6 +118,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: ['PROVIDER'] }
   },
+  {
+    path: 'edit-product/:id',
+    component: EditProductComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER']}
+  }, 
   {
     path: 'create-service',
     component: CreateServiceComponent,

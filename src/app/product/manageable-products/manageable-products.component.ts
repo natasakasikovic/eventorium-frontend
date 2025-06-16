@@ -10,6 +10,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
 
 @Component({
   selector: 'app-manageable-products',
@@ -21,7 +24,8 @@ export class ManageableProductsComponent implements OnInit {
 
   constructor(
     private service: ProductService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toasterService: ToastrService
   ) {}
 
   pageProperties: PageProperties = {
@@ -108,6 +112,32 @@ export class ManageableProductsComponent implements OnInit {
     this.dialog.open(InfoDialogComponent,
       { data: { title: title, message: message } }
     );
+  }
+
+  openDeleteConfirmation(product: Product): void {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: { message: MESSAGES.deleteConfirmation + " " + product.name + "?"}
+      });
+      this.handleConfirmationDialogClose(dialogRef, product)
+  }
+
+  private handleConfirmationDialogClose(dialogRef: MatDialogRef<ConfirmationDialogComponent>, service: Product){
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed)
+        this.deleteProduct(service);
+    });
+  }
+  
+  private deleteProduct(product: Product) {
+    this.service.delete(product.id).subscribe({
+      next: () => {
+        this.toasterService.success(`${product.name} has been deleted successfully!`, "Success");
+        this.products = this.products.filter(s => s.id !== product.id);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to delete service");
+      }
+    });
   }
 
 }

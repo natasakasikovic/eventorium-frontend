@@ -8,6 +8,8 @@ import { ImageResponseDto } from '../shared/model/image-response-dto.model';
 import { ProductFilter } from './model/product-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
 import { CreateProduct } from './model/create-product.model';
+import { RemoveImageRequest } from '../shared/model/remove-image-request.model';
+import { UpdateProductRequest } from './model/update-product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,10 @@ export class ProductService {
     });
 
     return this.httpClient.post<void>(`${environment.apiHost}/products/${id}/images`, formData);
+  }
+
+  update(id: number, product: UpdateProductRequest): Observable<Product> {
+    return this.httpClient.put<Product>(`${environment.apiHost}/products/${id}`, product);
   }
 
   getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
@@ -129,4 +135,11 @@ export class ProductService {
     return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products/filter`, { params: params });
   }
 
+  delete(id: number) : Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/products/${id}`);
+  }
+
+  removeImages(id: number, removedImages: RemoveImageRequest[]): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/products/${id}/images`, { body: removedImages });
+  }
 }

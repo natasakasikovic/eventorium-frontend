@@ -148,7 +148,7 @@ export class ManageableServicesComponent implements OnInit {
         this.services = this.services.filter(s => s.id !== service.id);
       },
       error: (error: HttpErrorResponse) => {
-        this.toasterService.success(error.error.message, "Failed to delete service");
+        this.toasterService.error(error.error.message, "Failed to delete service");
       }
     });
   }
