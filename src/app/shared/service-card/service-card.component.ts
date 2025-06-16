@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Service} from '../../service/model/service.model';
 import {ServiceService} from '../../service/service.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-service-card',
@@ -17,8 +16,7 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
   @Output() review: EventEmitter<Service> = new EventEmitter();
 
   constructor(
-    private serviceService: ServiceService,
-    private router: Router
+    private serviceService: ServiceService
   ) {
   }
 

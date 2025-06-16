@@ -10,6 +10,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { RouterLink } from "@angular/router";
 import { ManageableProductsComponent } from './manageable-products/manageable-products.component';
 import { ReviewModule } from '../review/review.module';
+import { EditProductComponent } from './edit-product/edit-product.component';
 
 
 
@@ -20,7 +21,8 @@ import { ReviewModule } from '../review/review.module';
     ProductDetailsComponent,
     ProductsFilterDialogComponent,
     CreateProductComponent,
-    ManageableProductsComponent
+    ManageableProductsComponent,
+    EditProductComponent
   ],
     imports: [
         CommonModule,

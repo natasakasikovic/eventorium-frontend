@@ -11,6 +11,7 @@ import { CompanyRequest } from '../model/company-request.model';
 import { CompanyResponse } from '../model/company-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-company-register',
@@ -29,7 +30,8 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
               private router: Router,
               private sharedService: SharedService,
               private route: ActivatedRoute,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authService: AuthService) {
     this.companyForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
@@ -63,7 +65,10 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
           if (this.images.length > 0) {
             this.companyService.uploadImages(response.id, this.images).subscribe({
               next: () => {
-                this.showActivationDialog(); 
+                if (this.authService.getUserId() != this.providerId)
+                  this.showActivationDialog();
+                else 
+                  this.router.navigate(['/'])
               }, 
               error: (error: HttpErrorResponse) => {
                 this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
@@ -71,7 +76,10 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
               }
             })
           } else {
-            this.showActivationDialog();
+            if (this.authService.getUserId() != this.providerId)
+              this.showActivationDialog();
+            else 
+              this.router.navigate(['/'])
           }
         },
         error: (error: HttpErrorResponse) => {
