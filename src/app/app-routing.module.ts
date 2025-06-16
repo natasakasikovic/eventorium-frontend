@@ -220,7 +220,7 @@ const routes: Routes = [
     canActivate: [NavigationGuard, AuthGuard],
     data: {
       role: ['EVENT_ORGANIZER'],
-      allowedUrls: ['/create-event', '/product-details', '/service-details'],
+      allowedUrls: ['/create-event', '/product-details', '/service-details', '/manageable-events'],
       fallback: "/home"
     }
   },

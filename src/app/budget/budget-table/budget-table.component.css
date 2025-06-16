@@ -1,0 +1,19 @@
+.status-processed {
+  background-color: #1976d2 !important;
+  color: #e3f2fd !important;
+}
+
+.status-denied {
+  background-color: #d32f2f !important;
+  color: #ffebee !important;
+}
+
+.status-planned {
+  background-color: #7b1fa2 !important;
+  color: #f3e5f5 !important;
+}
+
+.status-pending {
+  background-color: #fbc02d !important;
+  color: #212121 !important;
+}

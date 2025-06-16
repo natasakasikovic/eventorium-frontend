@@ -13,6 +13,9 @@ import { EventSelectionComponent } from '../../shared/event-selection/event-sele
 import { Event } from '../../event/model/event.model';
 import { CommentsDialogComponent } from '../../review/comments-dialog/comments-dialog.component';
 import { ReviewType } from '../../review/model/review-type.enum';
+import {SolutionType} from '../../budget/model/solution-type.enum';
+import {BudgetItem} from '../../budget/model/budget-item.model';
+import {BudgetService} from '../../budget/budget.service';
 
 @Component({
   selector: 'app-service-details',
@@ -34,6 +37,7 @@ export class ServiceDetailsComponent implements OnInit {
     private serviceService: ServiceService,
     private authService: AuthService,
     private toasterService: ToastrService,
+    private budgetService: BudgetService,
     private router: Router,
     private dialog: MatDialog) { }
 
@@ -88,7 +92,7 @@ export class ServiceDetailsComponent implements OnInit {
     if (this.eventId)
       this.openReservationDialog();
     else
-      this.openDraftEventDialog();
+      this.openEventSelectionDialog();
   }
 
   private handleError(error: HttpErrorResponse): void {
@@ -117,8 +121,12 @@ export class ServiceDetailsComponent implements OnInit {
         }});
   }
 
-  private openDraftEventDialog(): void {
-      const dialogRef = this.dialog.open(EventSelectionComponent, { width: '450px', height: 'auto', });
+  private openEventSelectionDialog(): void {
+      const dialogRef = this.dialog.open(EventSelectionComponent, {
+        width: '450px',
+        height: 'auto',
+        data: { type: SolutionType.SERVICE }
+      });
       this.handleCloseDialog(dialogRef);
   }
 
@@ -135,7 +143,6 @@ export class ServiceDetailsComponent implements OnInit {
       if (!event) return;
       this.plannedAmount = plannedAmount;
       this.eventId = event.id;
-      dialogRef.close();
       this.openReservationDialog()
     });
   }
@@ -156,5 +163,29 @@ export class ServiceDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  createBudgetItem(eventId: number, plannedAmount: number): void {
+    if(plannedAmount < this.service.price * (1 - this.service.discount / 100)) {
+      this.toasterService.error("Planned amount should be larger then price", "Error");
+      return;
+    }
+
+    this.budgetService.createBudgetItem(eventId, {
+      category: this.service.category,
+      itemId: this.service.id,
+      itemType: SolutionType.SERVICE,
+      plannedAmount: plannedAmount
+    }).subscribe({
+      next: (item: BudgetItem) => {
+        this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
+        if(this.eventId && this.plannedAmount) {
+          void this.router.navigate(['budget-planning', this.eventId]);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toasterService.error(error.error.message, "Failed to add to budget planner");
+      }
+    });
   }
 }

@@ -33,7 +33,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   onDelete(): void {
     this.delete.emit(this.product);
   }
-  
+
   ngOnDestroy(): void {
     URL.revokeObjectURL(this.product.images[0]);
   }

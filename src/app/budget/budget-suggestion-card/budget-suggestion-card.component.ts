@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {BudgetSuggestion} from '../model/budget-suggestion.model';
 import {ProductService} from '../../product/product.service';
 import {ServiceService} from '../../service/service.service';
@@ -14,6 +14,8 @@ export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
   @Input() budgetSuggestion: BudgetSuggestion;
   @Input() eventId: number;
   @Input() plannedAmount: number;
+
+  @Output() createItem: EventEmitter<BudgetSuggestion> = new EventEmitter();
 
   constructor(
     private productService: ProductService,
@@ -40,7 +42,11 @@ export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onClick(): void {
+  onAddToPlannerClick(): void {
+    this.createItem.emit(this.budgetSuggestion);
+  }
+
+  onSeeMoreClick(): void {
     const queryParams = {
       eventId: this.eventId,
       plannedAmount: this.plannedAmount,

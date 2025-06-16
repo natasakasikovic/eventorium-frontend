@@ -1,15 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ServiceService } from '../service.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
-import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
-import { MESSAGES } from '../../shared/constants/messages';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ReservationRequest } from '../model/reservation-request.model';
-import { Service } from '../model/service.model';
-import { ReservationType } from '../model/reservation-type.enum';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ServiceService} from '../service.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {InfoDialogComponent} from '../../shared/info-dialog/info-dialog.component';
+import {ERROR_MESSAGES} from '../../shared/constants/error-messages';
+import {MESSAGES} from '../../shared/constants/messages';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ReservationRequest} from '../model/reservation-request.model';
+import {Service} from '../model/service.model';
+import {ReservationType} from '../model/reservation-type.enum';
+import {BudgetItemStatus} from '../../budget/model/budget-item-status.enum';
 
 @Component({
   selector: 'app-service-reservation-dialog',
@@ -86,7 +86,10 @@ export class ServiceReservationDialogComponent implements OnInit{
     this.serviceService.reserveService(reservation, this.data.eventId, this.data.serviceId).subscribe({
       next: (_) => {
         this.showMessage(MESSAGES.success, MESSAGES.reservationSuccess);
-        this.dialogRef.close();
+        this.dialogRef.close({
+          spentAmount: this.service.type == ReservationType.MANUAL ? 0.0 : this.service.price * (1 - this.service.discount/100),
+          status: this.service.type == ReservationType.MANUAL ? BudgetItemStatus.PENDING : BudgetItemStatus.PROCESSED
+        });
       },
       error: (error) => this.handleError(error)
     });

@@ -1,4 +1,4 @@
-import {Component, OnInit, Predicate} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Category} from '../../category/model/category.model';
 import {EventService} from '../../event/event.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -6,7 +6,6 @@ import {CategoryService} from '../../category/category.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EventType} from '../../event-type/model/event-type.model';
 import {MatTabChangeEvent} from '@angular/material/tabs';
-import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
 import {Budget} from '../model/budget.model';
 import {BudgetItem} from '../model/budget-item.model';
@@ -19,6 +18,7 @@ import {BudgetItem} from '../model/budget-item.model';
 export class BudgetPlanningComponent implements OnInit {
   eventId: number | null;
   eventType: EventType | null;
+  disableAdvance: boolean;
 
   budgetItems: BudgetItem[];
   plannedCategories: Category[] = []
@@ -50,6 +50,9 @@ export class BudgetPlanningComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.eventId = params['id'] ?? null;
     });
+    this.route.queryParams.subscribe(params => {
+      this.disableAdvance = params['disableAdvance'] ?? false;
+    })
   }
 
   private loadBudget(): void {

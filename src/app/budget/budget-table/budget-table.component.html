@@ -25,9 +25,60 @@
 
     <ng-container matColumnDef="Planned amount">
       <th mat-header-cell *matHeaderCellDef>Planned amount</th>
-      <td mat-cell *matCellDef="let element">{{ element.plannedAmount | number:'1.2-2' }}</td>
+      <td mat-cell *matCellDef="let element">
+        <input [(ngModel)]="element.plannedAmount"
+               *ngIf="element.status == BudgetItemStatus.PLANNED || element.status == BudgetItemStatus.PENDING"
+               type="number"
+               name="plannedAmount-{{element.id}}"/>
+        <span *ngIf="element.status == BudgetItemStatus.DENIED || element.status == BudgetItemStatus.PROCESSED">
+          {{ element.plannedAmount | number:'1.2-2' }}
+        </span>
+      </td>
       <td mat-footer-cell *matFooterCellDef>
         {{ getTotalPlanned() | number:'1.2-2' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip-listbox>
+          <mat-chip [ngClass]="getStatusColor(element.status)" highlighted>
+            {{ getStatusLabel(element) }}
+          </mat-chip>
+        </mat-chip-listbox>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button
+                matTooltip="Purchase"
+                *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.PRODUCT"
+                (click)="purchaseProduct(element)"
+        >
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <button mat-icon-button
+                matTooltip="Reserve"
+                *ngIf="element.status == BudgetItemStatus.PLANNED && element.type == SolutionType.SERVICE"
+                (click)="openReservationDialog(element)"
+        >
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+        <button mat-icon-button
+                matTooltip="Save"
+                *ngIf="element.status == BudgetItemStatus.PLANNED || element.status == BudgetItemStatus.PENDING"
+                (click)="updatePlannedAmount(element)" >
+          <mat-icon>save</mat-icon>
+        </button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <button mat-icon-button *ngIf="!route" (click)="planBudget()" matTooltip="Plan">
+          <mat-icon>schedule</mat-icon>
+        </button>
       </td>
     </ng-container>
 

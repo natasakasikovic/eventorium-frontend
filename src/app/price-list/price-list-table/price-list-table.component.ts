@@ -12,12 +12,6 @@ export class PriceListTableComponent {
   @Output() updateItem: EventEmitter<PriceListItem> = new EventEmitter();
   displayedColumns: string[] = ["Name", "Price", "Discount", "Net price", "Action"];
 
-
-  constructor(
-    private priceListService: PriceListService
-  ) {
-  }
-
   onDiscountChange(element: PriceListItem): void {
     element.netPrice = element.price - (element.price * element.discount / 100);
   }

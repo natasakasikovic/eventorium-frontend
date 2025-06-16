@@ -1,13 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../category/model/category.model';
-import {ServiceService} from '../../service/service.service';
-import {ProductService} from '../../product/product.service';
-import {Service} from '../../service/model/service.model';
-import {Product} from '../../product/model/product.model';
 import {ToastrService} from 'ngx-toastr';
 import {BudgetSuggestion} from '../model/budget-suggestion.model';
 import {BudgetService} from '../budget.service';
+import {BudgetItem} from '../model/budget-item.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-items',
@@ -33,7 +31,27 @@ export class BudgetItemsComponent {
 
   constructor(
     private budgetService: BudgetService,
+    private toasterService: ToastrService
   ) {
+  }
+
+  createBudgetItem(suggestion: BudgetSuggestion): void {
+    if (this.planning.valid) {
+      this.budgetService.createBudgetItem(this.eventId, {
+        category: this.category,
+        itemId: suggestion.id,
+        itemType: suggestion.solutionType,
+        plannedAmount: this.planning.value.plannedAmount
+      }).subscribe({
+        next: (item: BudgetItem) => {
+          this.totalPlanned += item.plannedAmount;
+          this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to add to budget planner");
+        }
+      });
+    }
   }
 
   updateTotalPlanned(currentPrice: number): void {
@@ -56,5 +74,4 @@ export class BudgetItemsComponent {
     this.deleteCategory.emit([this.category.id, false]);
     this.updateTotalPlanned(0);
   }
-
 }

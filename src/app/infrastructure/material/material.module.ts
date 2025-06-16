@@ -4,7 +4,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
-import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -13,27 +13,26 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDivider} from '@angular/material/divider';
 import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle,
+  MatDatepickerModule
+} from '@angular/material/datepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatRadioButton, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
 import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
-import { MatGridListModule } from '@angular/material/grid-list';
+import {MatGridListModule, MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatSlider, MatSliderRangeThumb, MatSliderThumb} from '@angular/material/slider';
-import {MatGridList, MatGridTile} from '@angular/material/grid-list';
-import {MatListOption, MatSelectionList} from '@angular/material/list';
+import {MatListModule, MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from '@angular/material/expansion';
-import { MatChipsModule } from '@angular/material/chips';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {MatChipsModule} from '@angular/material/chips';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio'; 
-import { MatMenuModule } from '@angular/material/menu';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { MatListModule } from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {FullCalendarModule} from '@fullcalendar/angular';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -45,6 +44,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    MatChipsModule,
     MatCardModule,
     MatIconModule,
     FormsModule,
@@ -85,13 +85,16 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     MatListModule,
     RouterModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     CanvasJSAngularChartsModule
   ],
   exports: [
     MatToolbarModule,
     MatButtonModule,
     MatTableModule,
+    MatTooltipModule,
     MatPaginatorModule,
+    MatChipsModule,
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
