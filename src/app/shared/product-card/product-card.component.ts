@@ -14,11 +14,11 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   @Output() delete: EventEmitter<Product> = new EventEmitter();
 
   constructor(
-    private productService: ProductService
+    private service: ProductService
   ) { }
 
   ngOnInit(): void {
-    this.productService.getImage(this.product.id).subscribe({
+    this.service.getImage(this.product.id).subscribe({
       next: (blob: Blob) => {
         this.product.images = [];
         this.product.images.push(URL.createObjectURL(blob));

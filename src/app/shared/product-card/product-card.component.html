@@ -1,4 +1,4 @@
-<mat-card class="product-card">
+<mat-card class="product-card" [style.opacity]="product.available ? 1 : 0.4">
   <div *ngIf="product.discount != 0.0 && product.status !== 'PENDING' && product.visible" class="sale-badge">Save {{ product.discount }}%</div>
   <div class="image-container">
     <img [src]="product.images && product.images[0]" alt="Product image"/>
