@@ -26,10 +26,12 @@ import { FavouritesModule } from './favourites/favourites.module';
 import { CalendarModule } from './calendar/calendar.module';
 import {ChatModule} from './chat/chat.module';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

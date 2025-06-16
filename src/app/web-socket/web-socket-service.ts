@@ -119,12 +119,4 @@ export class WebSocketService {
   private closeAdminSubscriptions(): void {
     this.adminNotificationSubscription.unsubscribe();
   }
-
-  getNotifications(): Observable<NotificationResponse[]> {
-    return this.http.get<NotificationResponse[]>(`${environment.apiHost}/notifications`);
-  }
-
-  markAsSeen(): Observable<void> {
-    return this.http.patch<void>(`${environment.apiHost}/notifications/seen`, {});
-  }
 }
