@@ -36,7 +36,7 @@ export class BudgetItemsComponent {
   }
 
   createBudgetItem(suggestion: BudgetSuggestion): void {
-    if (!this.planning.invalid) {
+    if (this.planning.valid) {
       this.budgetService.createBudgetItem(this.eventId, {
         category: this.category,
         itemId: suggestion.id,

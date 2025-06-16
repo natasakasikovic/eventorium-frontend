@@ -11,8 +11,6 @@ import {
   ServiceReservationDialogComponent
 } from '../../service/service-reservation-dialog/service-reservation-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {EventSelectionComponent} from '../../shared/event-selection/event-selection.component';
-import {Event} from '../../event/model/event.model';
 
 @Component({
   selector: 'app-budget-table',
@@ -88,9 +86,10 @@ export class BudgetTableComponent {
   }
 
   openReservationDialog(item: BudgetItem): void {
-    this.dialog.open(ServiceReservationDialogComponent, {
+    const dialogRef = this.dialog.open(ServiceReservationDialogComponent, {
       data: { eventId: this.eventId, serviceId: item.solutionId, plannedAmount: item.plannedAmount }
     });
+    this.handleReservationClose(dialogRef, item);
   }
 
   purchaseProduct(item: BudgetItem): void {
@@ -105,6 +104,13 @@ export class BudgetTableComponent {
         processedItem.status = BudgetItemStatus.PROCESSED;
         processedItem.spentAmount = product.price * (1 - product.discount / 100);
       }
+    });
+  }
+
+  private handleReservationClose(dialogRef: MatDialogRef<ServiceReservationDialogComponent>, item: BudgetItem): void {
+    dialogRef.afterClosed().subscribe(result => {
+      item.status = result.status;
+      item.spentAmount = result.spentAmount;
     });
   }
 
