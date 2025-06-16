@@ -53,6 +53,7 @@ import { PastEventsOverviewComponent } from './event/past-events-overview/past-e
 import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
 import { EditProductComponent } from './product/edit-product/edit-product.component';
 import { UpgradeAccountComponent } from './auth/upgrade-account/upgrade-account.component';
+import {EntityResolver} from './infrastructure/navigation/resolver/entity.resolver';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -115,15 +116,17 @@ const routes: Routes = [
   {
     path: 'edit-service/:id',
     component: EditServiceComponent,
+    resolve: { resolvedEntity: EntityResolver },
     canActivate: [AuthGuard],
-    data: { role: ['PROVIDER'] }
+    data: { entityType: 'service', role: ['PROVIDER'] }
   },
   {
     path: 'edit-product/:id',
     component: EditProductComponent,
+    resolve: { resolvedEntity: EntityResolver },
     canActivate: [AuthGuard],
-    data: { role: ['PROVIDER']}
-  }, 
+    data: { entityType: 'product', role: ['PROVIDER'] }
+  },
   {
     path: 'create-service',
     component: CreateServiceComponent,
@@ -224,7 +227,13 @@ const routes: Routes = [
       fallback: "/home"
     }
   },
-  { path: 'edit-event/:id', component: EditEventComponent },
+  {
+    path: 'edit-event/:id',
+    component: EditEventComponent,
+    resolve: { resolvedEntity: EntityResolver },
+    canActivate: [AuthGuard],
+    data: { entityType: 'event', role: ['EVENT_ORGANIZER'] }
+  },
   {
     path: 'event-types',
     component: EventTypesOverviewComponent,
