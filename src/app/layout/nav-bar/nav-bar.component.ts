@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
+import {NotificationService} from '../../web-socket/notification.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,22 +13,23 @@ import {WebSocketService} from '../../web-socket/web-socket-service';
 export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false;
-  role: String = null;
+  role: string = null;
+  silenceStatus: boolean = true;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.authService.userState.subscribe((result) => {
       this.role = result;
-    })
-  }
-
-  login(): void {
-    this.router.navigate(['login'])
+    });
+    this.notificationService.getSilenceStatus().subscribe(status => {
+      this.silenceStatus = status;
+    });
   }
 
   logOut(): void {
@@ -36,27 +38,10 @@ export class NavBarComponent implements OnInit {
     void this.router.navigate(['home']);
   }
 
-  signup(): void {
-    void this.router.navigate(['signup']);
-  }
 
-  createEvent(): void {
-    void this.router.navigate(['create-event']);
-  }
-
-  createCategory() {
-    void this.router.navigate(['create-category']);
-  }
-
-  createEventType() {
-    void this.router.navigate(['create-event-type']);
-  }
-
-  createService() {
-    void this.router.navigate(['create-service']);
-  }
-
-  createProduct() {
-    void this.router.navigate(['create-product'])
+  silenceNotifications(): void {
+    this.notificationService.updateSilence(!this.silenceStatus).subscribe(_ => {
+      this.silenceStatus = !this.silenceStatus;
+    });
   }
 }

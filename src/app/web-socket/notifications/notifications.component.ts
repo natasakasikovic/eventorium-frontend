@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from '../web-socket-service';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { NotificationResponse } from './notifications-response.model';
+import {NotificationService} from '../notification.service';
+
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -13,8 +14,8 @@ import { NotificationResponse } from './notifications-response.model';
 export class NotificationsComponent implements OnInit {
 
   notifications: NotificationResponse[];
-  
-  constructor( private service: WebSocketService, private dialog: MatDialog ) { }
+
+  constructor( private service: NotificationService, private dialog: MatDialog ) { }
 
   ngOnInit(): void {
     this.loadNotifications();
