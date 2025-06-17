@@ -15,11 +15,10 @@
     <app-budget-suggestion-card
       *ngFor="let suggestion of budgetSuggestions"
       (createItem)="createBudgetItem($event)"
+      [activeCategories]="activeCategories"
       [budgetSuggestion]="suggestion"
       [eventId]="eventId"
       [plannedAmount]="planning.get('plannedAmount').value ?? 0"
-    >
-
-    </app-budget-suggestion-card>
+    />
   </div>
 </div>

@@ -8,6 +8,8 @@ import {Budget} from './model/budget.model';
 import {ReviewableSolution} from '../review/model/reviewable-solution.model';
 import {BudgetItemRequest} from './model/budget-item-request.model';
 import {BudgetSuggestion} from './model/budget-suggestion.model';
+import {Category} from '../category/model/category.model';
+import {CategoryRequest} from '../category/model/category-request-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +54,9 @@ export class BudgetService {
 
   deleteItem(eventId: number, itemId: number) {
     return this.httpClient.delete<void>(`${environment.apiHost}/events/${eventId}/budget/budget-items/${itemId}`)
+  }
+
+  updateActiveCategories(eventId: number, activeCategories: Category[]) {
+    return this.httpClient.patch<Budget>(`${environment.apiHost}/events/${eventId}/budget/active-categories`, activeCategories.map(c => c.id));
   }
 }

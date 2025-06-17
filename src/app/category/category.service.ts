@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Category} from './model/category.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CategoryRequestDto} from './model/category-request-dto.model';
+import {CategoryRequest} from './model/category-request-dto.model';
 import {environment} from '../../env/environment';
 import {Status} from './model/status-enum-ts';
 
@@ -16,7 +16,7 @@ export class CategoryService {
   ) {
   }
 
-  create(category: CategoryRequestDto): Observable<Category> {
+  create(category: CategoryRequest): Observable<Category> {
     return this.httpClient.post<Category>(`${environment.apiHost}/categories`, category);
   }
 
@@ -28,7 +28,7 @@ export class CategoryService {
     return this.httpClient.get<Category>(`${environment.apiHost}/categories/${id}`);
   }
 
-  update(id: number, category: CategoryRequestDto): Observable<Category> {
+  update(id: number, category: CategoryRequest): Observable<Category> {
     return this.httpClient.put<Category>(`${environment.apiHost}/categories/${id}`, category);
   }
 
@@ -40,14 +40,14 @@ export class CategoryService {
     return this.httpClient.get<Category[]>(`${environment.apiHost}/categories/pending/all`);
   }
 
-  updateCategoryProposal(id: number, dto: CategoryRequestDto): Observable<Category> {
+  updateCategoryProposal(id: number, dto: CategoryRequest): Observable<Category> {
     return this.httpClient.put<Category>(`${environment.apiHost}/categories/pending/${id}`, dto);
   }
   updateCategoryStatus(id: number, status: Status): Observable<Category> {
     return this.httpClient.patch<Category>(`${environment.apiHost}/categories/pending/${id}`, { status: status });
   }
 
-  changeCategoryProposal(id: number, category: CategoryRequestDto): Observable<Category> {
+  changeCategoryProposal(id: number, category: CategoryRequest): Observable<Category> {
     return this.httpClient.put<Category>(`${environment.apiHost}/categories/pending/${id}/change`, category);
   }
 }

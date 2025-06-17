@@ -4,6 +4,8 @@ import {ProductService} from '../../product/product.service';
 import {ServiceService} from '../../service/service.service';
 import {SolutionType} from '../model/solution-type.enum';
 import {Router} from '@angular/router';
+import {Category} from '../../category/model/category.model';
+import {BudgetService} from '../budget.service';
 
 @Component({
   selector: 'app-budget-suggestion-card',
@@ -12,6 +14,7 @@ import {Router} from '@angular/router';
 })
 export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
   @Input() budgetSuggestion: BudgetSuggestion;
+  @Input() activeCategories: Category[];
   @Input() eventId: number;
   @Input() plannedAmount: number;
 
@@ -20,6 +23,7 @@ export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private serviceService: ServiceService,
+    private budgetService: BudgetService,
     private router: Router,
   ) {}
 
@@ -42,10 +46,6 @@ export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onAddToPlannerClick(): void {
-    this.createItem.emit(this.budgetSuggestion);
-  }
-
   onSeeMoreClick(): void {
     const queryParams = {
       eventId: this.eventId,
@@ -55,6 +55,9 @@ export class BudgetSuggestionCardComponent implements OnInit, OnDestroy {
       void this.router.navigate(["/product-details", this.budgetSuggestion.id], { queryParams });
     else
       void this.router.navigate(['/service-details', this.budgetSuggestion.id], { queryParams });
+
+    this.budgetService.updateActiveCategories(this.eventId, this.activeCategories).subscribe();
+
   }
 
   private loadProductImage(): void {
