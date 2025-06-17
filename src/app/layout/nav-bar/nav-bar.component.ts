@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
 import {NotificationService} from '../../web-socket/notification.service';
+import {filter, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -27,12 +28,12 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userState.subscribe((result) => {
-      this.role = result;
-    });
-    this.notificationService.getSilenceStatus().subscribe(status => {
-      this.webSocketService.silenceStatus = status;
-    });
+    this.authService.userState.pipe(
+      tap(result => this.role = result),
+      filter(result => result != null),
+      switchMap(() => this.notificationService.getSilenceStatus()),
+      tap(status => this.webSocketService.silenceStatus = status)
+    ).subscribe();
   }
 
   logOut(): void {
