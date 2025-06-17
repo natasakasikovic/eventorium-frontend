@@ -21,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   id: number | null;
   user: AccountDetails;
   isLoggedIn: boolean = false;
+  isOwnProfile: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,7 @@ export class UserProfileComponent implements OnInit {
     this.service.getUser(this.id).subscribe({
       next: (user: AccountDetails) => {
         this.user = user;
+        this.isOwnProfile = this.authService.getUserId() === this.user.id;
         this.service.getProfilePhoto(user.id).subscribe({
           next: (blob: Blob) => this.user.profilePhoto = URL.createObjectURL(blob), 
           error: (_) => this.user.profilePhoto = null
