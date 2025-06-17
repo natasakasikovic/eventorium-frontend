@@ -75,6 +75,11 @@
                (click)="createBudgetItem(eventId, plannedAmount)">
          Add to planner
        </button>
+       <button mat-button class="see-more-button"
+               *ngIf="plannedAmount && eventId"
+               [routerLink]="['budget-planning', eventId]">
+         Back to planner
+       </button>
       <button mat-raised-button color="accent" (click)="openSeeCommentsDialog()">
         See comments
       </button>

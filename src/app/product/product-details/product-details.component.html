@@ -68,6 +68,11 @@
                 (click)="createBudgetItem(eventId, plannedAmount)">
           Add to planner
         </button>
+        <button mat-button class="see-more-button"
+                *ngIf="plannedAmount && eventId"
+                (click)="navigateBackToPlanner()">
+          Back to planner
+        </button>
       </ng-container>
 
       <button mat-raised-button color="accent" (click)="openSeeCommentsDialog()">
