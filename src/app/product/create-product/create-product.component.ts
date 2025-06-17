@@ -15,6 +15,7 @@ import { Product } from '../model/product.model';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
 import { Router } from '@angular/router';
+import {categoryValidator} from '../../shared/validators/category.validator';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       category: [''],
       isVisible: [false],
       isAvailable: [false]
-    });
+    }, { validators: categoryValidator() });
   }
 
   ngOnInit(): void {

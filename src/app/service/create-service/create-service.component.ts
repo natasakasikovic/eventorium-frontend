@@ -14,6 +14,7 @@ import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../category/model/status-enum-ts';
 import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
+import {categoryValidator} from '../../shared/validators/category.validator';
 
 @Component({
   selector: 'app-create-service',
@@ -40,7 +41,7 @@ export class CreateServiceComponent implements OnInit {
     cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
-  });
+  }, { validators: categoryValidator() });
 
   images: File[] = []
   imagePreviews: string[] = []
