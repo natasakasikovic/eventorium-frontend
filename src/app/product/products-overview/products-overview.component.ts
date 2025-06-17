@@ -8,7 +8,6 @@ import { PageProperties } from '../../shared/model/page-properties.model';
 import { ProductFilter } from '../model/product-filter.model';
 import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
-import {ToastrService} from 'ngx-toastr';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
