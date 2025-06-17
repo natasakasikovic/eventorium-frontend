@@ -107,7 +107,7 @@ export class ProductService {
         const typedKey = key as keyof ProductFilter;
         const value = filter[typedKey];
 
-        if (value !== undefined && value != null && value != "")
+        if (value !== undefined && value !== null && value !== "")
           params = params.set(typedKey, value);
       });
     }
