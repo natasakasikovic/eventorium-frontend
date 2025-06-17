@@ -1,6 +1,6 @@
 <div class="screen" *ngIf="user">
   <mat-card class="account-container">
-    <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button" *ngIf="isLoggedIn">
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button" *ngIf="isLoggedIn && !isOwnProfile">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
