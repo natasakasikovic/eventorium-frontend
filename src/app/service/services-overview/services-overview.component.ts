@@ -27,6 +27,7 @@ export class ServicesOverviewComponent implements OnInit {
   services: Service[];
   keyword: string;
   activeFilter: ServiceFilter;
+  selectedSort: string;
 
   constructor( private service: ServiceService, private dialog: MatDialog ) { }
 
@@ -68,6 +69,19 @@ export class ServicesOverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((filter: ServiceFilter) => {
       this.filterServices(filter);
     });
+  }
+
+  onSortChange(value: string): void {
+  const [sortBy, sortDirection] = value.split('_');
+  this.pageProperties.sortBy = sortBy;
+  this.pageProperties.sortDirection = sortDirection as 'asc' | 'desc';
+
+  if (this.keyword)
+    this.onSearch(this.keyword);
+  else if (this.activeFilter)
+    this.filterServices(this.activeFilter);
+  else
+    this.getPagedServices();
   }
 
   private preprocessFilter(filter: ServiceFilter){

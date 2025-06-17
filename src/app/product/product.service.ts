@@ -39,11 +39,13 @@ export class ProductService {
 
   getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
     let params = new HttpParams();
-    if (pageProperties){
-      params = params
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+    
+    if (pageProperties)
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Product>>(environment.apiHost + "/products", { params: params });
   }
 
@@ -53,12 +55,13 @@ export class ProductService {
 
   searchProducts(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
     let params = new HttpParams()
-    if (pageProperties){
-      params = params
-      .set('keyword', keyword)
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+
+    if (pageProperties)
+      params = params.set('keyword', keyword).set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize)
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Product>> (environment.apiHost + "/products/search", {params : params})
   }
 
@@ -104,12 +107,15 @@ export class ProductService {
         const typedKey = key as keyof ProductFilter;
         const value = filter[typedKey];
 
-        if (value !== undefined && value != null && value != "")
+        if (value !== undefined && value !== null && value !== "")
           params = params.set(typedKey, value);
       });
     }
 
     params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
 
     return params
   }
