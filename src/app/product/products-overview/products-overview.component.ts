@@ -19,7 +19,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 export class ProductsOverviewComponent implements OnInit {
 
-  pageProperties = {
+  pageProperties: PageProperties = {
     pageIndex: 0,
     pageSize: 10,
     totalCount: 0
@@ -28,6 +28,7 @@ export class ProductsOverviewComponent implements OnInit {
   products: Product[];
   keyword: string;
   activeFilter: ProductFilter;
+  selectedSort: string;
 
   constructor(private dialog: MatDialog, private service: ProductService) { }
 
@@ -77,6 +78,19 @@ export class ProductsOverviewComponent implements OnInit {
     this.activeFilter = filter;
     this.keyword = null;
   }
+
+  onSortChange(value: string): void {
+    const [sortBy, sortDirection] = value.split('_');
+    this.pageProperties.sortBy = sortBy;
+    this.pageProperties.sortDirection = sortDirection as 'asc' | 'desc';
+
+    if (this.keyword)
+      this.onSearch(this.keyword);
+    else if (this.activeFilter)
+      this.filterProducts(this.activeFilter);
+    else
+      this.getPagedProducts();
+    }
 
   filterProducts(filter: ProductFilter) {
     this.preprocessFilter(filter);

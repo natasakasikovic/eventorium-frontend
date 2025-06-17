@@ -23,11 +23,13 @@ export class ServiceService {
 
   getAll(pageProperties? : PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams();
-    if (pageProperties){
-      params = params
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+
+    if (pageProperties)
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/services", { params: params });
   }
 
@@ -60,7 +62,7 @@ export class ServiceService {
     let params = new HttpParams()
     if (pageProperties){
       params = params
-      .set('keyword', keyword)
+     .set('keyword', keyword)
       .set('page', pageProperties.pageIndex)
       .set('size', pageProperties.pageSize)
     }
