@@ -55,7 +55,7 @@ export class ServiceReservationDialogComponent implements OnInit{
   private setUpListener(): void {
     this.reservationForm.get('startingTime')?.valueChanges.subscribe((startingTime) => {
 
-      if (this.service.type === ReservationType.MANUAL) return;
+      if (this.service.minDuration != this.service.maxDuration) return;
 
       const minDuration = this.service.minDuration || 0;
       const endingTime = this.calculateEndingTime(startingTime, minDuration);
