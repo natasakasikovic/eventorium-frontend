@@ -7,9 +7,8 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Category} from '../../category/model/category.model';
 import {EventType} from '../../event-type/model/event-type.model';
-import {CreateServiceRequestDto} from '../model/create-service-dto.model';
+import {CreateService} from '../model/create-service.model';
 import {of, switchMap} from 'rxjs';
-import {Service} from '../model/service.model';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Status} from '../../category/model/status-enum-ts';
@@ -26,7 +25,7 @@ export class CreateServiceComponent implements OnInit {
   eventTypes: EventType[] = [];
   createServiceForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
-    price: new FormControl('', Validators.required),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
     discount: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)]),
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
@@ -76,48 +75,19 @@ export class CreateServiceComponent implements OnInit {
   }
 
   onCreate(): void {
-    if(this.createServiceForm.valid) {
-      const formValue = this.createServiceForm.value;
-      const newService: CreateServiceRequestDto = {
-        cancellationDeadline: formValue.cancellationDeadline,
-        category: !formValue.category
-          ? { id: null, name: formValue.suggestedCategoryName, description: formValue.suggestedCategoryDescription }
-          : formValue.category,
-        description: formValue.description,
-        discount: formValue.discount,
-        eventTypes: formValue.eventTypes,
-        maxDuration: formValue.maxDuration,
-        minDuration: formValue.minDuration,
-        name: formValue.name,
-        isAvailable: formValue.available ?? false,
-        isVisible: formValue.visible ?? false,
-        price: formValue.price,
-        reservationDeadline: formValue.reservationDeadline,
-        specialties: formValue.specialties,
-        type: formValue.reservationType
-      }
-      this.serviceService.create(newService).pipe(
-        switchMap((service: Service) => {
-          const serviceId = service.id;
-          if(service.status === Status.ACCEPTED) {
-            this.toasterService.success(`${service.name} has been created successfully!`, "Success");
-          } else {
-            this.toasterService.info("The service is currently in a pending state. Please wait while we process your request.", "Info");
-          }
-          if(this.images.length !== 0) {
-            return this.serviceService.uploadImages(serviceId, this.images);
-          }
-          return of(null);
-        })
-      ).subscribe({
-        next: () => {
-          void this.router.navigate(["manageable-services"]);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.toasterService.error(error.error.message, "Failed to create service")
-        }
-      });
-    }
+    if (this.createServiceForm.invalid) return;
+
+    const formValue = this.createServiceForm.value;
+    this.createService({
+      ...formValue,
+      category: formValue.category || {
+        id: null,
+        name: formValue.suggestedCategoryName,
+        description: formValue.suggestedCategoryDescription,
+      },
+      isAvailable: formValue.available ?? false,
+      isVisible: formValue.visible ?? false,
+    });
   }
 
   onFilesSelected(event: Event): void {
@@ -136,6 +106,22 @@ export class CreateServiceComponent implements OnInit {
   deleteImage(index: number): void {
     this.images.splice(index, 1);
     this.imagePreviews.splice(index, 1);
+  }
+
+  private createService(service: CreateService): void {
+    this.serviceService.create(service).pipe(
+      switchMap(service => {
+        this.toasterService[service.status === Status.ACCEPTED ? 'success' : 'info'](
+          `${service.name} has been created successfully!`,
+          service.status === Status.ACCEPTED ? "Success" : "Info"
+        );
+        return this.images.length ? this.serviceService.uploadImages(service.id, this.images) : of(null);
+      })
+    ).subscribe({
+      next: () => void this.router.navigate(["manageable-services"]),
+      error: (error: HttpErrorResponse) =>
+        this.toasterService.error(error.error.message, "Failed to create service"),
+    });
   }
 
   protected readonly ReservationType = ReservationType;

@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { PagedResponse } from '../shared/model/paged-response.model';
 import { environment } from '../../env/environment';
 import { Observable } from 'rxjs';
-import {CreateServiceRequestDto} from './model/create-service-dto.model';
+import {CreateService} from './model/create-service.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
 import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
@@ -39,7 +39,7 @@ export class ServiceService {
     return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
-  create(service: CreateServiceRequestDto): Observable<Service> {
+  create(service: CreateService): Observable<Service> {
     return this.httpClient.post<Service>(`${environment.apiHost}/services`, service);
   }
 
