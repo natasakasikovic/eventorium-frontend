@@ -108,7 +108,7 @@ export class EventAgendaComponent implements OnInit {
       },
       error: (error : HttpErrorResponse) => {
         if (error.status == 400) {
-          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.INVALID_ACTIVITY);
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);
         } else {
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR,  ERROR_MESSAGES.SERVER_ERROR);
         }
