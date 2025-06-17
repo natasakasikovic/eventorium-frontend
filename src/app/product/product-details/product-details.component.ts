@@ -52,6 +52,10 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  get isProvider(): boolean {
+    return (this.authService.getUserId() == this.product?.provider?.id);
+  }
+
   toggleFavouriteProduct(): void {
     if(this.isFavorite) {
       this.productService.removeFromFavourites(this.product.id).subscribe({

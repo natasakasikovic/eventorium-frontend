@@ -21,7 +21,7 @@
       <div class="header-right">
         <mat-icon style="color: gold">star</mat-icon>
         <span>{{ product?.rating | number:'1.2-2' }}</span>
-        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole">
+        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole()">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <span class="price"> &euro; {{ product?.price * (1 - product?.discount / 100) | number:'1.2-2' }}</span>
@@ -42,7 +42,7 @@
       </div>
     </mat-card-content>
 
-    <mat-card-actions class="footer">
+    <mat-card-actions class="footer" *ngIf="!isProvider && product?.provider?.id">
       <div class="info">
         <button mat-icon-button [routerLink]="['/user-profile', product?.provider.id]">
           <mat-icon>person</mat-icon>

@@ -8,8 +8,12 @@
           <strong>Event types:</strong>
           <span *ngFor="let eventType of service?.eventTypes; index as i">
             {{ eventType.name }}
-            <span *ngIf="i < service?.eventTypes.length - 1">,</span>
+            <span *ngIf="i < service?.eventTypes?.length - 1">,</span>
           </span>
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          <strong>Reservations:</strong>
+          <span> {{ service?.type }} </span>
         </mat-card-subtitle>
       </div>
       <div class="header-right">
@@ -40,7 +44,7 @@
       </div>
     </mat-card-content>
 
-    <mat-card-actions class="footer">
+    <mat-card-actions class="footer" *ngIf="!isProvider && service?.provider?.id">
       <div class="info">
         <button mat-icon-button [routerLink]="['/user-profile', service?.provider.id]">
           <mat-icon>person</mat-icon>

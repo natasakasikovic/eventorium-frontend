@@ -88,6 +88,10 @@ export class ServiceDetailsComponent implements OnInit {
     });
   }
 
+  get isProvider(): boolean {
+    return (this.authService.getUserId() == this.service?.provider?.id);
+  }
+
   onClick(): void{
     if (this.eventId)
       this.openReservationDialog();

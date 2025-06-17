@@ -89,7 +89,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
-        this.images = validImages;
+        this.images.push(...validImages);
         this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
@@ -97,7 +97,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
 
   deleteImage(index: number): void {
     this.images.splice(index, 1);
-    this.imagePreviews.splice(index, 1); 
+    this.imagePreviews.splice(index, 1);
   }
 
   onSubmit(): void {
@@ -118,7 +118,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
   private uploadProductImages(productId: number): Observable<void | null> {
     if (this.imagePreviews.length !== 0) {
       return this.productService.uploadImages(productId, this.images).pipe(
@@ -130,7 +130,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     }
     return of(null);
   }
-  
+
   private prepareProduct(): CreateProduct {
     const product: CreateProduct = this.productForm.value;
     const category = this.getFormValue('category');
@@ -145,7 +145,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
   private handleError(error: HttpErrorResponse) {
     if (error.status >= 500) {
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
-    } else if (error.status == 400) { 
+    } else if (error.status == 400) {
       this.showMessage(ERROR_MESSAGES.FORM_FIELD_ERROR, error.error.message);
     } else {
       this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);

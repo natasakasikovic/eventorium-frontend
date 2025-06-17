@@ -120,7 +120,7 @@ export class EditCompanyComponent implements OnInit, OnDestroy {
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
         this.newImagesPreview.push(...validImages.map(image => URL.createObjectURL(image)));
-        this.newImages = validImages;
+        this.newImages.push(...validImages);
       }
     }
   }

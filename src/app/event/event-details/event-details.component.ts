@@ -72,7 +72,7 @@ export class EventDetailsComponent implements OnInit {
       next: (isEligible: boolean) => this.isUserEligibleToRate = isEligible,
       error: (_) => this.isUserEligibleToRate = false
     })
-    
+
   }
 
   showMessage(title: string, message: string) : void {
@@ -86,11 +86,11 @@ export class EventDetailsComponent implements OnInit {
   }
 
   get isOrganizer(): boolean {
-    return (this.authService.getUserId() == this.event.organizer.id);
+    return (this.authService.getUserId() == this.event?.organizer?.id);
   }
 
   openChatDialog(recipient?: UserDetails): void {
-    this.chatService.openChatDialog(recipient ? recipient : this.event.organizer);
+    this.chatService.openChatDialog(recipient || this.event.organizer);
   }
 
   toggleFavourite() {
@@ -121,7 +121,7 @@ export class EventDetailsComponent implements OnInit {
         this.showStars = false;
         this.showMessage("Thank you for your feedback!", `You rated the event ${value} star${value > 1 ? 's' : ''}.`);
       },
-      error: () => {} 
+      error: () => {}
     })
   }
 
@@ -138,7 +138,7 @@ export class EventDetailsComponent implements OnInit {
   exportDetailsToPDF() {
     this.exportToPDF('event_details.pdf', this.service.exportToPDF(this.id));
   }
-  
+
   exportGuestListToPDF() {
     this.exportToPDF('guest_list.pdf', this.service.exportGuestListToPDF(this.id));
   }
@@ -154,7 +154,7 @@ export class EventDetailsComponent implements OnInit {
       }
     });
   }
-   
+
   scrollToMap(): void {
     this.eventMapComponent.scrollToMap();
   }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ReservationType} from '../model/reservation-type.enum';
 import {Router} from '@angular/router';
 import {EventTypeService} from '../../event-type/event-type.service';
@@ -126,8 +126,8 @@ export class CreateServiceComponent implements OnInit {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
-        this.images = validImages;
-        this.imagePreviews = validImages.map(image => URL.createObjectURL(image));
+        this.images.push(...validImages);
+        this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
   }
