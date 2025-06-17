@@ -69,6 +69,13 @@
           <mat-icon>calendar_today</mat-icon>
         </button>
         <button mat-icon-button
+                matTooltip="Delete"
+                *ngIf="element.status == BudgetItemStatus.PLANNED"
+                (click)="deleteBudgetItem(element)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button
                 matTooltip="Save"
                 *ngIf="element.status == BudgetItemStatus.PLANNED || element.status == BudgetItemStatus.PENDING"
                 (click)="updatePlannedAmount(element)" >

@@ -14,7 +14,6 @@ export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false;
   role: string = null;
-  silenceStatus: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -23,12 +22,16 @@ export class NavBarComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
 
+  get silenceStatus(): boolean {
+    return this.webSocketService.silenceStatus;
+  }
+
   ngOnInit(): void {
     this.authService.userState.subscribe((result) => {
       this.role = result;
     });
     this.notificationService.getSilenceStatus().subscribe(status => {
-      this.silenceStatus = status;
+      this.webSocketService.silenceStatus = status;
     });
   }
 
@@ -40,8 +43,8 @@ export class NavBarComponent implements OnInit {
 
 
   silenceNotifications(): void {
-    this.notificationService.updateSilence(!this.silenceStatus).subscribe(_ => {
-      this.silenceStatus = !this.silenceStatus;
+    this.notificationService.updateSilence(!this.webSocketService.silenceStatus).subscribe(_ => {
+      this.webSocketService.silenceStatus = !this.webSocketService.silenceStatus;
     });
   }
 }

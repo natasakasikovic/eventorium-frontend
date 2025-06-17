@@ -49,4 +49,8 @@ export class BudgetService {
   getBudgetItems(eventId: number): Observable<BudgetItem[]> {
     return this.httpClient.get<BudgetItem[]>(`${environment.apiHost}/events/${eventId}/budget/budget-items`)
   }
+
+  deleteItem(eventId: number, itemId: number) {
+    return this.httpClient.delete<void>(`${environment.apiHost}/events/${eventId}/budget/budget-items/${itemId}`)
+  }
 }

@@ -42,14 +42,6 @@ export class EventCardComponent implements OnInit {
   }
 
   openBudgetDialog(): void {
-    if(this.items == null) {
-      this.loadBudgetItems();
-    } else {
-      this.openDialog();
-    }
-  }
-
-  private loadBudgetItems(): void {
     this.budgetService.getBudgetItems(this.event.id).subscribe({
       next: (budgetItems: BudgetItem[]) => {
         this.items = budgetItems;
