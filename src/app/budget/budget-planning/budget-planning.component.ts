@@ -55,7 +55,8 @@ export class BudgetPlanningComponent implements OnInit {
   private loadBudget(): void {
     this.budgetService.getBudget(this.eventId).subscribe({
       next: (budget: Budget) => {
-        this.activeCategories = budget.activeCategories;
+        if(budget.activeCategories && budget.activeCategories.length > 0)
+          this.activeCategories = budget.activeCategories;
       }
     });
   }
