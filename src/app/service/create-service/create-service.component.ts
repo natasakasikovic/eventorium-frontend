@@ -80,6 +80,7 @@ export class CreateServiceComponent implements OnInit {
     const formValue = this.createServiceForm.value;
     this.createService({
       ...formValue,
+      type: formValue.reservationType,
       category: formValue.category || {
         id: null,
         name: formValue.suggestedCategoryName,
