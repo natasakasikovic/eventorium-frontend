@@ -52,6 +52,10 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
+  get isProvider(): boolean {
+    return (this.authService.getUserId() == this.product?.provider?.id);
+  }
+
   toggleFavouriteProduct(): void {
     if(this.isFavorite) {
       this.productService.removeFromFavourites(this.product.id).subscribe({
@@ -183,13 +187,16 @@ export class ProductDetailsComponent implements OnInit {
     }).subscribe({
       next: (item: BudgetItem) => {
         this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
-        if(this.eventId && this.plannedAmount) {
-          void this.router.navigate(['budget-planning', this.eventId]);
-        }
+        if(this.eventId && this.plannedAmount)
+          this.navigateBackToPlanner();
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to add to budget planner");
       }
     });
+  }
+
+  navigateBackToPlanner(): void {
+    void this.router.navigate(['budget-planning', this.eventId]);
   }
 }

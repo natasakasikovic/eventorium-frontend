@@ -21,11 +21,8 @@ export class BudgetPlanningComponent implements OnInit {
   disableAdvance: boolean;
 
   budgetItems: BudgetItem[];
-  plannedCategories: Category[] = []
-  otherCategories: Category[];
-
-  totalPlanned: number = 0.0;
-  totalSpent: number = 0.0;
+  activeCategories: Category[] = [];
+  allCategories: Category[] = [];
 
   addCategoryForm: FormGroup = new FormGroup({
     category: new FormControl('', Validators.required)
@@ -58,18 +55,8 @@ export class BudgetPlanningComponent implements OnInit {
   private loadBudget(): void {
     this.budgetService.getBudget(this.eventId).subscribe({
       next: (budget: Budget) => {
-
-        if(budget.items.length > 0) {
-          this.totalSpent = budget.spentAmount;
-          this.updatePlannedPrice(budget.plannedAmount);
-
-          const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
-          this.plannedCategories = this.plannedCategories.filter(category =>
-            !purchasedCategories.some(purchased => purchased.id == category.id));
-          this.otherCategories = this.otherCategories.filter(category => purchasedCategories.some(
-            purchased => purchased.id !== category.id
-          ));
-        }
+        if(budget.activeCategories && budget.activeCategories.length > 0)
+          this.activeCategories = budget.activeCategories;
       }
     });
   }
@@ -77,53 +64,26 @@ export class BudgetPlanningComponent implements OnInit {
   private loadEventType(): void {
     this.eventType = this.eventService.getEventType();
     if (this.eventType) {
-      this.addSuggestedCategoriesToPlanned();
-      this.fetchOtherCategories();
+      this.addSuggestedCategories();
+      this.fetchAllCategories();
     } else {
       this.fetchAllCategories();
     }
   }
 
-  private addSuggestedCategoriesToPlanned(): void {
-    if (Array.isArray(this.eventType.suggestedCategories)) {
-      this.plannedCategories.push(...this.eventType.suggestedCategories);
-    }
-  }
-
-  private fetchOtherCategories(): void {
-    this.categoryService.getAll().subscribe({
-      next: (categories: Category[]) => {
-        this.filterOtherCategories(categories);
-      },
-      error: (err) => {
-        console.error('Failed to fetch categories:', err);
-      }
-    });
-  }
-
-  private filterOtherCategories(categories: Category[]): void {
-    this.otherCategories = categories.filter(category =>
-      !this.plannedCategories.some(plannedCategory => plannedCategory.id === category.id)
-    );
-  }
-
-  updatePlannedPrice(difference: number) {
-    this.totalPlanned += difference;
+  private addSuggestedCategories(): void {
+    if (Array.isArray(this.eventType.suggestedCategories))
+      this.activeCategories.push(...this.eventType.suggestedCategories);
   }
 
   insertCategory(): void {
-    if (!this.addCategoryForm.invalid && this.plannedCategories.indexOf(this.addCategoryForm.value.category) < 0) {
-      this.plannedCategories.push(this.addCategoryForm.value.category);
-      this.otherCategories = this.otherCategories
-        .filter(category => category.id !== this.addCategoryForm.value.category.id);
+    if (!this.addCategoryForm.invalid && this.activeCategories.indexOf(this.addCategoryForm.value.category) < 0) {
+      this.activeCategories.push(this.addCategoryForm.value.category);
     }
   }
 
-  deleteCategory([id, purchased]: [number, boolean]): void {
-    if(!purchased) {
-      this.otherCategories.push(this.plannedCategories.find(c => c.id === id));
-    }
-    this.plannedCategories = this.plannedCategories.filter(c => c.id !== id);
+  deleteCategory(id: number): void {
+    this.activeCategories = this.activeCategories.filter(c => c.id !== id);
   }
 
   onSubmit(): void {
@@ -143,7 +103,7 @@ export class BudgetPlanningComponent implements OnInit {
   private fetchAllCategories() {
     this.categoryService.getAll().subscribe({
       next: (categories: Category[]) => {
-        this.otherCategories = categories;
+        this.allCategories = categories;
       }
     });
   }

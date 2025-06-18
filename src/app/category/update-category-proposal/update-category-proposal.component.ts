@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output} f
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
-import {CategoryRequestDto} from '../model/category-request-dto.model';
+import {CategoryRequest} from '../model/category-request-dto.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -55,7 +55,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
   }
 
   private updateCategory(): void {
-    let category: CategoryRequestDto = {
+    let category: CategoryRequest = {
       name: this.updateProposalForm.value.name,
       description: this.updateProposalForm.value.description
     }

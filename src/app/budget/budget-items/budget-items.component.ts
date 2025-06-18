@@ -15,12 +15,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class BudgetItemsComponent {
   @Input() category: Category;
   @Input() eventId: number;
+  @Input() activeCategories: Category[];
 
-  @Output() deleteCategory: EventEmitter<[number, boolean]> = new EventEmitter();
-  @Output() totalPriceChanged = new EventEmitter<number>();
-
-  totalPlanned: number;
-  previousPlanned: number = 0.0;
+  @Output() deleteCategory: EventEmitter<number> = new EventEmitter();
 
   planning: FormGroup = new FormGroup({
     plannedAmount: new FormControl(0, Validators.required),
@@ -44,7 +41,6 @@ export class BudgetItemsComponent {
         plannedAmount: this.planning.value.plannedAmount
       }).subscribe({
         next: (item: BudgetItem) => {
-          this.totalPlanned += item.plannedAmount;
           this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
         },
         error: (error: HttpErrorResponse) => {
@@ -52,11 +48,6 @@ export class BudgetItemsComponent {
         }
       });
     }
-  }
-
-  updateTotalPlanned(currentPrice: number): void {
-    this.totalPriceChanged.emit(currentPrice - this.previousPlanned);
-    this.previousPlanned = currentPrice;
   }
 
   searchItems(): void {
@@ -71,7 +62,6 @@ export class BudgetItemsComponent {
   }
 
   onDelete(): void {
-    this.deleteCategory.emit([this.category.id, false]);
-    this.updateTotalPlanned(0);
+    this.deleteCategory.emit(this.category.id);
   }
 }

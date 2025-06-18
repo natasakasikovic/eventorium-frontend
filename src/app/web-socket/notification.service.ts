@@ -9,6 +9,7 @@ import {environment} from '../../env/environment';
 })
 export class NotificationService {
 
+
   constructor(private httpClient: HttpClient) { }
 
   getNotifications(): Observable<NotificationResponse[]> {

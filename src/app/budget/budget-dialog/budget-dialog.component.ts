@@ -32,4 +32,8 @@ export class BudgetDialogComponent implements OnInit {
     });
     this.dialogRef.close();
   }
+
+  onDelete(id: number) {
+    this.items = this.items.filter(i => i.id !== id);
+  }
 }

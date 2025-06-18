@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
 import {NotificationService} from '../../web-socket/notification.service';
+import {filter, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,7 +15,6 @@ export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false;
   role: string = null;
-  silenceStatus: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -23,13 +23,17 @@ export class NavBarComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
 
+  get silenceStatus(): boolean {
+    return this.webSocketService.silenceStatus;
+  }
+
   ngOnInit(): void {
-    this.authService.userState.subscribe((result) => {
-      this.role = result;
-    });
-    this.notificationService.getSilenceStatus().subscribe(status => {
-      this.silenceStatus = status;
-    });
+    this.authService.userState.pipe(
+      tap(result => this.role = result),
+      filter(result => result != null),
+      switchMap(() => this.notificationService.getSilenceStatus()),
+      tap(status => this.webSocketService.silenceStatus = status)
+    ).subscribe();
   }
 
   logOut(): void {
@@ -40,8 +44,8 @@ export class NavBarComponent implements OnInit {
 
 
   silenceNotifications(): void {
-    this.notificationService.updateSilence(!this.silenceStatus).subscribe(_ => {
-      this.silenceStatus = !this.silenceStatus;
+    this.notificationService.updateSilence(!this.webSocketService.silenceStatus).subscribe(_ => {
+      this.webSocketService.silenceStatus = !this.webSocketService.silenceStatus;
     });
   }
 }

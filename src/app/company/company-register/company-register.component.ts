@@ -19,14 +19,14 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './company-register.component.css'
 })
 export class CompanyRegisterComponent implements OnInit, OnDestroy {
-  images: File[] = []; 
+  images: File[] = [];
   imagePreviews: string[] = [];
   companyForm: FormGroup;
   cities: City[];
   providerId: number;
 
-  constructor(private fb: FormBuilder, 
-              private companyService: CompanyService,   
+  constructor(private fb: FormBuilder,
+              private companyService: CompanyService,
               private router: Router,
               private sharedService: SharedService,
               private route: ActivatedRoute,
@@ -61,24 +61,24 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
       const newCompany: CompanyRequest = this.companyForm.value;
       newCompany.providerId = this.providerId;
       this.companyService.createCompany(newCompany).subscribe({
-        next: (response: CompanyResponse) => {   
+        next: (response: CompanyResponse) => {
           if (this.images.length > 0) {
             this.companyService.uploadImages(response.id, this.images).subscribe({
               next: () => {
                 if (this.authService.getUserId() != this.providerId)
                   this.showActivationDialog();
-                else 
+                else
                   this.router.navigate(['/'])
-              }, 
+              },
               error: (error: HttpErrorResponse) => {
                 this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
-                this.showActivationDialog(); 
+                this.showActivationDialog();
               }
             })
           } else {
             if (this.authService.getUserId() != this.providerId)
               this.showActivationDialog();
-            else 
+            else
               this.router.navigate(['/'])
           }
         },
@@ -111,7 +111,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
   public get formControls() {
     return this.companyForm.controls;
   }
- 
+
   onImageUpload(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -119,7 +119,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
-        this.images = validImages;
+        this.images.push(...validImages);
         this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
@@ -127,7 +127,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
 
   deleteImage(index: number): void {
     this.images.splice(index, 1);
-    this.imagePreviews.splice(index, 1); 
+    this.imagePreviews.splice(index, 1);
   }
 
   getCities(): void {

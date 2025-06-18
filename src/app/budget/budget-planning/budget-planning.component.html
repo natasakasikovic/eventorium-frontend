@@ -2,10 +2,10 @@
   <mat-tab-group class="main-tabs" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Planner" class="planner">
       <mat-tab-group class="category-tabs">
-        <mat-tab *ngFor="let category of plannedCategories" [label]="category.name">
+        <mat-tab *ngFor="let category of activeCategories" [label]="category.name">
           <app-budget-items [category]="category"
                             [eventId]="eventId"
-                            (totalPriceChanged)="updatePlannedPrice($event)"
+                            [activeCategories]="activeCategories"
                             (deleteCategory)="deleteCategory($event)"/>
         </mat-tab>
       </mat-tab-group>
@@ -14,7 +14,7 @@
         <form [formGroup]="addCategoryForm">
           <mat-form-field appearance="outline">
             <mat-select formControlName="category">
-              <mat-option *ngFor="let category of otherCategories" [value]="category">{{ category?.name }}</mat-option>
+              <mat-option *ngFor="let category of allCategories" [value]="category">{{ category?.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </form>

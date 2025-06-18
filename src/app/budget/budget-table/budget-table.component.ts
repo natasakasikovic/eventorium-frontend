@@ -23,6 +23,7 @@ export class BudgetTableComponent {
 
   displayedColumns: string[] = ["Name", "Category", "Spent amount", "Planned amount", "Status", "Actions"];
   @Output() navigateToPlanner: EventEmitter<void> = new EventEmitter();
+  @Output() deletedItem: EventEmitter<number> = new EventEmitter();
 
   statusClasses = {
     [BudgetItemStatus.PENDING] : 'status-pending',
@@ -56,7 +57,6 @@ export class BudgetTableComponent {
   }
 
   getStatusLabel(item: BudgetItem): string {
-    console.log(item.status);
     switch (item.status) {
       case BudgetItemStatus.PROCESSED:
         if(item.type == SolutionType.PRODUCT)
@@ -90,6 +90,16 @@ export class BudgetTableComponent {
       data: { eventId: this.eventId, serviceId: item.solutionId, plannedAmount: item.plannedAmount }
     });
     this.handleReservationClose(dialogRef, item);
+  }
+
+
+  deleteBudgetItem(item: BudgetItem): void {
+    this.budgetService.deleteItem(this.eventId, item.id).subscribe({
+      next: (_) => {
+        this.items = this.items.filter(i => item.id !== i.id);
+        this.deletedItem.emit(item.id);
+      }
+    })
   }
 
   purchaseProduct(item: BudgetItem): void {

@@ -4,6 +4,7 @@
     *ngIf="items && items.length > 0"
     [items]="items"
     [eventId]="eventId"
+    (deletedItem)="onDelete($event)"
     (navigateToPlanner)="navigateToPlanner()"
   ></app-budget-table>
   <div *ngIf="!items || items.length == 0" class="no-items">
