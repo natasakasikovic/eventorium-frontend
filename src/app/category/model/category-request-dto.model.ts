@@ -1,4 +1,4 @@
-export interface CategoryRequestDto {
+export interface CategoryRequest {
   name: string;
   description: string;
 }

@@ -22,8 +22,8 @@ export class EventAgendaComponent implements OnInit {
   displayedColumns: string[] = ['Activity name', 'Location', 'From', 'To', 'Description', 'X'];
   dataSource = new MatTableDataSource<ActivityRow>([]);
   agendaForm: FormGroup;
-  privacy: Privacy;  
-  
+  privacy: Privacy;
+
   activities: ActivityRequest[] = [];
   activityRows: ActivityRow[] = [];
 
@@ -71,7 +71,7 @@ export class EventAgendaComponent implements OnInit {
       activity: newActivity,
       id: this.activityRows.length > 0 ? this.activityRows[this.activityRows.length - 1].id + 1 : 1
     };
-    
+
     this.activities.push(newActivity);
     this.activityRows.push(newRow);
     this.dataSource.data = this.activityRows;
@@ -84,7 +84,7 @@ export class EventAgendaComponent implements OnInit {
       this.activities.splice(index, 1);
       this.dataSource.data = this.activityRows;
     }
-  }  
+  }
 
   add(): void {
     if (this.agendaForm.valid) {
@@ -93,7 +93,7 @@ export class EventAgendaComponent implements OnInit {
       this.agendaForm.reset();
     }
   }
-  
+
 
   finish(): void {
     this.eventService.createAgenda(this.activities, this.id).subscribe({
@@ -108,7 +108,7 @@ export class EventAgendaComponent implements OnInit {
       },
       error: (error : HttpErrorResponse) => {
         if (error.status == 400) {
-          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.INVALID_ACTIVIY);
+          this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message);
         } else {
           this.showMessage(ERROR_MESSAGES.GENERAL_ERROR,  ERROR_MESSAGES.SERVER_ERROR);
         }

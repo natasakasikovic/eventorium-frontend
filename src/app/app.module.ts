@@ -24,10 +24,12 @@ import {WebSocketModule} from './web-socket/web-socket.module';
 import {ReviewModule} from './review/review.module';
 import { FavouritesModule } from './favourites/favourites.module';
 import { CalendarModule } from './calendar/calendar.module';
+import {ChatModule} from './chat/chat.module';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,9 @@ import { CalendarModule } from './calendar/calendar.module';
     UserModule,
     ReviewModule,
     FavouritesModule,
-    CalendarModule
+    CalendarModule,
+    ChatModule,
+    CanvasJSAngularChartsModule
   ],
   providers: [
     provideAnimationsAsync(),

@@ -18,6 +18,8 @@ import { EventDetails } from './model/event-details.model';
 import { Activity } from './model/activity.model';
 import { InvitationDetails } from './model/invitation-details.model';
 import { UpdateEventRequest } from './model/update-event-request.model';
+import { EventTable } from './model/event-table.model';
+import { EventRatingsStatistics } from './model/event-rating-statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,10 @@ export class EventService {
 
   getEventDetails(id: number) : Observable<EventDetails> {
     return this.httpClient.get<EventDetails>(`${environment.apiHost}/events/${id}/details`)
+  }
+
+  isUserEligibleToRate(id: number): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${environment.apiHost}/account/events/${id}/rating-eligibility`)
   }
 
   setEventType(eventType: EventType): void {
@@ -71,6 +77,14 @@ export class EventService {
 
   getTopEvents(): Observable<EventSummary[]> {
     return this.httpClient.get<EventSummary[]>(environment.apiHost + "/events/top-five-events")
+  }
+
+  getPassedEvents(): Observable<EventTable[]> {
+    return this.httpClient.get<EventTable[]>(`${environment.apiHost}/events/passed`);
+  }
+
+  getEventStatistics(id: number): Observable<EventRatingsStatistics> {
+    return this.httpClient.get<EventRatingsStatistics>(`${environment.apiHost}/events/${id}/statistics`);
   }
 
   searchEvents(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<EventSummary>> {
@@ -132,8 +146,8 @@ export class EventService {
     return params
   }
 
-  getDraftedEvents(): Observable<EventSummary[]> {
-    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/drafted`);
+  getFutureEvents(): Observable<EventSummary[]> {
+    return this.httpClient.get<EventSummary[]>(`${environment.apiHost}/events/future`);
   }
 
   getAllOrganizerEvents(): Observable<EventSummary[]> {
@@ -170,6 +184,10 @@ export class EventService {
 
   exportGuestListToPDF(id: number): Observable<Blob> {
     return this.httpClient.get(`${environment.apiHost}/events/${id}/guest-list-pdf`, { responseType: 'blob' });
+  }
+
+  exportEventStatisticsToPdf(id: number): Observable<Blob> {
+    return this.httpClient.get(`${environment.apiHost}/events/${id}/pdf-statistics`, {responseType: 'blob'});
   }
   
   getOrganizerEvents(pageProperties: PageProperties): Observable<PagedResponse<EventSummary>> {

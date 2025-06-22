@@ -49,9 +49,16 @@
   text-transform: uppercase;
 }
 
-.service-card img {
-  height: 9.5rem;
-  width: 16rem;
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .service-card mat-card-header {
@@ -74,11 +81,6 @@
 .service-card mat-card-header .rating mat-icon {
   color: #fdd835;
   margin-right: 4px;
-}
-
-.service-card mat-card-header {
-  justify-content: space-between;
-  align-items: center;
 }
 
 .service-card .mat-card-header .rating span {
@@ -114,7 +116,6 @@
 
 .service-card .action-button mat-icon {
   font-size: 25px;
-  color: black;
 }
 
 .service-card .action-button:hover {

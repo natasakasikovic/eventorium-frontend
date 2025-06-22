@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../category/model/category.model';
-import {ServiceService} from '../../service/service.service';
-import {ProductService} from '../../product/product.service';
-import {Service} from '../../service/model/service.model';
-import {Product} from '../../product/model/product.model';
 import {ToastrService} from 'ngx-toastr';
+import {BudgetSuggestion} from '../model/budget-suggestion.model';
+import {BudgetService} from '../budget.service';
+import {BudgetItem} from '../model/budget-item.model';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-budget-items',
@@ -15,77 +15,53 @@ import {ToastrService} from 'ngx-toastr';
 export class BudgetItemsComponent {
   @Input() category: Category;
   @Input() eventId: number;
+  @Input() activeCategories: Category[];
 
-  @Output() deleteCategory: EventEmitter<[number, boolean]> = new EventEmitter();
-  @Output() totalPriceChanged = new EventEmitter<number>();
-
-  totalPlanned: number;
-  previousPlanned: number = 0.0;
+  @Output() deleteCategory: EventEmitter<number> = new EventEmitter();
 
   planning: FormGroup = new FormGroup({
     plannedAmount: new FormControl(0, Validators.required),
     solutionType: new FormControl("product"),
   });
-  serviceSuggestions: Service[] = [];
-  productSuggestion: Product[] = []
+  budgetSuggestions: BudgetSuggestion[];
 
 
   constructor(
-    private serviceService: ServiceService,
-    private productService: ProductService,
+    private budgetService: BudgetService,
+    private toasterService: ToastrService
   ) {
   }
 
-  updateTotalPlanned(currentPrice: number): void {
-    this.totalPriceChanged.emit(currentPrice - this.previousPlanned);
-    this.previousPlanned = currentPrice;
+  createBudgetItem(suggestion: BudgetSuggestion): void {
+    if (this.planning.valid) {
+      this.budgetService.createBudgetItem(this.eventId, {
+        category: this.category,
+        itemId: suggestion.id,
+        itemType: suggestion.solutionType,
+        plannedAmount: this.planning.value.plannedAmount
+      }).subscribe({
+        next: (item: BudgetItem) => {
+          this.toasterService.success(`'${item.solutionName}' has been added to planner successfully`, "Success");
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toasterService.error(error.error.message, "Failed to add to budget planner");
+        }
+      });
+    }
   }
 
   searchItems(): void {
     if (!this.planning.invalid) {
-      const formValue = this.planning.value;
-      if (formValue.solutionType === 'product') {
-       this.searchProducts(formValue.plannedAmount)
-      } else {
-        this.searchServices(formValue.plannedAmount);
-      }
+      const plannedAmount = this.planning.value.plannedAmount;
+      this.budgetService.getBudgetSuggestions(this.eventId, this.category.id, plannedAmount).subscribe({
+        next: (suggestions: BudgetSuggestion[]) => {
+          this.budgetSuggestions = suggestions;
+        }
+      });
     }
   }
 
-  private searchServices(plannedAmount: number): void {
-    this.serviceService.getBudgetSuggestions(this.category.id, plannedAmount, this.eventId).subscribe({
-      next: (services: Service[]) => {
-        this.productSuggestion = [];
-        this.serviceSuggestions = services;
-        this.updateTotalPlanned(plannedAmount);
-        this.getServiceImages(services);
-      }
-    });
-  }
-
-  private getServiceImages(services: Service[]): void {
-    services.forEach(s => this.serviceService.getImage(s.id).subscribe({
-      next: (image: Blob) => {
-        s.images[0] = URL.createObjectURL(image);
-      }
-    }));
-  }
-
-
-  private searchProducts(plannedAmount: number): void {
-    this.productService.getBudgetSuggestions(this.category.id, plannedAmount).subscribe({
-        next: (products: Product[]) => {
-          this.serviceSuggestions = [];
-          this.productSuggestion = products;
-          this.updateTotalPlanned(plannedAmount);
-        }
-      }
-    )
-  }
-
   onDelete(): void {
-    this.deleteCategory.emit([this.category.id, false]);
-    this.updateTotalPlanned(0);
+    this.deleteCategory.emit(this.category.id);
   }
-
 }

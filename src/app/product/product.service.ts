@@ -8,6 +8,8 @@ import { ImageResponseDto } from '../shared/model/image-response-dto.model';
 import { ProductFilter } from './model/product-filter.model';
 import { PageProperties } from '../shared/model/page-properties.model';
 import { CreateProduct } from './model/create-product.model';
+import { RemoveImageRequest } from '../shared/model/remove-image-request.model';
+import { UpdateProductRequest } from './model/update-product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,13 +33,19 @@ export class ProductService {
     return this.httpClient.post<void>(`${environment.apiHost}/products/${id}/images`, formData);
   }
 
+  update(id: number, product: UpdateProductRequest): Observable<Product> {
+    return this.httpClient.put<Product>(`${environment.apiHost}/products/${id}`, product);
+  }
+
   getAll(pageProperties?: PageProperties) : Observable<PagedResponse<Product>> {
     let params = new HttpParams();
-    if (pageProperties){
-      params = params
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+    
+    if (pageProperties)
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Product>>(environment.apiHost + "/products", { params: params });
   }
 
@@ -47,20 +55,14 @@ export class ProductService {
 
   searchProducts(keyword: string, pageProperties?: PageProperties): Observable<PagedResponse<Product>> {
     let params = new HttpParams()
-    if (pageProperties){
-      params = params
-      .set('keyword', keyword)
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
-    return this.httpClient.get<PagedResponse<Product>> (environment.apiHost + "/products/search", {params : params})
-  }
 
-  getBudgetSuggestions(id: number, plannedAmount: number): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(
-      `${environment.apiHost}/products/suggestions`,
-      { params: new HttpParams().set('categoryId', id).set('price', plannedAmount) }
-    );
+    if (pageProperties)
+      params = params.set('keyword', keyword).set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize)
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
+    return this.httpClient.get<PagedResponse<Product>> (environment.apiHost + "/products/search", {params : params})
   }
 
   get(id: number): Observable<Product> {
@@ -105,12 +107,15 @@ export class ProductService {
         const typedKey = key as keyof ProductFilter;
         const value = filter[typedKey];
 
-        if (value !== undefined && value != null && value != "")
+        if (value !== undefined && value !== null && value !== "")
           params = params.set(typedKey, value);
       });
     }
 
     params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
 
     return params
   }
@@ -136,4 +141,11 @@ export class ProductService {
     return this.httpClient.get<PagedResponse<Product>>(`${environment.apiHost}/account/products/filter`, { params: params });
   }
 
+  delete(id: number) : Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/products/${id}`);
+  }
+
+  removeImages(id: number, removedImages: RemoveImageRequest[]): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/products/${id}/images`, { body: removedImages });
+  }
 }

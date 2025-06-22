@@ -16,6 +16,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import { ServicesOverviewComponent } from './services-overview/services-overview.component';
 import { ServicesFilterDialogComponent } from './services-filter-dialog/services-filter-dialog.component';
 import { ServiceReservationDialogComponent } from './service-reservation-dialog/service-reservation-dialog.component';
+import { ManageReservationsComponent } from './manage-reservations/manage-reservations.component';
 
 
 
@@ -28,7 +29,8 @@ import { ServiceReservationDialogComponent } from './service-reservation-dialog/
     TopFiveServicesComponent,
     ServicesOverviewComponent,
     ServicesFilterDialogComponent,
-    ServiceReservationDialogComponent
+    ServiceReservationDialogComponent,
+    ManageReservationsComponent
   ],
   imports: [
     CommonModule,

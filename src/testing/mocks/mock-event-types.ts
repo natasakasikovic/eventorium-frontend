@@ -7,17 +7,20 @@ export const mockEventTypes: EventType[] = [
     name: 'Wedding',
     description: 'Wedding and related celebrations',
     suggestedCategories: [mockCategories[0], mockCategories[1]],
+    image: null,
   },
   {
     id: 2,
     name: 'Corporate Event',
     description: 'Business and corporate gatherings',
     suggestedCategories: [mockCategories[1], mockCategories[2]],
+    image: null,
   },
   {
     id: 3,
     name: 'Birthday Party',
     description: 'Birthday celebrations and private parties',
     suggestedCategories: [mockCategories[2]],
+    image: null,
   },
 ];

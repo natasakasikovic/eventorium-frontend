@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output} f
 import {Category} from '../model/category.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../category.service';
-import {CategoryRequestDto} from '../model/category-request-dto.model';
+import {CategoryRequest} from '../model/category-request-dto.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -42,8 +42,8 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onClose(): void {
-    this.dialogRef.close(this.data.category.id);
+  onClose(id?: number): void {
+    this.dialogRef.close(id);
   }
 
   onSave(): void {
@@ -52,11 +52,10 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     } else {
       this.changeCategory();
     }
-    this.onClose();
   }
 
   private updateCategory(): void {
-    let category: CategoryRequestDto = {
+    let category: CategoryRequest = {
       name: this.updateProposalForm.value.name,
       description: this.updateProposalForm.value.description
     }
@@ -65,6 +64,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     this.categoryService.updateCategoryProposal(this.data.category.id, category).subscribe({
       next: (category: Category) => {
         this.toasterService.success(`Category ${category.name} has been updated successfully!`, "Success");
+        this.onClose(this.data.category.id);
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to update category");
@@ -76,6 +76,7 @@ export class UpdateCategoryProposalComponent implements OnInit, AfterViewInit {
     this.categoryService.changeCategoryProposal(this.data.category.id, this.updateProposalForm.value.category).subscribe({
       next: (category: Category) => {
         this.toasterService.success(`Category ${category.name} has been updated successfully!`, "Success");
+        this.onClose(this.data.category.id);
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to update category");

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../event.service';
 import { EventDetails } from '../model/event-details.model';
@@ -11,6 +11,10 @@ import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { MESSAGES } from '../../shared/constants/messages';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 import { Activity } from '../model/activity.model';
+import { RatingService } from '../../review/rating.service';
+import { ReviewType } from '../../review/model/review-type.enum';
+import { MapService } from '../map.service';
+import { EventMapComponent } from '../event-map/event-map.component';
 
 @Component({
   selector: 'app-event-details',
@@ -22,14 +26,21 @@ export class EventDetailsComponent implements OnInit {
   event: EventDetails;
   isFavourite: boolean;
   displayedColumns: string[] = ['name', 'description', 'startTime', 'endTime', 'location'];
-  agenda: Activity[]
+  agenda: Activity[];
+  showShakeAnimation: boolean = false;
+  rating: number = 0;
+  isUserEligibleToRate: boolean = false;
+  stars: number[] = [1, 2, 3, 4, 5];
+  showStars: boolean = true;
+  @ViewChild(EventMapComponent) eventMapComponent!: EventMapComponent;
 
   constructor(
     private route: ActivatedRoute,
     private service: EventService,
     private dialog: MatDialog,
     private authService: AuthService,
-    private chatService: ChatDialogService
+    private chatService: ChatDialogService,
+    private ratingService: RatingService
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +67,12 @@ export class EventDetailsComponent implements OnInit {
         this.showMessage("", "An error occurred while loading event details. Try again later.");
       }
     });
+
+    this.service.isUserEligibleToRate(this.id).subscribe({
+      next: (isEligible: boolean) => this.isUserEligibleToRate = isEligible,
+      error: (_) => this.isUserEligibleToRate = false
+    })
+
   }
 
   showMessage(title: string, message: string) : void {
@@ -69,11 +86,11 @@ export class EventDetailsComponent implements OnInit {
   }
 
   get isOrganizer(): boolean {
-    return (this.authService.getUserId() == this.event.organizer.id);
+    return (this.authService.getUserId() == this.event?.organizer?.id);
   }
 
   openChatDialog(recipient?: UserDetails): void {
-    this.chatService.openChatDialog(recipient ? recipient : this.event.organizer);
+    this.chatService.openChatDialog(recipient || this.event.organizer);
   }
 
   toggleFavourite() {
@@ -97,6 +114,17 @@ export class EventDetailsComponent implements OnInit {
     })
   }
 
+  rate(value: number): void {
+    this.rating = value;
+    this.ratingService.createRating(this.id, ReviewType.EVENT, value).subscribe({
+      next: () => {
+        this.showStars = false;
+        this.showMessage("Thank you for your feedback!", `You rated the event ${value} star${value > 1 ? 's' : ''}.`);
+      },
+      error: () => {}
+    })
+  }
+
   addToCalendar(): void  {
     this.service.addToCalendar(this.id).subscribe({
       next: (_) => {
@@ -110,7 +138,7 @@ export class EventDetailsComponent implements OnInit {
   exportDetailsToPDF() {
     this.exportToPDF('event_details.pdf', this.service.exportToPDF(this.id));
   }
-  
+
   exportGuestListToPDF() {
     this.exportToPDF('guest_list.pdf', this.service.exportGuestListToPDF(this.id));
   }
@@ -126,5 +154,8 @@ export class EventDetailsComponent implements OnInit {
       }
     });
   }
-   
+
+  scrollToMap(): void {
+    this.eventMapComponent.scrollToMap();
+  }
 }

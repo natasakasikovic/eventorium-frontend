@@ -1,4 +1,4 @@
-import {Component, OnInit, Predicate} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Category} from '../../category/model/category.model';
 import {EventService} from '../../event/event.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -6,9 +6,9 @@ import {CategoryService} from '../../category/category.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EventType} from '../../event-type/model/event-type.model';
 import {MatTabChangeEvent} from '@angular/material/tabs';
-import {Product} from '../../product/model/product.model';
 import {BudgetService} from '../budget.service';
 import {Budget} from '../model/budget.model';
+import {BudgetItem} from '../model/budget-item.model';
 
 @Component({
   selector: 'app-budget-planning',
@@ -16,15 +16,13 @@ import {Budget} from '../model/budget.model';
   styleUrl: './budget-planning.component.css'
 })
 export class BudgetPlanningComponent implements OnInit {
-  id: number | null;
+  eventId: number | null;
   eventType: EventType | null;
+  disableAdvance: boolean;
 
-  purchasedProducts: Product[];
-  plannedCategories: Category[] = []
-  otherCategories: Category[];
-
-  totalPlanned: number = 0.0;
-  totalSpent: number = 0.0;
+  budgetItems: BudgetItem[];
+  activeCategories: Category[] = [];
+  allCategories: Category[] = [];
 
   addCategoryForm: FormGroup = new FormGroup({
     category: new FormControl('', Validators.required)
@@ -47,25 +45,18 @@ export class BudgetPlanningComponent implements OnInit {
 
   private loadParams(): void {
     this.route.params.subscribe(params => {
-      this.id = params['id'] ?? null;
+      this.eventId = params['id'] ?? null;
     });
+    this.route.queryParams.subscribe(params => {
+      this.disableAdvance = params['disableAdvance'] ?? false;
+    })
   }
 
   private loadBudget(): void {
-    this.budgetService.getBudget(this.id).subscribe({
+    this.budgetService.getBudget(this.eventId).subscribe({
       next: (budget: Budget) => {
-
-        if(budget.items.length > 0) {
-          this.totalSpent = budget.spentAmount;
-          this.updatePlannedPrice(budget.plannedAmount);
-
-          const purchasedCategories: Category[] = [...budget.items.map(item => item.category)];
-          this.plannedCategories = this.plannedCategories.filter(category =>
-            !purchasedCategories.some(purchased => purchased.id == category.id));
-          this.otherCategories = this.otherCategories.filter(category => purchasedCategories.some(
-            purchased => purchased.id !== category.id
-          ));
-        }
+        if(budget.activeCategories && budget.activeCategories.length > 0)
+          this.activeCategories = budget.activeCategories;
       }
     });
   }
@@ -73,80 +64,46 @@ export class BudgetPlanningComponent implements OnInit {
   private loadEventType(): void {
     this.eventType = this.eventService.getEventType();
     if (this.eventType) {
-      this.addSuggestedCategoriesToPlanned();
-      this.fetchOtherCategories();
+      this.addSuggestedCategories();
+      this.fetchAllCategories();
     } else {
       this.fetchAllCategories();
     }
   }
 
-  private addSuggestedCategoriesToPlanned(): void {
-    if (Array.isArray(this.eventType.suggestedCategories)) {
-      this.plannedCategories.push(...this.eventType.suggestedCategories);
-    }
-  }
-
-  private fetchOtherCategories(): void {
-    this.categoryService.getAll().subscribe({
-      next: (categories: Category[]) => {
-        this.filterOtherCategories(categories);
-      },
-      error: (err) => {
-        console.error('Failed to fetch categories:', err);
-      }
-    });
-  }
-
-  private filterOtherCategories(categories: Category[]): void {
-    this.otherCategories = categories.filter(category =>
-      !this.plannedCategories.some(plannedCategory => plannedCategory.id === category.id)
-    );
-  }
-
-  updatePlannedPrice(difference: number) {
-    this.totalPlanned += difference;
+  private addSuggestedCategories(): void {
+    if (Array.isArray(this.eventType.suggestedCategories))
+      this.activeCategories.push(...this.eventType.suggestedCategories);
   }
 
   insertCategory(): void {
-    if (!this.addCategoryForm.invalid && this.plannedCategories.indexOf(this.addCategoryForm.value.category) < 0) {
-      this.plannedCategories.push(this.addCategoryForm.value.category);
-      this.otherCategories = this.otherCategories
-        .filter(category => category.id !== this.addCategoryForm.value.category.id);
+    if (!this.addCategoryForm.invalid && this.activeCategories.indexOf(this.addCategoryForm.value.category) < 0) {
+      this.activeCategories.push(this.addCategoryForm.value.category);
     }
   }
 
-  deleteCategory([id, purchased]: [number, boolean]): void {
-    if(!purchased) {
-      this.otherCategories.push(this.plannedCategories.find(c => c.id === id));
-    }
-    this.plannedCategories = this.plannedCategories.filter(c => c.id !== id);
+  deleteCategory(id: number): void {
+    this.activeCategories = this.activeCategories.filter(c => c.id !== id);
   }
 
   onSubmit(): void {
-    void this.router.navigate(['/event-agenda', this.id]);
+    void this.router.navigate(['/event-agenda', this.eventId]);
   }
 
   onTabChange(event: MatTabChangeEvent) {
     if(event.tab.textLabel === "Purchased & Reserved") {
-      this.getPurchased();
+      this.budgetService.getBudgetItems(this.eventId).subscribe({
+        next: (budgetItems: BudgetItem[]) => {
+          this.budgetItems = budgetItems;
+        }
+      });
     }
-  }
-
-  private getPurchased(): void {
-    this.budgetService.getPurchased(this.id).subscribe({
-      next: (products: Product[]) => {
-        this.purchasedProducts = products;
-      }
-    });
   }
 
   private fetchAllCategories() {
     this.categoryService.getAll().subscribe({
       next: (categories: Category[]) => {
-        this.otherCategories = categories;
-      },
-      error: (err) => {
-        console.error('Failed to fetch categories:', err);
+        this.allCategories = categories;
       }
     });
   }

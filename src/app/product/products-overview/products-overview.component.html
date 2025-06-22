@@ -6,6 +6,20 @@
         <button mat-icon-button class="filter-button" (click)="openDialog()">
           <mat-icon>tune</mat-icon>
         </button>
+          <button mat-button [matMenuTriggerFor]="sortMenu">
+          Sort
+          <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        <mat-menu #sortMenu="matMenu">
+          <button mat-menu-item (click)="onSortChange('discount_desc')">
+            <mat-icon *ngIf="selectedSort === 'discount_desc'">check</mat-icon>
+            Discount descending
+          </button>
+          <button mat-menu-item (click)="onSortChange('discount_asc')">
+            <mat-icon *ngIf="selectedSort === 'discount_acs'">check</mat-icon>
+              Discount ascending
+          </button>
+        </mat-menu>
       </div>
     </mat-toolbar>
     <div class="product-cards">

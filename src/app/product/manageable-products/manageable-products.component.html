@@ -1,8 +1,6 @@
 <div class="cards-screen">
     <mat-toolbar class="toolbar">
-      <div class="title-container">
-        <h1 class="title">Products</h1>
-      </div>
+      <h1 class="title">Products</h1>
       <div class="filters">
         <app-search-bar class="searcher" (searcher)="onSearch($event)" />
         <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openDialog()">
@@ -10,15 +8,14 @@
         </button>
       </div>
     </mat-toolbar>
-    
+
     <div class="products-cards">
       <div class="cards">
-        <app-product-card *ngFor="let product of products" [showActions]="true" [product]="product"/>
+        <app-product-card *ngFor="let product of products" [showActions]="true" [product]="product" (delete)="openDeleteConfirmation($event)"/>
       </div>
     </div>
-  
+
     <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex"
                    [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
     </mat-paginator>
   </div>
-  

@@ -16,6 +16,12 @@
 
   <div mat-dialog-actions>
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button (click)="onConfirm()">Confirm</button>
+    <button mat-button (click)="onConfirm(false)">Confirm</button>
+    <button mat-button class="see-more-button"
+            *ngIf="data.type == SolutionType.PRODUCT"
+            (click)="onConfirm(true)"
+    >
+      Add to planner
+    </button>
   </div>
 </form>

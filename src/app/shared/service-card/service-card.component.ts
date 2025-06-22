@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Service} from '../../service/model/service.model';
 import {ServiceService} from '../../service/service.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-service-card',
@@ -13,15 +12,11 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
   @Input() showActions: boolean;
   @Input() reviewable: boolean;
 
-  @Input() eventId: number;
-  @Input() plannedAmount: number;
-
   @Output() delete: EventEmitter<Service> = new EventEmitter();
   @Output() review: EventEmitter<Service> = new EventEmitter();
 
   constructor(
-    private serviceService: ServiceService,
-    private router: Router
+    private serviceService: ServiceService
   ) {
   }
 
@@ -38,7 +33,6 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
     });
   }
 
-
   onDelete(): void {
     this.delete.emit(this.service);
   }
@@ -51,16 +45,4 @@ export class ServiceCardComponent implements OnInit, OnDestroy {
     URL.revokeObjectURL(this.service.images[0]);
   }
 
-  onClick(): void {
-    if(this.eventId && this.plannedAmount) {
-      void this.router.navigate(['/service-details', this.service.id], {
-        queryParams: {
-          eventId: this.eventId,
-          plannedAmount: this.plannedAmount,
-        }
-      });
-    } else {
-      void this.router.navigate(['/service-details', this.service.id]);
-    }
-  }
 }

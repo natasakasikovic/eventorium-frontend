@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {EventSummary} from '../../event/model/event-summary.model';
 import {EventService} from '../../event/event.service';
+import {BudgetItem} from '../../budget/model/budget-item.model';
+import {SolutionType} from '../../budget/model/solution-type.enum';
 
 @Component({
   selector: 'app-event-selection',
@@ -18,12 +20,13 @@ export class EventSelectionComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<EventSelectionComponent>,
-    private eventService: EventService
+    private eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: { type: SolutionType }
   ) {
   }
 
   ngOnInit(): void {
-    this.eventService.getDraftedEvents().subscribe({
+    this.eventService.getFutureEvents().subscribe({
       next: (events: EventSummary[]) => {
         this.events = events;
       }
@@ -34,11 +37,15 @@ export class EventSelectionComponent implements OnInit {
     this.dialogRef.close([null, null]);
   }
 
-  onConfirm(): void {
-    this.dialogRef.close({
-      plannedAmount: this.selectEventForm.value.plannedAmount,
-      event: this.selectEventForm.value.event
-    });
+  onConfirm(addToPlanner: boolean): void {
+    if(!this.selectEventForm.invalid) {
+      this.dialogRef.close({
+        addToPlanner,
+        plannedAmount: this.selectEventForm.value.plannedAmount,
+        event: this.selectEventForm.value.event
+      });
+    }
   }
 
+  protected readonly SolutionType = SolutionType;
 }

@@ -40,81 +40,262 @@ import { CompanyDetailsComponent } from './company/company-details/company-detai
 import { FavouritesComponent } from './favourites/favourites/favourites.component';
 import { NotificationsComponent } from './web-socket/notifications/notifications.component';
 import { ManageableProductsComponent } from './product/manageable-products/manageable-products.component';
-import { ReviewListComponent } from './review/review-list/review-list.component';
-import { ManageReviewsComponent } from './review/manage-reviews/manage-reviews.component';
+import { ReviewableSolutionsComponent } from './review/reviewable-solutions/reviewable-solutions.component';
+import { ManageCommentsComponent } from './review/manage-comments/manage-comments.component';
 import { CalendarComponent } from './calendar/calendar/calendar.component';
 import { UserInvitationsComponent } from './event/user-invitations/user-invitations.component';
 import { ManageableEventsComponent } from './event/manageable-events/manageable-events.component';
 import { EditEventComponent } from './event/edit-event/edit-event.component';
+import { ManageReservationsComponent } from './service/manage-reservations/manage-reservations.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { ChatComponent } from './chat/chat/chat.component';
+import { PastEventsOverviewComponent } from './event/past-events-overview/past-events-overview.component';
+import { EventRatingStatisticsComponent } from './event/event-rating-statistics/event-rating-statistics.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { UpgradeAccountComponent } from './auth/upgrade-account/upgrade-account.component';
+import {EntityResolver} from './infrastructure/navigation/resolver/entity.resolver';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: UserRegisterComponent},
-  { path: 'calendar', component: CalendarComponent},
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
+  },
   { path: 'events-overview', component: EventsOverviewComponent},
-  { path: 'categories-overview', component: CategoriesOverviewComponent },
-  { path: 'category-proposals', component: CategoryProposalsComponent },
-  { path: 'edit-category/:id', component: EditCategoryComponent },
-  { path: 'create-category', component: CreateCategoryComponent },
+  {
+    path: 'categories-overview',
+    component: CategoriesOverviewComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'category-proposals',
+    component: CategoryProposalsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'edit-category/:id',
+    component: EditCategoryComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'create-category',
+    component: CreateCategoryComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
   { path: 'products-overview', component: ProductsOverviewComponent},
   { path: 'product-details/:id', component: ProductDetailsComponent},
   { path: 'services-overview', component: ServicesOverviewComponent},
-  { path: 'manageable-services', component: ManageableServicesComponent },
-  { path: 'manageable-products', component: ManageableProductsComponent},
-  { path: 'manageable-events', component: ManageableEventsComponent },
+  {
+    path: 'manageable-services',
+    component: ManageableServicesComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    path: 'manageable-products',
+    component: ManageableProductsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    path: 'manageable-events',
+    component: ManageableEventsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER'] }
+  },
   { path: 'service-details/:id', component: ServiceDetailsComponent },
   { path: 'quick-registration/:hash', component: QuickRegistrationComponent, canActivate: [QuickRegistrationGuard]},
-  { path: 'edit-service/:id', component: EditServiceComponent },
-  { path: 'create-service', component: CreateServiceComponent },
-  { path: 'create-product', component: CreateProductComponent },
-  { path: 'price-list', component: PriceListComponent },
-  { path: 'reviews', component: ReviewListComponent },
-  { path: 'report-management', component: ManageReportsComponent},
-  { path: 'notifications', component: NotificationsComponent},
-  { path: 'review-management', component: ManageReviewsComponent},
+  {
+    path: 'edit-service/:id',
+    component: EditServiceComponent,
+    resolve: { resolvedEntity: EntityResolver },
+    canActivate: [AuthGuard],
+    data: { entityType: 'service', role: ['PROVIDER'] }
+  },
+  {
+    path: 'edit-product/:id',
+    component: EditProductComponent,
+    resolve: { resolvedEntity: EntityResolver },
+    canActivate: [AuthGuard],
+    data: { entityType: 'product', role: ['PROVIDER'] }
+  },
+  {
+    path: 'create-service',
+    component: CreateServiceComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    path: 'create-product',
+    component: CreateProductComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    path: 'price-list',
+    component: PriceListComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    // Event organizer can rate and comment on purchased / reserved solutions
+    path: 'reviewable-solutions',
+    component: ReviewableSolutionsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER'] }
+  },
+  {
+    path: 'report-management',
+    component: ManageReportsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
+  },
+  {
+    path: 'comment-management',
+    component: ManageCommentsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'reservation-management',
+    component: ManageReservationsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['PROVIDER']
+    }
+  },
+  {
+    path: 'past-events-overview',
+    component: PastEventsOverviewComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN', 'EVENT_ORGANIZER']
+    }
+  },
   {
     path: 'event-invitations/:id',
     component: EventInvitationsComponent,
-    canActivate: [NavigationGuard],
+    canActivate: [NavigationGuard, AuthGuard],
     data: {
+      role: ['EVENT_ORGANIZER'],
       allowedUrls: ['/event-agenda'],
       fallback: "/home"
     }
   },
-  { path: ':provider-id/company-register', component: CompanyRegisterComponent},
-  { path: 'create-event-type', component: CreateEventTypeComponent},
-  { path: 'create-event', component: CreateEventComponent},
+  {
+    path: 'event-stats/:id',
+    component: EventRatingStatisticsComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: ['ADMIN', 'EVENT_ORGANIZER']
+    }
+  },
+  {path: ':provider-id/company-register', component: CompanyRegisterComponent},
+  {
+    path: 'create-event-type',
+    component: CreateEventTypeComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'create-event',
+    component: CreateEventComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER'] }
+  },
   {
     path: 'budget-planning/:id',
     component: BudgetPlanningComponent,
-    canActivate: [NavigationGuard],
+    canActivate: [NavigationGuard, AuthGuard],
     data: {
-      allowedUrls: ['/create-event', '/product-details', '/service-details'],
+      role: ['EVENT_ORGANIZER'],
+      allowedUrls: ['/create-event', '/product-details', '/service-details', '/manageable-events'],
       fallback: "/home"
     }
   },
-  { path: 'edit-event/:id', component: EditEventComponent },
-  { path: 'event-types', component: EventTypesOverviewComponent },
-  { path: 'edit-event-type/:id', component: EditEventTypeComponent},
+  {
+    path: 'edit-event/:id',
+    component: EditEventComponent,
+    resolve: { resolvedEntity: EntityResolver },
+    canActivate: [AuthGuard],
+    data: { entityType: 'event', role: ['EVENT_ORGANIZER'] }
+  },
+  {
+    path: 'event-types',
+    component: EventTypesOverviewComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
+  {
+    path: 'edit-event-type/:id',
+    component: EditEventTypeComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN'] }
+  },
   {
     path: 'event-agenda/:id',
     component: EventAgendaComponent,
-    canActivate: [NavigationGuard],
+    canActivate: [NavigationGuard, AuthGuard],
     data: {
+      role: ['EVENT_ORGANIZER'],
       allowedUrls: ['/budget-planning'],
       fallback: '/home',
     }
   },
   { path: 'event-details/:id', component: EventDetailsComponent },
-  { path: 'account-details', component: AccountDetailsComponent },
-  { path: 'edit-account', component: EditAccountComponent },
+  {
+    path: 'account-details', component: AccountDetailsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
+  },
+  { path: 'upgrade-account', component: UpgradeAccountComponent },
+  {
+    path: 'edit-account',
+    component: EditAccountComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER'] }
+  },
   { path: 'user-profile/:id', component: UserProfileComponent },
-  { path: 'favourites', component: FavouritesComponent},
-  { path: 'provider-company', component: ProviderCompanyComponent },
+  {
+    path: 'favourites', component: FavouritesComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN', 'EVENT_ORGANIZER', 'PROVIDER', 'USER'] }
+  },
+  {
+    path: 'provider-company', component: ProviderCompanyComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
   { path: 'company/:id', component: CompanyDetailsComponent },
-  { path: 'edit-company', component: EditCompanyComponent },
-  { path: 'user-invitations', component: UserInvitationsComponent },
+  {
+    path: 'edit-company', component: EditCompanyComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['PROVIDER'] }
+  },
+  {
+    path: 'user-invitations', component: UserInvitationsComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
+  },
+  {
+    path: 'chat', component: ChatComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['EVENT_ORGANIZER', 'PROVIDER', 'ADMIN', 'USER'] }
+  },
   { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },

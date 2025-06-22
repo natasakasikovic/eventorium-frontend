@@ -2,7 +2,26 @@
     <div>
       <h2>{{ eventType?.name }}</h2>
       <div class="container" >
-        <div class="left-section" [formGroup]="editEventTypeForm">
+        <div class="left-section">
+          <div class="image">
+            <mat-icon *ngIf="!eventType.image">event</mat-icon>
+            <img *ngIf="eventType.image" [src]="eventType.image" alt="Selected event type photo" />
+          </div>
+          <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+            Add a photo that represents this event type
+          </button>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none"
+          />
+          <input type="file" hidden (change)="onFileSelected($event)" #fileInput id="fileInput" />
+        </div>
+
+        <div class="right-section" [formGroup]="editEventTypeForm">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Description</mat-label>
             <textarea matInput id="description" formControlName="description"></textarea>
@@ -10,12 +29,9 @@
               Description is required
             </mat-error>
           </mat-form-field>
-        </div>
-
-        <div class="right-section">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Proposed categories of services and products</mat-label>
-            <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory">
+            <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory" [ngModelOptions]="{standalone: true}">
               <mat-option *ngFor="let category of availableCategories" [value]="category">
                 {{ category.name }}
               </mat-option>

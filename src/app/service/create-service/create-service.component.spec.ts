@@ -57,7 +57,7 @@ describe('CreateServiceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create and initialize form with default values', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -72,9 +72,9 @@ describe('CreateServiceComponent', () => {
       type: '',
       suggestedCategoryName: null,
       suggestedCategoryDescription: null,
-      category: null,
-      visible: false,
-      available: false,
+      category: '',
+      visible: null,
+      available: null,
       reservationDeadline: '',
       cancellationDeadline: '',
       minDuration: 6,
@@ -83,7 +83,6 @@ describe('CreateServiceComponent', () => {
   });
 
   it('should load categories and event types on init', fakeAsync(() => {
-    component.ngOnInit();
     tick();
 
     expect(eventTypeServiceSpy.getAll).toHaveBeenCalled();

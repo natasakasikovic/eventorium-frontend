@@ -1,0 +1,28 @@
+.mat-mdc-row:hover {
+  background-color: rgb(244, 242, 242);
+}
+
+.main-container{
+  height: 81vh;
+}
+
+.mat-mdc-cell {
+  font-family: 'jeju', serif;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.mat-mdc-header-cell{
+  font-family: 'jeju', serif;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+p{
+  font-family: 'jeju', serif;
+  font-weight: bold;
+  font-size: 1.7em;
+  text-align: center;
+  color: #35422F;
+}

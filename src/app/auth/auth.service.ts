@@ -9,6 +9,7 @@ import { QuickRegistrationDto } from './model/quick-registration.model';
 import { Role } from './model/user-role.model';
 import { AuthRequestDto } from './model/auth-request.model';
 import { Router } from '@angular/router';
+import { UpgradeAccountRequest } from '../user/model/upgrade-account-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
     skip: 'true',
   });
 
-  user$ = new BehaviorSubject<String | null>(null);
+  user$ = new BehaviorSubject<string | null>(null);
   userState = this.user$.asObservable();
 
 
@@ -86,5 +87,15 @@ export class AuthService {
     return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
       formData,
       { responseType: 'text' as 'json' });
+  }
+
+  updateSession(auth: AuthResponse): void {
+    localStorage.setItem('user', auth.jwt);
+    this.setUser();
+    this.router.navigate(['/']);
+  }
+
+  upgradeAccount(request: UpgradeAccountRequest): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${environment.apiHost}/auth/account-role`, request);
   }
 }

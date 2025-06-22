@@ -27,9 +27,9 @@ export class EditCompanyComponent implements OnInit, OnDestroy {
   removedImages: RemoveImageRequest[] = [];
   newImages: File[] = [];
   newImagesPreview: string[] = [];
-  
-  constructor(private fb: FormBuilder, 
-              private service: CompanyService,   
+
+  constructor(private fb: FormBuilder,
+              private service: CompanyService,
               private router: Router,
               private sharedService: SharedService,
               private dialog: MatDialog)
@@ -120,7 +120,7 @@ export class EditCompanyComponent implements OnInit, OnDestroy {
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
         this.newImagesPreview.push(...validImages.map(image => URL.createObjectURL(image)));
-        this.newImages = validImages;
+        this.newImages.push(...validImages);
       }
     }
   }
@@ -141,14 +141,14 @@ export class EditCompanyComponent implements OnInit, OnDestroy {
 
   uploadNewImages(): void {
     if (this.newImages.length == 0) return;
-    this.service.uploadImages(this.company.id, this.newImages).subscribe({ 
+    this.service.uploadImages(this.company.id, this.newImages).subscribe({
       next: (_) => {
         this.router.navigate(['provider-company']);
-      }, 
+      },
       error: (_) => {
         this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
       }
-    })
+    });
   }
 
   removeImages(): void {
@@ -156,7 +156,7 @@ export class EditCompanyComponent implements OnInit, OnDestroy {
     this.service.removeImages(this.removedImages).subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.newImagesPreview.forEach(url => {
       URL.revokeObjectURL(url);
     });

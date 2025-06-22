@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PriceListItem} from '../model/price-list-item.model';
 import {PriceListService} from '../price-list.service';
 
@@ -11,12 +11,6 @@ export class PriceListTableComponent {
   @Input() items: PriceListItem[] = [];
   @Output() updateItem: EventEmitter<PriceListItem> = new EventEmitter();
   displayedColumns: string[] = ["Name", "Price", "Discount", "Net price", "Action"];
-
-
-  constructor(
-    private priceListService: PriceListService
-  ) {
-  }
 
   onDiscountChange(element: PriceListItem): void {
     element.netPrice = element.price - (element.price * element.discount / 100);

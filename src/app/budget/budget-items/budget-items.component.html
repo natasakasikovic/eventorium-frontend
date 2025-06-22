@@ -2,13 +2,9 @@
   <mat-icon>delete</mat-icon>
 </button>
 <form [formGroup]="planning" class="planned-amount">
-  <mat-radio-group formControlName="solutionType">
-    <mat-radio-button value="product">Product</mat-radio-button>
-    <mat-radio-button value="service">Service</mat-radio-button>
-  </mat-radio-group>
   <mat-form-field appearance="outline">
     <mat-label>Planned amount</mat-label>
-    <input matInput type="number"  name="plannedAmount" formControlName="plannedAmount"/>
+    <input matInput type="number" id="{{ category.name }}-plannedInput" name="plannedAmount" formControlName="plannedAmount"/>
   </mat-form-field>
   <div class="button-create">
     <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
@@ -16,18 +12,13 @@
 </form>
 <div class="item-cards">
   <div class="cards">
-    <app-service-card *ngFor="let service of serviceSuggestions"
-                      [service]="service"
-                      [plannedAmount]="planning.get('plannedAmount').value ?? 0"
-                      [eventId]="eventId"></app-service-card>
-  </div>
-</div>
-<div class="item-cards">
-  <div class="cards">
-    <app-product-card *ngFor="let product of productSuggestion"
-                      [product]="product"
-                      [plannedAmount]="planning.get('plannedAmount').value ?? 0"
-                      [eventId]="eventId"
-                      ></app-product-card>
+    <app-budget-suggestion-card
+      *ngFor="let suggestion of budgetSuggestions"
+      (createItem)="createBudgetItem($event)"
+      [activeCategories]="activeCategories"
+      [budgetSuggestion]="suggestion"
+      [eventId]="eventId"
+      [plannedAmount]="planning.get('plannedAmount').value ?? 0"
+    />
   </div>
 </div>

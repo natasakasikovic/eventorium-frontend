@@ -1,30 +1,24 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Product} from '../../product/model/product.model';
 import {ProductService} from '../../product/product.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent implements OnInit, OnDestroy {
   @Input() product: Product;
-  @Input() reviewable: boolean;
 
-  @Output() review: EventEmitter<Product> = new EventEmitter();
   @Input() showActions: boolean;
-
-  @Input() eventId: number;
-  @Input() plannedAmount: number;
+  @Output() delete: EventEmitter<Product> = new EventEmitter();
 
   constructor(
-    private productService: ProductService,
-    private router: Router
+    private service: ProductService
   ) { }
 
   ngOnInit(): void {
-    this.productService.getImage(this.product.id).subscribe({
+    this.service.getImage(this.product.id).subscribe({
       next: (blob: Blob) => {
         this.product.images = [];
         this.product.images.push(URL.createObjectURL(blob));
@@ -36,20 +30,11 @@ export class ProductCardComponent implements OnInit {
     });
   }
 
-  onClick(): void {
-    if (this.eventId && this.plannedAmount) {
-      void this.router.navigate(['/product-details', this.product.id], {
-        queryParams: {
-          eventId: this.eventId,
-          plannedAmount: this.plannedAmount,
-        },
-      });
-    } else {
-      void this.router.navigate(['/product-details', this.product.id]);
-    }
+  onDelete(): void {
+    this.delete.emit(this.product);
   }
 
-  onReview(): void {
-    this.review.emit(this.product);
+  ngOnDestroy(): void {
+    URL.revokeObjectURL(this.product.images[0]);
   }
 }

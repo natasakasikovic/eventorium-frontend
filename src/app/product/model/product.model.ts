@@ -1,6 +1,5 @@
 import {EventType} from '../../event-type/model/event-type.model';
 import {Category} from '../../category/model/category.model';
-import {Review} from '../../review/model/review.model';
 import {UserDetails} from '../../user/model/user-details.model';
 import {CompanyResponse} from '../../company/model/company-response.model';
 
@@ -20,5 +19,4 @@ export interface Product {
   rating: number;
   provider: UserDetails;
   company: CompanyResponse;
-  reviews: Review[];
 }

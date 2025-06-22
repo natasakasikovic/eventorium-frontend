@@ -1,6 +1,8 @@
 <mat-card class="service-card" [style.opacity]="service.available ? 1 : 0.4">
   <div *ngIf="service.discount != 0.0 && service.status !== 'PENDING' && service.visible" class="sale-badge">Save {{ service.discount }}%</div>
-  <img [src]="service.images && service.images[0]" alt="Service image"/>
+  <div class="image-container">
+    <img [src]="service.images && service.images[0]" alt="Service image"/>
+  </div>
   <div *ngIf="service.status === 'PENDING'" class="pending-status">
     <span class="pending-label">PENDING</span>
   </div>
@@ -29,13 +31,13 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-button class="see-more-button" (click)="onClick()">See more</button>
+    <button mat-button class="see-more-button" [routerLink]="['/service-details', service.id]">See more</button>
     <div class="action-buttons" >
       <button mat-icon-button class="action-button"  *ngIf="showActions" (click)="onDelete()">
-        <mat-icon>delete</mat-icon>
+        <mat-icon color="warn">delete</mat-icon>
       </button>
       <button mat-icon-button class="action-button" *ngIf="showActions" [routerLink]="['/edit-service', service.id]">
-        <mat-icon>edit</mat-icon>
+        <mat-icon color="primary">edit</mat-icon>
       </button>
       <button *ngIf="reviewable" mat-icon-button class="action-button" (click)="onReview()">
         <mat-icon>feedback</mat-icon>

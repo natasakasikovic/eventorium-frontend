@@ -1,5 +1,5 @@
 <div class="screen">
-  <form class="service-details" [formGroup]="editServiceForm">
+  <form class="form-card" [formGroup]="editServiceForm">
     <h2>Edit Service</h2>
     <div class="form-section">
       <h4 class="section-title">General Information</h4>
@@ -33,8 +33,8 @@
     <div class="form-section">
       <h4 class="section-title">Visibility and Availability</h4>
       <section class="checkbox">
-        <mat-checkbox name="isVisible" formControlName="isVisible">Visible</mat-checkbox>
-        <mat-checkbox name="isAvailable" formControlName="isAvailable">Available</mat-checkbox>
+        <mat-checkbox name="visible" formControlName="visible">Visible</mat-checkbox>
+        <mat-checkbox name="available" formControlName="available">Available</mat-checkbox>
       </section>
     </div>
 
@@ -72,7 +72,7 @@
 
     <div class="form-section">
       <h4 class="section-title">Event Types</h4>
-      <mat-selection-list formControlName="eventTypes" [multiple]="true">
+      <mat-selection-list formControlName="eventTypesIds" [multiple]="true">
         <mat-list-option *ngFor="let type of eventTypes" [value]="type.id">
           {{ type.name }}
         </mat-list-option>
@@ -82,5 +82,30 @@
       <button mat-raised-button (click)="onUpdate()" class="save-button">Save</button>
     </div>
   </form>
+
+  <mat-card class="images-card">
+    <h3>Gallery</h3>
+    <div class="images-section">
+      <input type="file" accept="image/*" multiple (change)="onImageUpload($event)" hidden #fileInput />
+      <button mat-fab color="primary" class="upload-fab" (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-grid-list cols="1" rowHeight="200px" class="image-grid">
+        <mat-grid-tile *ngFor="let image of existingImagesPreview; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeExistingImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile *ngFor="let image of newImagesPreview; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="removeNewImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </div>
+  </mat-card>
 
 </div>

@@ -27,7 +27,7 @@
   box-sizing: border-box;
 }
 
- .title {
+.title {
   flex: 1;
   text-align: center;
   margin: 0;

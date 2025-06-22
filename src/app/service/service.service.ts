@@ -10,6 +10,9 @@ import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
 import {UpdateService} from './model/update-service.model';
 import { ReservationRequest } from './model/reservation-request.model';
+import {Reservation} from './model/reservation.model';
+import {Status} from '../category/model/status-enum-ts';
+import {RemoveImageRequest} from '../shared/model/remove-image-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +23,13 @@ export class ServiceService {
 
   getAll(pageProperties? : PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams();
-    if (pageProperties){
-      params = params
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+
+    if (pageProperties)
+      params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/services", { params: params });
   }
 
@@ -55,16 +60,17 @@ export class ServiceService {
 
   searchServices(keyword: string, pageProperties: PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams()
-    if (pageProperties){
-      params = params
-      .set('keyword', keyword)
-      .set('page', pageProperties.pageIndex)
-      .set('size', pageProperties.pageSize)
-    }
+    
+    if (pageProperties)
+      params = params.set('keyword', keyword).set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize)
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
+    
     return this.httpClient.get<PagedResponse<Service>> (environment.apiHost + "/services/search", {params: params})
   }
 
-  uploadFiles(serviceId: number, files: File[]): Observable<void> {
+  uploadImages(serviceId: number, files: File[]): Observable<void> {
     const formData: FormData = new FormData();
 
     files.forEach(file => {
@@ -89,13 +95,6 @@ export class ServiceService {
       `${environment.apiHost}/services/${id}/image`,
       { responseType: 'blob' }
     ) as Observable<Blob>;
-  }
-
-  getBudgetSuggestions(id: number, price: number, eventId: number): Observable<Service[]> {
-    return this.httpClient.get<Service[]>(
-      `${environment.apiHost}/services/suggestions`,
-      { params: new HttpParams().set('categoryId', id).set('price', price).set("eventId", eventId) }
-    );
   }
 
   filterProviderServices(filter: ServiceFilter, pageProperties?: PageProperties): Observable<PagedResponse<Service>> {
@@ -126,6 +125,14 @@ export class ServiceService {
     return this.httpClient.post<void>(`${environment.apiHost}/events/${eventId}/services/${serviceId}/reservation`, request)
   }
 
+  getPendingReservations(): Observable<Reservation[]> {
+    return this.httpClient.get<Reservation[]>(`${environment.apiHost}/reservations/pending`);
+  }
+
+  updateReservation(id: number, status: Status): Observable<Reservation> {
+    return this.httpClient.patch<Reservation>(`${environment.apiHost}/reservations/${id}`, { status:status });
+  }
+
   removeFromFavourites(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${environment.apiHost}/account/services/favourites/${id}`);
   }
@@ -136,6 +143,10 @@ export class ServiceService {
 
   getIsFavourite(id: number): Observable<boolean> {
     return this.httpClient.get<boolean>(`${environment.apiHost}/account/services/favourites/${id}`);
+  }
+
+  removeImages(id: number, removedImages: RemoveImageRequest[]): Observable<void> {
+    return this.httpClient.delete<void>(`${environment.apiHost}/services/${id}/images`, { body: removedImages });
   }
 
   private buildQueryParams(filter: ServiceFilter, pageProperties: PageProperties): HttpParams {
@@ -153,6 +164,9 @@ export class ServiceService {
 
     if (pageProperties)
       params = params.set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize);
+
+    if (pageProperties.sortBy && pageProperties.sortDirection)
+      params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
 
     return params
   }

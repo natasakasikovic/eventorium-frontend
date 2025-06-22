@@ -1,7 +1,5 @@
-import {BudgetItem} from './budget-item.model';
+import {Category} from '../../category/model/category.model';
 
 export interface Budget {
-  plannedAmount: number;
-  spentAmount: number;
-  items: BudgetItem[];
+  activeCategories: Category[];
 }

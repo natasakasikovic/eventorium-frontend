@@ -9,14 +9,15 @@ import {ToastrService} from 'ngx-toastr';
 import {ChatMessageRequestDto} from './model/chat-message-request-dto.model';
 import {ChatMessage} from './model/chat-message.model';
 import {ChatDialogService} from '../shared/chat-dialog/chat-dialog.service';
-import { HttpClient } from '@angular/common/http';
-import { NotificationResponse } from './notifications/notifications-response.model';
-import { Observable } from 'rxjs';
+import {Router} from '@angular/router';
+import {ChatCommunicationService} from '../chat/chat-communication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
+
+  public silenceStatus: boolean;
 
   socketClient: Stomp.Client = null;
   private notificationSubscription: Stomp.Subscription;
@@ -28,7 +29,9 @@ export class WebSocketService {
     private authService: AuthService,
     private toasterService: ToastrService,
     private chatDialog: ChatDialogService,
-    private http: HttpClient) { }
+    private chatCommunicationService: ChatCommunicationService,
+    private router: Router,
+    ) { }
 
   openSocket(): void {
     let ws = new SockJS(`${environment.apiHost}/ws`);
@@ -52,7 +55,8 @@ export class WebSocketService {
     const userId = this.authService.getUserId();
     this.notificationSubscription = this.socketClient
       .subscribe(`/user/${userId}/notifications`, (message: Message) => {
-        this.handleNotification(JSON.parse(message.body));
+        if(!this.silenceStatus)
+          this.handleNotification(JSON.parse(message.body));
       });
     this.chatSubscription = this.socketClient
       .subscribe(`/user/${userId}/queue/messages`, (message: Message) => {
@@ -63,7 +67,8 @@ export class WebSocketService {
   private createAdminSubscriptions(): void {
     this.adminNotificationSubscription = this.socketClient
       .subscribe(`/topic/admin`, (message: Message) => {
-        this.handleNotification(JSON.parse(message.body));
+        if(!this.silenceStatus)
+          this.handleNotification(JSON.parse(message.body));
       });
   }
 
@@ -85,10 +90,12 @@ export class WebSocketService {
   }
 
   private handleChatMessage(chatMessage: ChatMessage): void {
-    if(!this.chatDialog.isOpened()) {
+    if(!this.chatDialog.isOpened() && this.router.url !== '/chat') {
       this.chatDialog.openChatDialog(chatMessage.sender);
-    } else {
+    } else if (this.router.url !== '/chat'){
       this.chatDialog.sendMessage(chatMessage);
+    } else {
+      this.chatCommunicationService.sendMessage(chatMessage);
     }
   }
 
@@ -112,13 +119,5 @@ export class WebSocketService {
 
   private closeAdminSubscriptions(): void {
     this.adminNotificationSubscription.unsubscribe();
-  }
-
-  getNotifications(): Observable<NotificationResponse[]> {
-    return this.http.get<NotificationResponse[]>(`${environment.apiHost}/notifications`);
-  }
-  
-  markAsSeen(): Observable<void> {
-    return this.http.patch<void>(`${environment.apiHost}/notifications/seen`, {});
   }
 }

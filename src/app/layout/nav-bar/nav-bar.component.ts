@@ -3,6 +3,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import {WebSocketService} from '../../web-socket/web-socket-service';
+import {NotificationService} from '../../web-socket/notification.service';
+import {filter, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,22 +14,26 @@ import {WebSocketService} from '../../web-socket/web-socket-service';
 export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   @Input() isLoggedIn: boolean = false;
-  role: String = null;
+  role: string = null;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService
   ) { }
 
-  ngOnInit(): void {
-    this.authService.userState.subscribe((result) => {
-      this.role = result;
-    })
+  get silenceStatus(): boolean {
+    return this.webSocketService.silenceStatus;
   }
 
-  login(): void {
-    this.router.navigate(['login'])
+  ngOnInit(): void {
+    this.authService.userState.pipe(
+      tap(result => this.role = result),
+      filter(result => result != null),
+      switchMap(() => this.notificationService.getSilenceStatus()),
+      tap(status => this.webSocketService.silenceStatus = status)
+    ).subscribe();
   }
 
   logOut(): void {
@@ -36,27 +42,10 @@ export class NavBarComponent implements OnInit {
     void this.router.navigate(['home']);
   }
 
-  signup(): void {
-    void this.router.navigate(['signup']);
-  }
 
-  createEvent(): void {
-    void this.router.navigate(['create-event']);
-  }
-
-  createCategory() {
-    void this.router.navigate(['create-category']);
-  }
-
-  createEventType() {
-    void this.router.navigate(['create-event-type']);
-  }
-
-  createService() {
-    void this.router.navigate(['create-service']);
-  }
-
-  createProduct() {
-    void this.router.navigate(['create-product'])
+  silenceNotifications(): void {
+    this.notificationService.updateSilence(!this.webSocketService.silenceStatus).subscribe(_ => {
+      this.webSocketService.silenceStatus = !this.webSocketService.silenceStatus;
+    });
   }
 }

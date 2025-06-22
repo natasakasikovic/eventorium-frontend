@@ -11,6 +11,7 @@ import { CompanyRequest } from '../model/company-request.model';
 import { CompanyResponse } from '../model/company-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-company-register',
@@ -18,18 +19,19 @@ import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
   styleUrl: './company-register.component.css'
 })
 export class CompanyRegisterComponent implements OnInit, OnDestroy {
-  images: File[] = []; 
+  images: File[] = [];
   imagePreviews: string[] = [];
   companyForm: FormGroup;
   cities: City[];
   providerId: number;
 
-  constructor(private fb: FormBuilder, 
-              private companyService: CompanyService,   
+  constructor(private fb: FormBuilder,
+              private companyService: CompanyService,
               private router: Router,
               private sharedService: SharedService,
               private route: ActivatedRoute,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authService: AuthService) {
     this.companyForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
@@ -59,19 +61,25 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
       const newCompany: CompanyRequest = this.companyForm.value;
       newCompany.providerId = this.providerId;
       this.companyService.createCompany(newCompany).subscribe({
-        next: (response: CompanyResponse) => {   
+        next: (response: CompanyResponse) => {
           if (this.images.length > 0) {
             this.companyService.uploadImages(response.id, this.images).subscribe({
               next: () => {
-                this.showActivationDialog(); 
-              }, 
+                if (this.authService.getUserId() != this.providerId)
+                  this.showActivationDialog();
+                else
+                  this.router.navigate(['/'])
+              },
               error: (error: HttpErrorResponse) => {
                 this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
-                this.showActivationDialog(); 
+                this.showActivationDialog();
               }
             })
           } else {
-            this.showActivationDialog();
+            if (this.authService.getUserId() != this.providerId)
+              this.showActivationDialog();
+            else
+              this.router.navigate(['/'])
           }
         },
         error: (error: HttpErrorResponse) => {
@@ -103,7 +111,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
   public get formControls() {
     return this.companyForm.controls;
   }
- 
+
   onImageUpload(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -111,7 +119,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));
       if (validImages.length > 0) {
-        this.images = validImages;
+        this.images.push(...validImages);
         this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
       }
     }
@@ -119,7 +127,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
 
   deleteImage(index: number): void {
     this.images.splice(index, 1);
-    this.imagePreviews.splice(index, 1); 
+    this.imagePreviews.splice(index, 1);
   }
 
   getCities(): void {
