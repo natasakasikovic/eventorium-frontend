@@ -161,6 +161,24 @@ describe('CreateServiceComponent', () => {
     expect(component.imagePreviews.length).toBe(2);
   });
 
+  it('should set uploaded images one by one in imagePreviews', () => {
+    const files = [
+      new File(['dummy content'], 'image1.jpg', { type: 'image/jpeg' }),
+      new File(['dummy content'], 'image2.png', { type: 'image/png' }),
+    ];
+
+    let mockEvent = { target: { files: [files[0]] } } as unknown as Event;
+    component.onFilesSelected(mockEvent);
+
+    mockEvent = { target: { files: [files[1]] } } as unknown as Event;
+    component.onFilesSelected(mockEvent);
+
+    fixture.detectChanges();
+
+    expect(component.images.length).toBe(2);
+    expect(component.imagePreviews.length).toBe(2);
+  });
+
   it('should not create empty category suggestion', () => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
     form.patchValue(mockValidService);
