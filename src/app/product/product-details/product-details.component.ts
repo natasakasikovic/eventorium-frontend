@@ -163,9 +163,8 @@ export class ProductDetailsComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.toasterService.success("Successfully purchased product!", "Success");
-        if(this.plannedAmount && this.eventId) {
-          void this.router.navigate(['budget-planning', this.eventId]);
-        }
+        if(this.plannedAmount && this.eventId)
+          this.navigateBackToPlanner()
       },
       error: (error: HttpErrorResponse) => {
         this.toasterService.error(error.error.message, "Failed to purchase product");
