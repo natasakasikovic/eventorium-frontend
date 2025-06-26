@@ -16,6 +16,9 @@ import { ReviewType } from '../../review/model/review-type.enum';
 import {SolutionType} from '../../budget/model/solution-type.enum';
 import {BudgetItem} from '../../budget/model/budget-item.model';
 import {BudgetService} from '../../budget/budget.service';
+import {ChatService} from '../../shared/chat-dialog/chat.service';
+import {ChatDialogService} from '../../shared/chat-dialog/chat-dialog.service';
+import {UserDetails} from '../../user/model/user-details.model';
 
 @Component({
   selector: 'app-service-details',
@@ -38,6 +41,7 @@ export class ServiceDetailsComponent implements OnInit {
     private authService: AuthService,
     private toasterService: ToastrService,
     private budgetService: BudgetService,
+    private chatService: ChatDialogService,
     private router: Router,
     private dialog: MatDialog) { }
 
@@ -194,5 +198,9 @@ export class ServiceDetailsComponent implements OnInit {
 
   navigateBackToPlanner(): void {
     void this.router.navigate(['budget-planning', this.eventId]);
+  }
+
+  openChatDialog(recipient?: UserDetails): void {
+    this.chatService.openChatDialog(recipient || this.service.provider);
   }
 }
