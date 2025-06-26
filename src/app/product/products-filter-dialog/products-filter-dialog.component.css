@@ -1,0 +1,28 @@
+h2[mat-dialog-title]{
+    text-align: center;
+    font-family: 'jeju';
+    background-color: #f8f6f1;
+}
+
+mat-dialog-content {
+    display: grid;
+    min-height: fit-content;
+    background-color: #f8f6f1;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+mat-form-field.half-width {
+    grid-column: span 1;
+}
+
+mat-dialog-actions {
+    position:center;
+    padding: 16px;
+    background-color: #f8f6f1;
+}
+
+button[mat-button] {
+    font-family: 'jeju';
+    color: 35422F;
+}

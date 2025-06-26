@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Comments</h2>
+<mat-dialog-content>
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-progress-spinner mode="indeterminate" diameter="30"></mat-progress-spinner>
+  </div>
+  <div *ngIf="!isLoading && (!comments || comments.length === 0)" class="no-comments">
+      There is no comments yet.
+  </div>
+  <mat-list *ngIf="comments && comments.length > 0">
+    <mat-list-item *ngFor="let comment of comments" class="comment-item">
+      <div class="comment-avatar">
+        <button mat-icon-button (click)="goToProfile(comment.user.id)">
+          <mat-icon>person</mat-icon>
+        </button>
+        <span>{{ comment.user?.name }} {{ comment.user?.lastname }}</span>
+      </div>
+      <div class="comment-body">
+        <div class="comment-header">
+          <div class="timestamp">
+            {{ comment.creationDate | date:'short' }}
+          </div>
+        </div>
+        <p class="comment-text">{{ comment.comment }}</p>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>

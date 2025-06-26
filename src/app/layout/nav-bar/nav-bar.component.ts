@@ -1,41 +1,51 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../../auth/login/login.component';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import {WebSocketService} from '../../web-socket/web-socket-service';
+import {NotificationService} from '../../web-socket/notification.service';
+import {filter, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   @Input() drawer!: MatSidenav;
-  @Input() isLoggedIn: boolean = false; 
+  @Input() isLoggedIn: boolean = false;
+  role: string = null;
 
-  constructor(private dialog: MatDialog, private router: Router, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService
+  ) { }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '450px',
-      height: 'auto',
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
-
-    dialogRef.componentInstance.loginStatusChanged.subscribe((status: boolean) => {
-      this.isLoggedIn = status;
-      if (status) {
-        dialogRef.close();
-      }
-    });
+  get silenceStatus(): boolean {
+    return this.webSocketService.silenceStatus;
   }
 
-  logout(): void {
-    this.isLoggedIn = false;
-    sessionStorage.removeItem('currentUser');
-    this.router.navigate([''])
+  ngOnInit(): void {
+    this.authService.userState.pipe(
+      tap(result => this.role = result),
+      filter(result => result != null),
+      switchMap(() => this.notificationService.getSilenceStatus()),
+      tap(status => this.webSocketService.silenceStatus = status)
+    ).subscribe();
+  }
+
+  logOut(): void {
+    this.webSocketService.closeSocket();
     this.authService.logout();
+    void this.router.navigate(['home']);
+  }
+
+
+  silenceNotifications(): void {
+    this.notificationService.updateSilence(!this.webSocketService.silenceStatus).subscribe(_ => {
+      this.webSocketService.silenceStatus = !this.webSocketService.silenceStatus;
+    });
   }
 }

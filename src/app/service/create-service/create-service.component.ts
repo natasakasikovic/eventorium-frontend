@@ -1,91 +1,129 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceService} from '../service.service';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Confirmation} from '../model/confirmation.enum';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ReservationType} from '../model/reservation-type.enum';
 import {Router} from '@angular/router';
+import {EventTypeService} from '../../event-type/event-type.service';
+import {CategoryService} from '../../category/category.service';
+import {Category} from '../../category/model/category.model';
+import {EventType} from '../../event-type/model/event-type.model';
+import {CreateService} from '../model/create-service.model';
+import {of, switchMap} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Status} from '../../category/model/status-enum-ts';
+import { minSelectedValidator } from '../../shared/validators/min-selected.validator';
+import {categoryValidator} from '../../shared/validators/category.validator';
 
-export function dateNotInPast(control: AbstractControl) {
-  const selectedDate = new Date(control.value);
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-
-  if (selectedDate < currentDate) {
-    return { 'dateInPast': true };
-  }
-  return null;
-}
 @Component({
   selector: 'app-create-service',
   templateUrl: './create-service.component.html',
   styleUrls: ['./create-service.component.css']
 })
 export class CreateServiceComponent implements OnInit {
-  categories: string[] =
-    [
-      "Wellness",
-      "Lifestyle",
-      "Entertainment",
-      "Arts",
-      "Creative",
-      "Fitness",
-      "Travel",
-      "Music",
-      "Adventure",
-      "Education"
-    ]
-  eventTypes: string[] = ["Group", "Individual", "Social", "Concert", "Trip"];
+  categories: Category[] = []
+  eventTypes: EventType[] = [];
   createServiceForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
-    price: new FormControl('', Validators.required),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
     discount: new FormControl('', [Validators.required, Validators.min(0), Validators.max(100)]),
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
-    eventTypes: new FormControl('', Validators.minLength(1)),
-    confirmation: new FormControl('', Validators.required),
-    suggestedCategory: new FormControl(),
-    category: new FormControl(),
+    eventTypes: new FormControl([], minSelectedValidator(1)),
+    reservationType: new FormControl('', Validators.required),
+    suggestedCategoryName: new FormControl(),
+    suggestedCategoryDescription: new FormControl(),
+    category: new FormControl(''),
     visible: new FormControl(),
     available: new FormControl(),
-    reservationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
-    cancellationDeadline: new FormControl('', [Validators.required, dateNotInPast]),
+    reservationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
+    cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     minDuration: new FormControl(6),
     maxDuration: new FormControl(12),
-  });
+  }, { validators: categoryValidator() });
+
+  images: File[] = []
+  imagePreviews: string[] = []
 
   constructor(
     private serviceService: ServiceService,
-    private router: Router
+    private eventTypeService: EventTypeService,
+    private categoryService: CategoryService,
+    private router: Router,
+    private toasterService: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.categoryService.getAll().subscribe({
+      next: (categories: Category[]) => {
+        this.categories.push(...categories);
+      },
+      error: (err: Error) => {
+        this.toasterService.error("Error loading categories");
+      }
+    });
+
+    this.eventTypeService.getAll().subscribe({
+      next: (eventTypes: EventType[]) => {
+        this.eventTypes.push(...eventTypes);
+      },
+      error: () => {
+        this.toasterService.error("Error loading event types");
+      }
+    });
 
   }
 
   onCreate(): void {
-    if(this.createServiceForm.valid) {
-      this.serviceService.create({
-        available: this.createServiceForm.value.available,
-        cancellationDeadline: this.createServiceForm.value.cancellationDeadline,
-        categoryName: this.createServiceForm.value.category,
-        confirmation: this.createServiceForm.value.confirmation,
-        description: this.createServiceForm.value.description,
-        discount: this.createServiceForm.value.discount,
-        eventTypes: this.createServiceForm.value.eventTypes,
-        id: Math.random().toString(),
-        maxDuration: this.createServiceForm.value.maxDuration,
-        minDuration: this.createServiceForm.value.minDuration,
-        name: this.createServiceForm.value.name,
-        price: this.createServiceForm.value.price,
-        provider: "Test",
-        rating: 0,
-        reservationDeadline: this.createServiceForm.value.reservationDeadline,
-        specialties: this.createServiceForm.value.specialties,
-        visible: this.createServiceForm.value.visible,
-        image: ""
-      });
-      this.router.navigate(["manageable-services"]).then();
+    if (this.createServiceForm.invalid) return;
+
+    const formValue = this.createServiceForm.value;
+    this.createService({
+      ...formValue,
+      type: formValue.reservationType,
+      category: formValue.category || {
+        id: null,
+        name: formValue.suggestedCategoryName,
+        description: formValue.suggestedCategoryDescription,
+      },
+      isAvailable: formValue.available ?? false,
+      isVisible: formValue.visible ?? false,
+    });
+  }
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const images = Array.from(input.files);
+      const validImages = images.filter(image => image.type.startsWith('image/'));
+      if (validImages.length > 0) {
+        this.images.push(...validImages);
+        this.imagePreviews.push(...validImages.map(image => URL.createObjectURL(image)));
+      }
     }
   }
 
-  protected readonly Confirmation = Confirmation;
+  deleteImage(index: number): void {
+    this.images.splice(index, 1);
+    this.imagePreviews.splice(index, 1);
+  }
+
+  private createService(service: CreateService): void {
+    this.serviceService.create(service).pipe(
+      switchMap(service => {
+        this.toasterService[service.status === Status.ACCEPTED ? 'success' : 'info'](
+          `${service.name} has been created successfully!`,
+          service.status === Status.ACCEPTED ? "Success" : "Info"
+        );
+        return this.images.length ? this.serviceService.uploadImages(service.id, this.images) : of(null);
+      })
+    ).subscribe({
+      next: () => void this.router.navigate(["manageable-services"]),
+      error: (error: HttpErrorResponse) =>
+        this.toasterService.error(error.error.message, "Failed to create service"),
+    });
+  }
+
+  protected readonly ReservationType = ReservationType;
 }

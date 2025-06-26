@@ -1,0 +1,37 @@
+<div class="budget">
+  <mat-tab-group class="main-tabs" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Planner" class="planner">
+      <mat-tab-group class="category-tabs">
+        <mat-tab *ngFor="let category of activeCategories" [label]="category.name">
+          <app-budget-items [category]="category"
+                            [eventId]="eventId"
+                            [activeCategories]="activeCategories"
+                            (deleteCategory)="deleteCategory($event)"/>
+        </mat-tab>
+      </mat-tab-group>
+      <div class="add-category">
+        <p>Add new category:</p>
+        <form [formGroup]="addCategoryForm">
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of allCategories" [value]="category">{{ category?.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <button mat-icon-button (click)="insertCategory()">
+          <mat-icon>add-circle</mat-icon>
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Purchased & Reserved">
+      <app-budget-table *ngIf="budgetItems && budgetItems.length > 0" [items]="budgetItems" [eventId]="eventId"></app-budget-table>
+      <div *ngIf="!budgetItems || budgetItems.length == 0" class="no-items">
+        There is no budget items yet.
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <button (click)="onSubmit()" id="submit" [disabled]="disableAdvance" [hidden]="disableAdvance">
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+
+</div>

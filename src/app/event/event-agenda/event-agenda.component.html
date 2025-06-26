@@ -1,0 +1,98 @@
+<div class="container-wrapper">
+  <div class="container">
+    <h2>Define a detailed agenda by adding activities...</h2>
+    <div class="form-group form-columns" [formGroup]="agendaForm">
+
+      <div class="form-column">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Enter activity name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Location</mat-label>
+          <input matInput placeholder="Enter location" formControlName="location">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="4" placeholder="Enter description" formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+        
+      <div class="form-column">
+        <mat-form-field>
+          <mat-label>From</mat-label>
+          <input matInput [ngxTimepicker]="pickerFrom" formControlName="from">
+          <ngx-material-timepicker-toggle [for]="pickerFrom"></ngx-material-timepicker-toggle>
+          <ngx-material-timepicker #pickerFrom></ngx-material-timepicker>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>To</mat-label>
+          <input matInput [ngxTimepicker]="pickerTo" formControlName="to">
+          <ngx-material-timepicker-toggle [for]="pickerTo"></ngx-material-timepicker-toggle>
+          <ngx-material-timepicker #pickerTo></ngx-material-timepicker>
+        </mat-form-field>
+        
+        <div class="add-button">
+          <button mat-mini-fab class="standard-button" (click)="add()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>      
+      </div>
+    </div>
+  
+
+  
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+        <ng-container matColumnDef="Activity name">
+          <th mat-header-cell *matHeaderCellDef>Activity Name</th>
+          <td mat-cell *matCellDef="let element">{{element.activity.name}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Location">
+          <th mat-header-cell *matHeaderCellDef>Location</th>
+          <td mat-cell *matCellDef="let element">{{element.activity.location}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="From">
+          <th mat-header-cell *matHeaderCellDef>From</th>
+          <td mat-cell *matCellDef="let element">{{element.activity.startTime}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="To">
+          <th mat-header-cell *matHeaderCellDef>To</th>
+          <td mat-cell *matCellDef="let element">{{element.activity.endTime}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let element">{{element.activity.description}}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container matColumnDef="X">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button color="warn" (click)="remove(row)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </td>
+        </ng-container>        
+      </table>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button *ngIf="!isClosed()" mat-raised-button class="standard-button finish-button" (click)="finish()">
+      <mat-icon>check</mat-icon> Finish creating event
+    </button> 
+    <button *ngIf="isClosed()" (click)="finish()" id="submit">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>  
+  
+</div>

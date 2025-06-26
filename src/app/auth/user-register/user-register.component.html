@@ -2,13 +2,20 @@
     <div class="left-section">
         <h1>Join the Eventorium Community</h1>
         <div class="profile-picture">
-          <mat-icon>person</mat-icon>
-          <img *ngIf="selectedFile" [src]="imageUrl" alt="Selected Profile Picture" />
+          <mat-icon *ngIf="!profilePhoto">person</mat-icon>
+          <img *ngIf="profilePhoto" [src]="imageUrl" alt="Selected Profile Picture" />
         </div>
-        <button mat-button color="primary" class="upload-button standard-button" (click)="uploadFile()">
+        <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
           <mat-icon>upload</mat-icon>
-          Upload your picture
+          Upload your photo
         </button>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
         <input type="file" hidden (change)="onFileSelected($event)" #fileInput id="fileInput" />
       </div>
   
@@ -36,7 +43,11 @@
   
         <mat-form-field appearance="outline" class="form-control">
           <mat-label>City</mat-label>
-          <input matInput formControlName="city" />
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city">
+              {{ city.name }}
+            </mat-option>
+          </mat-select>
           <mat-error *ngIf="registrationForm.get('city').hasError('required')">City is required</mat-error>
         </mat-form-field>
   
@@ -64,15 +75,14 @@
   
         <mat-form-field appearance="outline" class="form-control">
           <mat-label>Confirm password</mat-label>
-          <input matInput formControlName="confirmPassword" type="password" />
-          <mat-error *ngIf="registrationForm.get('confirmPassword').hasError('required')">Confirm password is required</mat-error>
+          <input matInput formControlName="passwordConfirmation" type="password" />
           <mat-error *ngIf="registrationForm.hasError('passwordMismatch')">Passwords do not match</mat-error>
         </mat-form-field>
   
         <mat-form-field appearance="outline" class="form-control">
             <mat-label>Register as</mat-label>
             <mat-select formControlName="role">
-              <mat-option *ngFor="let role of userRoles" [value]="role">{{ role }}</mat-option>
+              <mat-option *ngFor="let role of roles" [value]="role">{{ roleToString(role) }}</mat-option>
             </mat-select>
             <mat-error *ngIf="registrationForm.get('role').hasError('required')">Please select a role</mat-error>
           </mat-form-field>

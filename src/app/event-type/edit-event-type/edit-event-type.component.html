@@ -1,0 +1,64 @@
+<div class="screen">
+    <div>
+      <h2>{{ eventType?.name }}</h2>
+      <div class="container" >
+        <div class="left-section">
+          <div class="image">
+            <mat-icon *ngIf="!eventType.image">event</mat-icon>
+            <img *ngIf="eventType.image" [src]="eventType.image" alt="Selected event type photo" />
+          </div>
+          <button mat-raised-button class="upload-button standard-button" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+            Add a photo that represents this event type
+          </button>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none"
+          />
+          <input type="file" hidden (change)="onFileSelected($event)" #fileInput id="fileInput" />
+        </div>
+
+        <div class="right-section" [formGroup]="editEventTypeForm">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput id="description" formControlName="description"></textarea>
+            <mat-error *ngIf="editEventTypeForm.get('description')?.hasError('required')">
+              Description is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Proposed categories of services and products</mat-label>
+            <mat-select id="categorySelect" (selectionChange)="onCategorySelect($event)" [(ngModel)]="currentlySelectedCategory" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let category of availableCategories" [value]="category">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="selected-categories">
+            <ul>
+              <li *ngFor="let category of selectedCategories; let i = index" class="category-item">
+                {{ category?.name }}
+                <button (click)="removeCategory(i)" class="remove-button">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="selectedCategories?.length === 0" class="error-message">
+            At least one category must be selected
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-section">
+        <button mat-raised-button color="primary" class="standard-button" (click)="saveEventType()"
+          [disabled]="editEventTypeForm.invalid || selectedCategories.length === 0">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>

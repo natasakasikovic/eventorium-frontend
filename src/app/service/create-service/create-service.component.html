@@ -1,119 +1,130 @@
 <div class="screen">
-  <form class="service-details" [formGroup]="createServiceForm">
-    <h4>General</h4>
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" name="name" formControlName="name"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Price</mat-label>
-      <mat-icon matSuffix>euro</mat-icon>
-      <input matInput type="number" name="price" formControlName="price"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Discount</mat-label>
-      <input matInput type="number" name="discount" formControlName="discount"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Suggest category</mat-label>
-      <input matInput name="suggestedCategory" formControlName="suggestedCategory"/>
-    </mat-form-field>
-    <mat-form-field class="textarea">
-      <mat-label>Description</mat-label>
-      <textarea matInput type="text" name="description" formControlName="description"></textarea>
-    </mat-form-field>
-    <mat-form-field class="textarea">
-      <mat-label>Specialties</mat-label>
-      <textarea matInput type="text" name="specialties" formControlName="specialties"></textarea>
-    </mat-form-field>
-    <div class="divider">
-      <div class="photos">
-        <h4>Photos</h4>
-        <mat-grid-list cols="*" rowHeight="100px" gutterSize="2rem">
-          <mat-grid-tile>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-            <mat-card class="image-card">
-              <div class="image-placeholder">
-                <mat-icon>image</mat-icon>
-                <p>Image</p>
-              </div>
-            </mat-card>
-          </mat-grid-tile>
-        </mat-grid-list>
+  <form class="form-card" [formGroup]="createServiceForm">
+    <h2>Enter information about service...</h2>
+    <div class="form-section">
+      <h4 class="section-title">General Information</h4>
 
-        <button mat-raised-button class="standard-button">
-          <mat-icon>upload</mat-icon>
-          Upload photos
-        </button>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" name="name" formControlName="name"/>
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Price</mat-label>
+          <mat-icon matSuffix>euro</mat-icon>
+          <input matInput type="number" name="price" formControlName="price"/>
+          <mat-error *ngIf="createServiceForm.get('price').hasError('min')">Price must be positive.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Discount</mat-label>
+          <input matInput type="number" name="discount" formControlName="discount"/>
+          <mat-error *ngIf="createServiceForm.get('discount').hasError('min')">Discount must be positive.</mat-error>
+          <mat-error *ngIf="createServiceForm.get('discount').hasError('max')">Discount must be <= 100 </mat-error>
+        </mat-form-field>
       </div>
-      <div>
-        <h4>Visibility and availability</h4>
-        <section class="checkbox">
-          <mat-checkbox name="visible" formControlName="visible">Visible</mat-checkbox>
-          <mat-checkbox name="available" formControlName="available">Available</mat-checkbox>
-        </section>
-        <h4>Confirmation</h4>
-        <mat-radio-group aria-label="Confirmation" formControlName="confirmation">
-          <mat-radio-button [value]="Confirmation.MANUAL">Manual</mat-radio-button>
-          <mat-radio-button [value]="Confirmation.AUTOMATIC">Automatic</mat-radio-button>
-        </mat-radio-group>
-        <h4>Deadlines</h4>
-        <mat-form-field>
-          <mat-label>Reservation date</mat-label>
-          <input matInput [matDatepicker]="reservationDeadlinePicker" formControlName="reservationDeadline" name="reservationDeadline">
-          <mat-datepicker-toggle matIconSuffix [for]="reservationDeadlinePicker"></mat-datepicker-toggle>
-          <mat-datepicker #reservationDeadlinePicker></mat-datepicker>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option [value]="null">I would like to suggest a category</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="!createServiceForm.controls['category'].value">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Suggest Category Name</mat-label>
+          <input matInput name="suggestedCategoryName" formControlName="suggestedCategoryName"/>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Cancellation date</mat-label>
-          <input matInput [matDatepicker]="cancellationDeadlinePicker" formControlName="cancellationDeadline" name="cancellationDeadline">
-          <mat-datepicker-toggle matIconSuffix [for]="cancellationDeadlinePicker"></mat-datepicker-toggle>
-          <mat-datepicker #cancellationDeadlinePicker></mat-datepicker>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Suggest Category Description</mat-label>
+          <textarea matInput name="suggestedCategoryDescription" formControlName="suggestedCategoryDescription"></textarea>
         </mat-form-field>
-        <h4>Duration</h4>
-        <mat-slider min="1" max="24" step="1" thumbLabel class="duration-slider">
-          <input matSliderStartThumb value="6" name="minDuration" formControlName="minDuration">
-          <input matSliderEndThumb value="12" name="maxDuration" formControlName="maxDuration">
-        </mat-slider>
-        <div>
-          <span>Min Duration: {{ createServiceForm.get('minDuration')?.value }} hours</span> |
-          <span>Max Duration: {{ createServiceForm.get('maxDuration')?.value }} hours</span>
-        </div>
-        <h4>Event types</h4>
-        <div style="margin-right: 2rem">
-          <mat-selection-list formControlName="eventTypes" [multiple]="true">
-            <mat-list-option *ngFor="let type of eventTypes" [value]="type">
-              {{ type }}
-            </mat-list-option>
-          </mat-selection-list>
-        </div>
       </div>
     </div>
+
+    <div class="form-section">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Description</mat-label>
+        <textarea matInput name="description" formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Specialties</mat-label>
+        <textarea matInput name="specialties" formControlName="specialties"></textarea>
+      </mat-form-field>
+    </div>
+
+
+    <div class="form-section">
+      <h4 class="section-title">Visibility and Availability</h4>
+      <mat-checkbox name="visible" formControlName="visible">Visible</mat-checkbox>
+      <mat-checkbox name="available" formControlName="available">Available</mat-checkbox>
+    </div>
+
+    <div class="form-section">
+      <h4 class="section-title">Confirmation</h4>
+      <mat-radio-group aria-label="Confirmation" formControlName="reservationType">
+        <mat-radio-button [value]="ReservationType.MANUAL">Manual</mat-radio-button>
+        <mat-radio-button [value]="ReservationType.AUTOMATIC">Automatic</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="form-section">
+      <h4 class="section-title">Deadlines</h4>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Reservation Deadline (days)</mat-label>
+        <input type="number" matInput formControlName="reservationDeadline" name="reservationDeadline">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Cancellation Deadline (days)</mat-label>
+        <input type="number" matInput formControlName="cancellationDeadline" name="cancellationDeadline">
+      </mat-form-field>
+    </div>
+
+    <div class="form-section">
+      <h4 class="section-title">Duration</h4>
+      <mat-slider min="1" max="24" step="1" thumbLabel class="duration-slider">
+        <input matSliderStartThumb name="minDuration" formControlName="minDuration">
+        <input matSliderEndThumb name="maxDuration" formControlName="maxDuration">
+      </mat-slider>
+      <div>
+        <span>Min Duration: {{ createServiceForm.get('minDuration')?.value }} hours</span> |
+        <span>Max Duration: {{ createServiceForm.get('maxDuration')?.value }} hours</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h4 class="section-title">This service can be used for:</h4>
+      <mat-error>(select at least one event type)</mat-error>
+      <mat-selection-list formControlName="eventTypes" [multiple]="true">
+        <mat-list-option *ngFor="let type of eventTypes" [value]="type">
+          {{ type.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <div class="button-create">
+      <button mat-raised-button (click)="onCreate()" [disabled]="createServiceForm.invalid" class="create-button">
+        Create Service
+      </button>
+    </div>
   </form>
-  <div class="button-create" (click)="onCreate()">
-    <button mat-raised-button>Create</button>
-  </div>
+  <mat-card class="images-card">
+    <h3>Gallery</h3>
+    <div class="images-section">
+      <input type="file" accept="image/*" multiple (change)="onFilesSelected($event)" hidden #fileInput />
+      <button mat-fab color="primary" class="upload-fab" (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-grid-list cols="1" rowHeight="200px" class="image-grid">
+        <mat-grid-tile *ngFor="let image of imagePreviews; let i = index">
+          <img [src]="image" alt="Uploaded Image" />
+          <button mat-icon-button color="warn" class="delete-button" (click)="deleteImage(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-card>
+
 </div>

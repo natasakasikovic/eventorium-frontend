@@ -1,0 +1,83 @@
+<div class="product-details">
+  <mat-card class="product-card">
+    <mat-card-header>
+      <div class="header-left">
+        <mat-card-title>
+          <button *ngIf="getRole() === 'EVENT_ORGANIZER'" mat-icon-button (click)="openChatDialog()">
+            <mat-icon>chat</mat-icon>
+          </button>
+          {{ product?.name }}
+        </mat-card-title>
+
+        <mat-card-subtitle> <strong>Category:</strong> {{ product?.category.name }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <strong>Event types:</strong>
+          <span *ngFor="let eventType of product?.eventTypes; index as i">
+            {{ eventType.name }}
+            <span *ngIf="i < product?.eventTypes.length - 1">,</span>
+          </span>
+        </mat-card-subtitle>
+      </div>
+      <div class="header-right">
+        <mat-icon style="color: gold">star</mat-icon>
+        <span>{{ product?.rating | number:'1.2-2' }}</span>
+        <button mat-icon-button (click)="toggleFavouriteProduct()" *ngIf="getRole()">
+          <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        <span class="price"> &euro; {{ product?.price * (1 - product?.discount / 100) | number:'1.2-2' }}</span>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <h3>Description</h3>
+      <p>
+        {{ product?.description }}
+      </p>
+      <div class="images">
+        <h3>Gallery</h3>
+        <div class="image-carousel">
+          <div class="image-wrapper" *ngFor="let image of product?.images">
+            <img [src]="image" alt="Company Image" />
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="footer" *ngIf="!isProvider && product?.provider?.id">
+      <div class="info">
+        <button mat-icon-button [routerLink]="['/user-profile', product?.provider.id]">
+          <mat-icon>person</mat-icon>
+        </button>
+        <span>{{ product?.provider.name }} {{ product?.provider.lastname }}</span>
+        <button mat-icon-button [routerLink]="['/company', product?.company.id]">
+          <mat-icon>business</mat-icon>
+        </button>
+        <span>{{ product?.company.name }}</span>
+      </div>
+    </mat-card-actions>
+    <mat-card-actions class="action-buttons">
+      <ng-container *ngIf="getRole() === 'EVENT_ORGANIZER'">
+        <button mat-raised-button
+                color="primary"
+                [disabled]="!product?.available"
+                [style.opacity]="product?.available ? 1 : 0.5"
+                (click)="onPurchase()">
+          Purchase
+        </button>
+        <button mat-button class="see-more-button"
+                *ngIf="plannedAmount && eventId"
+                (click)="createBudgetItem(eventId, plannedAmount)">
+          Add to planner
+        </button>
+        <button mat-button class="see-more-button"
+                *ngIf="plannedAmount && eventId"
+                (click)="navigateBackToPlanner()">
+          Back to planner
+        </button>
+      </ng-container>
+
+      <button mat-raised-button color="accent" (click)="openSeeCommentsDialog()">
+        See comments
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

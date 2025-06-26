@@ -1,47 +1,61 @@
 
 <div class="container">
   <div class="form-section">
-    <h2>Enter information about your company, agency, store, or organization.</h2>
+    <h2>Enter information about your company.</h2>
     <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['email'].invalid && formControls['email'].touched}">
+      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['email'].invalid}">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email" />
-        <mat-error *ngIf="formControls['email'].hasError('required')">Email is required</mat-error>
-        <mat-error *ngIf="formControls['email'].hasError('email')">Invalid email</mat-error>
+        <mat-error *ngIf="formControls['email'].hasError('email')">Invalid email format</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['name'].invalid && formControls['name'].touched}">
+      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['name'].invalid}">
         <mat-label>Name</mat-label>
         <input matInput type="text" formControlName="name" />
-        <mat-error *ngIf="formControls['name'].hasError('required')">Name is required</mat-error>
       </mat-form-field>
 
       <div class="address-group">
-        <mat-form-field appearance="outline" class="address-field" [ngClass]="{'has-error': formControls['address'].invalid && formControls['address'].touched}">
+        <mat-form-field appearance="outline" class="address-field" [ngClass]="{'has-error': formControls['address'].invalid}">
           <mat-label>Address</mat-label>
           <input matInput type="text" formControlName="address" />
-          <mat-error *ngIf="formControls['address'].hasError('required')">Address is required</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="city-field" [ngClass]="{'has-error': formControls['city'].invalid && formControls['city'].touched}">
+        <mat-form-field appearance="outline" class="city-field" [ngClass]="{'has-error': formControls['city'].invalid}">
           <mat-label>City</mat-label>
-          <input matInput type="text" formControlName="city" />
-          <mat-error *ngIf="formControls['city'].hasError('required')">City is required</mat-error>
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city">
+              {{ city.name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['phone_number'].invalid && formControls['phone_number'].touched}">
+      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['phoneNumber'].invalid}">
         <mat-label>Phone number</mat-label>
-        <input matInput type="tel" formControlName="phone_number" />
-        <mat-error *ngIf="formControls['phone_number'].hasError('required')">Phone number is required</mat-error>
-        <mat-error *ngIf="formControls['phone_number'].hasError('pattern')">Invalid phone number</mat-error>
+        <input matInput type="tel" formControlName="phoneNumber" />
+        <mat-error *ngIf="formControls['phoneNumber'].hasError('pattern')">Invalid phone number format</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['description'].invalid && formControls['description'].touched}">
+      <mat-form-field appearance="outline" [ngClass]="{'has-error': formControls['description'].invalid}">
         <mat-label>Description</mat-label>
         <textarea matInput rows="4" formControlName="description"></textarea>
-        <mat-error *ngIf="formControls['description'].hasError('required')">Description is required</mat-error>
       </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Opens</mat-label>
+      <input matInput [ngxTimepicker]="pickerOpens" formControlName="openingHours" [ngClass]="{'has-error': formControls['openingHours'].invalid}">
+      <ngx-material-timepicker-toggle [for]="pickerOpens"></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #pickerOpens></ngx-material-timepicker>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>Closes</mat-label>
+      <input matInput [ngxTimepicker]="pickerCloses" formControlName="closingHours" [ngClass]="{'has-error': formControls['closingHours'].invalid}">
+      <ngx-material-timepicker-toggle [for]="pickerCloses"></ngx-material-timepicker-toggle>
+      <ngx-material-timepicker #pickerCloses></ngx-material-timepicker>
+    </mat-form-field>
+
     </form>
+
     <div class="submit-section">
       <button mat-fab color="primary" class="submit-button" type="submit" [disabled]="companyForm.invalid" (click)="onSubmit()">
         <mat-icon>arrow_forward</mat-icon>
@@ -50,9 +64,9 @@
   </div>
 
   <div class="images-section scrollable-container">
-    <label for="image-upload" class="image-label">Images:</label>
+    <label class="image-label">Images:</label>
     <mat-grid-list cols="2" rowHeight="100px" class="image-grid">
-      <mat-grid-tile *ngFor="let image of images; let i = index">
+      <mat-grid-tile *ngFor="let image of imagePreviews; let i = index">
         <img [src]="image" alt="Uploaded Image" />
         <button mat-icon-button color="warn" class="delete-button" (click)="deleteImage(i)">
           <mat-icon>delete</mat-icon>

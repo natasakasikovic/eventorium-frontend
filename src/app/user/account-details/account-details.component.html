@@ -1,0 +1,36 @@
+<div class="screen" *ngIf="user">
+<mat-card class="account-container">
+    <div *ngIf="user.address" class="header">
+      <button mat-icon-button aria-label="Edit account" (click)="edit()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <div>
+      <div class="profile-picture">
+        <img *ngIf="user.profilePhoto" [src]="user.profilePhoto" alt="Profile Picture" />
+        <mat-icon *ngIf="!user.profilePhoto" class="placeholder-icon">person</mat-icon>
+      </div>
+      <h2 class="name">{{ user.name }} {{user.lastname}}</h2>
+      <p class="role"> {{ user.role }} </p>
+    </div>
+    <div class="details">
+      <div class="left">
+        <p><mat-icon class="icons">alternate_email</mat-icon> {{ user.email }}</p>
+        <p *ngIf="user.phoneNumber"><mat-icon class="icons">phone</mat-icon> {{ user.phoneNumber }}</p>
+      </div>
+      <div class="right">
+        <p *ngIf="user.address"><mat-icon class="icons">location_on</mat-icon> {{ user.address }}</p>
+        <p><mat-icon class="icons">location_city</mat-icon> {{ user.city.name }}</p>
+      </div>
+    </div>
+    <div *ngIf="!user.address" class="upgrade-notice mat-elevation-z2">
+      <p class="upgrade-text">
+        Unlock more options in Eventorium by upgrading your account. This will let you promote your services and products or organize events, depending on the role you select.
+      </p>
+      <button mat-raised-button color="warn" aria-label="Upgrade account" (click)="upgrade()">
+        Upgrade account
+      </button>
+    </div>
+  </mat-card>
+</div>
+  

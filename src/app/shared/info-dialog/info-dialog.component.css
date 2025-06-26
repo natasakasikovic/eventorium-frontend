@@ -1,0 +1,20 @@
+.custom-dialog-title {
+  font-family: 'jeju';
+  font-size: 1.5rem;
+  text-align: center;
+  color: #35422F;
+}
+
+.custom-dialog-content {
+  font-family: 'jeju';
+  font-size: 1rem;
+  color: #35422F;
+  text-align: center;
+}
+
+.custom-dialog-actions button {
+  font-family: 'jeju'; 
+  font-weight: bold;
+  color: #35422F;
+  transition: background-color 0.3s ease;
+}

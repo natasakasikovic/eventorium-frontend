@@ -1,9 +1,9 @@
 .service-details {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 90vh;
   background-color: #eceae6;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .price {
@@ -12,12 +12,14 @@
   text-align: center;
   font-size: 18px;
   font-weight: bold;
+  margin-left: 0.5rem;
   color: #000;
 }
 
 .service-card {
   margin-top: 3rem;
-  max-width: 80%;
+  min-width: 50%;
+  max-width: 70%;
   background-color: #fdf7ef;
   padding: 15px;
 }
@@ -49,16 +51,40 @@ mat-card-header {
   padding: 16px 24px;
 }
 
-
-.gallery {
-  display: flex;
-  gap: 10px;
+.images {
+  margin-top: 20px;
 }
 
-.gallery-item {
+.image-carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+}
+
+.image-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.image-carousel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.image-wrapper {
+  flex: 0 0 auto;
   width: 200px;
   height: 200px;
-  background-color: #e0e0e0;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .header-right {
@@ -73,7 +99,6 @@ mat-card-header {
   justify-content: space-between;
   align-items: center;
 }
-
 
 .details {
   font-size: 16px;
@@ -91,12 +116,14 @@ mat-card-header {
   margin-right: 2rem;
 }
 
-.button-reserve {
+.action-buttons {
   display: flex;
   justify-content: center;
+  gap: 1rem; 
+  margin-top: 1rem;
 }
 
-.button-reserve > button {
+.action-buttons button {
   background-color: #35422F;
   color: #ECEAE6;
 }

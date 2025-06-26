@@ -6,13 +6,17 @@
   <span [routerLink]="['/home']" class="logo-container">
     <img src="/header_logo.png" alt="Eventorium logo" class="logo">
   </span>
-
-  <div *ngIf="!isLoggedIn; else loggedInTemplate">
-    <button [routerLink]="['./signup']" style="float: right" mat-raised-button class="standard-button">Sign up</button>
-    <button (click)="openLoginDialog()" style="float: right" mat-raised-button class="standard-button">Log in</button>
+  <div>
+    <button *ngIf="role == null" [routerLink]="['signup']" style="float: right" mat-raised-button class="standard-button">Signup</button>
+    <button *ngIf="role == null" [routerLink]="['login']" style="float: right" mat-raised-button class="standard-button">Login</button>
+    <button *ngIf="role == 'PROVIDER'" [routerLink]="['create-service']" style="float: right" mat-raised-button class="standard-button">Create service</button>
+    <button *ngIf="role == 'PROVIDER'" [routerLink]="['create-product']" style="float: right" mat-raised-button class="standard-button">Create product</button>
+    <button *ngIf="role == 'EVENT_ORGANIZER'" [routerLink]="['create-event']" style="float: right" mat-raised-button class="standard-button">Create event</button>
+    <button *ngIf="role == 'ADMIN'" [routerLink]="['create-category']" style="float: right" mat-raised-button class="standard-button">Create category</button>
+    <button *ngIf="role == 'ADMIN'" [routerLink]="['create-event-type']" style="float: right" mat-raised-button class="standard-button">Create event type</button>
+    <button *ngIf="role != null" (click)="silenceNotifications()" style="float: right" mat-icon-button>
+      <mat-icon>{{ silenceStatus ? 'notifications_off' : 'notifications' }}</mat-icon>
+    </button>
+    <button *ngIf="role != null" (click)="logOut()" style="float: right" mat-raised-button class="standard-button">LogOut</button>
   </div>
-
-  <ng-template #loggedInTemplate>
-    <button (click)="logout()" style="margin-left: auto" mat-raised-button class="standard-button">Log out</button>
-  </ng-template>  
 </mat-toolbar>

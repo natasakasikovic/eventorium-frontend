@@ -1,0 +1,23 @@
+<div class="price-list main-tabs">
+  <mat-tab-group>
+    <mat-tab label="Products">
+      <app-price-list-table [items]="products" (updateItem)="updateProduct($event)"></app-price-list-table>
+    </mat-tab>
+    <mat-tab label="Services">
+      <app-price-list-table [items]="services" (updateItem)="updateService($event)" ></app-price-list-table>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-paginator class="mat-elevation-z10"
+                 *ngIf="pageProperties"
+                 (page)="onPageChanged($event)"
+                 [pageIndex]="pageProperties.pageIndex"
+                 [length]="pageProperties.totalCount"
+                 [pageSize]="pageProperties.pageSize">
+  </mat-paginator>
+  <div class="download-pdf">
+    <button mat-button (click)="downloadPdf()">
+      <mat-icon>download</mat-icon>
+      <span>Download PDF</span>
+    </button>
+  </div>
+</div>

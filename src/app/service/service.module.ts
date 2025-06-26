@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ManageableServicesComponent } from './manageable-services/manageable-services.component';
 import {SharedModule} from '../shared/shared.module';
 import {RouterLink} from '@angular/router';
@@ -14,6 +14,9 @@ import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {MatOption, MatSelect} from '@angular/material/select';
 import { ServicesOverviewComponent } from './services-overview/services-overview.component';
+import { ServicesFilterDialogComponent } from './services-filter-dialog/services-filter-dialog.component';
+import { ServiceReservationDialogComponent } from './service-reservation-dialog/service-reservation-dialog.component';
+import { ManageReservationsComponent } from './manage-reservations/manage-reservations.component';
 
 
 
@@ -24,7 +27,10 @@ import { ServicesOverviewComponent } from './services-overview/services-overview
     EditServiceComponent,
     ServiceDetailsComponent,
     TopFiveServicesComponent,
-    ServicesOverviewComponent
+    ServicesOverviewComponent,
+    ServicesFilterDialogComponent,
+    ServiceReservationDialogComponent,
+    ManageReservationsComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +38,7 @@ import { ServicesOverviewComponent } from './services-overview/services-overview
     MaterialModule,
     RouterLink,
     ReactiveFormsModule,
+    NgOptimizedImage,
   ],
   exports: [
     TopFiveServicesComponent,

@@ -1,0 +1,11 @@
+<div class="main-container">
+    <p class="common-style">Notifications</p>
+    <p *ngIf="notifications.length === 0" class="common-style"><i>No notifications available!</i></p>
+    <mat-list>
+      <mat-list-item *ngFor="let notification of notifications">
+          <p>{{ notification.message }}</p>
+          <small class="timestamp">{{ notification.timestamp | date:'short' }}</small>
+          <p *ngIf="notification.seen" class="seen-indicator">SEEN</p>
+      </mat-list-item>
+    </mat-list>
+</div>

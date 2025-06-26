@@ -1,9 +1,20 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { User } from '../model/user.model';
-import { UserRole } from '../model/user-role.enum';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from '../../shared/info-dialog/info-dialog.component';
+import { MESSAGES } from '../../shared/constants/messages';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
+import { City } from '../../shared/model/city.model';
+import { SharedService } from '../../shared/shared.service';
+import { Role } from '../model/user-role.model';
+import { AuthRequestDto } from '../model/auth-request.model';
+import { PersonRequestDto } from '../model/person.request.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthResponse } from '../model/auth-response.model';
+import { toString } from '../model/user-role.model';
+import { passwordMatchValidator } from '../../shared/validators/password-match.validator';
 
 @Component({
   selector: 'app-user-register',
@@ -11,81 +22,136 @@ import { Router } from '@angular/router';
   styleUrl: './user-register.component.css'
 })
 export class UserRegisterComponent {
-  user: User | null;
+  user: AuthRequestDto | null;
   registrationForm: FormGroup;
-  userRoles = [UserRole.EO, UserRole.SPP];
-  selectedFile: File | null = null;
-  imageUrl: string | undefined = undefined;
+  userRoles: Role[];
+  profilePhoto: File | null = null;
+  imageUrl: string | null = null;
+  cities: City[];
+  roles: Role[];
+  userId: number;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private sharedService: SharedService,
+    private router: Router,
+    private dialog: MatDialog) {
+
     this.registrationForm = this.fb.group({
       name: ['', Validators.required],
       lastname: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^(\\+)?[0-9]{9,15}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
-    }, { validator: passwordMatchValidator() });
+    },
+    {
+      validators: passwordMatchValidator(),
+      updateOn: 'change'
+    }
+  );
+
+    this.getCities();
+    this.getRoles();
   }
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      this.user = this.registrationForm.value;
-      this.user.activated = false;
-      this.authService.add(this.user);
-      this.showActivationDialog();
+      const newUser = this.getFormValues();
+      this.user = newUser;
+      this.authService.registerUser(newUser).subscribe({
+        next: (response: AuthResponse) => {
+          if (response) this.userId = response.id
+
+          if (response && this.profilePhoto) {
+            this.authService.uploadProfilePhoto(response.id, this.profilePhoto).subscribe({
+              next: () => {
+                this.nextStep();
+              },
+              error: (error: HttpErrorResponse) => {
+                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.PROFILE_PHOTO_UPLOAD_ERROR);
+              }
+            })
+          } else this.nextStep();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
+      })
     }
   }
 
-  uploadFile() {
-    const fileInput: HTMLElement = document.getElementById('fileInput')!;
-    fileInput.click();
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status == 502 || error.status < 500)
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)
   }
 
-  onFileSelected(event: Event) {
+  nextStep(): void {
+    if (this.user.roles[0].name.toUpperCase() === "PROVIDER")
+      void this.router.navigate([`${this.userId}/company-register`]);
+    else {
+      this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
+      void this.router.navigate(['/']);
+    }
+  }
+
+  showMessage(title: string, message: string) : void {
+    this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: title,
+        message: message
+      }
+    })
+  }
+
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
-      const file = input.files[0];
-      console.log('Selected file:', file.name);
-      this.selectedFile = file; 
-
-      this.imageUrl = URL.createObjectURL(file); 
+      const file : File = input.files[0];
+      this.profilePhoto = file;
+      this.imageUrl = URL.createObjectURL(file);
     }
   }
 
-  showActivationDialog(): void {
-    if (this.user.role == UserRole.SPP) {
-      this.router.navigate(['/company-register']);
-      return;
-    }
-
-    // NOTE: This will be changed to avoid using 'alert' in the future.
-    alert(`Account Activation Required
-        Thank you for signing up!
-        
-        To complete your registration, please follow these steps:
-        
-        1. Check your email: We've sent an activation link to the email address you provided.
-        2. Activate your account: Click the link within 24 hours to confirm your email and activate your account.
-        
-        Important: Your activation link will expire after 24 hours. If you do not activate your account within this time, you will need to repeat the registration process.
-        
-        Thank you for choosing Eventorium!`);
-    
-    this.router.navigate(['/']);
+  getCities(): void {
+    this.sharedService.getCities().subscribe(cities => this.cities = cities);
   }
-}  
 
-export function passwordMatchValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
+  getRoles(): void {
+    this.authService.getRegistrationOptions().subscribe(roles => this.roles = roles);
+  }
 
-    return password && confirmPassword && password !== confirmPassword
-      ? { passwordMismatch: true }
-      : null;
-  };
+  getFormValues(): AuthRequestDto {
+    const formValue = this.registrationForm.value;
+
+    const newPerson: PersonRequestDto = {
+      name : formValue.name,
+      lastname : formValue.lastname,
+      phoneNumber : formValue.phoneNumber,
+      address : formValue.address,
+      city : formValue.city,
+      profilePhoto: null
+    };
+
+    const newUser: AuthRequestDto = {
+      email : formValue.email,
+      password : formValue.password,
+      passwordConfirmation : formValue.passwordConfirmation,
+      roles : [formValue.role],
+      person : newPerson
+    };
+
+    return newUser;
+  }
+
+  roleToString(role: Role): string {
+    return toString(role);
+  }
+
 }

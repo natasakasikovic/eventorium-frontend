@@ -1,12 +1,66 @@
 .service-card {
-  max-width: 15rem;
-  max-height: 18rem;
+  width: 16rem;
+  height: 18rem;
   margin: 1rem;
+  position: relative;
 }
 
-.service-card img {
-  max-height: 14rem;
+.service-card .sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: yellow;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border-radius: 2rem;
+  z-index: 10;
 }
+
+.pending-status {
+  background-color: #ff9800;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.pending-label {
+  text-transform: uppercase;
+}
+
+.hidden-status {
+  background-color: #9e9e9e;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 50%;
+  right: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.hidden-label {
+  text-transform: uppercase;
+}
+
+.image-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 .service-card mat-card-header {
   justify-content: space-between;
   align-items: center;
@@ -27,11 +81,6 @@
 .service-card mat-card-header .rating mat-icon {
   color: #fdd835;
   margin-right: 4px;
-}
-
-.service-card mat-card-header {
-  justify-content: space-between;
-  align-items: center;
 }
 
 .service-card .mat-card-header .rating span {
@@ -60,14 +109,13 @@
 .service-card .action-button {
   background-color: #d3d3d3;
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   margin: 0 3px;
 }
 
 .service-card .action-button mat-icon {
-  font-size: 28px;
-  color: black;
+  font-size: 25px;
 }
 
 .service-card .action-button:hover {

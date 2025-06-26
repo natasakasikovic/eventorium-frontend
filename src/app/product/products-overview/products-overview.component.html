@@ -3,19 +3,31 @@
       <h1 class="title">Products</h1>
       <div class="filters">
         <app-search-bar (searcher)="onSearch($event)"></app-search-bar>
-        <button mat-icon-button class="filter-button">
+        <button mat-icon-button class="filter-button" (click)="openDialog()">
           <mat-icon>tune</mat-icon>
         </button>
+          <button mat-button [matMenuTriggerFor]="sortMenu">
+          Sort
+          <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        <mat-menu #sortMenu="matMenu">
+          <button mat-menu-item (click)="onSortChange('discount_desc')">
+            <mat-icon *ngIf="selectedSort === 'discount_desc'">check</mat-icon>
+            Discount descending
+          </button>
+          <button mat-menu-item (click)="onSortChange('discount_asc')">
+            <mat-icon *ngIf="selectedSort === 'discount_acs'">check</mat-icon>
+              Discount ascending
+          </button>
+        </mat-menu>
       </div>
     </mat-toolbar>
     <div class="product-cards">
       <div class="cards">
-        <div *ngFor="let product of products">
-          <app-product-card [product]="product" ></app-product-card>
-        </div>
+          <app-product-card *ngFor="let product of products" [product]="product" ></app-product-card>
       </div>
-      <mat-paginator [pageSizeOptions]="[15]" [length]="getTotalProductCount()" (page)="onPageChanged()"></mat-paginator>
+      <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex"
+      [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
+      </mat-paginator>
     </div>
-  </div>
-  <!-- <app-product-filter *ngIf="showFilter"></app-product-filter> -->
-  <!-- TODO: implement product filter pop up -->
+</div>

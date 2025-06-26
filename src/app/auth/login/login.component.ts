@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { User } from '../model/user.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Login } from '../model/login.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthResponse } from '../model/auth-response.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import {WebSocketService} from '../../web-socket/web-socket-service';
+import { ERROR_MESSAGES } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-login',
@@ -10,35 +15,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  user: User = {
-    email: '',
-    password: '' 
-  };
-  loginMessage: string | null = null;
 
-  @Output() loginStatusChanged = new EventEmitter<boolean>();
+  serverError: string | null = null;
 
-  constructor(private dialogRef: MatDialogRef<LoginComponent>, private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: WebSocketService
+  ) {}
+
+  loginForm = new FormGroup({
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required)
+  })
+
 
   login(): void {
-    const loginResponse = this.authService.login(this.user.email, this.user.password);
-  
-    if (typeof loginResponse === 'string') {
-      this.loginMessage = loginResponse;
-      this.loginStatusChanged.emit(false);
-    } else {
-      sessionStorage.setItem('currentUser', JSON.stringify(loginResponse)); 
-      this.loginStatusChanged.emit(true);
-      this.dialogRef.close();
+    if (this.loginForm.valid) {
+      const login: Login = {
+        email: this.loginForm.value.email || "",
+        password: this.loginForm.value.password || ""
+      };
+      this.authService.login(login).subscribe({
+        next: (response: AuthResponse) => {
+          localStorage.setItem('user', response.jwt);
+          this.authService.setUser();
+          this.notificationService.openSocket();
+          void this.router.navigate(['home']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status >= 500)
+            this.serverError = ERROR_MESSAGES.SERVER_ERROR;
+          else
+            this.serverError = error.error.message;
+        }
+      });
     }
   }
 
   navigateToSignup() {
-    this.dialogRef.close();
     this.router.navigate(['/signup']);
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
 }

@@ -1,0 +1,23 @@
+h2[mat-dialog-title] {
+    text-align: center;
+    font-family: 'jeju';
+    background-color: #f8f6f1;
+    color: #35422F;
+}
+
+mat-dialog-content {
+    background-color: #f8f6f1;
+    gap: 16px; 
+}
+  
+mat-form-field {
+    width: 100%;
+}
+
+mat-dialog-actions {
+    background-color: #f8f6f1;
+}
+
+mat-form-field.time-picker-field {
+    margin-bottom: 16px;
+}

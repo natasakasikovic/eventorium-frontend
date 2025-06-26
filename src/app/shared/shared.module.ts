@@ -5,10 +5,14 @@ import { MaterialModule } from '../infrastructure/material/material.module';
 import { EventCardComponent } from './event-card/event-card.component';
 import {ServiceCardComponent} from './service-card/service-card.component';
 import {SearchBarComponent} from './search-bar/search-bar.component';
-import {ServiceFilterComponent} from './service-filter/service-filter.component';
 import {RouterLink} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
-
+import { InfoDialogComponent } from './info-dialog/info-dialog.component';
+import { EventSelectionComponent } from './event-selection/event-selection.component';
+import { ErrorComponent } from './error/error.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import {ChatDialogComponent} from './chat-dialog/chat-dialog.component';
+import { CreateCommentDialogComponent } from '../review/create-comment-dialog/create-comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +20,14 @@ import {ReactiveFormsModule} from '@angular/forms';
     EventCardComponent,
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent
-    ],  
+    InfoDialogComponent,
+    EventSelectionComponent,
+    InfoDialogComponent,
+    ChatDialogComponent,
+    ErrorComponent,
+    ConfirmationDialogComponent,
+    CreateCommentDialogComponent,
+    ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -27,9 +37,9 @@ import {ReactiveFormsModule} from '@angular/forms';
   exports: [
     ServiceCardComponent,
     SearchBarComponent,
-    ServiceFilterComponent,
     ProductCardComponent,
-    EventCardComponent
+    EventCardComponent,
+    ChatDialogComponent,
   ]
 })
 export class SharedModule { }

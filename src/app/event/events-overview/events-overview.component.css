@@ -7,13 +7,13 @@
     align-items: center;
     padding: 16px;
 }
-  
+
 .cards-screen .toolbar .filters {
     display: flex;
     align-items: center;
     margin-right: 5rem;
 }
-  
+
 .cards-screen .toolbar .filters .filter-button {
     margin-left: 12px;
     display: flex;
@@ -24,7 +24,7 @@
     height: 40px;
     cursor: pointer;
 }
-  
+
 .cards-screen .toolbar {
     display: flex;
     align-items: center;
@@ -33,11 +33,11 @@
     padding-bottom: 3rem;
     background-color: #eceae6;
 }
-  
+
 .cards-screen .toolbar .space {
     flex: 1;
 }
-  
+
 .cards-screen .toolbar .title {
     flex: 1;
     text-align: center;
@@ -46,16 +46,16 @@
     font-family: jeju, serif;
     color: #35422F;
 }
-  
+
 .cards-screen .event-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: flex-start; 
+    justify-content: center;
     margin: 16px 0;
-    width: 100%; 
+    width: 100%;
 }
-  
+
 .cards-screen .event-cards .cards {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -63,7 +63,7 @@
     gap: 1rem;
     padding: 16px;
 }
-  
+
 mat-paginator {
     display: flex;
     justify-content: center;

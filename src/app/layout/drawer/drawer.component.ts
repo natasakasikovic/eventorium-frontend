@@ -1,17 +1,15 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { MenuItem } from '../model/menu_item';
 import { AuthService } from '../../auth/auth.service';
-import { UserRole } from '../../auth/model/user-role.enum';
-import { User } from '../../auth/model/user.model';
 
 @Component({
   selector: 'app-drawer',
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.css']
 })
-export class DrawerComponent {
+export class DrawerComponent implements OnInit {
   @Input() drawer!: MatSidenav;
   menuItems: MenuItem[] = [];
 
@@ -19,32 +17,52 @@ export class DrawerComponent {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
-      this.menuItems = this.getMenuItemsForUser(user);
+       this.menuItems = this.getMenuItemsForUser(user);
     });
   }
 
-  private getMenuItemsForUser(user: User | null): MenuItem[] {
+  private getMenuItemsForUser(userRole: String|null): MenuItem[] {
     let items: MenuItem[] = [
       { label: 'Home', icon: 'home', route: '/home' }
     ];
 
-    if (user) {
-      // NOTE: If you add an option for authenticated user, add it here
+    if (userRole) {
       items.push(
-        { label: 'Profile', icon: 'person', route: '/profile' },
+        { label: 'Profile', icon: 'person', route: '/account-details' },
+        { label: 'Messages', icon: 'mail', route: '/chat' },
+        { label: 'Calendar', icon: 'calendar_month', route: '/calendar'},
         { label: 'Notifications', icon: 'notifications', route: '/notifications' },
-        { label: 'Favourites', icon: 'favorite', route: '/favourites' }
+        { label: 'Favourites', icon: 'favorite', route: '/favourites' },
+        { label: 'Your invitations', icon: 'free_cancellation', route: '/user-invitations'}
       );
 
-      if (user.role === UserRole.SPP) {
-        // NOTE: If you add an option for a provider, add it here
-        items.push({ label: 'Services', icon: 'information', route: '/manageable-services' });
+      if (userRole === "PROVIDER") {
+        items.push(
+          { label: 'Your company', icon: 'business', route: '/provider-company' },
+          { label: 'Your services', icon: 'design_services', route: '/manageable-services' },
+          { label: 'Your products', icon: 'storefront', route: '/manageable-products' },
+          { label: 'Manage reservations', icon: 'access_time', route: '/reservation-management' },
+          { label: 'Price List', icon: 'receipt', route: '/price-list' }
+        );
       }
-      
-      if (user.role == UserRole.EO) {
-        // NOTE: If you add an option for an event organizer, add it here
-        // for example:
-        // items.push({ label: 'Events', icon: 'event', route: '/events' });
+
+      if (userRole === "EVENT_ORGANIZER") {
+        items.push(
+          { label: 'Your events', icon: 'event', route: '/manageable-events' },
+          { label: 'Reviewable Solutions', icon: 'feedback', route: '/reviewable-solutions' },
+          { label: 'Event statistics', icon: 'bar_chart', route:'/past-events-overview'}
+        );
+      }
+
+      if (userRole === "ADMIN") {
+        items.push(
+         { label: 'Categories', icon: 'category', route: '/categories-overview' },
+         { label: 'Category proposals', icon: 'lightbulb', route: '/category-proposals' },
+         { label: 'Event types', icon: 'drag_indicator', route: '/event-types' },
+         { label: 'Report management', icon:'gavel', route:'/report-management' },
+         { label: 'Comment management', icon:'feedback', route:'/comment-management'},
+         { label: 'Event statistics', icon: 'bar_chart', route:'/past-events-overview'}
+        )
       }
     }
 
@@ -52,7 +70,7 @@ export class DrawerComponent {
   }
 
   onMenuItemClick(item: MenuItem): void {
-    this.router.navigate([item.route]); 
-    this.drawer.close(); 
+    this.router.navigate([item.route]);
+    this.drawer.close();
   }
 }

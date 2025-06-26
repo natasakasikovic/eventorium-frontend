@@ -1,0 +1,87 @@
+.planner {
+  background-color: #ECEAE6;
+}
+
+.category-tabs {
+  background-color: #f8f6f1;
+}
+
+.main-tabs {
+  background-color: #E3DCD1;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.budget {
+  height: 86vh;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  background-color: #E3DCD1;
+  border-radius: 1.5rem;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+}
+
+.add-category {
+  padding: 1rem;
+  background-color: #f8f6f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.total p {
+  padding: 0 1rem;
+}
+
+#submit {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #35422F;
+  border: 0.1em solid #35422F;
+  border-radius: 50%;
+  z-index: 1000;
+  height: 5em;
+  width: 5em;
+  cursor: pointer;
+  float: right;
+}
+
+.item-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 2.5rem;
+  font-family: jeju, serif;
+  color: #35422F;
+}
+
+.no-items {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  padding: 16px;
+}

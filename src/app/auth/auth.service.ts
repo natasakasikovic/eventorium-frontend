@@ -1,82 +1,101 @@
 import { Injectable } from '@angular/core';
-import { User } from '../auth/model/user.model';
-import { UserRole } from '../../app/auth/model/user-role.enum';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthResponse } from './model/auth-response.model';
+import { environment } from '../../env/environment';
+import { Login } from './model/login.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { QuickRegistrationDto } from './model/quick-registration.model';
+import { Role } from './model/user-role.model';
+import { AuthRequestDto } from './model/auth-request.model';
+import { Router } from '@angular/router';
+import { UpgradeAccountRequest } from '../user/model/upgrade-account-request.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userSubject = new BehaviorSubject<User | null>(null);
-  user$ = this.userSubject.asObservable();
 
-  private users: User[] = [
-    {
-      id: 1,
-      email: 'pup@gmail.com',
-      password: 'pup',
-      role: UserRole.SPP,
-      activated: true,
-      suspended: false,
-      activationTimestamp: new Date('2024-01-01T12:00:00'),
-      person: {
-        id: 1,
-        name: 'John',
-        lastname: 'Doe',
-        phoneNumber: '123456789',
-        address: '123 Main St',
-        city: 'New York'
-      }
-    },
-    {
-      id: 2,
-      email: 'smith@gmail.com',
-      password: 'password123',
-      role: UserRole.EO,
-      activated: true,
-      suspended: false,
-      activationTimestamp: new Date('2024-01-02T12:00:00'),
-      person: {
-        id: 2,
-        name: 'Jane',
-        lastname: 'Smith',
-        phoneNumber: '987654321',
-        address: '456 Elm St',
-        city: 'Los Angeles'
-      }
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    skip: 'true',
+  });
+
+  user$ = new BehaviorSubject<string | null>(null);
+  userState = this.user$.asObservable();
+
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.user$.next(this.getRole())
+  }
+
+  login(auth: Login): Observable<AuthResponse> {
+      return this.http.post<AuthResponse>(environment.apiHost + '/auth/login', auth, {
+        headers: this.headers,
+      })
+  }
+
+  getRole(): string {
+    if (this.isLoggedIn()) {
+      const accessToken: string = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      return helper.decodeToken(accessToken).roles[0];
     }
-  ];
+    return null;
+  }
 
-  constructor() {}
-
-  login(email: string, password: string): string | User {
-    const user = this.users.find(u => u.email === email);
-
-    if (!user) {
-      return 'No account found with this email address.';
+  getUserId(): number {
+    if (this.isLoggedIn()) {
+      const accessToken: string = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      return helper.decodeToken(accessToken).userId;
     }
-
-    if (user.password !== password) {
-      return 'The password you entered is incorrect. Please try again.'; 
-    }
-
-    if (user.activated === false) {
-      return 'The account has not been activated yet. Check your email inbox.'
-    }
-    
-    this.userSubject.next(user);
-    return user;
+    return null;
   }
 
   logout(): void {
-    this.userSubject.next(null);
+    localStorage.removeItem('user');
+    this.user$.next(null);
+    if (this.router.url != '/home')
+      this.router.navigate([''])
+    else window.location.reload();
   }
 
-  getCurrentUser(): User | null {
-    return this.userSubject.value;
+  isLoggedIn(): boolean {
+    return localStorage.getItem('user') != null;
   }
 
-  add(user: User): void {
-    this.users.push(user)
+  setUser(): void {
+    this.user$.next(this.getRole());
+  }
+
+  quickRegister(user: QuickRegistrationDto): Observable<void> {
+    return this.http.post<void>(environment.apiHost + "/auth/quick-registration", user)
+  }
+
+  getRegistrationOptions() : Observable<Role[]> {
+    return this.http.get<Role[]>(`${environment.apiHost}/roles/registration-options`)
+  }
+
+  registerUser(user: AuthRequestDto): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${environment.apiHost}/auth/registration`, user)
+  }
+
+  uploadProfilePhoto(userId: number, photo: File): Observable<string> {
+    const formData: FormData = new FormData();
+    formData.append('profilePhoto', photo)
+    return this.http.post<string>(`${environment.apiHost}/auth/${userId}/profile-photo`,
+      formData,
+      { responseType: 'text' as 'json' });
+  }
+
+  updateSession(auth: AuthResponse): void {
+    localStorage.setItem('user', auth.jwt);
+    this.setUser();
+    this.router.navigate(['/']);
+  }
+
+  upgradeAccount(request: UpgradeAccountRequest): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${environment.apiHost}/auth/account-role`, request);
   }
 }

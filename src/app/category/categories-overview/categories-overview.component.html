@@ -1,0 +1,17 @@
+<div class="cards-screen">
+  <mat-toolbar class="toolbar">
+    <h1 class="title">Categories</h1>
+  </mat-toolbar>
+  <div class="category-cards">
+    <div class="cards" *ngIf="categories.length !== 0">
+      <app-category-card
+        *ngFor="let category of categories" [category]="category"
+        (edit)="openEdit($event)"
+        (delete)="openDeleteConfirmation($event)"></app-category-card>
+    </div>
+    <h3 *ngIf="categories.length === 0">No categories found!</h3>
+    <button mat-icon-button class="create-card" [routerLink]="['/create-category']">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+  </div>
+</div>

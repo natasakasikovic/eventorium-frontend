@@ -1,0 +1,35 @@
+.container {
+    display: grid;
+    place-items: center;
+    font-family: 'jeju', serif;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upgrade-form {
+  width: 400px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.submit-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.submit-button {
+    display: flex;
+    margin-bottom: 10px;
+}

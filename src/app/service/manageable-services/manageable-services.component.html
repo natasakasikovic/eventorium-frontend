@@ -2,22 +2,21 @@
   <mat-toolbar class="toolbar">
     <h1 class="title">Services</h1>
     <div class="filters">
-      <app-search-bar (searcher)="onSearch($event)"></app-search-bar>
-      <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openFilter()">
+      <app-search-bar class="searcher" (searcher)="onSearch($event)"></app-search-bar>
+      <button mat-icon-button class="filter-button" aria-label="Filter" (click)="openDialog()">
         <mat-icon>tune</mat-icon>
       </button>
     </div>
   </mat-toolbar>
   <div class="service-cards">
     <div class="cards">
-      <div *ngFor="let service of services">
-        <app-service-card [showActions]="true" [service]="service" (delete)="deleteService($event)"></app-service-card>
-      </div>
+        <app-service-card *ngFor="let service of services" [showActions]="true" [service]="service" (delete)="openDeleteConfirmation($event)"/>
     </div>
     <button mat-icon-button class="create-card" [routerLink]="['/create-service']">
       <mat-icon>add_circle</mat-icon>
     </button>
-    <mat-paginator [pageSizeOptions]="[9]" [length]="getTotalServiceCount()" (page)="onPageChanged()"></mat-paginator>
   </div>
+  <mat-paginator *ngIf="pageProperties" (page)="onPageChanged($event)" [pageIndex]="pageProperties.pageIndex"
+                 [length]="pageProperties.totalCount" [pageSize]="pageProperties.pageSize">
+  </mat-paginator>
 </div>
-<app-service-filter *ngIf="showFilter" (closeFilter)="closeFilter()" (applyFilter)="onApplyFilter($event)"></app-service-filter>

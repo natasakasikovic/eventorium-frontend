@@ -1,0 +1,24 @@
+.main-tabs {
+  background-color: #E3DCD1;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.price-list {
+  height: 86vh;
+}
+
+mat-paginator {
+  margin: 0 4rem;
+  border-radius: 2px;
+}
+
+.download-pdf {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.download-pdf button {
+  background-color: #35422F;
+  color: white;
+}

@@ -1,0 +1,7 @@
+<h2 mat-dialog-title class="custom-dialog-title">{{ data.title }}</h2>
+<mat-dialog-content class="custom-dialog-content">
+  <p [innerHTML]="data.message"></p>
+</mat-dialog-content>
+<mat-dialog-actions class="custom-dialog-actions">
+  <button mat-button (click)="closeDialog()">OK</button>
+</mat-dialog-actions>

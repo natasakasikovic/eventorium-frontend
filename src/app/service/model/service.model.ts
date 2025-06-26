@@ -1,22 +1,29 @@
-import {Confirmation} from './confirmation.enum';
+import {ReservationType} from './reservation-type.enum';
+import {Category} from '../../category/model/category.model';
+import {EventType} from '../../event-type/model/event-type.model';
+import {Status} from '../../category/model/status-enum-ts';
+import {CompanyResponse} from '../../company/model/company-response.model';
+import {UserDetails} from '../../user/model/user-details.model';
 
 export interface Service {
-  id: string;
+  id: number;
   name: string;
-  categoryName: string;
+  category: Category;
   price: number;
   rating: number;
-  eventTypes: string[];
-  provider: string;
+  eventTypes: EventType[];
+  provider: UserDetails;
   minDuration: number;
   maxDuration: number;
   description: string;
   specialties: string;
-  reservationDeadline: Date;
-  cancellationDeadline: Date;
+  reservationDeadline: number;
+  cancellationDeadline: number;
   discount: number;
   visible: boolean;
   available: boolean;
-  confirmation: Confirmation
-  image: string;
+  type: ReservationType;
+  status: Status;
+  images: string[];
+  company: CompanyResponse;
 }

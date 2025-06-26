@@ -1,0 +1,25 @@
+.favourites-header {
+    text-align: center;
+    margin-bottom: 20px;
+  
+    h1 {
+      font-size: 2rem; 
+      color: #35422F;  
+      font-family: 'jeju'; 
+      font-weight: bold;
+    }
+  }
+  
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+  
+  .empty-message {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    margin-top: 20px;
+}

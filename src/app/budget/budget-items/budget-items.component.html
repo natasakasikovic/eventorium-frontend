@@ -1,0 +1,24 @@
+<button mat-icon-button (click)="onDelete()">
+  <mat-icon>delete</mat-icon>
+</button>
+<form [formGroup]="planning" class="planned-amount">
+  <mat-form-field appearance="outline">
+    <mat-label>Planned amount</mat-label>
+    <input matInput type="number" id="{{ category.name }}-plannedInput" name="plannedAmount" formControlName="plannedAmount"/>
+  </mat-form-field>
+  <div class="button-create">
+    <button mat-raised-button (click)="searchItems()" [disabled]="this.planning.invalid">Search</button>
+  </div>
+</form>
+<div class="item-cards">
+  <div class="cards">
+    <app-budget-suggestion-card
+      *ngFor="let suggestion of budgetSuggestions"
+      (createItem)="createBudgetItem($event)"
+      [activeCategories]="activeCategories"
+      [budgetSuggestion]="suggestion"
+      [eventId]="eventId"
+      [plannedAmount]="planning.get('plannedAmount').value ?? 0"
+    />
+  </div>
+</div>

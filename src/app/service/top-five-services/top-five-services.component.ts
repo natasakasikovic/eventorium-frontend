@@ -11,16 +11,16 @@ import { Route, Router } from '@angular/router';
 export class TopFiveServicesComponent implements OnInit {
   services: Service[];
 
-  constructor(private serviceService: ServiceService, private router: Router ) {}
+  constructor(private service: ServiceService, private router: Router ) {}
 
   ngOnInit(): void {
-    this.loadTopServices();
+    this.service.getTopServices().subscribe({
+      next: (services: Service[]) => {
+        this.services = services
+      }
+    })
   }
-
-  loadTopServices(): void {
-    this.services = this.serviceService.getTopServices();
-  }
-
+  
   navigateToServicesOverview() {
     this.router.navigate(['/services-overview']);
   }
