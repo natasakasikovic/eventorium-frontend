@@ -30,6 +30,7 @@
       </ul>
     </li>
     <li><a href="#-available-roles-and-credentials">Available Roles and Credentials</a></li>
+    <li><a href="#-screenshots">Screenshots</a></li>
   </ol>
 </details>
 
@@ -119,6 +120,35 @@ The system supports the following roles with corresponding credentials:
 - **User (registered via quick registration)**
   - Email: `user@gmail.com`
   - Password: `pera`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📸 Screenshots
+
+#### 🏠 Home Page with Chat and Drawer Menu
+
+<img src="screenshots/9. homepage_menu_chat.png" alt="Home with Chat and Drawer" style="width: 80%;"/>
+
+#### 📆 Event Details View
+
+<img src="screenshots/8. event_details.png" alt="Event details" style="width: 80%;"/>
+<img src="screenshots/8. agenda_map.png" alt="Agenda and map" style="width: 80%;"/>
+
+#### 🛍️💬 Solution Details View with Comments
+
+<img src="screenshots/21. solution_details_with_comments.png" alt="Solution with comments" style="width: 80%;"/>
+
+#### 🏢 Company Details View
+
+<img src="screenshots/19. company_details.png" alt="Company details" style="width: 80%;"/>
+
+#### 👤 Account Details View
+
+<img src="screenshots/17. user_details.png" alt="Account details" style="width: 80%;"/>
+
+#### 📁 More Screenshots
+
+You can view additional screenshots in the [screenshots](./screenshots) folder.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
