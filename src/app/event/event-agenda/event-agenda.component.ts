@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivityRequest } from '../model/activity-request.model';
+import { AgendaRequest } from "../model/agenda-request.model";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -96,7 +97,8 @@ export class EventAgendaComponent implements OnInit {
 
 
   finish(): void {
-    this.eventService.createAgenda(this.activities, this.id).subscribe({
+    const agenda: AgendaRequest = { activities: this.activities };
+    this.eventService.createAgenda(agenda, this.id).subscribe({
       next: () => {
         if (this.eventService.getEventPrivacy() === Privacy.CLOSED.toUpperCase()) {
           this.router.navigate(['event-invitations', this.id]);

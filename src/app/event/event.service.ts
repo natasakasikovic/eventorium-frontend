@@ -9,7 +9,6 @@ import { CreatedEvent } from './model/created-event-response.model';
 import { InvitationResponse } from './model/invitation-response.model';
 import { EventType } from '../event-type/model/event-type.model';
 import { EventSummary } from './model/event-summary.model';
-import { ActivityRequest } from './model/activity-request.model';
 import { Privacy } from './model/privacy.enum';
 import { Invitation } from './model/invitation-request.model';
 import { EventFilter } from './model/event-filter.model';
@@ -20,6 +19,7 @@ import { InvitationDetails } from './model/invitation-details.model';
 import { UpdateEventRequest } from './model/update-event-request.model';
 import { EventTable } from './model/event-table.model';
 import { EventRatingsStatistics } from './model/event-rating-statistics.model';
+import { AgendaRequest } from './model/agenda-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -110,8 +110,8 @@ export class EventService {
     return this.httpClient.get<InvitationResponse>(`${environment.apiHost}/invitations/${hash}`)
   }
 
-  createAgenda(activities: ActivityRequest[], id: number):  Observable<void> {
-    return this.httpClient.put<void>(`${environment.apiHost}/events/${id}/agenda`, activities);
+  createAgenda(agenda: AgendaRequest, id: number):  Observable<void> {
+    return this.httpClient.put<void>(`${environment.apiHost}/events/${id}/agenda`, agenda);
   }
 
   sendInvitations(invitations: Invitation[], id: number): Observable<void> {
