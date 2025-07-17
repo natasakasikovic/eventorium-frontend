@@ -97,7 +97,7 @@ describe('CreateServiceComponent', () => {
 
     fixture.detectChanges();
 
-    expect(createButton.disabled).toBeFalse();
+    expect(createButton.disabled).toBeFalsy();
   });
 
   it('should enable category suggestion fields when "Suggest a Category" is selected', () => {
@@ -131,9 +131,9 @@ describe('CreateServiceComponent', () => {
 
     fixture.detectChanges();
 
-    expect(discountControl.valid).toBeFalse();
-    expect(priceControl.valid).toBeFalse();
-    expect(createButton.disabled).toBeTrue();
+    expect(discountControl.valid).toBeFalsy();
+    expect(priceControl.valid).toBeFalsy();
+    expect(createButton.disabled).toBeTruthy();
   });
 
   it('should ignore invalid file types', () => {
@@ -186,8 +186,8 @@ describe('CreateServiceComponent', () => {
 
     fixture.detectChanges();
 
-    expect(form.invalid).toBeTrue();
-    expect(createButton.disabled).toBeTrue();
+    expect(form.invalid).toBeTruthy();
+    expect(createButton.disabled).toBeTruthy();
   });
 
   it('should call service creation when form is valid', fakeAsync(() => {
