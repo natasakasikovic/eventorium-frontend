@@ -11,8 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { invalidRegistrationTestCases, mockValidRegistrationForm } from "../../../testing/mocks/registration-form.mock";
 import { Router } from "@angular/router";
 import { mockValidAuthResponse } from "../../../testing/mocks/user.mock";
-import { AuthResponse } from "../model/auth-response.model";
-import { MatDialog } from '@angular/material/dialog';
 
 describe('UserRegisterComponent', () => {
   let component: UserRegisterComponent;
@@ -20,20 +18,17 @@ describe('UserRegisterComponent', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let sharedServiceSpy: jasmine.SpyObj<SharedService>;
   let routerSpy: jasmine.SpyObj<Router>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>
 
   beforeEach(async () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['registerUser', 'uploadProfilePhoto', 'getRegistrationOptions']);
     sharedServiceSpy = jasmine.createSpyObj('SharedService', ['getCities'])
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
 
     await TestBed.configureTestingModule({
       declarations: [UserRegisterComponent],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
         { provide: SharedService, useValue: sharedServiceSpy },
-        { provide: MatDialog, useValue: dialogSpy },
         { provide: Router, useValue: routerSpy }
       ],
       imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule]
@@ -120,74 +115,56 @@ describe('UserRegisterComponent', () => {
     expect(component.profilePhoto).toBe(null);
   })
 
-  it('should show dialog and navigate to home if role is EVENT_ORGANIZER', fakeAsync(() => {
-    const submitButton = fixture.nativeElement.querySelector('.submit-button');
+  /**
+   * NOTE: The following three helper functions support testing different registration flows,
+   * which are covered in the four tests below.
+   */
 
+  // prepare the form and setup spies based on role and photo presence
+  function prepareFormAndSpies(roleIndex: number, withPhoto: boolean = false) {
     component.registrationForm.patchValue(mockValidRegistrationForm);
-    component.registrationForm.controls['role'].setValue(mockRoles[0]); // organizer
-    component.profilePhoto = null;
-    fixture.detectChanges();
-
-    authServiceSpy.registerUser.and.returnValue(of(mockValidAuthResponse as unknown as AuthResponse));
-
-    submitButton.click();
-    flush();
-
-    expect(authServiceSpy.registerUser).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/']); // homepage
-  }));
-
-  it('should navigate to company registration if role is PROVIDER', fakeAsync(() => {
-    const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    component.registrationForm.patchValue(mockValidRegistrationForm);
-    component.registrationForm.controls['role'].setValue(mockRoles[1]); // provider
-    component.profilePhoto = null;
+    component.registrationForm.controls['role'].setValue(mockRoles[roleIndex]);
+    component.profilePhoto = withPhoto ? new File([''], 'photo.jpg', { type: 'image/jpeg' }) : null;
     fixture.detectChanges();
 
     authServiceSpy.registerUser.and.returnValue(of(mockValidAuthResponse));
+    if (withPhoto) {
+      authServiceSpy.uploadProfilePhoto.and.returnValue(of(''));
+    }
+  }
 
-    submitButton.click();
-    flush();
-
-    expect(authServiceSpy.registerUser).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith([`${mockValidAuthResponse.id}/company-register`]);
-
-  }));
-
-  it('should register user and upload profile photo and -> navigate to company register if role is PROVIDER', fakeAsync(() => {
+  // click the submit button and flush async operations
+  function clickSubmitAndFlush() {
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    component.registrationForm.patchValue(mockValidRegistrationForm);
-    component.registrationForm.controls['role'].setValue(mockRoles[1]); // provider
-    component.profilePhoto = new File([''], 'photo.jpg', { type: 'image/jpeg' });
-    fixture.detectChanges();
-
-    authServiceSpy.registerUser.and.returnValue(of(mockValidAuthResponse));
-    authServiceSpy.uploadProfilePhoto.and.returnValue(of(''));
-
     submitButton.click();
     flush();
+  }
+
+  // run the registration flow and verify navigation outcome
+  function performRegistrationAndCheckNavigation(roleIndex: number, withPhoto: boolean, expectedRoute: any[]) {
+    prepareFormAndSpies(roleIndex, withPhoto);
+    clickSubmitAndFlush();
 
     expect(authServiceSpy.registerUser).toHaveBeenCalled();
-    expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(mockValidAuthResponse.id, component.profilePhoto);
-    expect(routerSpy.navigate).toHaveBeenCalledWith([`${mockValidAuthResponse.id}/company-register`]);
+    if (withPhoto)
+      expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(mockValidAuthResponse.id, component.profilePhoto);
+
+    expect(routerSpy.navigate).toHaveBeenCalledWith(expectedRoute);
+  }
+
+  it('should show dialog and navigate to home if role is EVENT_ORGANIZER, without photo', fakeAsync(() => {
+    performRegistrationAndCheckNavigation(0, false, ['/']);
   }));
 
-  it('should register user and upload profile photo -> navigate to home if role is EVENT_ORGANIZER', fakeAsync(() => {
-    const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    component.registrationForm.patchValue(mockValidRegistrationForm);
-    component.registrationForm.controls['role'].setValue(mockRoles[0]); // organizer
-    component.profilePhoto = new File([''], 'photo.jpg', { type: 'image/jpeg' });
-    fixture.detectChanges();
-
-    authServiceSpy.registerUser.and.returnValue(of(mockValidAuthResponse));
-    authServiceSpy.uploadProfilePhoto.and.returnValue(of(''));
-
-    submitButton.click();
-    flush();
-
-    expect(authServiceSpy.registerUser).toHaveBeenCalled();
-    expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(mockValidAuthResponse.id, component.profilePhoto);
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+  it('should show dialog and navigate to home if role is EVENT_ORGANIZER, with photo', fakeAsync(() => {
+    performRegistrationAndCheckNavigation(0, true, ['/']);
   }));
 
+  it('should navigate to company registration if role is PROVIDER, without photo', fakeAsync(() => {
+    performRegistrationAndCheckNavigation(1, false, [`${mockValidAuthResponse.id}/company-register`]);
+  }));
+
+  it('should navigate to company registration if role is PROVIDER, with photo', fakeAsync(() => {
+    performRegistrationAndCheckNavigation(1, true, [`${mockValidAuthResponse.id}/company-register`]);
+  }));
 });
