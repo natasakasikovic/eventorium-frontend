@@ -77,7 +77,7 @@ describe('UserRegisterComponent', () => {
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
 
     invalidRegistrationTestCases.forEach(({ field, invalidValue, expectedError }) => {
-      form.patchValue({ ...mockValidRegistrationForm });
+      form.patchValue(mockValidRegistrationForm);
       form.controls[field].setValue(invalidValue);
 
       fixture.detectChanges();
@@ -152,11 +152,11 @@ describe('UserRegisterComponent', () => {
     expect(routerSpy.navigate).toHaveBeenCalledWith(expectedRoute);
   }
 
-  it('should show dialog and navigate to home if role is EVENT_ORGANIZER, without photo', fakeAsync(() => {
+  it('should navigate to home if role is EVENT_ORGANIZER, without photo', fakeAsync(() => {
     performRegistrationAndCheckNavigation(0, false, ['/']);
   }));
 
-  it('should show dialog and navigate to home if role is EVENT_ORGANIZER, with photo', fakeAsync(() => {
+  it('should navigate to home if role is EVENT_ORGANIZER, with photo', fakeAsync(() => {
     performRegistrationAndCheckNavigation(0, true, ['/']);
   }));
 

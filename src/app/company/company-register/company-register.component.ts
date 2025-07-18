@@ -56,7 +56,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.companyForm.invalid) return 
+    if (this.companyForm.invalid) return
 
     const newCompany: CompanyRequest = this.companyForm.value;
     newCompany.providerId = this.providerId;
@@ -68,7 +68,7 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
               if (this.authService.getUserId() != this.providerId)
                 this.showActivationDialog();
               else
-                this.router.navigate(['/'])
+                void this.router.navigate(['/'])
             },
             error: (error: HttpErrorResponse) => {
               this.handleError(error);
@@ -79,10 +79,10 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
           if (this.authService.getUserId() != this.providerId)
             this.showActivationDialog();
           else
-            this.router.navigate(['/'])
+            void this.router.navigate(['/'])
         }
       },
-      
+
       error: (error: HttpErrorResponse) => this.handleError(error)
     })
   }
