@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {ServiceService} from './service.service';
-import {mockValidService} from '../../testing/mocks/mock-services';
+import {mockValidService} from '../../testing/mocks/service.mock';
 import {provideHttpClient} from '@angular/common/http';
 import {environment} from '../../env/environment';
 import {CreateService} from './model/create-service.model';

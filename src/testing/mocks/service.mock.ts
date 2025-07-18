@@ -1,7 +1,7 @@
 import {CreateService} from '../../app/service/model/create-service.model';
-import {mockEventTypes} from './mock-event-types';
+import {mockEventTypes} from './event-type.mock';
 import {ReservationType} from '../../app/service/model/reservation-type.enum';
-import {mockCategories} from './mock-categories';
+import {mockCategories} from './category.mock';
 
 export const mockValidService: CreateService = {
   name: 'Test Service',

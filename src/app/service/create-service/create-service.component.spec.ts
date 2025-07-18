@@ -6,15 +6,15 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Router} from '@angular/router';
 import {of} from 'rxjs';
-import {mockCategories} from '../../../testing/mocks/mock-categories';
-import {mockEventTypes} from '../../../testing/mocks/mock-event-types';
+import {mockCategories} from '../../../testing/mocks/category.mock';
+import {mockEventTypes} from '../../../testing/mocks/event-type.mock';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {MaterialModule} from '../../infrastructure/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Service} from '../model/service.model';
 import {By} from '@angular/platform-browser';
-import {mockValidService} from '../../../testing/mocks/mock-services';
+import {mockValidService} from '../../../testing/mocks/service.mock';
 
 describe('CreateServiceComponent', () => {
   let component: CreateServiceComponent;

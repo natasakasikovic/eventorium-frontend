@@ -1,4 +1,4 @@
-import {mockCategories} from './mock-categories';
+import {mockCategories} from './category.mock';
 import {EventType} from '../../app/event-type/model/event-type.model';
 
 export const mockEventTypes: EventType[] = [
