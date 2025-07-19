@@ -6,15 +6,15 @@ import {EventTypeService} from '../../event-type/event-type.service';
 import {CategoryService} from '../../category/category.service';
 import {Router} from '@angular/router';
 import {of} from 'rxjs';
-import {mockCategories} from '../../../testing/mocks/category.mock';
-import {mockEventTypes} from '../../../testing/mocks/event-type.mock';
+import {categoriesMock} from '../../../testing/mocks/category.mock';
+import {eventTypesMock} from '../../../testing/mocks/event-type.mock';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {MaterialModule} from '../../infrastructure/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Service} from '../model/service.model';
 import {By} from '@angular/platform-browser';
-import {mockValidService} from '../../../testing/mocks/service.mock';
+import {validServiceMock} from '../../../testing/mocks/service.mock';
 
 describe('CreateServiceComponent', () => {
   let component: CreateServiceComponent;
@@ -51,8 +51,8 @@ describe('CreateServiceComponent', () => {
     component = fixture.componentInstance;
     form = component.createServiceForm;
 
-    categoryServiceSpy.getAll.and.returnValue(of(mockCategories));
-    eventTypeServiceSpy.getAll.and.returnValue(of(mockEventTypes));
+    categoryServiceSpy.getAll.and.returnValue(of(categoriesMock));
+    eventTypeServiceSpy.getAll.and.returnValue(of(eventTypesMock));
 
     fixture.detectChanges();
   });
@@ -87,13 +87,13 @@ describe('CreateServiceComponent', () => {
 
     expect(eventTypeServiceSpy.getAll).toHaveBeenCalled();
     expect(categoryServiceSpy.getAll).toHaveBeenCalled();
-    expect(component.categories).toEqual(mockCategories);
-    expect(component.eventTypes).toEqual(mockEventTypes);
+    expect(component.categories).toEqual(categoriesMock);
+    expect(component.eventTypes).toEqual(eventTypesMock);
   }));
 
   it('should enable Create button when the form is valid', () => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(mockValidService);
+    form.patchValue(validServiceMock);
 
     fixture.detectChanges();
 
@@ -112,7 +112,7 @@ describe('CreateServiceComponent', () => {
   });
 
   it('should disable category suggestion fields when a category is selected', () => {
-    form.controls['category'].setValue(mockCategories[0]);
+    form.controls['category'].setValue(categoriesMock[0]);
 
     fixture.detectChanges();
 
@@ -181,7 +181,7 @@ describe('CreateServiceComponent', () => {
 
   it('should not create empty category suggestion', () => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(mockValidService);
+    form.patchValue(validServiceMock);
     form.controls['category'].setValue(null);
 
     fixture.detectChanges();
@@ -192,10 +192,10 @@ describe('CreateServiceComponent', () => {
 
   it('should call service creation when form is valid', fakeAsync(() => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(mockValidService);
+    form.patchValue(validServiceMock);
     fixture.detectChanges();
 
-    serviceServiceSpy.create.and.returnValue(of(mockValidService as unknown as Service));
+    serviceServiceSpy.create.and.returnValue(of(validServiceMock as unknown as Service));
     createButton.click();
     tick();
 

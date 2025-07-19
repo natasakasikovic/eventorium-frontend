@@ -1,9 +1,9 @@
-import {mockCities} from './city.mock';
+import {citiesMock} from './city.mock';
 
 export const validCompanyRequestMock = {
   name: "test",
   address: "test",
-  city: mockCities[0],
+  city: citiesMock[0],
   phoneNumber: "+3876546518465",
   description: "test",
   email: "test@test.com",

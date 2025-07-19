@@ -1,16 +1,16 @@
-import { mockCities } from "./city.mock";
-import {mockRoles} from './roles.mock';
+import {citiesMock} from "./city.mock";
+import {rolesMock} from './roles.mock';
 
 export const mockValidRegistrationForm = {
   email: 'test@test.com',
   password: '123456789',
   passwordConfirmation: '123456789',
-  role: mockRoles[0],
+  role: rolesMock[0],
   name: 'Test',
   lastname: 'Test',
   phoneNumber: '+38165234576',
   address: 'Test, 10',
-  city: mockCities[0]
+  city: citiesMock[0]
 }
 
 export const invalidRegistrationTestCases = [

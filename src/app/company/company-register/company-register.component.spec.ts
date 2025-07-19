@@ -8,8 +8,8 @@ import {MaterialModule} from '../../infrastructure/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthService} from '../../auth/auth.service';
 import {of} from 'rxjs';
-import {mockCities} from '../../../testing/mocks/city.mock';
-import {invalidCreationTestCases, mockValidCompanyForm} from '../../../testing/mocks/company-form.mock';
+import {citiesMock} from '../../../testing/mocks/city.mock';
+import {invalidCreationTestCases, validCompanyFormMock} from '../../../testing/mocks/company-form.mock';
 import {CompanyResponse} from '../model/company-response.model';
 
 describe('CompanyRegisterComponent', () => {
@@ -43,7 +43,7 @@ describe('CompanyRegisterComponent', () => {
     fixture = TestBed.createComponent(CompanyRegisterComponent);
     component = fixture.componentInstance;
 
-    sharedServiceSpy.getCities.and.returnValue(of(mockCities));
+    sharedServiceSpy.getCities.and.returnValue(of(citiesMock));
 
     fixture.detectChanges();
   });
@@ -67,7 +67,7 @@ describe('CompanyRegisterComponent', () => {
 
   it('should enable submit button when form is valid', () => {
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    component.companyForm.patchValue(mockValidCompanyForm);
+    component.companyForm.patchValue(validCompanyFormMock);
 
     fixture.detectChanges();
 
@@ -79,7 +79,7 @@ describe('CompanyRegisterComponent', () => {
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
 
     invalidCreationTestCases.forEach(({ field, invalidValue, expectedError }) => {
-      form.patchValue(mockValidCompanyForm);
+      form.patchValue(validCompanyFormMock);
       form.controls[field].setValue(invalidValue);
 
       fixture.detectChanges();
@@ -138,11 +138,11 @@ describe('CompanyRegisterComponent', () => {
   it('should call company creation when form is valid', fakeAsync(() => {
     const form = component.companyForm;
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    form.patchValue(mockValidCompanyForm);
+    form.patchValue(validCompanyFormMock);
     component.images = [];
     fixture.detectChanges();
 
-    companyServiceSpy.createCompany.and.returnValue(of(mockValidCompanyForm as unknown as CompanyResponse));
+    companyServiceSpy.createCompany.and.returnValue(of(validCompanyFormMock as unknown as CompanyResponse));
     submitButton.click();
     flush();
 
@@ -153,14 +153,14 @@ describe('CompanyRegisterComponent', () => {
   it('should call company creation and image upload when form is valid', fakeAsync(() => {
     const form = component.companyForm;
     const submitButton = fixture.nativeElement.querySelector('.submit-button');
-    form.patchValue(mockValidCompanyForm);
+    form.patchValue(validCompanyFormMock);
     component.images = [
       new File(['dummy content'], 'image1.jpg', { type: 'image/jpeg' }),
       new File(['dummy content'], 'image2.png', { type: 'image/png' })
     ]
     fixture.detectChanges();
 
-    companyServiceSpy.createCompany.and.returnValue(of(mockValidCompanyForm as unknown as CompanyResponse));
+    companyServiceSpy.createCompany.and.returnValue(of(validCompanyFormMock as unknown as CompanyResponse));
     companyServiceSpy.uploadImages.and.returnValue(of(void 0));
 
     submitButton.click();

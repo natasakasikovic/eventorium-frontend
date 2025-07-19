@@ -4,13 +4,13 @@ import { AuthService } from "../auth.service";
 import { SharedService } from "../../shared/shared.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { of } from "rxjs";
-import { mockCities } from "../../../testing/mocks/city.mock";
-import { mockRoles } from "../../../testing/mocks/roles.mock";
+import { citiesMock } from "../../../testing/mocks/city.mock";
+import { rolesMock } from "../../../testing/mocks/roles.mock";
 import { MaterialModule } from "../../infrastructure/material/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { invalidRegistrationTestCases, mockValidRegistrationForm } from "../../../testing/mocks/registration-form.mock";
 import { Router } from "@angular/router";
-import { mockValidAuthResponse } from "../../../testing/mocks/user.mock";
+import { validAuthResponseMock } from "../../../testing/mocks/user.mock";
 
 describe('UserRegisterComponent', () => {
   let component: UserRegisterComponent;
@@ -40,8 +40,8 @@ describe('UserRegisterComponent', () => {
       fixture = TestBed.createComponent(UserRegisterComponent);
       component = fixture.componentInstance;
 
-      sharedServiceSpy.getCities.and.returnValue(of(mockCities));
-      authServiceSpy.getRegistrationOptions.and.returnValue(of(mockRoles));
+      sharedServiceSpy.getCities.and.returnValue(of(citiesMock));
+      authServiceSpy.getRegistrationOptions.and.returnValue(of(rolesMock));
 
       fixture.detectChanges();
   })
@@ -123,11 +123,11 @@ describe('UserRegisterComponent', () => {
   // prepare the form and setup spies based on role and photo presence
   function prepareFormAndSpies(roleIndex: number, withPhoto: boolean = false) {
     component.registrationForm.patchValue(mockValidRegistrationForm);
-    component.registrationForm.controls['role'].setValue(mockRoles[roleIndex]);
+    component.registrationForm.controls['role'].setValue(rolesMock[roleIndex]);
     component.profilePhoto = withPhoto ? new File([''], 'photo.jpg', { type: 'image/jpeg' }) : null;
     fixture.detectChanges();
 
-    authServiceSpy.registerUser.and.returnValue(of(mockValidAuthResponse));
+    authServiceSpy.registerUser.and.returnValue(of(validAuthResponseMock));
     if (withPhoto) {
       authServiceSpy.uploadProfilePhoto.and.returnValue(of(''));
     }
@@ -147,7 +147,7 @@ describe('UserRegisterComponent', () => {
 
     expect(authServiceSpy.registerUser).toHaveBeenCalled();
     if (withPhoto)
-      expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(mockValidAuthResponse.id, component.profilePhoto);
+      expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(validAuthResponseMock.id, component.profilePhoto);
 
     expect(routerSpy.navigate).toHaveBeenCalledWith(expectedRoute);
   }
@@ -161,10 +161,10 @@ describe('UserRegisterComponent', () => {
   }));
 
   it('should navigate to company registration if role is PROVIDER, without photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(1, false, [`${mockValidAuthResponse.id}/company-register`]);
+    performRegistrationAndCheckNavigation(1, false, [`${validAuthResponseMock.id}/company-register`]);
   }));
 
   it('should navigate to company registration if role is PROVIDER, with photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(1, true, [`${mockValidAuthResponse.id}/company-register`]);
+    performRegistrationAndCheckNavigation(1, true, [`${validAuthResponseMock.id}/company-register`]);
   }));
 });

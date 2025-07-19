@@ -1,6 +1,6 @@
 import { AuthResponse } from "../../app/auth/model/auth-response.model";
 
-export const mockValidAuthResponse: AuthResponse = {
+export const validAuthResponseMock: AuthResponse = {
   id: 1,
   email: 'test@test.com',
   role: ['EVENT_ORGANIZER'],

@@ -3,14 +3,15 @@ import {TestBed} from '@angular/core/testing';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideHttpClient} from '@angular/common/http';
 import {AuthRequest} from './model/auth-request.model';
-import {mockValidAuthRequest} from '../../testing/mocks/auth-request.mock';
+import {validAuthRequestMock} from '../../testing/mocks/auth-request.mock';
 import {AuthResponse} from './model/auth-response.model';
 import {environment} from '../../env/environment';
-import {mockValidAuthResponse} from '../../testing/mocks/user.mock';
+import {validAuthResponseMock} from '../../testing/mocks/user.mock';
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpController: HttpTestingController;
+  const endpoint = `${environment.apiHost}/auth/registration`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,14 +35,14 @@ describe('AuthService', () => {
   })
 
   it('should send POST request and return registered user', () => {
-    const request: AuthRequest = mockValidAuthRequest;
-    const mockResponse: AuthResponse = mockValidAuthResponse;
+    const request: AuthRequest = validAuthRequestMock;
+    const mockResponse: AuthResponse = validAuthResponseMock;
 
     service.registerUser(request).subscribe(response => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
+    const req = httpController.expectOne(endpoint);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(request);
 
@@ -49,7 +50,7 @@ describe('AuthService', () => {
   });
 
   it('should return validation errors on bad request', () => {
-    const request = mockValidAuthRequest;
+    const request = validAuthRequestMock;
     service.registerUser(request).subscribe({
       next: () => fail('Expected validation error'),
       error: (err) => {
@@ -58,15 +59,15 @@ describe('AuthService', () => {
       }
     });
 
-    const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
-    expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
+    const req = httpController.expectOne(endpoint);
+    expect(req.request.url).toBe(endpoint);
     expect(req.request.body).toEqual(request);
 
     req.flush({ message: 'Validation failed' }, { status: 400, statusText: 'Bad Request' });
   });
 
   it('should handle 500 server error gracefully', () => {
-    const request = mockValidAuthRequest;
+    const request = validAuthRequestMock;
     service.registerUser(request).subscribe({
       next: () => fail('Expected error 500, but got success'),
       error: (err) => {
@@ -74,8 +75,8 @@ describe('AuthService', () => {
       }
     });
 
-    const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
-    expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
+    const req = httpController.expectOne(endpoint);
+    expect(req.request.url).toBe(endpoint);
     expect(req.request.body).toEqual(request);
 
     req.flush({ message: 'Server error' }, { status: 500, statusText: 'Server Error' });
