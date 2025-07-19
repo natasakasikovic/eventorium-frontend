@@ -49,7 +49,7 @@ describe('AuthService', () => {
     req.flush(mockResponse);
   });
 
-  it('should return validation errors on bad request (400)', () => {
+  it('should return validation errors on bad request', () => {
     const request = mockValidAuthRequest;
     service.registerUser(request).subscribe({
       next: () => fail('Expected validation error'),
@@ -77,6 +77,43 @@ describe('AuthService', () => {
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
-    req.flush({ message: 'Internal server error' }, { status: 500, statusText: 'Server Error' });
+    req.flush({ message: 'Server error' }, { status: 500, statusText: 'Server Error' });
   });
+
+  it('should send POST request with FormData and return text response', () => {
+    const userId = 1;
+    const mockFile = new File(['dummy content'], 'profile.jpg', { type: 'image/jpeg' });
+    const expectedResponse = 'Photo uploaded successfully';
+
+    service.uploadProfilePhoto(userId, mockFile).subscribe(response => {
+      expect(response).toBe(expectedResponse);
+      expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body instanceof FormData).toBeTrue();
+
+      const formData = req.request.body as FormData;
+      expect(formData.has('profilePhoto')).toBeTrue();
+    });
+
+    const req = httpController.expectOne(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    req.flush(expectedResponse);
+  });
+
+  it('should return error when upload fails with 500', () => {
+    const userId = 1;
+    const mockFile = new File(['dummy content'], 'profile.jpg', { type: 'image/jpeg' });
+
+    service.uploadProfilePhoto(userId, mockFile).subscribe({
+      next: () => fail('Expected 500 server error'),
+      error: (err) => {
+        expect(err.status).toBe(500);
+        expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
+        expect(req.request.method).toBe('POST');
+      }
+    });
+
+    const req = httpController.expectOne(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    req.flush({ message: 'Server error' }, { status: 500, statusText: 'Server Error' });
+  });
+
 });
