@@ -31,7 +31,9 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
               private sharedService: SharedService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private authService: AuthService) {
+              private authService: AuthService) { }
+
+  ngOnInit(): void {
     this.companyForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
@@ -44,9 +46,6 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
     });
 
     this.getCities();
-  }
-
-  ngOnInit(): void {
     this.loadParams();
   }
 
@@ -57,55 +56,51 @@ export class CompanyRegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.companyForm.valid) {
-      const newCompany: CompanyRequest = this.companyForm.value;
-      newCompany.providerId = this.providerId;
-      this.companyService.createCompany(newCompany).subscribe({
-        next: (response: CompanyResponse) => {
-          if (this.images.length > 0) {
-            this.companyService.uploadImages(response.id, this.images).subscribe({
-              next: () => {
-                if (this.authService.getUserId() != this.providerId)
-                  this.showActivationDialog();
-                else
-                  this.router.navigate(['/'])
-              },
-              error: (error: HttpErrorResponse) => {
-                this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.IMAGE_UPLOAD_ERROR);
+    if (this.companyForm.invalid) return
+
+    const newCompany: CompanyRequest = this.companyForm.value;
+    newCompany.providerId = this.providerId;
+    this.companyService.createCompany(newCompany).subscribe({
+      next: (response: CompanyResponse) => {
+        if (this.images.length > 0) {
+          this.companyService.uploadImages(response.id, this.images).subscribe({
+            next: () => {
+              if (this.authService.getUserId() != this.providerId)
                 this.showActivationDialog();
-              }
-            })
-          } else {
-            if (this.authService.getUserId() != this.providerId)
+              else
+                void this.router.navigate(['/'])
+            },
+            error: (error: HttpErrorResponse) => {
+              this.handleError(error);
               this.showActivationDialog();
-            else
-              this.router.navigate(['/'])
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === 400 && error.error) {
-            this.showMessage(ERROR_MESSAGES.VALIDATOR_ERROR, error.error.message);
-          }
-          else {
-            this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, ERROR_MESSAGES.SERVER_ERROR);
-          }
+            }
+          })
+        } else {
+          if (this.authService.getUserId() != this.providerId)
+            this.showActivationDialog();
+          else
+            void this.router.navigate(['/'])
         }
-      })
-    }
+      },
+
+      error: (error: HttpErrorResponse) => this.handleError(error)
+    })
   }
 
   showMessage(title: string, message: string) : void {
-    this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: title,
-        message: message
-      }
-    })
+    this.dialog.open(InfoDialogComponent, { data: { title: title, message: message } })
   }
 
   showActivationDialog(): void {
     this.showMessage(MESSAGES.accountActivation.title, MESSAGES.accountActivation.message);
     void this.router.navigate(['/']);
+  }
+
+  private handleError(error: HttpErrorResponse): void {
+    if (error.status == 502 || error.status < 500)
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR, error.error.message)
+    else
+      this.showMessage(ERROR_MESSAGES.GENERAL_ERROR , ERROR_MESSAGES.SERVER_ERROR)
   }
 
   public get formControls() {

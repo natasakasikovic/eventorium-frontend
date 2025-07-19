@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {ServiceService} from './service.service';
-import {mockValidService} from '../../testing/mocks/mock-services';
+import {validServiceMock} from '../../testing/mocks/service.mock';
 import {provideHttpClient} from '@angular/common/http';
 import {environment} from '../../env/environment';
 import {CreateService} from './model/create-service.model';
@@ -33,7 +33,7 @@ describe('ServiceService', () => {
   });
 
   it('should send POST request and return created service', () => {
-    const createPayload: CreateService = mockValidService;
+    const createPayload: CreateService = validServiceMock;
     const mockResponse: Service = null;
 
     service.create(createPayload).subscribe(response => {
@@ -50,7 +50,7 @@ describe('ServiceService', () => {
   });
 
   it('should handle 500 server error gracefully', () => {
-    const payload = mockValidService;
+    const payload = validServiceMock;
     service.create(payload).subscribe({
       next: () => fail('Expected error, but got success'),
       error: (err) => {
@@ -65,7 +65,7 @@ describe('ServiceService', () => {
   });
 
   it('should return validation errors on bad input (400)', () => {
-    const payload = mockValidService;
+    const payload = validServiceMock;
     service.create(payload).subscribe({
       next: () => fail('Expected validation error'),
       error: (err) => {
@@ -81,7 +81,7 @@ describe('ServiceService', () => {
   });
 
   it('should return 401 Unauthorized when user is not authenticated', () => {
-    const payload: CreateService = mockValidService;
+    const payload: CreateService = validServiceMock;
 
     service.create(payload).subscribe({
       next: () => fail('Expected 401 Unauthorized error'),
@@ -98,7 +98,7 @@ describe('ServiceService', () => {
   });
 
   it('should return 403 Forbidden when user lacks provider role', () => {
-    const payload: CreateService = mockValidService;
+    const payload: CreateService = validServiceMock;
 
     service.create(payload).subscribe({
       next: () => fail('Expected 403 Forbidden error'),
@@ -113,6 +113,4 @@ describe('ServiceService', () => {
     const req = httpController.expectOne(`${environment.apiHost}/services`);
     req.flush({ message: 'Forbidden' }, { status: 403, statusText: 'Forbidden' });
   });
-
-
 });
