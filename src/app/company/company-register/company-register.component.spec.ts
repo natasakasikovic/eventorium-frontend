@@ -11,6 +11,8 @@ import {of} from 'rxjs';
 import {citiesMock} from '../../../testing/mocks/city.mock';
 import {invalidCreationTestCases, validCompanyFormMock} from '../../../testing/mocks/company-form.mock';
 import {CompanyResponse} from '../model/company-response.model';
+import {runInvalidFormTestCases} from '../../../testing/util/form-validation.utils';
+import {mockValidRegistrationForm} from '../../../testing/mocks/registration-form.mock';
 
 describe('CompanyRegisterComponent', () => {
   let component: CompanyRegisterComponent;
@@ -74,22 +76,14 @@ describe('CompanyRegisterComponent', () => {
     expect(submitButton.disabled).toBeFalsy();
   });
 
-  it('should disable submit button when any single field is invalid', () => {
-    const form = component.companyForm;
-    const submitButton = fixture.nativeElement.querySelector('.submit-button');
-
-    invalidCreationTestCases.forEach(({ field, invalidValue, expectedError }) => {
-      form.patchValue(validCompanyFormMock);
-      form.controls[field].setValue(invalidValue);
-
-      fixture.detectChanges();
-
-      const control = form.controls[field];
-      expect(control.invalid).withContext(`${field} should be invalid`).toBeTrue();
-      expect(control.hasError(expectedError)).withContext(`${field} should have '${expectedError}' error`).toBeTrue();
-      expect(form.invalid).withContext(`Form should be invalid when ${field} is invalid`).toBeTrue();
-      expect(submitButton.disabled).withContext(`Submit button should be disabled for invalid ${field}`).toBeTrue();
-    });
+  it('should validate required fields', () => {
+    runInvalidFormTestCases(
+      component.companyForm,
+      fixture,
+      '.submit-button',
+      mockValidRegistrationForm,
+      invalidCreationTestCases
+    );
   });
 
   it('should ignore invalid file types', () => {

@@ -1,5 +1,6 @@
 import {citiesMock} from "./city.mock";
 import {rolesMock} from './roles.mock';
+import {InvalidTestCase} from '../util/form-validation.utils';
 
 export const mockValidRegistrationForm = {
   email: 'test@test.com',
@@ -13,7 +14,7 @@ export const mockValidRegistrationForm = {
   city: citiesMock[0]
 }
 
-export const invalidRegistrationTestCases = [
+export const invalidRegistrationTestCases: InvalidTestCase[] = [
   { field: 'name', invalidValue: '', expectedError: 'required' },
   { field: 'lastname', invalidValue: '', expectedError: 'required' },
   { field: 'address', invalidValue: '', expectedError: 'required' },

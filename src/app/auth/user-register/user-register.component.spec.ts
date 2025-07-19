@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { invalidRegistrationTestCases, mockValidRegistrationForm } from "../../../testing/mocks/registration-form.mock";
 import { Router } from "@angular/router";
 import { validAuthResponseMock } from "../../../testing/mocks/user.mock";
+import {runInvalidFormTestCases} from '../../../testing/util/form-validation.utils';
 
 describe('UserRegisterComponent', () => {
   let component: UserRegisterComponent;
@@ -72,22 +73,14 @@ describe('UserRegisterComponent', () => {
     expect(submitButton.disabled).toBeFalsy();
   });
 
-  it('should disable submit button when any single field is invalid', () => {
-    const form = component.registrationForm;
-    const submitButton = fixture.nativeElement.querySelector('.submit-button');
-
-    invalidRegistrationTestCases.forEach(({ field, invalidValue, expectedError }) => {
-      form.patchValue(mockValidRegistrationForm);
-      form.controls[field].setValue(invalidValue);
-
-      fixture.detectChanges();
-
-      const control = form.controls[field];
-      expect(control.invalid).withContext(`${field} should be invalid`).toBeTrue();
-      expect(control.hasError(expectedError)).withContext(`${field} should have '${expectedError}' error`).toBeTrue();
-      expect(form.invalid).withContext(`Form should be invalid when ${field} is invalid`).toBeTrue();
-      expect(submitButton.disabled).withContext(`Submit button should be disabled for invalid ${field}`).toBeTrue();
-    });
+  it('should validate required fields', () => {
+    runInvalidFormTestCases(
+      component.registrationForm,
+      fixture,
+      '.submit-button',
+      mockValidRegistrationForm,
+      invalidRegistrationTestCases
+    );
   });
 
   it('should disable submit button when passwords do not match', () => {
