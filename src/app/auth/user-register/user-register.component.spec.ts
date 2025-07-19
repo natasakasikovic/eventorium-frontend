@@ -5,7 +5,7 @@ import { SharedService } from "../../shared/shared.service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { of } from "rxjs";
 import { mockCities } from "../../../testing/mocks/city.mock";
-import { mockRoles } from "../../../testing/mocks/mock-roles.mock";
+import { mockRoles } from "../../../testing/mocks/roles.mock";
 import { MaterialModule } from "../../infrastructure/material/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { invalidRegistrationTestCases, mockValidRegistrationForm } from "../../../testing/mocks/registration-form.mock";

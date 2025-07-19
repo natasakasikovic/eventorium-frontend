@@ -6,6 +6,7 @@ import {AuthRequest} from './model/auth-request.model';
 import {mockValidAuthRequest} from '../../testing/mocks/auth-request.mock';
 import {AuthResponse} from './model/auth-response.model';
 import {environment} from '../../env/environment';
+import {mockValidAuthResponse} from '../../testing/mocks/user.mock';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -34,12 +35,10 @@ describe('AuthService', () => {
 
   it('should send POST request and return registered user', () => {
     const request: AuthRequest = mockValidAuthRequest;
-    const mockResponse: AuthResponse = null;
+    const mockResponse: AuthResponse = mockValidAuthResponse;
 
     service.registerUser(request).subscribe(response => {
       expect(response).toEqual(mockResponse);
-      expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
-      expect(req.request.body).toEqual(request);
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
@@ -56,12 +55,13 @@ describe('AuthService', () => {
       error: (err) => {
         expect(err.status).toBe(400);
         expect(err.error.message).toContain('Validation');
-        expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
-        expect(req.request.body).toEqual(request);
       }
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
+    expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
+    expect(req.request.body).toEqual(request);
+
     req.flush({ message: 'Validation failed' }, { status: 400, statusText: 'Bad Request' });
   });
 
@@ -71,12 +71,13 @@ describe('AuthService', () => {
       next: () => fail('Expected error 500, but got success'),
       error: (err) => {
         expect(err.status).toBe(500);
-        expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
-        expect(req.request.body).toEqual(request);
       }
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/registration`);
+    expect(req.request.url).toBe(`${environment.apiHost}/auth/registration`);
+    expect(req.request.body).toEqual(request);
+
     req.flush({ message: 'Server error' }, { status: 500, statusText: 'Server Error' });
   });
 
@@ -87,15 +88,16 @@ describe('AuthService', () => {
 
     service.uploadProfilePhoto(userId, mockFile).subscribe(response => {
       expect(response).toBe(expectedResponse);
-      expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body instanceof FormData).toBeTrue();
-
-      const formData = req.request.body as FormData;
-      expect(formData.has('profilePhoto')).toBeTrue();
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body instanceof FormData).toBeTrue();
+
+    const formData = req.request.body as FormData;
+    expect(formData.has('profilePhoto')).toBeTrue();
+
     req.flush(expectedResponse);
   });
 
@@ -107,12 +109,13 @@ describe('AuthService', () => {
       next: () => fail('Expected 500 server error'),
       error: (err) => {
         expect(err.status).toBe(500);
-        expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
-        expect(req.request.method).toBe('POST');
       }
     });
 
     const req = httpController.expectOne(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    expect(req.request.url).toBe(`${environment.apiHost}/auth/${userId}/profile-photo`);
+    expect(req.request.method).toBe('POST');
+
     req.flush({ message: 'Server error' }, { status: 500, statusText: 'Server Error' });
   });
 

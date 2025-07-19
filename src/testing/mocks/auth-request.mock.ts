@@ -1,6 +1,6 @@
 import {AuthRequest} from '../../app/auth/model/auth-request.model';
 import {PersonRequest} from '../../app/auth/model/person.request.model';
-import {mockRoles} from './mock-roles.mock';
+import {mockRoles} from './roles.mock';
 import {mockCities} from './city.mock';
 
 const mockValidPersonRequest: PersonRequest = {

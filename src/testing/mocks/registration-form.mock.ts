@@ -1,5 +1,5 @@
 import { mockCities } from "./city.mock";
-import {mockRoles} from './mock-roles.mock';
+import {mockRoles} from './roles.mock';
 
 export const mockValidRegistrationForm = {
   email: 'test@test.com',
