@@ -113,4 +113,78 @@ describe('ServiceService', () => {
     const req = httpController.expectOne(`${environment.apiHost}/services`);
     req.flush({ message: 'Forbidden' }, { status: 403, statusText: 'Forbidden' });
   });
+
+  it('should handle 500 server error during image upload', () => {
+    const serviceId = 99;
+    const file = new File(['oops'], 'error.jpg');
+
+    service.uploadImages(serviceId, [file]).subscribe({
+      next: () => fail('Expected error, but got success'),
+      error: (err) => {
+        expect(err.status).toBe(500);
+        expect(err.statusText).toBe('Server Error');
+      }
+    });
+
+    const req = httpController.expectOne(`${environment.apiHost}/services/${serviceId}/images`);
+    expect(req.request.method).toBe('POST');
+    req.flush({ message: 'Upload failed' }, { status: 500, statusText: 'Server Error' });
+  });
+
+  it('should handle 401 Unauthorized during image upload', () => {
+    const serviceId = 1;
+    const file = new File(['x'], 'unauthorized.jpg');
+
+    service.uploadImages(serviceId, [file]).subscribe({
+      next: () => fail('Expected 401 error'),
+      error: (err) => {
+        expect(err.status).toBe(401);
+        expect(err.statusText).toBe('Unauthorized');
+      }
+    });
+
+    const req = httpController.expectOne(`${environment.apiHost}/services/${serviceId}/images`);
+    req.flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
+  });
+
+  it('should send FormData with uploaded images', () => {
+    const serviceId = 42;
+    const file1 = new File(['file1-content'], 'file1.jpg', { type: 'image/jpeg' });
+    const file2 = new File(['file2-content'], 'file2.png', { type: 'image/png' });
+    const postSpy = spyOn(service['httpClient'], 'post').and.callThrough();
+
+    service.uploadImages(serviceId, [file1, file2]).subscribe();
+
+    const req = httpController.expectOne(`${environment.apiHost}/services/${serviceId}/images`);
+    expect(req.request.method).toBe('POST');
+
+    const formData: FormData = req.request.body as FormData;
+
+    expect(formData instanceof FormData).toBeTrue();
+
+    expect(postSpy).toHaveBeenCalledWith(
+      `${environment.apiHost}/services/${serviceId}/images`,
+      jasmine.any(FormData),
+      jasmine.objectContaining({ responseType: 'text' as 'json' })
+    );
+
+    req.flush('', { status: 200, statusText: 'OK' });
+  });
+
+  it('should handle 403 Forbidden during image upload', () => {
+    const serviceId = 2;
+    const file = new File(['x'], 'forbidden.jpg');
+
+    service.uploadImages(serviceId, [file]).subscribe({
+      next: () => fail('Expected 403 error'),
+      error: (err) => {
+        expect(err.status).toBe(403);
+        expect(err.statusText).toBe('Forbidden');
+      }
+    });
+
+    const req = httpController.expectOne(`${environment.apiHost}/services/${serviceId}/images`);
+    req.flush({ message: 'Forbidden' }, { status: 403, statusText: 'Forbidden' });
+  });
+
 });

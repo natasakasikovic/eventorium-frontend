@@ -28,7 +28,7 @@ describe('CreateServiceComponent', () => {
   let form: FormGroup;
 
   beforeEach(async () => {
-    serviceServiceSpy = jasmine.createSpyObj('ServiceService', ['create', 'uploadFiles']);
+    serviceServiceSpy = jasmine.createSpyObj('ServiceService', ['create', 'uploadImages']);
     categoryServiceSpy = jasmine.createSpyObj('CategoryService', ['getAll']);
     eventTypeServiceSpy = jasmine.createSpyObj('EventTypeService', ['getAll']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -74,8 +74,8 @@ describe('CreateServiceComponent', () => {
       suggestedCategoryName: null,
       suggestedCategoryDescription: null,
       category: '',
-      visible: null,
-      available: null,
+      isVisible: null,
+      isAvailable: null,
       reservationDeadline: '',
       cancellationDeadline: '',
       minDuration: 6,
@@ -190,14 +190,34 @@ describe('CreateServiceComponent', () => {
   it('should call service creation when form is valid', fakeAsync(() => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
     form.patchValue(mockValidServiceForm);
+    component.images = []
     fixture.detectChanges();
 
     serviceServiceSpy.create.and.returnValue(of(mockValidServiceForm as unknown as Service));
     createButton.click();
     tick();
 
-    expect(serviceServiceSpy.create).toHaveBeenCalled();
+    expect(serviceServiceSpy.uploadImages).not.toHaveBeenCalled();
+    expect(serviceServiceSpy.create).toHaveBeenCalledWith(mockValidServiceForm);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['manageable-services']);
   }));
 
+  it('should create service and upload images when form is valid', fakeAsync(() => {
+    const createButton = fixture.nativeElement.querySelector('.create-button');
+    component.images = [
+      new File(['dummy content'], 'image1.jpg', { type: 'image/jpeg' }),
+      new File(['dummy content'], 'image2.png', { type: 'image/png' }),
+    ];
+    form.patchValue(mockValidServiceForm);
+    fixture.detectChanges();
+
+    serviceServiceSpy.create.and.returnValue(of(mockValidServiceForm as unknown as Service));
+    serviceServiceSpy.uploadImages.and.returnValue(of(null));
+    createButton.click();
+    tick();
+
+    expect(serviceServiceSpy.create).toHaveBeenCalledWith(mockValidServiceForm);
+    expect(serviceServiceSpy.uploadImages).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['manageable-services']);
+  }));
 });
