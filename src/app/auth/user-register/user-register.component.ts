@@ -10,7 +10,7 @@ import {City} from '../../shared/model/city.model';
 import {SharedService} from '../../shared/shared.service';
 import {Role, toString} from '../model/user-role.model';
 import {AuthRequest} from '../model/auth-request.model';
-import {PersonRequestDto} from '../model/person.request.model';
+import {PersonRequest} from '../model/person.request.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthResponse} from '../model/auth-response.model';
 import {passwordMatchValidator} from '../../shared/validators/password-match.validator';
@@ -120,7 +120,7 @@ export class UserRegisterComponent implements OnInit {
   getFormValues(): AuthRequest {
     const formValue = this.registrationForm.value;
 
-    const newPerson: PersonRequestDto = {
+    const newPerson: PersonRequest = {
       name : formValue.name,
       lastname : formValue.lastname,
       phoneNumber : formValue.phoneNumber,

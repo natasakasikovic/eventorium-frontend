@@ -1,4 +1,4 @@
-import { PersonRequestDto } from "./person.request.model";
+import { PersonRequest } from "./person.request.model";
 import { Role } from "./user-role.model";
 
 export interface AuthRequest {
@@ -6,5 +6,5 @@ export interface AuthRequest {
     password: string;
     passwordConfirmation: string;
     roles: Role[];
-    person: PersonRequestDto
+    person: PersonRequest
 }
