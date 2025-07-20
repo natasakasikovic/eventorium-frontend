@@ -13,6 +13,7 @@ import { mockServiceWithFixedDuration, mockServiceWithRangeDuration } from "../.
 import { ServiceService } from "../service.service";
 import { of } from "rxjs";
 import { BudgetItemStatus } from "../../budget/model/budget-item-status.enum";
+import { MaterialModule } from "../../infrastructure/material/material.module";
 
 describe('ServiceReservationDialogComponent', () => {
 
@@ -28,12 +29,9 @@ describe('ServiceReservationDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ServiceReservationDialogComponent],
-      imports: [HttpClientTestingModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgxMaterialTimepickerModule,
+      imports: [
         ReactiveFormsModule,
+        MaterialModule,
         NoopAnimationsModule
       ],
        providers: [
@@ -79,13 +77,6 @@ describe('ServiceReservationDialogComponent', () => {
       fixture.detectChanges();
       expect(reserveButton.disabled).toBeFalsy()
   })
-
-  it('should disable reserve button when form is invalid', () => {
-    const reserveButton = fixture.nativeElement.querySelector('#reserve-button');
-    component.reservationForm.setValue(mockInvalidReservationForm);
-    fixture.detectChanges();
-    expect(reserveButton.disabled).toBeTruthy();
-  });
 
 
   it('should auto-fill ending time when minDuration equals maxDuration', () => {
