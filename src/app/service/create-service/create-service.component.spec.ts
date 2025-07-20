@@ -14,7 +14,8 @@ import {MaterialModule} from '../../infrastructure/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Service} from '../model/service.model';
 import {By} from '@angular/platform-browser';
-import {validServiceMock} from '../../../testing/mocks/service.mock';
+import {invalidCreateServiceFormTestCases, mockValidServiceForm} from '../../../testing/mocks/service-form.mock';
+import {runInvalidFormTestCases} from '../../../testing/util/form-validation.utils';
 
 describe('CreateServiceComponent', () => {
   let component: CreateServiceComponent;
@@ -27,7 +28,7 @@ describe('CreateServiceComponent', () => {
   let form: FormGroup;
 
   beforeEach(async () => {
-    serviceServiceSpy = jasmine.createSpyObj('ServiceService', ['create', 'uploadFiles']);
+    serviceServiceSpy = jasmine.createSpyObj('ServiceService', ['create', 'uploadImages']);
     categoryServiceSpy = jasmine.createSpyObj('CategoryService', ['getAll']);
     eventTypeServiceSpy = jasmine.createSpyObj('EventTypeService', ['getAll']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
@@ -73,8 +74,8 @@ describe('CreateServiceComponent', () => {
       suggestedCategoryName: null,
       suggestedCategoryDescription: null,
       category: '',
-      visible: null,
-      available: null,
+      isVisible: null,
+      isAvailable: null,
       reservationDeadline: '',
       cancellationDeadline: '',
       minDuration: 6,
@@ -93,7 +94,7 @@ describe('CreateServiceComponent', () => {
 
   it('should enable Create button when the form is valid', () => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(validServiceMock);
+    form.patchValue(mockValidServiceForm);
 
     fixture.detectChanges();
 
@@ -123,17 +124,13 @@ describe('CreateServiceComponent', () => {
   });
 
   it('should disable Create button when the form is invalid', () => {
-    const discountControl = component.createServiceForm.controls['discount'];
-    const priceControl = component.createServiceForm.controls['price'];
-    const createButton = fixture.nativeElement.querySelector('.create-button');
-    discountControl.setValue(101);
-    priceControl.setValue(-1);
-
-    fixture.detectChanges();
-
-    expect(discountControl.valid).toBeFalsy();
-    expect(priceControl.valid).toBeFalsy();
-    expect(createButton.disabled).toBeTruthy();
+    runInvalidFormTestCases(
+      form,
+      fixture,
+      ".create-button",
+      mockValidServiceForm,
+      invalidCreateServiceFormTestCases
+    )
   });
 
   it('should ignore invalid file types', () => {
@@ -181,7 +178,7 @@ describe('CreateServiceComponent', () => {
 
   it('should not create empty category suggestion', () => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(validServiceMock);
+    form.patchValue(mockValidServiceForm);
     form.controls['category'].setValue(null);
 
     fixture.detectChanges();
@@ -192,15 +189,35 @@ describe('CreateServiceComponent', () => {
 
   it('should call service creation when form is valid', fakeAsync(() => {
     const createButton = fixture.nativeElement.querySelector('.create-button');
-    form.patchValue(validServiceMock);
+    form.patchValue(mockValidServiceForm);
+    component.images = []
     fixture.detectChanges();
 
-    serviceServiceSpy.create.and.returnValue(of(validServiceMock as unknown as Service));
+    serviceServiceSpy.create.and.returnValue(of(mockValidServiceForm as unknown as Service));
     createButton.click();
     tick();
 
-    expect(serviceServiceSpy.create).toHaveBeenCalled();
+    expect(serviceServiceSpy.uploadImages).not.toHaveBeenCalled();
+    expect(serviceServiceSpy.create).toHaveBeenCalledWith(mockValidServiceForm);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['manageable-services']);
   }));
 
+  it('should create service and upload images when form is valid', fakeAsync(() => {
+    const createButton = fixture.nativeElement.querySelector('.create-button');
+    component.images = [
+      new File(['dummy content'], 'image1.jpg', { type: 'image/jpeg' }),
+      new File(['dummy content'], 'image2.png', { type: 'image/png' }),
+    ];
+    form.patchValue(mockValidServiceForm);
+    fixture.detectChanges();
+
+    serviceServiceSpy.create.and.returnValue(of(mockValidServiceForm as unknown as Service));
+    serviceServiceSpy.uploadImages.and.returnValue(of(null));
+    createButton.click();
+    tick();
+
+    expect(serviceServiceSpy.create).toHaveBeenCalledWith(mockValidServiceForm);
+    expect(serviceServiceSpy.uploadImages).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['manageable-services']);
+  }));
 });
