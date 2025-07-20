@@ -62,7 +62,7 @@ export const mockServiceWithRangeDuration: Service = {
     discount: 10,
     visible: true,
     available: true,
-    type: ReservationType.MANUAL,
+    type: ReservationType.AUTOMATIC,
     status: Status.ACCEPTED,
     images: null,
     company: null

@@ -5,16 +5,25 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { runInvalidFormTestCases } from "../../../testing/util/form-validation.utils";
 import { invalidReservationTestCases, mockInvalidReservationForm, mockValidReservationForm } from "../../../testing/mocks/reservation-form.mock";
 import { mockServiceWithFixedDuration, mockServiceWithRangeDuration } from "../../../testing/mocks/service.mock";
+import { ServiceService } from "../service.service";
+import { of } from "rxjs";
+import { BudgetItemStatus } from "../../budget/model/budget-item-status.enum";
 
 describe('ServiceReservationDialogComponent', () => {
 
   let component: ServiceReservationDialogComponent;
   let fixture: ComponentFixture<ServiceReservationDialogComponent>;
+
+  let serviceServiceSpy = jasmine.createSpyObj('ServiceService', ['get', 'reserveService']);
+  let dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
+
+  serviceServiceSpy.get.and.returnValue(of(mockServiceWithRangeDuration));
+  const mockDialogData = { eventId: 1, serviceId: 2, plannedAmount: 100 };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,8 +37,9 @@ describe('ServiceReservationDialogComponent', () => {
         NoopAnimationsModule
       ],
        providers: [
-      { provide: MatDialogRef, useValue: {} }, 
-      { provide: MAT_DIALOG_DATA, useValue: {} }
+      { provide: ServiceService, useValue: serviceServiceSpy},
+      { provide: MatDialogRef, useValue: dialogRefSpy }, 
+      { provide: MAT_DIALOG_DATA, useValue: mockDialogData }
     ]
     })
     .compileComponents();
@@ -99,5 +109,68 @@ describe('ServiceReservationDialogComponent', () => {
 
     const endingTime = component.reservationForm.get('endingTime').value;
     expect(endingTime).toBe('')
+  })
+
+  it('should close dialog after with PROCESSED and spentAmount != 0 for automatic reservations', () => {
+    component.service = mockServiceWithRangeDuration;
+    const reservationResponse = of(undefined)
+
+    serviceServiceSpy.reserveService.and.returnValue(reservationResponse);
+
+     component.reservationForm = new FormGroup({
+      startingTime: new FormControl('10:00 AM'),
+      endingTime: new FormControl('11:00 AM')
+    });
+
+    component.reserve();
+
+    expect(serviceServiceSpy.reserveService).toHaveBeenCalled();
+
+     expect(dialogRefSpy.close).toHaveBeenCalledWith({
+      spentAmount: 300 * (1 - 10 / 100), 
+      status: BudgetItemStatus.PROCESSED
+    });
+  })
+
+  it('should close dialog with PENDING and spentAmount=0 for manual reservations', () => {
+    component.service = mockServiceWithFixedDuration;
+
+    serviceServiceSpy.reserveService.and.returnValue(of(undefined));
+    component.reservationForm = new FormGroup({
+      startingTime: new FormControl('09:00 AM'),
+      endingTime: new FormControl('11:00 AM')
+    });
+
+    component.reserve();
+
+    expect(serviceServiceSpy.reserveService).toHaveBeenCalled();
+
+    expect(dialogRefSpy.close).toHaveBeenCalledWith({
+      spentAmount: 0.0,
+      status: BudgetItemStatus.PENDING
+    });
+  });
+
+
+  it('should send reservation data when form is submitted', () => {
+    
+    component.reservationForm.setValue({
+      startingTime: '10:00 AM',
+      endingTime: '11:00 AM'
+    });
+
+    serviceServiceSpy.reserveService.and.returnValue(of(undefined))
+
+    component.reserve();
+
+    expect(serviceServiceSpy.reserveService).toHaveBeenCalledWith(
+      {
+        startingTime: '10:00 AM',
+        endingTime: '11:00 AM',
+        plannedAmount: mockDialogData.plannedAmount
+      },
+      mockDialogData.eventId,
+      mockDialogData.serviceId
+    )
   })
 });
