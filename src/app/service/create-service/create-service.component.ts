@@ -34,12 +34,12 @@ export class CreateServiceComponent implements OnInit {
     suggestedCategoryName: new FormControl(),
     suggestedCategoryDescription: new FormControl(),
     category: new FormControl(''),
-    visible: new FormControl(),
-    available: new FormControl(),
+    isVisible: new FormControl(),
+    isAvailable: new FormControl(),
     reservationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
-    minDuration: new FormControl(6),
-    maxDuration: new FormControl(12),
+    minDuration: new FormControl(6, Validators.min(1)),
+    maxDuration: new FormControl(12, Validators.max(24)),
   }, { validators: categoryValidator() });
 
   images: File[] = []
@@ -78,15 +78,19 @@ export class CreateServiceComponent implements OnInit {
     if (this.createServiceForm.invalid) return;
 
     const formValue = this.createServiceForm.value;
+    const {
+      suggestedCategoryName,
+      suggestedCategoryDescription,
+      ...request
+    } = formValue;
+
     this.createService({
-      ...formValue,
+      ...request,
       category: formValue.category || {
         id: null,
-        name: formValue.suggestedCategoryName,
-        description: formValue.suggestedCategoryDescription,
+        name: suggestedCategoryName,
+        description: suggestedCategoryDescription
       },
-      isAvailable: formValue.available ?? false,
-      isVisible: formValue.visible ?? false,
     });
   }
 
