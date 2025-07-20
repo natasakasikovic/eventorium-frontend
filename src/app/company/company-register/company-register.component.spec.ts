@@ -13,6 +13,7 @@ import {invalidCreationTestCases, validCompanyFormMock} from '../../../testing/m
 import {CompanyResponse} from '../model/company-response.model';
 import {runInvalidFormTestCases} from '../../../testing/util/form-validation.utils';
 import {mockValidRegistrationForm} from '../../../testing/mocks/registration-form.mock';
+import {validCompanyRequestMock, validCompanyResponseMock} from '../../../testing/mocks/company.mock';
 
 describe('CompanyRegisterComponent', () => {
   let component: CompanyRegisterComponent;
@@ -140,7 +141,7 @@ describe('CompanyRegisterComponent', () => {
     submitButton.click();
     flush();
 
-    expect(companyServiceSpy.createCompany).toHaveBeenCalled();
+    expect(companyServiceSpy.createCompany).toHaveBeenCalledWith(validCompanyRequestMock);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/']); // homepage
   }));
 
@@ -154,14 +155,14 @@ describe('CompanyRegisterComponent', () => {
     ]
     fixture.detectChanges();
 
-    companyServiceSpy.createCompany.and.returnValue(of(validCompanyFormMock as unknown as CompanyResponse));
+    companyServiceSpy.createCompany.and.returnValue(of(validCompanyResponseMock as unknown as CompanyResponse));
     companyServiceSpy.uploadImages.and.returnValue(of(void 0));
 
     submitButton.click();
     flush();
 
-    expect(companyServiceSpy.createCompany).toHaveBeenCalled();
-    expect(companyServiceSpy.uploadImages).toHaveBeenCalled();
+    expect(companyServiceSpy.createCompany).toHaveBeenCalledWith(validCompanyRequestMock);
+    expect(companyServiceSpy.uploadImages).toHaveBeenCalledWith(validCompanyResponseMock.id, component.images);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/']); // homepage
   }))
 });

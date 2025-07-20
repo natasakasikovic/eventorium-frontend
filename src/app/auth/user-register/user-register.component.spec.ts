@@ -12,6 +12,8 @@ import { invalidRegistrationTestCases, mockValidRegistrationForm } from "../../.
 import { Router } from "@angular/router";
 import { validAuthResponseMock } from "../../../testing/mocks/user.mock";
 import {runInvalidFormTestCases} from '../../../testing/util/form-validation.utils';
+import {mockValidAuthRequest, validAuthRequestMock} from "../../../testing/mocks/auth-request.mock";
+import {Role} from '../model/user-role.model';
 
 describe('UserRegisterComponent', () => {
   let component: UserRegisterComponent;
@@ -134,11 +136,11 @@ describe('UserRegisterComponent', () => {
   }
 
   // run the registration flow and verify navigation outcome
-  function performRegistrationAndCheckNavigation(roleIndex: number, withPhoto: boolean, expectedRoute: any[]) {
+  function performRegistrationAndCheckNavigation(roleIndex: number, withPhoto: boolean, expectedRoute: any[], role: Role) {
     prepareFormAndSpies(roleIndex, withPhoto);
     clickSubmitAndFlush();
 
-    expect(authServiceSpy.registerUser).toHaveBeenCalled();
+    expect(authServiceSpy.registerUser).toHaveBeenCalledWith(mockValidAuthRequest(role));
     if (withPhoto)
       expect(authServiceSpy.uploadProfilePhoto).toHaveBeenCalledWith(validAuthResponseMock.id, component.profilePhoto);
 
@@ -146,18 +148,18 @@ describe('UserRegisterComponent', () => {
   }
 
   it('should navigate to home if role is EVENT_ORGANIZER, without photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(0, false, ['/']);
+    performRegistrationAndCheckNavigation(0, false, ['/'], rolesMock[0]);
   }));
 
   it('should navigate to home if role is EVENT_ORGANIZER, with photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(0, true, ['/']);
+    performRegistrationAndCheckNavigation(0, true, ['/'], rolesMock[0]);
   }));
 
   it('should navigate to company registration if role is PROVIDER, without photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(1, false, [`${validAuthResponseMock.id}/company-register`]);
+    performRegistrationAndCheckNavigation(1, false, [`${validAuthResponseMock.id}/company-register`], rolesMock[1]);
   }));
 
   it('should navigate to company registration if role is PROVIDER, with photo', fakeAsync(() => {
-    performRegistrationAndCheckNavigation(1, true, [`${validAuthResponseMock.id}/company-register`]);
+    performRegistrationAndCheckNavigation(1, true, [`${validAuthResponseMock.id}/company-register`], rolesMock[1]);
   }));
 });
