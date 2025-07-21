@@ -96,6 +96,7 @@ export class BudgetTableComponent {
   deleteBudgetItem(item: BudgetItem): void {
     this.budgetService.deleteItem(this.eventId, item.id).subscribe({
       next: (_) => {
+        this.toasterService.success(`${item.solutionName} has been deleted successfully!`, "Budget");
         this.items = this.items.filter(i => item.id !== i.id);
         this.deletedItem.emit(item.id);
       }
