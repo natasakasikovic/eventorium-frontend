@@ -21,7 +21,7 @@ import {categoryValidator} from '../../shared/validators/category.validator';
   styleUrls: ['./create-service.component.css']
 })
 export class CreateServiceComponent implements OnInit {
-  categories: Category[] = []
+  categories: Category[] = [];
   eventTypes: EventType[] = [];
   createServiceForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -30,16 +30,16 @@ export class CreateServiceComponent implements OnInit {
     description: new FormControl('', Validators.required),
     specialties: new FormControl('', Validators.required),
     eventTypes: new FormControl([], minSelectedValidator(1)),
-    reservationType: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
     suggestedCategoryName: new FormControl(),
     suggestedCategoryDescription: new FormControl(),
     category: new FormControl(''),
-    visible: new FormControl(),
-    available: new FormControl(),
+    isVisible: new FormControl(),
+    isAvailable: new FormControl(),
     reservationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
     cancellationDeadline: new FormControl('', [Validators.required, Validators.min(1)]),
-    minDuration: new FormControl(6),
-    maxDuration: new FormControl(12),
+    minDuration: new FormControl(6, Validators.min(1)),
+    maxDuration: new FormControl(12, Validators.max(24)),
   }, { validators: categoryValidator() });
 
   images: File[] = []
@@ -78,22 +78,24 @@ export class CreateServiceComponent implements OnInit {
     if (this.createServiceForm.invalid) return;
 
     const formValue = this.createServiceForm.value;
+    const {
+      suggestedCategoryName,
+      suggestedCategoryDescription,
+      ...request
+    } = formValue;
+
     this.createService({
-      ...formValue,
-      type: formValue.reservationType,
+      ...request,
       category: formValue.category || {
         id: null,
-        name: formValue.suggestedCategoryName,
-        description: formValue.suggestedCategoryDescription,
+        name: suggestedCategoryName,
+        description: suggestedCategoryDescription
       },
-      isAvailable: formValue.available ?? false,
-      isVisible: formValue.visible ?? false,
     });
   }
 
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-
     if (input.files) {
       const images = Array.from(input.files);
       const validImages = images.filter(image => image.type.startsWith('image/'));

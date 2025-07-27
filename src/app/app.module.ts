@@ -46,7 +46,11 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     BudgetModule,
     BrowserAnimationsModule,
     WebSocketModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 1000,
+      extendedTimeOut: 500,
+      easeTime: 200,
+    }),
     PriceListModule,
     CompanyModule,
     UserModule,

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import {CreateService} from './model/create-service.model';
 import {ImageResponseDto} from '../shared/model/image-response-dto.model';
 import {PageProperties} from '../shared/model/page-properties.model';
-import {UpdateServiceRequestDto} from './model/update-service-request-dto.model';
+import {UpdateService} from './model/update-service.model';
 import { ReservationRequest } from './model/reservation-request.model';
 import {Reservation} from './model/reservation.model';
 import {Status} from '../category/model/status-enum-ts';
@@ -29,7 +29,7 @@ export class ServiceService {
 
     if (pageProperties.sortBy && pageProperties.sortDirection)
       params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
-    
+
     return this.httpClient.get<PagedResponse<Service>>(environment.apiHost + "/services", { params: params });
   }
 
@@ -37,7 +37,7 @@ export class ServiceService {
     return this.httpClient.get<Service[]>(environment.apiHost + "/services/top-five-services");
   }
 
-  update(id: number, service: UpdateServiceRequestDto): Observable<Service> {
+  update(id: number, service: UpdateService): Observable<Service> {
     return this.httpClient.put<Service>(`${environment.apiHost}/services/${id}`, service);
   }
 
@@ -60,13 +60,13 @@ export class ServiceService {
 
   searchServices(keyword: string, pageProperties: PageProperties): Observable<PagedResponse<Service>> {
     let params = new HttpParams()
-    
+
     if (pageProperties)
       params = params.set('keyword', keyword).set('page', pageProperties.pageIndex).set('size', pageProperties.pageSize)
 
     if (pageProperties.sortBy && pageProperties.sortDirection)
       params = params.set('sort', `${pageProperties.sortBy},${pageProperties.sortDirection}`);
-    
+
     return this.httpClient.get<PagedResponse<Service>> (environment.apiHost + "/services/search", {params: params})
   }
 

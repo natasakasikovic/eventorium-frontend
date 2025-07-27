@@ -7,7 +7,7 @@ import { Login } from './model/login.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { QuickRegistrationDto } from './model/quick-registration.model';
 import { Role } from './model/user-role.model';
-import { AuthRequestDto } from './model/auth-request.model';
+import { AuthRequest } from './model/auth-request.model';
 import { Router } from '@angular/router';
 import { UpgradeAccountRequest } from '../user/model/upgrade-account-request.model';
 
@@ -23,7 +23,6 @@ export class AuthService {
 
   user$ = new BehaviorSubject<string | null>(null);
   userState = this.user$.asObservable();
-
 
   constructor(private http: HttpClient, private router: Router) {
     this.user$.next(this.getRole())
@@ -77,7 +76,7 @@ export class AuthService {
     return this.http.get<Role[]>(`${environment.apiHost}/roles/registration-options`)
   }
 
-  registerUser(user: AuthRequestDto): Observable<AuthResponse> {
+  registerUser(user: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${environment.apiHost}/auth/registration`, user)
   }
 

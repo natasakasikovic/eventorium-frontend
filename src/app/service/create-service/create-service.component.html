@@ -57,13 +57,13 @@
 
     <div class="form-section">
       <h4 class="section-title">Visibility and Availability</h4>
-      <mat-checkbox name="visible" formControlName="visible">Visible</mat-checkbox>
-      <mat-checkbox name="available" formControlName="available">Available</mat-checkbox>
+      <mat-checkbox name="visible" formControlName="isVisible">Visible</mat-checkbox>
+      <mat-checkbox name="available" formControlName="isAvailable">Available</mat-checkbox>
     </div>
 
     <div class="form-section">
       <h4 class="section-title">Confirmation</h4>
-      <mat-radio-group aria-label="Confirmation" formControlName="reservationType">
+      <mat-radio-group aria-label="Confirmation" formControlName="type">
         <mat-radio-button [value]="ReservationType.MANUAL">Manual</mat-radio-button>
         <mat-radio-button [value]="ReservationType.AUTOMATIC">Automatic</mat-radio-button>
       </mat-radio-group>
